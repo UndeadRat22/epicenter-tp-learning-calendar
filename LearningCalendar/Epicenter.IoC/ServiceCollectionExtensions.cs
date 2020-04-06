@@ -1,6 +1,6 @@
 ﻿using Epicenter.Domain.Entity;
-using Epicenter.Persistence.Generic;
-using Epicenter.Persistence.Interface.Generic;
+using Epicenter.Persistence.Interface.Repository.Generic;
+using Epicenter.Persistence.Repository.Generic;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Epicenter.IoC

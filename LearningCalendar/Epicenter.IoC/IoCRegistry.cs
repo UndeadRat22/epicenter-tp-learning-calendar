@@ -9,8 +9,11 @@ namespace Epicenter.IoC
     {
         public static IServiceCollection RegisterDependencies(IServiceCollection services)
         {
-            services.AddScopedRepository<EmployeeEntity>();
+            services.AddScopedRepository<Employee>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+
+
+            return services;
         }
     }
 }

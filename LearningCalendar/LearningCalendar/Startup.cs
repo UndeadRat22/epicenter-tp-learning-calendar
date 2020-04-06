@@ -1,6 +1,8 @@
 using Epicenter.IoC;
+using Epicenter.Persistence.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,6 +22,10 @@ namespace Epicenter.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            //TODO move this the hell out of here (Infrastructure)
+            services.AddDbContext<EpicenterDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("LocalEpicenterConnection")));
 
             IoCRegistry.RegisterDependencies(services);
         }

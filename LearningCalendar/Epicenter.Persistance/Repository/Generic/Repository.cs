@@ -4,18 +4,19 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Epicenter.Domain.Entity;
-using Epicenter.Persistence.Interface.Generic;
+using Epicenter.Persistence.Context;
+using Epicenter.Persistence.Interface.Repository.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Epicenter.Persistence.Generic
+namespace Epicenter.Persistence.Repository.Generic
 {
     public class Repository<TEntity> : IRepository<TEntity>
         where TEntity : class, IEntity
     {
 
-        protected DbContext DbContext { get; set; }
+        protected EpicenterDbContext DbContext { get; set; }
 
-        public Repository(DbContext dbContext)
+        public Repository(EpicenterDbContext dbContext)
         {
             DbContext = dbContext;
         }
