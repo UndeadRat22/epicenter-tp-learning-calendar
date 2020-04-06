@@ -1,6 +1,7 @@
 ﻿namespace Epicenter.Domain.Entity
 {
-    public class Class1
+    public interface IEntity
     {
+        
     }
 }

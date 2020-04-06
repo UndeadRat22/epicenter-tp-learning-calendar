@@ -2,9 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>Epicenter.Presentation</AssemblyName>
-    <RootNamespace>Epicenter.Presentation</RootNamespace>
+    <AssemblyName>Epicenter.Api</AssemblyName>
+    <RootNamespace>Epicenter.Api</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Epicenter.Api.Service.Interface\Epicenter.Service.Interface.csproj" />
+  </ItemGroup>
 
 
 </Project>
