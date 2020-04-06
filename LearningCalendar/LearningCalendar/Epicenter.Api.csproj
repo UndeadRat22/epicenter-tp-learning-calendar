@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Epicenter.Api.Service.Interface\Epicenter.Service.Interface.csproj" />
+    <ProjectReference Include="..\Epicenter.IoC\Epicenter.IoC.csproj" />
   </ItemGroup>
 
 

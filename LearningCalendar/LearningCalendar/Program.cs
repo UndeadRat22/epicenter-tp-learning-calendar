@@ -1,13 +1,15 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Epicenter.Presentation
+namespace Epicenter.Api
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            
+
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
