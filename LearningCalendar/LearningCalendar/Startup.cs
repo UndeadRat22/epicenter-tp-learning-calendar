@@ -23,11 +23,9 @@ namespace Epicenter.Api
         {
             services.AddControllers();
 
-            //TODO move this the hell out of here (Infrastructure)
-            services.AddDbContext<EpicenterDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LocalEpicenterConnection")));
+            services.RegisterDbContext(Configuration);
 
-            IoCRegistry.RegisterDependencies(services);
+            services.RegisterDependencies();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
