@@ -1,4 +1,4 @@
-# test-yoshi-app
+# frontend
 
 ## Install
 
