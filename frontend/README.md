@@ -2,7 +2,10 @@
 
 ## Install
 
+Install npm modules:
 `npm install`
+Create file for secrets:
+`echo "{}" > dev/velocity.private.data.json`
 
 > If you're having npm-related issues, try using node v12
 
