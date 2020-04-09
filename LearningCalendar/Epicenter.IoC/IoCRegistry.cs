@@ -7,6 +7,8 @@ using Epicenter.Service.Employee;
 using Epicenter.Service.Interface.Authentication;
 using Epicenter.Service.Interface.Authentication.User;
 using Epicenter.Service.Interface.Employee;
+using Epicenter.Service.Interface.Mail;
+using Epicenter.Service.Mail;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,7 @@ namespace Epicenter.IoC
             services.AddScopedRepository<User>();
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             return services;

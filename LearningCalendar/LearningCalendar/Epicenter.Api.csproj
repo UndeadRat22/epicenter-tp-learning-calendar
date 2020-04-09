@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>Epicenter.Api</AssemblyName>
     <RootNamespace>Epicenter.Api</RootNamespace>
+    <UserSecretsId>8742bc27-8d45-4d29-b3d7-a5081735d984</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

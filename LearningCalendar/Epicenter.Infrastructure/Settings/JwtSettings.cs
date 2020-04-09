@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Epicenter.Infrastructure.Settings
+﻿namespace Epicenter.Infrastructure.Settings
 {
     public class JwtSettings
     {

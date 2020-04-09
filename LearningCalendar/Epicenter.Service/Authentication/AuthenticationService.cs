@@ -8,6 +8,7 @@ using Epicenter.Infrastructure.Cryptography;
 using Epicenter.Infrastructure.Settings;
 using Epicenter.Service.Interface.Authentication;
 using Epicenter.Service.Interface.Authentication.User;
+using Epicenter.Service.Interface.Mail;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -16,15 +17,18 @@ namespace Epicenter.Service.Authentication
     public class AuthenticationService : IAuthenticationService
     {
         private readonly IUserService _userService;
+        private readonly IEmailService _emailService;
         private readonly JwtSettings _jwtSettings;
         private readonly AuthSettings _authSettings;
 
         public AuthenticationService(
-            IUserService userService, 
+            IUserService userService,
+            IEmailService emailService,
             IOptions<JwtSettings> jwtOptions, 
             IOptions<AuthSettings> authOptions)
         {
             _userService = userService;
+            _emailService = emailService;
             _jwtSettings = jwtOptions.Value;
             _authSettings = authOptions.Value;
         }
@@ -75,7 +79,11 @@ namespace Epicenter.Service.Authentication
 
             var randomPassword = GenerateRandomPassword();
 
-            var user = await _userService.Create(email, randomPassword);
+            var createUserTask =  _userService.Create(email, randomPassword);
+            var sendEmailTask = _emailService.SendEmail("Epicenter Calendar Invite", $"You can log in using your email and temporary password: <b>{randomPassword}</b>", email);
+
+            await createUserTask;
+            await sendEmailTask;
 
             return new RegistrationResultDto
             {
@@ -88,9 +96,10 @@ namespace Epicenter.Service.Authentication
         {
             string hash = Sha256Hash.Calculate(Guid.NewGuid().ToString());
 
-            string password = hash.Take(_authSettings.TemporaryPasswordLength).ToString();
+            string password = string.Join("", hash.Take(_authSettings.TemporaryPasswordLength));
 
             return password;
         }
+
     }
 }
