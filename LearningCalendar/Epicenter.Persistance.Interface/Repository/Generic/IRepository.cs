@@ -11,7 +11,8 @@ namespace Epicenter.Persistence.Interface.Repository.Generic
         Task DeleteAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
         Task UpdateAsync(IEnumerable<TEntity> entities);
-        Task<List<TEntity>> Query(Expression<Func<TEntity, bool>> predicate);
-        Task<List<TEntity>> List();
+        Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<List<TEntity>> ListAsync();
+        Task<TEntity> QuerySingleAsync(Expression<Func<TEntity, bool>> predicate);
     }
 }

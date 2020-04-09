@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Epicenter.Domain.Entity.Team;
 using Epicenter.Persistence.Interface.Repository.Generic;
 using Epicenter.Service.Interface.Employee;
 
@@ -18,7 +17,7 @@ namespace Epicenter.Service.Employee
 
         public async Task<List<EmployeeDto>> GetEmployees()
         {
-            List<Domain.Entity.Team.Employee> employees = await _employeeRepository.List();
+            List<Domain.Entity.Team.Employee> employees = await _employeeRepository.ListAsync();
 
             return employees
                 .Select(employee => new EmployeeDto

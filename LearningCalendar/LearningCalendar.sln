@@ -15,21 +15,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Epicenter", "Epicenter", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{7D021FB4-600C-435F-B7C2-69A0D5BE580E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epicenter.Service.Interface", "Epicenter.Api.Service.Interface\Epicenter.Service.Interface.csproj", "{DE5AF851-FBE6-4903-8542-57BD4BA4D3C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Service.Interface", "Epicenter.Api.Service.Interface\Epicenter.Service.Interface.csproj", "{DE5AF851-FBE6-4903-8542-57BD4BA4D3C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epicenter.Service", "Epicenter.Service\Epicenter.Service.csproj", "{E2ACA520-DED1-4567-B2AB-4FB1DCDD49A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Service", "Epicenter.Service\Epicenter.Service.csproj", "{E2ACA520-DED1-4567-B2AB-4FB1DCDD49A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epicenter.Persistence.Interface", "Epicenter.Persistance.Interface\Epicenter.Persistence.Interface.csproj", "{0B7AC375-8B67-47B8-A840-A789530E7B56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Persistence.Interface", "Epicenter.Persistance.Interface\Epicenter.Persistence.Interface.csproj", "{0B7AC375-8B67-47B8-A840-A789530E7B56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epicenter.Domain.Entity", "Entity\Epicenter.Domain.Entity.csproj", "{5602818C-F9DD-4D46-AADA-7B594773A7A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Domain.Entity", "Entity\Epicenter.Domain.Entity.csproj", "{5602818C-F9DD-4D46-AADA-7B594773A7A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epicenter.Persistence", "Epicenter.Persistance\Epicenter.Persistence.csproj", "{117250CB-E53D-4AF6-8734-F042B1E7F4F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Persistence", "Epicenter.Persistance\Epicenter.Persistence.csproj", "{117250CB-E53D-4AF6-8734-F042B1E7F4F7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{A5E889C1-76B8-45AA-BBFD-D9D398E000B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epicenter.IoC", "Epicenter.IoC\Epicenter.IoC.csproj", "{41C73EB2-F332-4C30-B17C-01B9BD4124B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.IoC", "Epicenter.IoC\Epicenter.IoC.csproj", "{41C73EB2-F332-4C30-B17C-01B9BD4124B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epicenter.Infrastructure", "Epicenter.Infrastructure\Epicenter.Infrastructure.csproj", "{6444BA96-C909-4458-9C4A-F86A77AC7156}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Infrastructure", "Epicenter.Infrastructure\Epicenter.Infrastructure.csproj", "{6444BA96-C909-4458-9C4A-F86A77AC7156}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epicenter.Api.Model", "Epicenter.Api.Model\Epicenter.Api.Model.csproj", "{216CDB34-7C31-4159-BAFD-92149AD11351}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{6444BA96-C909-4458-9C4A-F86A77AC7156}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6444BA96-C909-4458-9C4A-F86A77AC7156}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6444BA96-C909-4458-9C4A-F86A77AC7156}.Release|Any CPU.Build.0 = Release|Any CPU
+		{216CDB34-7C31-4159-BAFD-92149AD11351}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{216CDB34-7C31-4159-BAFD-92149AD11351}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{216CDB34-7C31-4159-BAFD-92149AD11351}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{216CDB34-7C31-4159-BAFD-92149AD11351}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +93,7 @@ Global
 		{A5E889C1-76B8-45AA-BBFD-D9D398E000B9} = {19CF6E11-5267-499F-9562-60CDAE66DFB7}
 		{41C73EB2-F332-4C30-B17C-01B9BD4124B1} = {A5E889C1-76B8-45AA-BBFD-D9D398E000B9}
 		{6444BA96-C909-4458-9C4A-F86A77AC7156} = {A5E889C1-76B8-45AA-BBFD-D9D398E000B9}
+		{216CDB34-7C31-4159-BAFD-92149AD11351} = {53139742-0E1F-4C44-A89A-C56A86361FBF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {41704A08-82E5-41C9-89FF-555119862B4E}

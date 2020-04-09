@@ -1,4 +1,5 @@
-﻿using Epicenter.Domain.Entity.Team;
+﻿using Epicenter.Domain.Entity.Authentication;
+using Epicenter.Domain.Entity.Team;
 using Microsoft.EntityFrameworkCore;
 
 namespace Epicenter.Persistence.Context
@@ -10,5 +11,7 @@ namespace Epicenter.Persistence.Context
 
 
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<User> Users { get; set; }
+
     }
 }

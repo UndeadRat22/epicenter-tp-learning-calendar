@@ -24,11 +24,13 @@ namespace Epicenter.Persistence.Repository.Generic
         public async Task CreateAsync(TEntity entity)
         {
             await DbContext.Set<TEntity>().AddAsync(entity);
+            await DbContext.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(TEntity entity)
+        public async Task DeleteAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            DbContext.Remove(entity);
+            await DbContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(TEntity entity)
@@ -43,15 +45,20 @@ namespace Epicenter.Persistence.Repository.Generic
             await DbContext.SaveChangesAsync();
         }
 
-        public async Task<List<TEntity>> Query(Expression<Func<TEntity, bool>> predicate)
+        public async Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await DbContext.Set<TEntity>()
                 .AsQueryable().Where(predicate).ToListAsync();
         }
 
-        public async Task<List<TEntity>> List()
+        public async Task<List<TEntity>> ListAsync()
         {
             return await DbContext.Set<TEntity>().ToListAsync();
+        }
+
+        public async Task<TEntity> QuerySingleAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await DbContext.Set<TEntity>().SingleOrDefaultAsync(predicate);
         }
     }
 }
