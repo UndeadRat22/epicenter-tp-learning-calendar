@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Epicenter.Infrastructure.Cryptography;
 using Epicenter.Infrastructure.Settings;
+using Epicenter.Persistence.Interface.Repository.Generic;
 using Epicenter.Service.Interface.Authentication;
 using Epicenter.Service.Interface.Authentication.User;
 using Epicenter.Service.Interface.Mail;
@@ -16,21 +17,18 @@ namespace Epicenter.Service.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
+        private readonly IRepository<Domain.Entity.Authentication.Invite> _inviteRepository; 
         private readonly IUserService _userService;
-        private readonly IEmailService _emailService;
         private readonly JwtSettings _jwtSettings;
-        private readonly AuthSettings _authSettings;
 
         public AuthenticationService(
+            IRepository<Domain.Entity.Authentication.Invite> inviteRepository,
             IUserService userService,
-            IEmailService emailService,
-            IOptions<JwtSettings> jwtOptions, 
-            IOptions<AuthSettings> authOptions)
+            IOptions<JwtSettings> jwtOptions)
         {
+            _inviteRepository = inviteRepository;
             _userService = userService;
-            _emailService = emailService;
             _jwtSettings = jwtOptions.Value;
-            _authSettings = authOptions.Value;
         }
 
 
@@ -66,10 +64,12 @@ namespace Epicenter.Service.Authentication
         }
 
 
-        public async Task<RegistrationResultDto> CreateAuthIdentity(string email)
+        public async Task<RegistrationResultDto> Register(string invitationId, string password)
         {
-            var exists = await _userService.Exists(email);
-            if (exists)
+            var guid = Guid.Parse(invitationId);
+            var existingInvitation = await _inviteRepository.QuerySingleAsync(invitation => invitation.Id == guid);
+
+            if (existingInvitation == null)
             {
                 return new RegistrationResultDto
                 {
@@ -77,29 +77,14 @@ namespace Epicenter.Service.Authentication
                 };
             }
 
-            var randomPassword = GenerateRandomPassword();
-
-            var createUserTask =  _userService.Create(email, randomPassword);
-            var sendEmailTask = _emailService.SendEmail("Epicenter Calendar Invite", $"You can log in using your email and temporary password: <b>{randomPassword}</b>", email);
-
-            await createUserTask;
-            await sendEmailTask;
+            var createTask = _userService.Create(existingInvitation.InvitationTo, password);
+            await _inviteRepository.DeleteAsync(existingInvitation);
+            await createTask;
 
             return new RegistrationResultDto
             {
                 IsSuccessful = true
             };
         }
-
-
-        private string GenerateRandomPassword()
-        {
-            string hash = Sha256Hash.Calculate(Guid.NewGuid().ToString());
-
-            string password = string.Join("", hash.Take(_authSettings.TemporaryPasswordLength));
-
-            return password;
-        }
-
     }
 }

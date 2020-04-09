@@ -5,6 +5,6 @@ namespace Epicenter.Service.Interface.Authentication
     public interface IAuthenticationService
     {
         Task<AuthenticationResultDto> Authenticate(string email, string password);
-        Task<RegistrationResultDto> CreateAuthIdentity(string email);
+        Task<RegistrationResultDto> Register(string invitationId, string password);
     }
 }

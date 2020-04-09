@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Epicenter.Persistence.Repository.Generic
 {
     public class Repository<TEntity> : IRepository<TEntity>
-        where TEntity : class, IEntity
+        where TEntity : class
     {
 
         protected EpicenterDbContext DbContext { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Epicenter.Api.Model.Authentication;
 using Epicenter.Service.Interface.Authentication;
+using Epicenter.Service.Interface.Authentication.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +13,13 @@ namespace Epicenter.Api.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly IUserService _userService;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController(
+            IUserService userService,
+            IAuthenticationService authenticationService)
         {
+            _userService = userService;
             _authenticationService = authenticationService;
         }
 
@@ -47,7 +52,7 @@ namespace Epicenter.Api.Controllers
                 return BadRequest();
             }
 
-            var authenticationResult = await _authenticationService.CreateAuthIdentity(model.Email);
+            var authenticationResult = await _authenticationService.Register(model.InvitationId, model.Password);
 
             if (authenticationResult.IsSuccessful)
             {
@@ -55,6 +60,20 @@ namespace Epicenter.Api.Controllers
             }
 
             return BadRequest();
+        }
+
+        [AllowAnonymous]
+        [HttpPost, Route("admin")]
+        public async Task<IActionResult> CreateAdmin()
+        {
+            bool adminAlreadyExists = await _userService.Exists("test@test.com");
+            if (adminAlreadyExists)
+            {
+                return Unauthorized();
+            }
+
+            await _userService.Create("test@test.com", "password");
+            return Ok();
         }
     }
 }

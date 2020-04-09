@@ -3,14 +3,16 @@ using System.Threading.Tasks;
 using Epicenter.Infrastructure.Cryptography;
 using Epicenter.Persistence.Interface.Repository.Generic;
 using Epicenter.Service.Interface.Authentication.User;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Epicenter.Service.Authentication.User
 {
     public class UserService : IUserService
     {
-        private readonly IRepository<Domain.Entity.Authentication.User> _userRepository;
+        private readonly IRepository<IdentityUser> _userRepository;
 
-        public UserService(IRepository<Domain.Entity.Authentication.User> userRepository)
+        public UserService(IRepository<IdentityUser> userRepository)
         {
             _userRepository = userRepository;
         }
@@ -19,7 +21,7 @@ namespace Epicenter.Service.Authentication.User
         {
             string passwordHash = Sha256Hash.Calculate(password);
 
-            var queryResult = await _userRepository.QueryAsync(user => user.Email == email && user.Password == passwordHash);
+            var queryResult = await _userRepository.QueryAsync(user => user.Email == email && user.PasswordHash == passwordHash);
 
             bool exits = queryResult.SingleOrDefault() != null;
 
@@ -39,10 +41,10 @@ namespace Epicenter.Service.Authentication.User
         {
             string passwordHash = Sha256Hash.Calculate(password);
 
-            var userEntity = new Domain.Entity.Authentication.User
+            var userEntity = new IdentityUser
             {
                 Email = email,
-                Password = passwordHash
+                PasswordHash = passwordHash
             };
 
             await _userRepository.CreateAsync(userEntity);
