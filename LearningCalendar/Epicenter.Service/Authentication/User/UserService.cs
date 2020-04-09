@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Epicenter.Infrastructure.Cryptography;
 using Epicenter.Persistence.Interface.Repository.Generic;
 using Epicenter.Service.Interface.Authentication.User;
 
@@ -16,7 +17,9 @@ namespace Epicenter.Service.Authentication.User
 
         public async Task<bool> Exists(string email, string password)
         {
-            var queryResult = await _userRepository.QueryAsync(user => user.Email == email && user.Password == password);
+            string passwordHash = Sha256Hash.Calculate(password);
+
+            var queryResult = await _userRepository.QueryAsync(user => user.Email == email && user.Password == passwordHash);
 
             bool exits = queryResult.SingleOrDefault() != null;
 
@@ -34,10 +37,12 @@ namespace Epicenter.Service.Authentication.User
 
         public async Task<UserDto> Create(string email, string password)
         {
+            string passwordHash = Sha256Hash.Calculate(password);
+
             var userEntity = new Domain.Entity.Authentication.User
             {
                 Email = email,
-                Password = password
+                Password = passwordHash
             };
 
             await _userRepository.CreateAsync(userEntity);

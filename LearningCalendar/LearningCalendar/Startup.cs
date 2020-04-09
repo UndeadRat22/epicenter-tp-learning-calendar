@@ -27,11 +27,11 @@ namespace Epicenter.Api
         {
             services.AddOptions();
 
-            var section = Configuration.GetSection(nameof(JwtSettings));
-            services.Configure<JwtSettings>(section);
+            services.Configure<JwtSettings>(Configuration.GetSection(nameof(JwtSettings)));
+            services.Configure<AuthSettings>(Configuration.GetSection(nameof(AuthSettings)));
 
             var jwtSettings = Configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
-
+            
             services
                 .AddAuthentication(x =>
                 {

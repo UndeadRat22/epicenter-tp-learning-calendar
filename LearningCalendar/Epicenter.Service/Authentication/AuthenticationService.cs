@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Epicenter.Infrastructure.Cryptography;
 using Epicenter.Infrastructure.Settings;
 using Epicenter.Service.Interface.Authentication;
 using Epicenter.Service.Interface.Authentication.User;
@@ -15,11 +17,16 @@ namespace Epicenter.Service.Authentication
     {
         private readonly IUserService _userService;
         private readonly JwtSettings _jwtSettings;
+        private readonly AuthSettings _authSettings;
 
-        public AuthenticationService(IUserService userService, IOptions<JwtSettings> options)
+        public AuthenticationService(
+            IUserService userService, 
+            IOptions<JwtSettings> jwtOptions, 
+            IOptions<AuthSettings> authOptions)
         {
             _userService = userService;
-            _jwtSettings = options.Value;
+            _jwtSettings = jwtOptions.Value;
+            _authSettings = authOptions.Value;
         }
 
 
@@ -66,12 +73,24 @@ namespace Epicenter.Service.Authentication
                 };
             }
 
-            var user = await _userService.Create(email, "password1");
+            var randomPassword = GenerateRandomPassword();
+
+            var user = await _userService.Create(email, randomPassword);
 
             return new RegistrationResultDto
             {
                 IsSuccessful = true
             };
+        }
+
+
+        private string GenerateRandomPassword()
+        {
+            string hash = Sha256Hash.Calculate(Guid.NewGuid().ToString());
+
+            string password = hash.Take(_authSettings.TemporaryPasswordLength).ToString();
+
+            return password;
         }
     }
 }
