@@ -39,7 +39,15 @@
       "react": "React",
       "react-dom": "ReactDOM"
     },
-    "hmr": "auto"
+    "hmr": "auto",
+    "servers": {
+      "cdn": {
+        "ssl": false,
+        "port": 3000,
+        "dir": "dist/statics",
+        "url": "http://localhost:3000"
+      }
+    }
   },
   "jest": {
     "preset": "jest-yoshi-preset"
