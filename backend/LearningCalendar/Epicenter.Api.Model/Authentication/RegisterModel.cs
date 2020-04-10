@@ -1,13 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace Epicenter.Api.Model.Authentication
 {
     public class RegisterModel
     {
-        [JsonProperty("invitationId")]
+        [Required]
         public string InvitationId { get; set; }
-        [JsonProperty("password")]
+        [Required]
         public string Password { get; set; }
     }
 }
