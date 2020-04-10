@@ -26,12 +26,7 @@ namespace Epicenter.Api.Controllers
         [AllowAnonymous]
         [HttpPost, Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
+        { 
             var authenticationResult = await _authenticationService.Authenticate(model.Email, model.Password);
 
             if (authenticationResult.IsAuthenticated)
@@ -47,11 +42,6 @@ namespace Epicenter.Api.Controllers
         [HttpPost, Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             var authenticationResult = await _authenticationService.Register(model.InvitationId, model.Password);
 
             if (authenticationResult.IsSuccessful)

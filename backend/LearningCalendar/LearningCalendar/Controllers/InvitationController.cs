@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Epicenter.Api.Model.Authentication;
 using Epicenter.Service.Interface.Authentication.Invite;
@@ -22,12 +23,7 @@ namespace Epicenter.Api.Controllers
         [HttpPost]
         [Route("invite")]
         public async Task<IActionResult> AddInvitation([FromBody] InviteModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
+        { 
             var currentUser = (ClaimsIdentity) HttpContext.User.Identity;
 
             await _invitationService.Invite(currentUser.Name, model.InviteeEmail);
@@ -38,13 +34,8 @@ namespace Epicenter.Api.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("invite/{id}")]
-        public async Task<IActionResult> GetInvitation(string id)
+        public async Task<IActionResult> GetInvitation([Required]string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return BadRequest();
-            }
-
             var invitation = await _invitationService.GetInvitation(id);
 
             return Ok(invitation);
