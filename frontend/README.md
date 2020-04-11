@@ -18,7 +18,8 @@ nvm install 12.16.2
 ```
 
 ## Usage
-`npm start` http://localhost:3000 should open automatically
+`npm start` http://localhost:8080 should open automatically
+You can change the port in package.json 
 
 ## UI Lib storybook
 [here](https://wix-style-react.now.sh/?path=/story/introduction-getting-started--getting-started)

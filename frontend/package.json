@@ -2,7 +2,7 @@
   "name": "epicenter-learning-calendar",
   "version": "1.0.0",
   "scripts": {
-    "start": "yoshi start",
+    "start": "env PORT=8080 yoshi start",
     "build": "yoshi build",
     "test": "yoshi test",
     "lint": "yoshi lint",
@@ -42,12 +42,10 @@
     "hmr": "auto",
     "servers": {
       "cdn": {
-        "ssl": false,
-        "port": 3000,
-        "dir": "dist/statics",
-        "url": "http://localhost:3000"
+        "port": 3200
       }
-    }
+    },
+    "startUrl": "http://localhost:8080"
   },
   "jest": {
     "preset": "jest-yoshi-preset"
