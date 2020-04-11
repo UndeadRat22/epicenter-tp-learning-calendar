@@ -5,7 +5,7 @@ target
 coverage
 typings
 maven
-velocity.private.data.js
+velocity.private.data.json
 test/e2e/screenshots
 *npm-debug.log
 .history
