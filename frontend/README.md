@@ -2,30 +2,57 @@
 
 ## Install
 
-Install npm modules:
-`npm install`
-Create file for secrets:
-`echo "{}" > dev/velocity.private.data.json`
-
 > If you're having npm-related issues, try using node v12
 
-To use node v12, so you have two options: 
-- Get node v12.16.2 from [here](https://nodejs.org/en/download/)
-- Use [nvm](https://github.com/nvm-sh/nvm) if you're on OSX/Linux. nvm lets you easily switch node versions ([read more](https://nodesource.com/blog/installing-node-js-tutorial-using-nvm-on-mac-os-x-and-ubuntu/))
-```
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
-nvm install 12.16.2
-```
+`npm install`
 
 ## Usage
-`npm start` http://localhost:8080 should open automatically
-You can change the port in package.json 
+`npm start` 
 
-## UI Lib storybook
+localhost:8080 should open automatically. You can change the port in package.json 
+
+## wix-style-react storybook
 [here](https://wix-style-react.now.sh/?path=/story/introduction-getting-started--getting-started)
+
+## Using css/scss
+There are two ways. Note the difference between file names.
+- Using css modules:
+```
+// react-component.js
+import s from 'react-component.scss';
+<div classname={s.center}></div>
+
+// react-component.scss
+.center {
+    ...
+}
+```
+- Not using css modules:
+```
+// react-component.js
+import 'react-component.global.scss';
+<div className="center"></div>
+
+// react-component.global.scss
+.center {
+    ...
+}
+```
+
+## Using feature toggles
+FeatureToggles.isOn(string) returns true if feature is enabled, false otherwise
+```
+import React from 'react';
+import FeatureToggles from '../utils/FeatureToggles';
+
+const ExampleFeatureToggles = () => {
+  return (
+    <div>
+        DEBUG_MODE = {FeatureToggles.isOn('debug-mode) ? 'ON' : 'OFF'}
+    </div>
+  );
+};
+```
 
 ## Caution
 Please don't change anything besides src/
-
-## TODO
-- Agree on eslint rules
