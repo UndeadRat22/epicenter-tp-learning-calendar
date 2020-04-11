@@ -20,7 +20,7 @@ There are two ways. Note the difference between file names.
 ```
 // react-component.js
 import s from 'react-component.scss';
-<div classname={s.center}></div>
+<div className={s.center}></div>
 
 // react-component.scss
 .center {
