@@ -28,7 +28,6 @@ namespace Epicenter.Api
             services.AddOptions();
 
             services.Configure<JwtSettings>(Configuration.GetSection(nameof(JwtSettings)));
-            services.Configure<AuthSettings>(Configuration.GetSection(nameof(AuthSettings)));
             services.Configure<EmailSettings>(Configuration.GetSection(nameof(EmailSettings)));
 
             var jwtSettings = Configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
