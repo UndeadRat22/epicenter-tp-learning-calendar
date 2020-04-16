@@ -36,9 +36,10 @@ namespace Epicenter.Persistence.Context
 
             builder.Entity<Invite>()
                 .HasOne(invite => invite.InvitationFrom);
+
             builder.Entity<Employee>()
                 .HasOne(employee => employee.Identity);
-            //employee
+
             builder.Entity<Employee>()
                 .HasMany(employee => employee.LearningDays)
                 .WithOne(learningDay => learningDay.Employee);
@@ -54,7 +55,6 @@ namespace Epicenter.Persistence.Context
             builder.Entity<Employee>()
                 .HasOne(employee => employee.Limit)
                 .WithMany(limit => limit.Employees);
-            //TODO Role
 
             builder
                 .Entity<Limit>()
