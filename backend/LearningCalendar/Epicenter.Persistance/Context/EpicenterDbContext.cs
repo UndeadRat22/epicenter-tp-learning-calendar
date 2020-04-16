@@ -21,10 +21,19 @@ namespace Epicenter.Persistence.Context
         public DbSet<LearningDayTopic> LearningDayTopics { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Topic> Topics { get; set; }
+        public DbSet<Limit> Limits { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<Limit>()
+                .Property(limit => limit.DaysPerQuarter)
+                .HasDefaultValue(Constants.Limit.MaxDaysPerQuarter);
+            builder.Entity<Limit>()
+                .Property(limit => limit.TopicsPerDay)
+                .HasDefaultValue(Constants.Limit.MaxTopicsPerDay);
+
             builder.Entity<Invite>()
                 .HasOne(invite => invite.InvitationFrom);
             builder.Entity<Employee>()
@@ -41,7 +50,16 @@ namespace Epicenter.Persistence.Context
             builder.Entity<Employee>()
                 .HasOne(employee => employee.Team)
                 .WithMany(manager => manager.Employees);
+
+            builder.Entity<Employee>()
+                .HasOne(employee => employee.Limit)
+                .WithMany(limit => limit.Employees);
             //TODO Role
+
+            builder
+                .Entity<Limit>()
+                .HasOne(limit => limit.Creator);
+
             builder.Entity<Team>()
                 .HasOne(team => team.Manager);
 

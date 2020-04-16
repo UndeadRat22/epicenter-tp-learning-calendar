@@ -6,6 +6,6 @@ namespace Epicenter.Domain.Entity.LearningCalendar
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
-        //public List<Employee> Employees { get; set; }
+
     }
 }
