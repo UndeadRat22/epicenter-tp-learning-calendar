@@ -1,5 +1,5 @@
 ﻿using Epicenter.Domain.Entity.Authentication;
-using Epicenter.Domain.Entity.Team;
+using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Persistence.Context;
 using Epicenter.Persistence.Interface.Repository.Authentication;
 using Epicenter.Persistence.Interface.Repository.Generic;

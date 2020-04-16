@@ -9,7 +9,7 @@ namespace Epicenter.IoC
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddScopedRepository<T>(this IServiceCollection services)
-            where T : class, IEntity
+            where T : class
         {
             return services.AddScoped<IRepository<T>, Repository<T>>();
         }

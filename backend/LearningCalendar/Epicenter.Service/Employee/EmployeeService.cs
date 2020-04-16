@@ -8,22 +8,20 @@ namespace Epicenter.Service.Employee
 {
     public class EmployeeService : IEmployeeService
     {
-        private readonly IRepository<Domain.Entity.Team.Employee> _employeeRepository;
+        private readonly IRepository<Domain.Entity.LearningCalendar.Employee> _employeeRepository;
 
-        public EmployeeService(IRepository<Domain.Entity.Team.Employee> employeeRepository)
+        public EmployeeService(IRepository<Domain.Entity.LearningCalendar.Employee> employeeRepository)
         {
             _employeeRepository = employeeRepository;
         }
 
         public async Task<List<EmployeeDto>> GetEmployees()
         {
-            List<Domain.Entity.Team.Employee> employees = await _employeeRepository.ListAsync();
+            List<Domain.Entity.LearningCalendar.Employee> employees = await _employeeRepository.ListAsync();
 
             return employees
                 .Select(employee => new EmployeeDto
                 {
-                    FirstName = employee.FirstName,
-                    LastName = employee.LastName
                 }).ToList();
         }
     }
