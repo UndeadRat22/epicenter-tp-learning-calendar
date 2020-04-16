@@ -5,8 +5,8 @@ $ docker-compose build
 $ docker-compose up
 ```
 
-- UI http://localhost:8080/features
-- API http://localhost:8080/features/api
+- UI http://localhost:4242
+- API http://localhost:4242/api
 
 ## Resources
 - https://github.com/Unleash/unleash/blob/master/docs/getting-started.md (parameters)

@@ -3,7 +3,7 @@ services:
   web:
     build: .
     ports:
-      - "8080:8080"
+      - "4242:4242"
     environment:
       DATABASE_URL: postgres://postgres:unleash@db/postgres
     depends_on:

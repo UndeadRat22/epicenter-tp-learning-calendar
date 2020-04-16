@@ -6,6 +6,6 @@ RUN yarn install --production
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE 4242
 
 CMD node index.js
