@@ -30,6 +30,6 @@ class FeatureToggles {
   }
 }
 
-const singleton = new FeatureToggles();
+const features = new FeatureToggles();
 
-export default singleton;
+export default features;

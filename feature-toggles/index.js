@@ -7,7 +7,7 @@ const options = {
 	adminAuthentication: "none",
 	port: 4242,
 	preHook: (app) => {
-		app.use(cors())
+		app.use(cors());
 	}
 };
 
