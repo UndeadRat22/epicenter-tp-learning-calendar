@@ -25,7 +25,6 @@ namespace Epicenter.Persistence.Context
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            //? tikslas padaryt kad tik vienas employee galėtų neturėt komandos
             builder.Entity<Invite>()
                 .HasOne(invite => invite.InvitationFrom);
             builder.Entity<Employee>()
