@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/App.global.scss';
-import '../styles/Nav.global.scss';
+import './Nav.global.scss';
 import { Link } from 'react-router-dom';
 import { Avatar, TextButton, Text } from 'wix-style-react';
 
