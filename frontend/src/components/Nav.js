@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import '../App.global.scss';
+import '../styles/App.global.scss';
+import '../styles/Nav.global.scss';
 import { Link } from 'react-router-dom';
-import { Avatar } from 'wix-style-react';
+import { Avatar, TextButton, Text } from 'wix-style-react';
 
 function Nav() {
-  const navStyle = {
-    color: '#252525',
-  };
   const logoStyle = {
     color: '#B38A4C',
   };
@@ -14,17 +12,35 @@ function Nav() {
 
   return (
     <nav>
-      <h3 style={logoStyle}>Epicenter Learning Center</h3>
+      <Text style={logoStyle}>Epicenter Learning Center</Text>
       <ul className="nav-links">
-        <Link style={navStyle} to="/home">
-          <li>Home</li>
-        </Link>
-        <Link style={navStyle} to="/topics">
-          <li>Topics</li>
-        </Link>
-        <Link style={navStyle} to="/myteam">
-          <li>My Team</li>
-        </Link>
+        <TextButton
+          skin="premium"
+          size="medium"
+          weight="normal"
+          as={Link}
+          to="/home"
+        >
+          Home
+        </TextButton>
+        <TextButton
+          skin="premium"
+          size="medium"
+          weight="normal"
+          as={Link}
+          to="/topics"
+        >
+          Topics
+        </TextButton>
+        <TextButton
+          skin="premium"
+          size="medium"
+          weight="normal"
+          as={Link}
+          to="/myteam"
+        >
+          My team
+        </TextButton>
         <Link to="/profile">
           {profilePicture ? (
             <Avatar

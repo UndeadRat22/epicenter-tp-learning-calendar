@@ -1,10 +1,10 @@
 import React from 'react';
-import '../App.global.scss';
+import '../styles/App.global.scss';
 import { Text } from 'wix-style-react';
 
-const Topics = props => {
+const Topics = () => {
   return (
-    <div className="Topics">
+    <div>
       <Text>Topics Page</Text>
     </div>
   );

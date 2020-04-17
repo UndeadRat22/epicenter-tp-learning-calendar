@@ -1,10 +1,10 @@
 import React from 'react';
-import '../App.global.scss';
+import '../styles/App.global.scss';
 import { Text } from 'wix-style-react';
 
-const Profile = props => {
+const Profile = () => {
   return (
-    <div className="Profile">
+    <div>
       <Text>Profile Page (should be modal)</Text>
     </div>
   );

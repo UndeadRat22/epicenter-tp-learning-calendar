@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import '../App.global.scss';
+import React, { useState } from 'react';
+import '../styles/App.global.scss';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import SignIn from '../screens/SignIn';
-import SignUp from '../screens/SignUp';
-import Home from '../screens/Home';
-import Topics from '../screens/Topics';
-import MyTeam from '../screens/MyTeam';
-import Profile from '../screens/Profile';
+import SignIn from '../pages/SignIn';
+import SignUp from '../pages/SignUp';
+import Home from '../pages/Home';
+import Topics from '../pages/Topics';
+import MyTeam from '../pages/MyTeam';
+import Profile from '../pages/Profile';
 import Nav from './Nav';
-import { useSelector, useDispatch } from 'react-redux';
-import { setLoginStatus } from '../state_manager/actions';
+import { useDispatch } from 'react-redux';
+import { setLoginStatus } from '../state/actions';
 
-function Rounting() {
+const Routing = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const dispatch = useDispatch();
-  // const loginStatus = useSelector(state => state.loginStatus);
 
   const changeLogginStatus = () => {
     dispatch(setLoginStatus(!loggedIn));
@@ -24,12 +23,11 @@ function Rounting() {
 
   return (
     <Router>
-      <div className="App">
+      <div>
         {loggedIn ? <Nav /> : null}
         <Switch>
           <Route path="/" exact>
-            {' '}
-            <SignIn callback={() => changeLogginStatus()} />{' '}
+            <SignIn callback={() => changeLogginStatus()} />
           </Route>
           <Route path="/signup/:id" component={SignUp} />
           <Route path="/home" component={Home} />
@@ -40,6 +38,6 @@ function Rounting() {
       </div>
     </Router>
   );
-}
+};
 
-export default Rounting;
+export default Routing;
