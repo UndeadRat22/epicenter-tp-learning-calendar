@@ -5,7 +5,7 @@
     "start": "env PORT=8080 yoshi start",
     "build": "yoshi build",
     "test": "yoshi test",
-    "lint": "yoshi lint",
+    "lint": "eslint 'src/**/*.{js,jsx}' --fix",
     "posttest": "npm run lint"
   },
   "husky": {
@@ -14,9 +14,18 @@
     }
   },
   "lint-staged": {
-    "*.{js,scss,less}": "yoshi lint --fix"
+    "*.{js,scss,less}": [
+      "eslint 'src/**/*.{js,jsx}' --fix",
+      "git add"
+    ]
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^3.0.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "husky": "^4.2.1",
@@ -33,6 +42,7 @@
     "react-redux": "^7.2.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
+    "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "wix-style-react": "^8.0.0",
     "wix-ui-icons-common": "^2.0.146"
@@ -53,8 +63,5 @@
   },
   "jest": {
     "preset": "jest-yoshi-preset"
-  },
-  "eslintConfig": {
-    "extends": "yoshi"
   }
 }

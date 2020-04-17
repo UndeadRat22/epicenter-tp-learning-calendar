@@ -17,9 +17,12 @@ class FeatureToggles {
   }
 
   isOn(name) {
-    if (!this.fetchSuccess) return;
-
     const feature = this.features.find(x => x.name === name);
+
+    if (!this.fetchSuccess) {
+      console.warn('Feature toggles did not fetch successfully');
+      return false;
+    }
 
     if (!feature) {
       console.warn(`Feature toggle with name "${name}" was not found`);

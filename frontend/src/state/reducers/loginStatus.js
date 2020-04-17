@@ -1,6 +1,6 @@
 import { SET_LOGINSTATUS } from '../actions';
 
-export const loginStatusReducer = (state = [], action) => {
+const loginStatusReducer = (state = [], action) => {
   switch (action.type) {
     case SET_LOGINSTATUS:
       return action.payload;
@@ -8,3 +8,5 @@ export const loginStatusReducer = (state = [], action) => {
       return state;
   }
 };
+
+export { loginStatusReducer };

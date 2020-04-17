@@ -1,7 +1,7 @@
-export const SET_LOGINSTATUS = 'SET_LOGINSTATUS';
+const SET_LOGINSTATUS = 'SET_LOGINSTATUS';
 
 const makeActionCreator = type => {
-  return function(payload) {
+  return payload => {
     return {
       type,
       payload,
@@ -9,4 +9,6 @@ const makeActionCreator = type => {
   };
 };
 
-export const setLoginStatus = makeActionCreator(SET_LOGINSTATUS);
+const setLoginStatus = makeActionCreator(SET_LOGINSTATUS);
+
+export { SET_LOGINSTATUS, setLoginStatus };
