@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/App.global.scss';
+import './SignIn.global.scss';
 import {
   Button,
   Box,
@@ -15,13 +15,10 @@ import {
 } from 'wix-style-react';
 import { Route } from 'react-router-dom';
 
-const SignIn = props => {
-  const logo = require('../img/logo.jpeg');
-  const primaryColor = {
-    color: '#7D357F',
-  };
+const SignIn = ({ onLogin }) => {
+  const logo = require('../../assets/logo.jpeg');
   const handleSignInBtn = history => {
-    props.callback();
+    onLogin();
     history.push('/home');
   };
 
@@ -31,8 +28,7 @@ const SignIn = props => {
         <Box align="center" marginTop="10%">
           <Layout cols={1}>
             <Image src={logo} height="200px" width="200px" />
-            <Heading appearance="H1" style={primaryColor}>
-              {' '}
+            <Heading appearance="H1" className="header">
               The Learning Center
             </Heading>
             <Heading appearance="H3"> Log in to get going</Heading>

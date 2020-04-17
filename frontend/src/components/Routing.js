@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import '../styles/App.global.scss';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import SignIn from '../pages/SignIn';
@@ -16,7 +15,7 @@ const Routing = () => {
 
   const dispatch = useDispatch();
 
-  const changeLogginStatus = () => {
+  const changeLoginStatus = () => {
     dispatch(setLoginStatus(!loggedIn));
     setLoggedIn(!loggedIn);
   };
@@ -27,7 +26,7 @@ const Routing = () => {
         {loggedIn ? <Nav /> : null}
         <Switch>
           <Route path="/" exact>
-            <SignIn callback={() => changeLogginStatus()} />
+            <SignIn onLogin={() => changeLoginStatus()} />
           </Route>
           <Route path="/signup/:id" component={SignUp} />
           <Route path="/home" component={Home} />

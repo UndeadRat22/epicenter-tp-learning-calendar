@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { Loader } from 'wix-style-react';
-import './styles/App.global.scss';
+import './App.global.scss';
 import ExampleFeatureToggles from './components/ExampleFeatureToggles';
 import { TIMEOUT_MS } from './constants/FeatureToggles';
 import { LOCAL_FEATURES_URL } from './constants/URL';
