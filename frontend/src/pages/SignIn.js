@@ -15,10 +15,10 @@ import {
 } from 'wix-style-react';
 import { Route } from 'react-router-dom';
 
-const SignIn = props => {
+const SignIn = ({ onLogin }) => {
   const logo = require('../../assets/logo.jpeg');
   const handleSignInBtn = history => {
-    props.callback();
+    onLogin();
     history.push('/home');
   };
 
