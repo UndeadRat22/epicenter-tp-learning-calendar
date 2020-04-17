@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Heading, Loader, Text } from 'wix-style-react';
+import { Provider } from 'react-redux';
+import { Loader } from 'wix-style-react';
 import './App.global.scss';
 import ExampleFeatureToggles from './components/ExampleFeatureToggles';
 import { TIMEOUT_MS } from './constants/FeatureToggles';
 import { LOCAL_FEATURES_URL } from './constants/URL';
 import FeatureToggles from './utils/FeatureToggles';
+import Rounting from './components/Rounting';
+import store from './state_manager/store';
 
 const App = () => {
   const [featuresLoaded, setFeaturesLoaded] = useState(false);
@@ -27,10 +30,9 @@ const App = () => {
   if (featuresLoaded) {
     return (
       <div>
-        <Heading appearance="H1">Epicenter</Heading>
-        <Text size="small" weight="normal">
-          The Learning Center
-        </Text>
+        <Provider store={store}>
+          <Rounting />
+        </Provider>
         <ExampleFeatureToggles />
       </div>
     );

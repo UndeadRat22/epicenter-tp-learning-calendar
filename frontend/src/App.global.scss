@@ -1,5 +1,40 @@
+$color-page: #FFFFFF;
+$color-page-login: #F5F5F5;
+$color-button: #252525;
+$color-text: #252525;
+$color-button-text: #FFFFFF;
+$color-primary: #B38A4C;
+$color-box: #F5F5F5;
+$color-box-secondary: #DFDFDF;
+
+
 .center {
     display: flex;
     justify-content: center;
     align-content: center;
+}
+
+nav {
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    min-height: 10vh;
+    background: $color-page;
+    color: $color-text;
+}
+
+.nav-links{
+    width: 40%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+}
+
+.login{
+    background: $color-page-login;
+    display: flex;
+    height: '1024px';
+    justify-content: space-around;
+    align-items: center;
 }
