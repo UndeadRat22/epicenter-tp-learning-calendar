@@ -34,13 +34,12 @@ const App = () => {
         <ExampleFeatureToggles />
       </Provider>
     );
-  } else {
-    return (
-      <div className="center">
-        <Loader size="large" />
-      </div>
-    );
   }
+  return (
+    <div className="center">
+      <Loader size="large" />
+    </div>
+  );
 };
 
 export default App;

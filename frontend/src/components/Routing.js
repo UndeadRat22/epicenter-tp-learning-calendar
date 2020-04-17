@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/App.global.scss';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import Home from '../pages/Home';
@@ -8,7 +9,6 @@ import Topics from '../pages/Topics';
 import MyTeam from '../pages/MyTeam';
 import Profile from '../pages/Profile';
 import Nav from './Nav';
-import { useDispatch } from 'react-redux';
 import { setLoginStatus } from '../state/actions';
 
 const Routing = () => {
