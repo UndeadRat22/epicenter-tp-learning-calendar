@@ -6,8 +6,14 @@ $color-primary: #7D357F;
 $color-box: #F5F5F5;
 $color-box-secondary: #DFDFDF;
 
-.center {
+.login {
+    background: $color-page;
     display: flex;
-    justify-content: center;
-    align-content: center;
+    height: '1024px';
+    justify-content: space-around;
+    align-items: center;
+}
+
+.header {
+    color: $color-primary;
 }

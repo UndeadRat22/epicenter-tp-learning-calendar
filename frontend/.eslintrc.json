@@ -1,0 +1,74 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "react-hooks"
+    ],
+    "rules": {
+        "arrow-parens": [
+            "error",
+            "as-needed"
+        ],
+        "no-use-before-define": [
+            "error",
+            {
+                "functions": true,
+                "classes": true,
+                "variables": false
+            }
+        ],
+        "curly": [
+            "error",
+            "multi-or-nest"
+        ],
+        "nonblock-statement-body-position": [
+            "error",
+            "below"
+        ],
+        "space-before-function-paren": [
+            "error",
+            {
+                "anonymous": "never",
+                "named": "never",
+                "asyncArrow": "always"
+            }
+        ],
+        "func-names": [
+            "error",
+            "never"
+        ],
+        "arrow-body-style": "off",
+        "no-unused-vars": "warn",
+        "global-require": 0,
+        "max-len": 0,
+        "import/group-exports": "error",
+        "import/prefer-default-export": 1,
+        "react/prop-types": 0,
+        "react/state-in-constructor": 0,
+        "react/jsx-filename-extension": 0,
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "react/destructuring-assignment": [
+            "error",
+            "always"
+        ]
+    }
+}
