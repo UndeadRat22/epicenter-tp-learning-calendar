@@ -1,10 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Data.SqlTypes;
+using System.Linq;
 using System.Threading.Tasks;
 using Epicenter.Infrastructure.Cryptography;
 using Epicenter.Persistence.Interface.Repository.Generic;
 using Epicenter.Service.Interface.Authentication.User;
+using Epicenter.Service.Interface.Exceptions.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Epicenter.Service.Authentication.User
 {
@@ -47,7 +51,14 @@ namespace Epicenter.Service.Authentication.User
                 PasswordHash = passwordHash
             };
 
-            await _userRepository.CreateAsync(userEntity);
+            try
+            {
+                await _userRepository.CreateAsync(userEntity);
+            }
+            catch (DbUpdateException)
+            {
+                throw new EmailAlreadyUseException();
+            }
 
             return new UserDto
             {

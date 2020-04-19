@@ -3,6 +3,7 @@ using Epicenter.Api.Model.Authentication;
 using Epicenter.Service.Interface.Authentication;
 using Epicenter.Service.Interface.Authentication.User;
 using Epicenter.Service.Interface.Employee;
+using Epicenter.Service.Interface.Exceptions.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,7 +32,7 @@ namespace Epicenter.Api.Controllers
         [HttpPost, Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         { 
-            var authenticationResult = await _authenticationService.Authenticate(model.Email, model.Password);
+            var authenticationResult = await _authenticationService.AuthenticateAsync(model.Email, model.Password);
 
             if (authenticationResult.IsAuthenticated)
             {
@@ -46,7 +47,7 @@ namespace Epicenter.Api.Controllers
         [HttpPost, Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            var authenticationResult = await _authenticationService.Register(model.InvitationId, model.Password);
+            var authenticationResult = await _authenticationService.RegisterAsync(model.InvitationId, model.Password);
             if (authenticationResult.IsSuccessful)
             {
                 return Ok();
@@ -60,13 +61,17 @@ namespace Epicenter.Api.Controllers
         [HttpPost, Route("admin")]
         public async Task<IActionResult> CreateAdmin()
         {
-            bool adminAlreadyExists = await _userService.Exists("test@test.com");
-            if (adminAlreadyExists)
+            UserDto identity;
+            try
             {
-                return Unauthorized();
+                identity = await _userService.CreateAsync("test@test.com", "password");
+            }
+            catch (EmailAlreadyUseException e)
+            {
+                return Unauthorized(e.Message);
             }
 
-            await _userService.Create("test@test.com", "password");
+            await _employeeService.CreateAsync(identity.Id, null);
             return Ok();
         }
     }

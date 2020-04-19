@@ -7,6 +7,6 @@ namespace Epicenter.Persistence.Interface.Repository.Authentication
 {
     public interface IInvitationRepository : IRepository<Invite>
     {
-        Task<Invite> GetWithInviter(Guid id);
+        Task<Invite> GetWithInviterAsync(Guid id);
     }
 }

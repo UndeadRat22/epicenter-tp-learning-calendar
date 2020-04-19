@@ -4,7 +4,7 @@ namespace Epicenter.Service.Interface.Authentication.Invite
 {
     public interface IInvitationService
     {
-        Task<InvitationDto> GetInvitation(string id);
-        Task Invite(string inviterEmail, string inviteeEmail);
+        Task<InvitationDto> GetInvitationAsync(string id);
+        Task InviteAsync(string inviterEmail, string inviteeEmail);
     }
 }

@@ -4,8 +4,8 @@ namespace Epicenter.Service.Interface.Authentication.User
 {
     public interface IUserService
     {
-        Task<bool> Exists(string email, string password);
-        Task<bool> Exists(string email);
-        Task<UserDto> Create(string email, string password);
+        Task<bool> ExistsAsync(string email, string password);
+        Task<bool> ExistsAsync(string email);
+        Task<UserDto> CreateAsync(string email, string password);
     }
 }

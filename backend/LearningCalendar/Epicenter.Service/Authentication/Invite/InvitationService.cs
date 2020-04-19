@@ -45,7 +45,7 @@ namespace Epicenter.Service.Authentication.Invite
             var createInviteTask = _invitationRepository.CreateAsync(invite);
             //todo: url + / inviteId
             var sendEmailTask =
-                _emailService.SendEmail("Invitation to Epicenter Calender", inviteId.ToString(), inviteeEmail);
+                _emailService.SendEmailAsync("Invitation to Epicenter Calender", inviteId.ToString(), inviteeEmail);
 
             await createInviteTask;
             await sendEmailTask;
@@ -55,7 +55,7 @@ namespace Epicenter.Service.Authentication.Invite
         public async Task<InvitationDto> GetInvitationAsync(string id)
         { 
             var guid = Guid.Parse(id);
-            var invitation = await _invitationRepository.GetWithInviter(guid);
+            var invitation = await _invitationRepository.GetWithInviterAsync(guid);
 
             return new InvitationDto
             {

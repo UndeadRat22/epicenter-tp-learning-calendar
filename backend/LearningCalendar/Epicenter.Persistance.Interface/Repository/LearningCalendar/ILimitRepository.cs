@@ -6,6 +6,6 @@ namespace Epicenter.Persistence.Interface.Repository.LearningCalendar
 {
     public interface ILimitRepository : IRepository<Limit>
     {
-        Task<Limit> GetGlobal();
+        Task<Limit> GetGlobalAsync();
     }
 }

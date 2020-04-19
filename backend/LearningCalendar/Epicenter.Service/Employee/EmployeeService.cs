@@ -42,7 +42,7 @@ namespace Epicenter.Service.Employee
         {
             if (managerEmail == null)
             {
-                var topLevelManager = _employeeRepository.GetTopLevelManager();
+                var topLevelManager = await _employeeRepository.GetTopLevelManagerAsync();
                 if (topLevelManager != null)
                 {
                     throw new ApplicationException("Top level manager already exists");
@@ -56,14 +56,14 @@ namespace Epicenter.Service.Employee
         {
             var identityTask = _identityRepository.QuerySingleAsync(identity => identity.Id == identityId);
             
-            var globalLimitTask = _limitRepository.GetGlobal();
-            var manager = await _employeeRepository.GetByEmail(managerEmail);
+            var globalLimitTask = _limitRepository.GetGlobalAsync();
+            var manager = await _employeeRepository.GetByEmailAsync(managerEmail);
 
             Team team = null;
             if (manager != null)
             {
-                var teamDto = await _teamService.GetOrCreateForManager(manager.Id);
-                var teamTask = _teamRepository.GetByManagerId(teamDto.ManagerId);
+                var teamDto = await _teamService.GetOrCreateForManagerAsync(manager.Id);
+                var teamTask = _teamRepository.GetByManagerIdAsync(teamDto.ManagerId);
                 team = await teamTask;
             }
 
@@ -72,11 +72,25 @@ namespace Epicenter.Service.Employee
                 Id = Guid.NewGuid(),
                 Identity = await identityTask,
                 Team = team,
-                Limit = await globalLimitTask
             };
 
             await _employeeRepository.CreateAsync(employee);
 
+
+            var limit = await globalLimitTask;
+            if (limit == null)
+            {
+                limit = new Limit
+                {
+                    Id = Guid.NewGuid(),
+                    Creator = employee,
+                };
+                await _limitRepository.CreateAsync(limit);
+            }
+            employee.Limit = limit;
+
+            await _employeeRepository.UpdateAsync(employee);
+            
             return new EmployeeDto();
         }
     }

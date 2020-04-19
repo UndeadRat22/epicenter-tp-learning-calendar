@@ -5,6 +5,6 @@ namespace Epicenter.Service.Interface.Employee
 {
     public interface ITeamService
     {
-        Task<TeamDto> GetOrCreateForManager(Guid employeeId);
+        Task<TeamDto> GetOrCreateForManagerAsync(Guid employeeId);
     }
 }

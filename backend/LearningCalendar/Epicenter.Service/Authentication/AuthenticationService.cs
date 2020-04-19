@@ -6,10 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Epicenter.Infrastructure.Cryptography;
 using Epicenter.Infrastructure.Settings;
+using Epicenter.Persistence.Interface.Repository.Authentication;
 using Epicenter.Persistence.Interface.Repository.Generic;
 using Epicenter.Service.Interface.Authentication;
 using Epicenter.Service.Interface.Authentication.User;
+using Epicenter.Service.Interface.Employee;
 using Epicenter.Service.Interface.Mail;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -17,18 +20,24 @@ namespace Epicenter.Service.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly IRepository<Domain.Entity.Authentication.Invite> _inviteRepository; 
+        private readonly IInvitationRepository _invitationRepository;
+        private readonly IRepository<IdentityUser> _identityRepository;
         private readonly IUserService _userService;
+        private readonly IEmployeeService _employeeService;
         private readonly JwtSettings _jwtSettings;
 
         public AuthenticationService(
-            IRepository<Domain.Entity.Authentication.Invite> inviteRepository,
-            IUserService userService,
-            IOptions<JwtSettings> jwtOptions)
+            IInvitationRepository invitationRepository, 
+            IRepository<IdentityUser> identityRepository, 
+            IUserService userService, 
+            IEmployeeService employeeService, 
+            IOptions<JwtSettings> jwtSettings)
         {
-            _inviteRepository = inviteRepository;
+            _invitationRepository = invitationRepository;
+            _identityRepository = identityRepository;
             _userService = userService;
-            _jwtSettings = jwtOptions.Value;
+            _employeeService = employeeService;
+            _jwtSettings = jwtSettings.Value;
         }
 
 
@@ -66,9 +75,8 @@ namespace Epicenter.Service.Authentication
 
         public async Task<RegistrationResultDto> RegisterAsync(string invitationId, string password)
         {
-            var guid = Guid.Parse(invitationId);
-            var existingInvitation = await _inviteRepository.QuerySingleAsync(invitation => invitation.Id == guid);
-
+            var invitationGuid = Guid.Parse(invitationId);
+            var existingInvitation = await _invitationRepository.GetWithInviterAsync(invitationGuid);
             if (existingInvitation == null)
             {
                 return new RegistrationResultDto
@@ -76,9 +84,10 @@ namespace Epicenter.Service.Authentication
                     IsSuccessful = false
                 };
             }
-            var createTask = _userService.CreateAsync(existingInvitation.InvitationTo, password);
-            await _inviteRepository.DeleteAsync(existingInvitation);
-            await createTask;
+            var newUser = await _userService.CreateAsync(existingInvitation.InvitationTo, password);
+
+            await _employeeService.CreateAsync(newUser.Id, existingInvitation.InvitationFrom.Email);
+            await _invitationRepository.DeleteAsync(existingInvitation);
 
             return new RegistrationResultDto
             {

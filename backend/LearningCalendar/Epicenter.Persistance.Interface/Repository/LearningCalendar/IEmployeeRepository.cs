@@ -7,8 +7,8 @@ namespace Epicenter.Persistence.Interface.Repository.LearningCalendar
 {
     public interface IEmployeeRepository : IRepository<Employee>
     {
-        Task<Employee> GetTopLevelManager();
-        Task<Employee> GetByEmail(string email);
-        Task<Employee> GetById(Guid id);
+        Task<Employee> GetTopLevelManagerAsync();
+        Task<Employee> GetByEmailAsync(string email);
+        Task<Employee> GetByIdAsync(Guid id);
     }
 }

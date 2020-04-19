@@ -20,10 +20,10 @@ namespace Epicenter.Service.Employee
 
         public async Task<TeamDto> GetOrCreateForManagerAsync(Guid employeeId)
         {
-            var team = await _teamRepository.GetByManagerId(employeeId);
+            var team = await _teamRepository.GetByManagerIdAsync(employeeId);
             if (team == null)
             {
-                var manager = await _employeeRepository.GetById(employeeId);
+                var manager = await _employeeRepository.GetByIdAsync(employeeId);
                 team = new Team
                 {
                     Id = Guid.NewGuid(),

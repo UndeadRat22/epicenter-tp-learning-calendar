@@ -26,7 +26,7 @@ namespace Epicenter.Api.Controllers
         { 
             var currentUser = (ClaimsIdentity) HttpContext.User.Identity;
 
-            await _invitationService.Invite(currentUser.Name, model.InviteeEmail);
+            await _invitationService.InviteAsync(currentUser.Name, model.InviteeEmail);
 
             return Ok();
         }
@@ -36,7 +36,7 @@ namespace Epicenter.Api.Controllers
         [Route("invite/{id}")]
         public async Task<IActionResult> GetInvitation([Required]string id)
         {
-            var invitation = await _invitationService.GetInvitation(id);
+            var invitation = await _invitationService.GetInvitationAsync(id);
 
             return Ok(invitation);
         }

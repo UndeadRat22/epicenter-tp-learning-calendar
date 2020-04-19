@@ -4,6 +4,6 @@ namespace Epicenter.Service.Interface.Mail
 {
     public interface IEmailService
     {
-        Task SendEmail(string subject, string text, string receiver);
+        Task SendEmailAsync(string subject, string text, string receiver);
     }
 }

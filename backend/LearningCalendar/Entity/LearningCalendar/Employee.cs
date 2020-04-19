@@ -13,7 +13,6 @@ namespace Epicenter.Domain.Entity.LearningCalendar
         public Team Team { get; set; }
         public List<LearningDay> LearningDays { get; set; }
         public List<PersonalGoal> PersonalGoals { get; set; }
-        [Required]
         public Limit Limit { get; set; }
     }
 }
