@@ -14,7 +14,7 @@ namespace Epicenter.Persistence.Repository.Authentication
         {
         }
 
-        public async Task<Invite> GetWithInviter(Guid id)
+        public async Task<Invite> GetWithInviterAsync(Guid id)
         {
             return await DbContext.Invites.Include(invite => invite.InvitationFrom)
                 .Where(invite => invite.Id == id)

@@ -17,7 +17,7 @@ namespace Epicenter.Service.Authentication.User
             _userRepository = userRepository;
         }
 
-        public async Task<bool> Exists(string email, string password)
+        public async Task<bool> ExistsAsync(string email, string password)
         {
             string passwordHash = Sha256Hash.Calculate(password);
 
@@ -28,7 +28,7 @@ namespace Epicenter.Service.Authentication.User
             return exits;
         }
 
-        public async Task<bool> Exists(string email)
+        public async Task<bool> ExistsAsync(string email)
         {
             var queryResult = await _userRepository.QueryAsync(user => user.Email == email);
 
@@ -37,7 +37,7 @@ namespace Epicenter.Service.Authentication.User
             return exits;
         }
 
-        public async Task<UserDto> Create(string email, string password)
+        public async Task<UserDto> CreateAsync(string email, string password)
         {
             string passwordHash = Sha256Hash.Calculate(password);
 

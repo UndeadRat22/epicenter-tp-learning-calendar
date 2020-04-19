@@ -13,16 +13,14 @@ namespace Epicenter.Service.Employee
 {
     public class EmployeeService : IEmployeeService
     {
-        private readonly IUserService _userService;
         private readonly ILimitRepository _limitRepository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly ITeamService _teamService;
         private readonly ITeamRepository _teamRepository;
         private readonly IRepository<IdentityUser> _identityRepository;
 
-        public EmployeeService(IUserService userService, ILimitRepository limitRepository, IEmployeeRepository employeeRepository, ITeamService teamService, ITeamRepository teamRepository, IRepository<IdentityUser> identityRepository)
+        public EmployeeService(ILimitRepository limitRepository, IEmployeeRepository employeeRepository, ITeamService teamService, ITeamRepository teamRepository, IRepository<IdentityUser> identityRepository)
         {
-            _userService = userService;
             _limitRepository = limitRepository;
             _employeeRepository = employeeRepository;
             _teamService = teamService;
@@ -40,7 +38,7 @@ namespace Epicenter.Service.Employee
                 }).ToList();
         }
 
-        public async Task<EmployeeDto> Create(string email, string password, string managerEmail)
+        public async Task<EmployeeDto> CreateAsync(string identityId, string managerEmail)
         {
             if (managerEmail == null)
             {
@@ -51,37 +49,30 @@ namespace Epicenter.Service.Employee
                 }
             }
 
-            return await CreateEmployeeWithoutChecks(email, password, managerEmail);
+            return await CreateEmployeeWithoutChecksAsync(identityId, managerEmail);
         }
 
-        private async Task<EmployeeDto> CreateEmployeeWithoutChecks(string email, string password, string managerEmail)
+        private async Task<EmployeeDto> CreateEmployeeWithoutChecksAsync(string identityId, string managerEmail)
         {
-            Task<UserDto> identityTask = _userService.Create(email, password);
-            Task<Limit> globalLimitTask = _limitRepository.GetGlobal();
-
+            var identityTask = _identityRepository.QuerySingleAsync(identity => identity.Id == identityId);
+            
+            var globalLimitTask = _limitRepository.GetGlobal();
             var manager = await _employeeRepository.GetByEmail(managerEmail);
 
             Team team = null;
             if (manager != null)
             {
-                TeamDto teamDto = await _teamService.GetOrCreateForManager(manager.Id);
-                Task<Team> teamTask = _teamRepository.GetByManagerId(teamDto.ManagerId);
+                var teamDto = await _teamService.GetOrCreateForManager(manager.Id);
+                var teamTask = _teamRepository.GetByManagerId(teamDto.ManagerId);
                 team = await teamTask;
             }
-
-            UserDto identity = await identityTask;
-            IdentityUser userIdentity = await _identityRepository
-                .QuerySingleAsync(i => i.Id == identity.Id);
-
-            Limit globalLimit = await globalLimitTask;
-
 
             var employee = new Domain.Entity.LearningCalendar.Employee
             {
                 Id = Guid.NewGuid(),
-                Identity = userIdentity,
+                Identity = await identityTask,
                 Team = team,
-                Limit = globalLimit
+                Limit = await globalLimitTask
             };
 
             await _employeeRepository.CreateAsync(employee);

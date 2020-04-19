@@ -13,7 +13,7 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
         {
         }
 
-        public async Task<Limit> GetGlobal()
+        public async Task<Limit> GetGlobalAsync()
         {
             Limit globalLimit = await DbContext.Limits
                 .Include(limit => limit.Creator)

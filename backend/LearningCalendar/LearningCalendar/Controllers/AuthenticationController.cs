@@ -2,6 +2,7 @@
 using Epicenter.Api.Model.Authentication;
 using Epicenter.Service.Interface.Authentication;
 using Epicenter.Service.Interface.Authentication.User;
+using Epicenter.Service.Interface.Employee;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,14 +14,17 @@ namespace Epicenter.Api.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly IEmployeeService _employeeService;
         private readonly IUserService _userService;
 
         public AuthenticationController(
             IUserService userService,
-            IAuthenticationService authenticationService)
+            IAuthenticationService authenticationService,
+            IEmployeeService employeeService)
         {
             _userService = userService;
             _authenticationService = authenticationService;
+            _employeeService = employeeService;
         }
 
         [AllowAnonymous]
@@ -43,7 +47,6 @@ namespace Epicenter.Api.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             var authenticationResult = await _authenticationService.Register(model.InvitationId, model.Password);
-
             if (authenticationResult.IsSuccessful)
             {
                 return Ok();
@@ -51,6 +54,7 @@ namespace Epicenter.Api.Controllers
 
             return BadRequest();
         }
+
 
         [AllowAnonymous]
         [HttpPost, Route("admin")]

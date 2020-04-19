@@ -32,9 +32,9 @@ namespace Epicenter.Service.Authentication
         }
 
 
-        public async Task<AuthenticationResultDto> Authenticate(string email, string password)
+        public async Task<AuthenticationResultDto> AuthenticateAsync(string email, string password)
         {
-            var exists = await _userService.Exists(email, password);
+            var exists = await _userService.ExistsAsync(email, password);
 
             if (!exists)
             {
@@ -64,7 +64,7 @@ namespace Epicenter.Service.Authentication
         }
 
 
-        public async Task<RegistrationResultDto> Register(string invitationId, string password)
+        public async Task<RegistrationResultDto> RegisterAsync(string invitationId, string password)
         {
             var guid = Guid.Parse(invitationId);
             var existingInvitation = await _inviteRepository.QuerySingleAsync(invitation => invitation.Id == guid);
@@ -76,8 +76,7 @@ namespace Epicenter.Service.Authentication
                     IsSuccessful = false
                 };
             }
-
-            var createTask = _userService.Create(existingInvitation.InvitationTo, password);
+            var createTask = _userService.CreateAsync(existingInvitation.InvitationTo, password);
             await _inviteRepository.DeleteAsync(existingInvitation);
             await createTask;
 

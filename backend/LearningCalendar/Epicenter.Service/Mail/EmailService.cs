@@ -20,7 +20,7 @@ namespace Epicenter.Service.Mail
         private const string MailServerHost = "smtp.gmail.com";
         private const int SmtpPort = 587;
 
-        public async Task SendEmail(string subject, string text, string receiver)
+        public async Task SendEmailAsync(string subject, string text, string receiver)
         {
             using var message = new MailMessage(_emailSettings.Email, receiver)
             {

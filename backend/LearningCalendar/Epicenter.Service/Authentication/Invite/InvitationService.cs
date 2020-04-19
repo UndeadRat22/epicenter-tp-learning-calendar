@@ -28,7 +28,7 @@ namespace Epicenter.Service.Authentication.Invite
             _emailService = emailService;
         }
 
-        public async Task Invite(string inviterEmail, string inviteeEmail)
+        public async Task InviteAsync(string inviterEmail, string inviteeEmail)
         {
             IdentityUser inviter = await _userRepository.QuerySingleAsync(user => user.Email == inviterEmail);
 
@@ -52,7 +52,7 @@ namespace Epicenter.Service.Authentication.Invite
         }
 
 
-        public async Task<InvitationDto> GetInvitation(string id)
+        public async Task<InvitationDto> GetInvitationAsync(string id)
         { 
             var guid = Guid.Parse(id);
             var invitation = await _invitationRepository.GetWithInviter(guid);

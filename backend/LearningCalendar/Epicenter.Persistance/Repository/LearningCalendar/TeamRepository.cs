@@ -13,7 +13,7 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
         {
         }
 
-        public async Task<Team> GetByManagerId(Guid id)
+        public async Task<Team> GetByManagerIdAsync(Guid id)
         {
             return await DbContext.Teams
                 .Include(team => team.Manager)

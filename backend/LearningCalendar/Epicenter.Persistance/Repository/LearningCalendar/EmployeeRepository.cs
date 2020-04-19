@@ -14,7 +14,7 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
         {
         }
 
-        public async Task<Employee> GetTopLevelManager()
+        public async Task<Employee> GetTopLevelManagerAsync()
         {
             var globalAdmin = await DbContext.Employees
                 .Include(employee => employee.Identity)
@@ -28,7 +28,7 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
             return globalAdmin;
         }
 
-        public async Task<Employee> GetByEmail(string email)
+        public async Task<Employee> GetByEmailAsync(string email)
         {
             var result = await DbContext.Employees
                 .Include(employee => employee.Identity)
@@ -41,7 +41,7 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
             return result;
         }
 
-        public async Task<Employee> GetById(Guid id)
+        public async Task<Employee> GetByIdAsync(Guid id)
         {
             return await DbContext.Employees
                 .Include(employee => employee.Identity)
