@@ -3,8 +3,10 @@ using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Persistence.Context;
 using Epicenter.Persistence.Interface.Repository.Authentication;
 using Epicenter.Persistence.Interface.Repository.Generic;
+using Epicenter.Persistence.Interface.Repository.LearningCalendar;
 using Epicenter.Persistence.Repository.Authentication;
 using Epicenter.Persistence.Repository.Generic;
+using Epicenter.Persistence.Repository.LearningCalendar;
 using Epicenter.Service.Authentication;
 using Epicenter.Service.Authentication.Invite;
 using Epicenter.Service.Authentication.User;
@@ -28,18 +30,21 @@ namespace Epicenter.IoC
         public static IServiceCollection RegisterDependencies(IServiceCollection services)
         {
             services.AddScopedRepository<Employee>();
-
             services.AddScopedRepository<Invite>();
-            services.AddScoped<IInvitationRepository, InvitationRepository>();
-            
             services.AddScoped<IRepository<IdentityUser>, Repository<IdentityUser>>();
+
+            services.AddScoped<IInvitationRepository, InvitationRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<ITeamRepository, TeamRepository>();
+            services.AddScoped<ILimitRepository, LimitRepository>();
             
-            
+
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IInvitationService, InvitationService>();
+            services.AddScoped<ITeamService, TeamService>();
 
             return services;
         }

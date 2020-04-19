@@ -1,9 +1,14 @@
-﻿using System;
-using Epicenter.Domain.Entity.Authentication;
+﻿using Epicenter.Domain.Entity.Authentication;
 using Epicenter.Domain.Entity.LearningCalendar;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Epicenter.Infrastructure.Cryptography;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Epicenter.Persistence.Context
 {
@@ -27,6 +32,16 @@ namespace Epicenter.Persistence.Context
         {
             base.OnModelCreating(builder);
 
+            //auth
+            builder.Entity<IdentityUser>()
+                .Property(identity => identity.Email)
+                .IsRequired();
+
+            builder.Entity<IdentityUser>()
+                .HasIndex(identity => identity.Email)
+                .IsUnique();
+
+            //domain
             builder.Entity<Limit>()
                 .Property(limit => limit.DaysPerQuarter)
                 .HasDefaultValue(Constants.Limit.MaxDaysPerQuarter);

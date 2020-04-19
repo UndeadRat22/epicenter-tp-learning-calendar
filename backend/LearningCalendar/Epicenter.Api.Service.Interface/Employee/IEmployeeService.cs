@@ -6,5 +6,6 @@ namespace Epicenter.Service.Interface.Employee
     public interface IEmployeeService
     {
         Task<List<EmployeeDto>> GetEmployees();
+        Task<EmployeeDto> Create(string email, string password, string managerEmail);
     }
 }

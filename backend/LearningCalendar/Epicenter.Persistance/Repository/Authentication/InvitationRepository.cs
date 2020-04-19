@@ -4,12 +4,11 @@ using System.Threading.Tasks;
 using Epicenter.Domain.Entity.Authentication;
 using Epicenter.Persistence.Context;
 using Epicenter.Persistence.Interface.Repository.Authentication;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Epicenter.Persistence.Repository.Authentication
 {
-    public class InvitationRepository : Epicenter.Persistence.Repository.Generic.Repository<Invite>, IInvitationRepository
+    public class InvitationRepository : Generic.Repository<Invite>, IInvitationRepository
     {
         public InvitationRepository(EpicenterDbContext dbContext) : base(dbContext)
         {

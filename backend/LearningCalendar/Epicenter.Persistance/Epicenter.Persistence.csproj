@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Epicenter.Infrastructure\Epicenter.Infrastructure.csproj" />
     <ProjectReference Include="..\Epicenter.Persistance.Interface\Epicenter.Persistence.Interface.csproj" />
   </ItemGroup>
 
