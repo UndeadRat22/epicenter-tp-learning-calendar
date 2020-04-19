@@ -64,19 +64,14 @@ namespace Epicenter.Persistence.Context
                 .WithOne(personalGoal => personalGoal.Employee);
 
             builder.Entity<Employee>()
-                .HasOne(employee => employee.Team)
-                .WithMany(manager => manager.Employees);
-
-            builder.Entity<Employee>()
                 .HasOne(employee => employee.Limit)
                 .WithMany(limit => limit.Employees);
 
-            builder
-                .Entity<Limit>()
-                .HasOne(limit => limit.Creator);
-
             builder.Entity<Team>()
                 .HasOne(team => team.Manager);
+
+            builder.Entity<Team>().HasMany(team => team.Employees)
+                .WithOne(employee => employee.Team);
 
             builder.Entity<Goal>()
                 .HasOne(goal => goal.Topic);

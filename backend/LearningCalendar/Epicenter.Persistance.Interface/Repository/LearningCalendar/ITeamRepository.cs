@@ -8,5 +8,7 @@ namespace Epicenter.Persistence.Interface.Repository.LearningCalendar
     public interface ITeamRepository : IRepository<Team>
     {
         Task<Team> GetByManagerIdAsync(Guid id);
+        Task<Team> GetByManagerEmail(string email);
+        Task<Team> GetById(Guid id);
     }
 }

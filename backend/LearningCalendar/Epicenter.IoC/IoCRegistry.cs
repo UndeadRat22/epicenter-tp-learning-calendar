@@ -38,13 +38,17 @@ namespace Epicenter.IoC
             services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<ILimitRepository, LimitRepository>();
             
-
-            services.AddScoped<IEmployeeService, EmployeeService>();
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailService, EmailService>();
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<IInvitationService, InvitationService>();
-            services.AddScoped<ITeamService, TeamService>();
+            
+            //operations
+            services.AddScoped<ILoginOperation, LoginOperation>();
+            services.AddScoped<ICreateInvitationOperation, CreateInvitationOperation>();
+            services.AddScoped<IGetInvitationDetailsOperation, GetInvitationDetailsOperation>();
+            services.AddScoped<ICheckUserCredentialsOperation, CheckUserCredentialsOperation>();
+            services.AddScoped<IUserExistsOperation, UserExistsOperation>();
+            services.AddScoped<IRegisterUserOperation, RegisterUserOperation>();
+            services.AddScoped<ICreateEmployeeOperation, CreateEmployeeOperation>();
+            services.AddScoped<IEnsureManagerHasTeamOperation, EnsureManagerHasTeamOperation>();
 
             return services;
         }
@@ -52,7 +56,8 @@ namespace Epicenter.IoC
         public static IServiceCollection RegisterDbContext(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<EpicenterDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("LocalEpicenterConnection")));
+                options.UseSqlServer(configuration.GetConnectionString("LocalEpicenterConnection")),
+                ServiceLifetime.Transient);
 
             return services;
         }

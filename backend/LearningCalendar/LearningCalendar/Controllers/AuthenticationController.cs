@@ -14,25 +14,22 @@ namespace Epicenter.Api.Controllers
     [Route("api/[controller]")]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IAuthenticationService _authenticationService;
-        private readonly IEmployeeService _employeeService;
-        private readonly IUserService _userService;
+        private readonly ILoginOperation _loginOperation;
+        private readonly IRegisterUserOperation _registerUserOperation;
+        private readonly ICreateEmployeeOperation _createEmployeeOperation;
 
-        public AuthenticationController(
-            IUserService userService,
-            IAuthenticationService authenticationService,
-            IEmployeeService employeeService)
+        public AuthenticationController(ILoginOperation loginOperation, IRegisterUserOperation registerUserOperation, ICreateEmployeeOperation employeeOperation)
         {
-            _userService = userService;
-            _authenticationService = authenticationService;
-            _employeeService = employeeService;
+            _loginOperation = loginOperation;
+            _registerUserOperation = registerUserOperation;
+            _createEmployeeOperation = employeeOperation;
         }
 
         [AllowAnonymous]
         [HttpPost, Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         { 
-            var authenticationResult = await _authenticationService.AuthenticateAsync(model.Email, model.Password);
+            var authenticationResult = await _loginOperation.Execute(new LoginOperationRequest{ Email = model.Email, Password = model.Password });
 
             if (authenticationResult.IsAuthenticated)
             {
@@ -47,13 +44,22 @@ namespace Epicenter.Api.Controllers
         [HttpPost, Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            var authenticationResult = await _authenticationService.RegisterAsync(model.InvitationId, model.Password);
-            if (authenticationResult.IsSuccessful)
+            var request = new RegisterUserOperationRequest
+                {InvitationId = model.InvitationId, Password = model.Password};
+            try
             {
-                return Ok();
+                var authenticationResult = await _registerUserOperation.Execute(request);
+            }
+            catch (EmailAlreadyUseException e)
+            {
+                return Conflict(e.Message);
+            }
+            catch
+            {
+                return BadRequest();
             }
 
-            return BadRequest();
+            return Ok();
         }
 
 
@@ -61,17 +67,21 @@ namespace Epicenter.Api.Controllers
         [HttpPost, Route("admin")]
         public async Task<IActionResult> CreateAdmin()
         {
-            UserDto identity;
+            var request = new CreateEmployeeOperationRequest
+            {
+                Email = "test@test.com",
+                Password = "password",
+                ManagerEmail = null
+            };
             try
             {
-                identity = await _userService.CreateAsync("test@test.com", "password");
+                await _createEmployeeOperation.Execute(request);
             }
-            catch (EmailAlreadyUseException e)
+            catch
             {
-                return Unauthorized(e.Message);
+                return Conflict("Admin already created");
             }
 
-            await _employeeService.CreateAsync(identity.Id, null);
             return Ok();
         }
     }

@@ -53,7 +53,7 @@ namespace Epicenter.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid?>("LimitId")
+                    b.Property<Guid>("LimitId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("TeamId")
@@ -147,9 +147,6 @@ namespace Epicenter.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("DaysPerQuarter")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -161,8 +158,6 @@ namespace Epicenter.Persistence.Migrations
                         .HasDefaultValue(4);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
 
                     b.ToTable("Limits");
                 });
@@ -437,7 +432,9 @@ namespace Epicenter.Persistence.Migrations
 
                     b.HasOne("Epicenter.Domain.Entity.LearningCalendar.Limit", "Limit")
                         .WithMany("Employees")
-                        .HasForeignKey("LimitId");
+                        .HasForeignKey("LimitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Epicenter.Domain.Entity.LearningCalendar.Team", "Team")
                         .WithMany("Employees")
@@ -475,13 +472,6 @@ namespace Epicenter.Persistence.Migrations
                         .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Epicenter.Domain.Entity.LearningCalendar.Limit", b =>
-                {
-                    b.HasOne("Epicenter.Domain.Entity.LearningCalendar.Employee", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
                 });
 
             modelBuilder.Entity("Epicenter.Domain.Entity.LearningCalendar.Team", b =>

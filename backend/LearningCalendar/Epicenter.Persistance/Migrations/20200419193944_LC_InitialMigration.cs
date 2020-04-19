@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Epicenter.Persistence.Migrations
 {
-    public partial class InitialLCMigration : Migration
+    public partial class LC_InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,7 +28,7 @@ namespace Epicenter.Persistence.Migrations
                     Id = table.Column<string>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: false),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: true),
@@ -44,6 +44,19 @@ namespace Epicenter.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Limits",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    DaysPerQuarter = table.Column<int>(nullable: false, defaultValue: 3),
+                    TopicsPerDay = table.Column<int>(nullable: false, defaultValue: 4)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Limits", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,7 +211,8 @@ namespace Epicenter.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     IdentityId = table.Column<string>(nullable: false),
-                    TeamId = table.Column<Guid>(nullable: true)
+                    TeamId = table.Column<Guid>(nullable: true),
+                    LimitId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -207,6 +221,12 @@ namespace Epicenter.Persistence.Migrations
                         name: "FK_Employees_AspNetUsers_IdentityId",
                         column: x => x.IdentityId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Employees_Limits_LimitId",
+                        column: x => x.LimitId,
+                        principalTable: "Limits",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -330,6 +350,12 @@ namespace Epicenter.Persistence.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_Email",
+                table: "AspNetUsers",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -345,6 +371,11 @@ namespace Epicenter.Persistence.Migrations
                 name: "IX_Employees_IdentityId",
                 table: "Employees",
                 column: "IdentityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_LimitId",
+                table: "Employees",
+                column: "LimitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_TeamId",
@@ -407,6 +438,10 @@ namespace Epicenter.Persistence.Migrations
                 table: "Employees");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_Employees_Limits_LimitId",
+                table: "Employees");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Employees_Teams_TeamId",
                 table: "Employees");
 
@@ -445,6 +480,9 @@ namespace Epicenter.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Limits");
 
             migrationBuilder.DropTable(
                 name: "Teams");

@@ -45,7 +45,6 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
         {
             return await DbContext.Employees
                 .Include(employee => employee.Identity)
-                .Include(employee => employee.Limit)
                 .Include(employee => employee.LearningDays)
                 .Include(employee => employee.PersonalGoals)
                 .Include(employee => employee.Team)

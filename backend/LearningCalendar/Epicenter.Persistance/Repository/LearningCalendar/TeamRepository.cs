@@ -20,5 +20,21 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 .Include(team => team.Employees)
                 .SingleOrDefaultAsync(team => team.Manager.Id == id);
         }
+
+        public Task<Team> GetByManagerEmail(string email)
+        {
+            return DbContext.Teams
+                .Include(team => team.Manager)
+                .Include(team => team.Employees)
+                .SingleOrDefaultAsync(team => team.Manager.Identity.Email == email);
+        }
+
+        public Task<Team> GetById(Guid id)
+        {
+            return DbContext.Teams
+                .Include(team => team.Manager)
+                .Include(team => team.Employees)
+                .SingleOrDefaultAsync(team => team.Id == id);
+        }
     }
 }
