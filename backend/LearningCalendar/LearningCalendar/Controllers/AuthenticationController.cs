@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Epicenter.Api.Model.Authentication;
-using Epicenter.Service.Interface.Authentication;
-using Epicenter.Service.Interface.Authentication.User;
-using Epicenter.Service.Interface.Employee;
 using Epicenter.Service.Interface.Exceptions.Authentication;
+using Epicenter.Service.Interface.Operations.Authentication;
+using Epicenter.Service.Interface.Operations.Authentication.User;
+using Epicenter.Service.Interface.Operations.Employee;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

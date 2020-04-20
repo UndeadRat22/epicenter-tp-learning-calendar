@@ -7,18 +7,21 @@ using Epicenter.Persistence.Interface.Repository.LearningCalendar;
 using Epicenter.Persistence.Repository.Authentication;
 using Epicenter.Persistence.Repository.Generic;
 using Epicenter.Persistence.Repository.LearningCalendar;
-using Epicenter.Service.Authentication;
-using Epicenter.Service.Authentication.Invite;
-using Epicenter.Service.Authentication.User;
-using Epicenter.Service.Employee;
-using Epicenter.Service.Interface.Authentication;
-using Epicenter.Service.Interface.Authentication.Invite;
-using Epicenter.Service.Interface.Authentication.User;
-using Epicenter.Service.Interface.Employee;
-using Epicenter.Service.Interface.Mail;
-using Epicenter.Service.Mail;
+using Epicenter.Service.Interface.Operations.Authentication;
+using Epicenter.Service.Interface.Operations.Authentication.Invite;
+using Epicenter.Service.Interface.Operations.Authentication.User;
+using Epicenter.Service.Interface.Operations.Employee;
+using Epicenter.Service.Interface.Operations.Team;
+using Epicenter.Service.Interface.Operations.Topic;
+using Epicenter.Service.Interface.Services.Mail;
+using Epicenter.Service.Operations.Authentication;
+using Epicenter.Service.Operations.Authentication.Invite;
+using Epicenter.Service.Operations.Authentication.User;
+using Epicenter.Service.Operations.Employee;
+using Epicenter.Service.Operations.Team;
+using Epicenter.Service.Operations.Topic;
+using Epicenter.Service.Services.Mail;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +40,7 @@ namespace Epicenter.IoC
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<ILimitRepository, LimitRepository>();
+            services.AddScoped<ITopicRepository, TopicRepository>();
             
             services.AddScoped<IEmailService, EmailService>();
             
@@ -49,6 +53,9 @@ namespace Epicenter.IoC
             services.AddScoped<IRegisterUserOperation, RegisterUserOperation>();
             services.AddScoped<ICreateEmployeeOperation, CreateEmployeeOperation>();
             services.AddScoped<IEnsureManagerHasTeamOperation, EnsureManagerHasTeamOperation>();
+            services.AddScoped<IGetDirectSubordinatesOperation, GetDirectSubordinatesOperation>();
+            services.AddScoped<IGetAllTopicsOperation, GetAllTopicsOperation>();
+            services.AddScoped<ICreateTopicOperation, CreateTopicOperation>();
 
             return services;
         }

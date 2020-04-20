@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Epicenter", "Epicenter", "{19CF6E11-5267-499F-9562-60CDAE66DFB7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{7D021FB4-600C-435F-B7C2-69A0D5BE580E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{7D021FB4-600C-435F-B7C2-69A0D5BE580E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Service.Interface", "Epicenter.Api.Service.Interface\Epicenter.Service.Interface.csproj", "{DE5AF851-FBE6-4903-8542-57BD4BA4D3C7}"
 EndProject
@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.IoC", "Epicenter.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Infrastructure", "Epicenter.Infrastructure\Epicenter.Infrastructure.csproj", "{6444BA96-C909-4458-9C4A-F86A77AC7156}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epicenter.Api.Model", "Epicenter.Api.Model\Epicenter.Api.Model.csproj", "{216CDB34-7C31-4159-BAFD-92149AD11351}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Api.Model", "Epicenter.Api.Model\Epicenter.Api.Model.csproj", "{216CDB34-7C31-4159-BAFD-92149AD11351}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

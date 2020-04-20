@@ -49,6 +49,10 @@ namespace Epicenter.Persistence.Context
                 .Property(limit => limit.TopicsPerDay)
                 .HasDefaultValue(Constants.Limit.MaxTopicsPerDay);
 
+            builder.Entity<Topic>()
+                .HasIndex(topic => topic.Subject)
+                .IsUnique();
+
             builder.Entity<Invite>()
                 .HasOne(invite => invite.InvitationFrom);
 
