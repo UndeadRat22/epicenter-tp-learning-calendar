@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Epicenter.Domain.Entity.LearningCalendar
 {
@@ -6,5 +7,7 @@ namespace Epicenter.Domain.Entity.LearningCalendar
     {
         [Required]
         public Employee Employee { get; set; }
+        [Required]
+        public Guid EmployeeId { get; set; }
     }
 }

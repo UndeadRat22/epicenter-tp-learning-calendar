@@ -23,7 +23,7 @@ namespace Epicenter.Service.Operations.Authentication.Invite
 
         public async Task<CreateInvitationOperationResponse> Execute(CreateInvitationOperationRequest request)
         {
-            IdentityUser inviter = await _userRepository.QuerySingleAsync(user => user.Email == request.InviterEmail);
+            IdentityUser inviter = await _userRepository.QuerySingleOrDefaultAsync(user => user.Email == request.InviterEmail);
 
             var invite = new Domain.Entity.Authentication.Invite
             {

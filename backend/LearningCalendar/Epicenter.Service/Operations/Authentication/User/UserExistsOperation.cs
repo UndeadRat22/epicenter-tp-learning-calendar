@@ -16,7 +16,7 @@ namespace Epicenter.Service.Operations.Authentication.User
 
         public async Task<bool> Execute(string email)
         {
-            var queryResult = await _identityRepository.QuerySingleAsync(user => user.Email == email);
+            var queryResult = await _identityRepository.QuerySingleOrDefaultAsync(user => user.Email == email);
 
             return queryResult != null;
         }

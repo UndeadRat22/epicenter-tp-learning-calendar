@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Epicenter.Domain.Entity.LearningCalendar
@@ -11,5 +12,7 @@ namespace Epicenter.Domain.Entity.LearningCalendar
         [Required]
         public string Subject { get; set; }
         public string Description { get; set; }
+        public List<Topic> SubTopics { get; set; }
+        public List<Goal> Goals { get; set; }
     }
 }

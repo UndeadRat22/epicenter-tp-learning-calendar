@@ -19,7 +19,7 @@ namespace Epicenter.Service.Operations.Authentication.User
         {
             string passwordHash = Sha256Hash.Calculate(request.Password);
 
-            var queryResult = await _userRepository.QuerySingleAsync(user => user.Email == request.Email && user.PasswordHash == passwordHash);
+            var queryResult = await _userRepository.QuerySingleOrDefaultAsync(user => user.Email == request.Email && user.PasswordHash == passwordHash);
 
             return new CheckUserCredentialsOperationResponse
             {

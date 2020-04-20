@@ -20,8 +20,9 @@ namespace Epicenter.Service.Operations.Topic
         {
             var topic = new Domain.Entity.LearningCalendar.Topic
             {
+                ParentTopicId = request.ParentTopic,
                 Subject = request.Subject,
-                Description = request.Description
+                Description = request.Description,
             };
 
             try
@@ -32,24 +33,6 @@ namespace Epicenter.Service.Operations.Topic
             {
                 throw new TopicAlreadyExistsException(request.Subject);
             }
-
-            if (request.ParentTopic.HasValue)
-            {
-                topic.ParentTopic = new Domain.Entity.LearningCalendar.Topic
-                {
-                    Id = request.ParentTopic.Value
-                };
-                try
-                {
-                    await _topicRepository.UpdateAsync(topic);
-                }
-                catch (DbUpdateException)
-                {
-                    await _topicRepository.DeleteAsync(topic);
-                    throw new TopicDoesNotExistException(request.ParentTopic.Value);
-                }
-            }
-
             return new CreateTopicOperationResponse
             {
                 Guid = topic.Id

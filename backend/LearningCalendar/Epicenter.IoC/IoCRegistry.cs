@@ -11,6 +11,7 @@ using Epicenter.Service.Interface.Operations.Authentication;
 using Epicenter.Service.Interface.Operations.Authentication.Invite;
 using Epicenter.Service.Interface.Operations.Authentication.User;
 using Epicenter.Service.Interface.Operations.Employee;
+using Epicenter.Service.Interface.Operations.Goal;
 using Epicenter.Service.Interface.Operations.Team;
 using Epicenter.Service.Interface.Operations.Topic;
 using Epicenter.Service.Interface.Services.Mail;
@@ -18,6 +19,7 @@ using Epicenter.Service.Operations.Authentication;
 using Epicenter.Service.Operations.Authentication.Invite;
 using Epicenter.Service.Operations.Authentication.User;
 using Epicenter.Service.Operations.Employee;
+using Epicenter.Service.Operations.Goal;
 using Epicenter.Service.Operations.Team;
 using Epicenter.Service.Operations.Topic;
 using Epicenter.Service.Services.Mail;
@@ -41,6 +43,7 @@ namespace Epicenter.IoC
             services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<ILimitRepository, LimitRepository>();
             services.AddScoped<ITopicRepository, TopicRepository>();
+            services.AddScoped<IPersonalGoalRepository, PersonalGoalRepository>();
             
             services.AddScoped<IEmailService, EmailService>();
             
@@ -56,6 +59,8 @@ namespace Epicenter.IoC
             services.AddScoped<IGetDirectSubordinatesOperation, GetDirectSubordinatesOperation>();
             services.AddScoped<IGetAllTopicsOperation, GetAllTopicsOperation>();
             services.AddScoped<ICreateTopicOperation, CreateTopicOperation>();
+            services.AddScoped<IAssignGoalToEmployeeOperation, AssignGoalToEmployeeOperation>();
+            services.AddScoped<IAssignGoalToTeamOperation, AssignGoalToTeamOperation>();
 
             return services;
         }

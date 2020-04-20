@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Epicenter.Domain.Entity;
 using Epicenter.Persistence.Context;
+using Epicenter.Persistence.Interface.Exceptions;
 using Epicenter.Persistence.Interface.Repository.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -56,9 +57,15 @@ namespace Epicenter.Persistence.Repository.Generic
             return await DbContext.Set<TEntity>().ToListAsync();
         }
 
-        public async Task<TEntity> QuerySingleAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity> QuerySingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await DbContext.Set<TEntity>().SingleOrDefaultAsync(predicate);
+        }
+
+        public async Task<TEntity> QuerySingleAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await QuerySingleOrDefaultAsync(predicate)
+                ?? throw new EntityNotFoundException(typeof(TEntity));
         }
     }
 }
