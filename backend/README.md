@@ -35,7 +35,7 @@ If you encounter any problems running the project, the possible solutions might 
         "password": "password"
     }
    ```
-   In response to this the server returns a JSON like this:
+   In response to this the server returns a JSON like this (the token is a jwt token):
    ```json
    {
        "token": "token_value"
