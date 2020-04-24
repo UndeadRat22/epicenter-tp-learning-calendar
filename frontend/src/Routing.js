@@ -7,8 +7,8 @@ import Home from './pages/Home';
 import Topics from './pages/Topics';
 import MyTeam from './pages/MyTeam';
 import Profile from './pages/Profile';
-import Nav from './components/routing/Nav';
-import ProtectedRoute from './components/routing/ProtectedRoute';
+import Nav from './components/navigation/Nav';
+import ProtectedRoute from './ProtectedRoute';
 import { setAuthenticationStatus } from './state/actions';
 
 const Routing = () => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../../pages/SignIn.global.scss';
+import './SignInForm.global.scss';
 import {
   Button,
   Box,

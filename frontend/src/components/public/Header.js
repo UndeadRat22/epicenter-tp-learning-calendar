@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../pages/SignIn.global.scss';
+import './Header.global.scss';
 import {
   Layout,
   Image,

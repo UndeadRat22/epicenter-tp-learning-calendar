@@ -6,10 +6,7 @@ $color-primary: #7D357F;
 $color-box: #F5F5F5;
 $color-box-secondary: #DFDFDF;
 
-.signin {
-    background: $color-page;
-    display: flex;
-    height: '1024px';
-    justify-content: space-around;
+.box {
     align-items: center;
+    margin-top: 10%;
 }
