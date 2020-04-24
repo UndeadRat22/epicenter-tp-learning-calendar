@@ -1,9 +1,9 @@
 import React from 'react';
-import './SignUp.global.scss';
 import { Layout } from 'wix-style-react';
-import Header from '../components/public/Header';
-import InputFormContainer from '../components/public/signUp/signUpForm';
+import Header from '../components/auth/Header';
+import InputFormContainer from '../components/auth/signUpForm';
 import { BACKEND_API_URL } from '../constants/URL';
+import s from './SignUp.scss';
 
 const SignUp = () => {
   const registerUser = (user, history) => {
@@ -24,7 +24,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="signup">
+    <div className={s.signup}>
       <Layout cols={1}>
         <Header text="Finish your registration" />
         <InputFormContainer

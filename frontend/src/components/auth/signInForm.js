@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './SignInForm.global.scss';
 import {
   Button,
   Box,

@@ -1,11 +1,11 @@
 import React from 'react';
-import './SignIn.global.scss';
 import { Layout } from 'wix-style-react';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../state/actions';
-import Header from '../components/public/Header';
-import InputFormContainer from '../components/public/signIn/signInForm';
+import Header from '../components/auth/Header';
+import InputFormContainer from '../components/auth/signInForm';
 import { BACKEND_API_URL } from '../constants/URL';
+import s from './SignIn.scss';
 
 const SignIn = ({ onSignIn }) => {
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const SignIn = ({ onSignIn }) => {
   };
 
   return (
-    <div className="signin">
+    <div className={s.signin}>
       <Layout cols={1}>
         <Header text="Log in to get going" />
         <InputFormContainer

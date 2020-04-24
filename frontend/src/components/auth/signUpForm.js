@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './SignUpForm.global.scss';
 import {
   Button,
   Box,
@@ -14,6 +13,7 @@ import {
   FormField,
 } from 'wix-style-react';
 import { Route } from 'react-router-dom';
+import s from './SignUpForm.scss';
 
 const InputFormContainer = ({ onRegister }) => {
   const [name, setName] = useState('');
@@ -56,7 +56,7 @@ const InputFormContainer = ({ onRegister }) => {
                   <Col>
                     <Cell>
                       <Layout cols={1}>
-                        <div align="center" className="box">
+                        <div align="center" className={s.box}>
                           <Image src={userPhoto} height="100px" width="100px" />
                         </div>
                         <div align="center">
