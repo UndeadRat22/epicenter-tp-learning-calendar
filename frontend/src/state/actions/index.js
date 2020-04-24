@@ -1,4 +1,5 @@
-const SET_LOGINSTATUS = 'SET_LOGINSTATUS';
+const SET_AUTHENTICATION_STATUS = 'SET_AUTHENTICATION_STATUS';
+const SET_USER = 'SER_USER';
 
 const makeActionCreator = type => {
   return payload => {
@@ -9,6 +10,9 @@ const makeActionCreator = type => {
   };
 };
 
-const setLoginStatus = makeActionCreator(SET_LOGINSTATUS);
+const setAuthenticationStatus = makeActionCreator(SET_AUTHENTICATION_STATUS);
+const setUser = makeActionCreator(SET_USER);
 
-export { SET_LOGINSTATUS, setLoginStatus };
+export {
+  SET_AUTHENTICATION_STATUS, SET_USER, setAuthenticationStatus, setUser,
+};

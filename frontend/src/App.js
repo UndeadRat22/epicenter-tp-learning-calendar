@@ -6,7 +6,7 @@ import ExampleFeatureToggles from './components/ExampleFeatureToggles';
 import { TIMEOUT_MS } from './constants/FeatureToggles';
 import { LOCAL_FEATURES_URL } from './constants/URL';
 import FeatureToggles from './utils/FeatureToggles';
-import Routing from './components/Routing';
+import Routing from './components/routingComponents/Routing';
 import store from './state/store';
 
 const App = () => {
