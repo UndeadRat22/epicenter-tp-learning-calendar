@@ -7,16 +7,13 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
 
   return (
     <Route
-      // eslint-disable-next-line react/jsx-props-no-spreading
       {...rest}
       render={props => {
         if (isAuthenticated)
-          // eslint-disable-next-line react/jsx-props-no-spreading
           return <Component {...props} />;
-        // eslint-disable-next-line no-else-return
-        else {
-          return (
-            <Redirect to={
+
+        return (
+          <Redirect to={
                         {
                           pathname: '/',
                           state: {
@@ -24,9 +21,8 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
                           },
                         }
                     }
-            />
-          );
-        }
+          />
+        );
       }}
     />
   );

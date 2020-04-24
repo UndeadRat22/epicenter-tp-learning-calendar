@@ -1,12 +1,13 @@
 import React from 'react';
 import './SignUp.global.scss';
 import { Layout } from 'wix-style-react';
-import SignUpHeader from '../components/signUpComponents/Header';
-import InputFormContainer from '../components/signUpComponents/InputFormContainer';
+import Header from '../components/public/Header';
+import InputFormContainer from '../components/public/signUp/signUpForm';
+import { BACKEND_API_URL } from '../constants/URL';
 
 const SignUp = () => {
   const registerUser = (user, history) => {
-    fetch('https://c5cddfe5.ngrok.io/api/Authentication/register', {
+    fetch(BACKEND_API_URL.concat('/api/Authentication/register'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -17,16 +18,15 @@ const SignUp = () => {
         if (response.status === 200) {
           alert('Registration successful');
           history.push('/');
-        } else
-          alert('ERROR: ', response.status);
+        }
       })
       .catch(err => console.log(err));
   };
 
   return (
-    <div className="login">
+    <div className="signup">
       <Layout cols={1}>
-        <SignUpHeader />
+        <Header text="Finish your registration" />
         <InputFormContainer
           onRegister={(user, history) => registerUser(user, history)}
         />

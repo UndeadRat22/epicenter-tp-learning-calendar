@@ -6,17 +6,12 @@ $color-primary: #7D357F;
 $color-box: #F5F5F5;
 $color-box-secondary: #DFDFDF;
 
-.login {
+.signup {
     background: $color-page;
     display: flex;
     height: '1024px';
     justify-content: space-around;
     align-items: center;
-}
-
-.header {
-    color: $color-primary;
-    size: 45px;
 }
 
 .box {

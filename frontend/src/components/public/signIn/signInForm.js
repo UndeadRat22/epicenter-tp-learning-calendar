@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../pages/SignIn.global.scss';
+import '../../../pages/SignIn.global.scss';
 import {
   Button,
   Box,
@@ -12,7 +12,7 @@ import {
 } from 'wix-style-react';
 import { Route } from 'react-router-dom';
 
-const InputFormContainer = ({ onLoginUser }) => {
+const InputFormContainer = ({ onSignInUser }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -21,7 +21,7 @@ const InputFormContainer = ({ onLoginUser }) => {
       Email: email,
       Password: password,
     };
-    onLoginUser(user, history);
+    onSignInUser(user, history);
   };
 
   return (

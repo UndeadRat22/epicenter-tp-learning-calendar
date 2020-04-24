@@ -56,6 +56,7 @@
             "never"
         ],
         "arrow-body-style": "off",
+        "react/jsx-props-no-spreading": "off",
         "no-unused-vars": "warn",
         "global-require": 0,
         "max-len": 0,

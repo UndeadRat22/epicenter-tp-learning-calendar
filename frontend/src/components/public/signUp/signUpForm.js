@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../pages/SignUp.global.scss';
+import '../../../pages/SignUp.global.scss';
 import {
   Button,
   Box,
