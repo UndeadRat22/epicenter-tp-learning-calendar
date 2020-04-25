@@ -69,3 +69,14 @@ Let's adhere to these points (some of them will disappear once we setup eslint)
 - Use components from wix-style-react as soon as you can
 - Use css modules and nothing else for styling
 - If you comment code out, make it super explicit why you're doing so or don't comment code at all
+
+
+
+## Some information for further development
+To store the token we can use cookies. At this moment token is stored in a state (it's not safe).
+How to use it?
+import Cookie from 'js-cookie'
+GET token from cookies:
+const token =  Cookie.get("token") ? Cookie.get("token") : null;
+SET a cookie
+Cookie.set("token", await response);

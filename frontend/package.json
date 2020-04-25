@@ -36,6 +36,8 @@
     "yoshi-style-dependencies": "^4.1.0"
   },
   "dependencies": {
+    "axios": "^0.19.2",
+    "js-cookie": "^2.2.1",
     "prop-types": "~15.6.0",
     "react": "^16.13.1",
     "react-dom": "16.12.0",

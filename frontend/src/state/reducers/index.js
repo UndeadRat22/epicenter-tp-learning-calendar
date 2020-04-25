@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import { loginStatusReducer } from './loginStatus';
+import { authenticationStatusReducer } from './authenticationStatus';
+import { userReducer } from './user';
 
 export default combineReducers({
-  loginStatus: loginStatusReducer,
+  isAuthenticated: authenticationStatusReducer,
+  user: userReducer,
 });
