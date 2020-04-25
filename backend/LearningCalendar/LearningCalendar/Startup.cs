@@ -4,6 +4,7 @@ using Epicenter.Infrastructure.Settings;
 using Epicenter.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -53,6 +54,14 @@ namespace Epicenter.Api
                     };
                 });
 
+            services.AddCors(options => {options.AddPolicy(name: "ShittyPolicy", builder =>
+                {
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyOrigin();
+                });
+            });
+
             services.RegisterDbContext(Configuration);
 
             services.RegisterDependencies();
@@ -85,8 +94,10 @@ namespace Epicenter.Api
 
             app.UseHttpsRedirection();
 
+            app.UseCors("ShittyPolicy");
+
             app.UseAuthentication();
-            
+
             app.UseRouting();
             
             app.UseAuthorization();

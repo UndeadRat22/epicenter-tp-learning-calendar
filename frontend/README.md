@@ -14,6 +14,9 @@ localhost:8080 should open automatically. You can change the port in package.jso
 ## wix-style-react storybook
 [here](https://wix-style-react.now.sh/?path=/story/introduction-getting-started--getting-started)
 
+[color modifiers](https://wix-style-react.now.sh/?path=/story/design-guidelines-foundation--1-1-colors)
+Don't use RGB, use these color modifiers!
+
 ## Using css/scss
 There are two ways. Note the difference between file names.
 - Using css modules:
