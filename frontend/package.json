@@ -45,7 +45,8 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "wix-style-react": "^8.0.0",
-    "wix-ui-icons-common": "^2.0.146"
+    "wix-ui-icons-common": "^2.0.146",
+    "yoshi-common": "^4.61.0"
   },
   "yoshi": {
     "projectType": "app",

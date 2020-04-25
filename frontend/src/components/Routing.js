@@ -7,8 +7,8 @@ import Home from '../pages/Home';
 import Topics from '../pages/Topics';
 import MyTeam from '../pages/MyTeam';
 import Profile from '../pages/Profile';
-import Nav from './Nav';
 import { setLoginStatus } from '../state/actions';
+import TopNavBar from './TopNavBar';
 
 const Routing = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -23,7 +23,7 @@ const Routing = () => {
   return (
     <Router>
       <div>
-        {loggedIn ? <Nav /> : null}
+        {loggedIn ? <TopNavBar /> : null}
         <Switch>
           <Route path="/" exact>
             <SignIn onLogin={() => changeLoginStatus()} />
