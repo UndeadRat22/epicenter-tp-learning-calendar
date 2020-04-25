@@ -17,12 +17,14 @@ namespace Epicenter.Api.Controllers
         private readonly ILoginOperation _loginOperation;
         private readonly IRegisterUserOperation _registerUserOperation;
         private readonly ICreateEmployeeOperation _createEmployeeOperation;
+        private readonly ICreateJwtOperation _createJwtOperation;
 
-        public AuthenticationController(ILoginOperation loginOperation, IRegisterUserOperation registerUserOperation, ICreateEmployeeOperation employeeOperation)
+        public AuthenticationController(ILoginOperation loginOperation, IRegisterUserOperation registerUserOperation, ICreateEmployeeOperation employeeOperation, ICreateJwtOperation jwtOperation)
         {
             _loginOperation = loginOperation;
             _registerUserOperation = registerUserOperation;
             _createEmployeeOperation = employeeOperation;
+            _createJwtOperation = jwtOperation;
         }
 
         [AllowAnonymous]
@@ -33,7 +35,12 @@ namespace Epicenter.Api.Controllers
 
             if (authenticationResult.IsAuthenticated)
             {
-                var tokenModel = new JwtTokenModel {Token = authenticationResult.Token};
+                var tokenModel = new JwtTokenModel
+                {
+                    Token = authenticationResult.Token, 
+                    Expires =  authenticationResult.Expires
+                };
+
                 return Ok(tokenModel);
             }
 
@@ -60,6 +67,25 @@ namespace Epicenter.Api.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet, Route("refresh")]
+        public IActionResult Refresh()
+        {
+            var request = new CreateJwtOperationRequest
+            {
+                Email = HttpContext.User.Identity.Name
+            };
+
+            var response = _createJwtOperation.Execute(request);
+
+            var model = new JwtTokenModel
+            {
+                Expires = response.Expires,
+                Token = response.Token
+            };
+
+            return Ok(model);
         }
 
 

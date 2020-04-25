@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Epicenter.Service.Interface.Operations.Authentication
 {
@@ -17,5 +18,6 @@ namespace Epicenter.Service.Interface.Operations.Authentication
     {
         public bool IsAuthenticated { get; set; }
         public string Token { get; set; }
+        public DateTime Expires { get; set; }
     }
 }

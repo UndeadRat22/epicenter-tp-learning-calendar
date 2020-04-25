@@ -14,14 +14,12 @@ namespace Epicenter.Service.Operations.Authentication
     public class LoginOperation : ILoginOperation
     {
         private readonly ICheckUserCredentialsOperation _checkUserCredentialsOperation;
-        private readonly JwtSettings _jwtSettings;
+        private readonly ICreateJwtOperation _createJwtOperation;
 
-        public LoginOperation(
-            ICheckUserCredentialsOperation checkUserCredentialsOperation,
-            IOptions<JwtSettings> jwtSettings)
+        public LoginOperation(ICheckUserCredentialsOperation checkUserCredentialsOperation, ICreateJwtOperation jwtOperation)
         {
             _checkUserCredentialsOperation = checkUserCredentialsOperation;
-            _jwtSettings = jwtSettings.Value;
+            _createJwtOperation = jwtOperation;
         }
 
 
@@ -38,22 +36,18 @@ namespace Epicenter.Service.Operations.Authentication
                 };
             }
 
-            var claims = new[] { new Claim(ClaimTypes.Name, request.Email) };
+            var jwtRequest = new CreateJwtOperationRequest
+            {
+                Email = request.Email
+            };
+            var jwtResponse = _createJwtOperation.Execute(jwtRequest);
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var expires = DateTime.Now.AddMinutes(_jwtSettings.AccessExpiration);
-
-            var jwtToken = new JwtSecurityToken(_jwtSettings.Issuer, _jwtSettings.Audience, claims, expires: expires,
-                signingCredentials: credentials);
-
-            string token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 
             return new LoginOperationResponse
             {
                 IsAuthenticated = true,
-                Token = token
+                Token = jwtResponse.Token,
+                Expires = jwtResponse.Expires
             };
         }
     }

@@ -61,6 +61,7 @@ namespace Epicenter.IoC
             services.AddScoped<ICreateTopicOperation, CreateTopicOperation>();
             services.AddScoped<IAssignGoalToEmployeeOperation, AssignGoalToEmployeeOperation>();
             services.AddScoped<IAssignGoalToTeamOperation, AssignGoalToTeamOperation>();
+            services.AddScoped<ICreateJwtOperation, CreateJwtOperation>();
 
             return services;
         }
