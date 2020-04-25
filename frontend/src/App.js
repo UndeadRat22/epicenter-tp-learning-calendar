@@ -4,7 +4,7 @@ import { Loader } from 'wix-style-react';
 import './App.global.scss';
 import ExampleFeatureToggles from './components/ExampleFeatureToggles';
 import { TIMEOUT_MS } from './constants/FeatureToggles';
-import { LOCAL_FEATURES_URL } from './constants/URL';
+import { FEATURES_URL } from './constants/URL';
 import FeatureToggles from './utils/FeatureToggles';
 import Routing from './components/Routing';
 import store from './state/store';
@@ -17,7 +17,7 @@ const App = () => {
       // if we don't fetch features before
       // TIMEOUT_MS expires, we render app without them
       await Promise.race([
-        FeatureToggles.init(LOCAL_FEATURES_URL),
+        FeatureToggles.init(FEATURES_URL),
         new Promise(resolve => setTimeout(resolve, TIMEOUT_MS)),
       ]);
 
