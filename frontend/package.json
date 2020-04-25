@@ -32,7 +32,7 @@
     "jest-yoshi-preset": "^4.1.0",
     "lint-staged": "^10.0.7",
     "velocity": "~0.7.0",
-    "yoshi": "^4.1.0",
+    "yoshi": "^4.6.0",
     "yoshi-style-dependencies": "^4.1.0"
   },
   "dependencies": {
@@ -44,9 +44,7 @@
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "wix-style-react": "^8.0.0",
-    "wix-ui-icons-common": "^2.0.146",
-    "yoshi-common": "^4.61.0"
+    "wix-style-react": "^8.0.0"
   },
   "yoshi": {
     "projectType": "app",
