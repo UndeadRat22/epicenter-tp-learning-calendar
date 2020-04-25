@@ -14,6 +14,9 @@ localhost:8080 should open automatically. You can change the port in package.jso
 ## wix-style-react storybook
 [here](https://wix-style-react.now.sh/?path=/story/introduction-getting-started--getting-started)
 
+[color modifiers](https://wix-style-react.now.sh/?path=/story/design-guidelines-foundation--1-1-colors)
+Don't use RGB, use these color modifiers!
+
 ## Using css/scss
 There are two ways. Note the difference between file names.
 - Using css modules:
@@ -43,7 +46,7 @@ import 'react-component.global.scss';
 FeatureToggles.isOn(string) returns true if feature is enabled, false otherwise
 ```
 import React from 'react';
-import FeatureToggles from '../utils/FeatureToggles';
+import FeatureToggles from './FeatureToggles';
 
 const ExampleFeatureToggles = () => {
   return (
@@ -66,3 +69,14 @@ Let's adhere to these points (some of them will disappear once we setup eslint)
 - Use components from wix-style-react as soon as you can
 - Use css modules and nothing else for styling
 - If you comment code out, make it super explicit why you're doing so or don't comment code at all
+
+
+
+## Some information for further development
+To store the token we can use cookies. At this moment token is stored in a state (it's not safe).
+How to use it?
+import Cookie from 'js-cookie'
+GET token from cookies:
+const token =  Cookie.get("token") ? Cookie.get("token") : null;
+SET a cookie
+Cookie.set("token", await response);

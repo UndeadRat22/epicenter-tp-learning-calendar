@@ -1,84 +1,54 @@
 import React from 'react';
-import './SignIn.global.scss';
-import {
-  Button,
-  Box,
-  Layout,
-  Image,
-  Heading,
-  InputWithLabel,
-  Cell,
-  Row,
-  Col,
-  Container,
-  Card,
-} from 'wix-style-react';
-import { Route } from 'react-router-dom';
+import { Layout } from 'wix-style-react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { setCurrentUser } from '../state/actions';
+import Header from '../components/auth/Header';
+import SignInForm from '../components/auth/signInForm';
+import { BACKEND_API_URL } from '../constants/URL';
+import s from './SignIn.scss';
+import { LOGGED_IN } from '../constants/AuthStatus';
 
-const SignIn = ({ onLogin }) => {
-  const logo = require('../../assets/logo.jpeg');
-  const handleSignInBtn = history => {
-    onLogin();
+const SignIn = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const handleSignIn = user => {
+    fetch(`${BACKEND_API_URL}/api/Authentication/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    })
+      .then(response => {
+        if (response.status === 200)
+          confirmUser(response.json());
+        else if (response.status === 401)
+          alert('Incorrent email or password!');
+      })
+      .catch(err => console.log(err));
+  };
+
+  const confirmUser = async response => {
+    const user = await response;
+    dispatch(setCurrentUser({
+      ...user,
+      status: LOGGED_IN,
+    }));
     history.push('/home');
   };
 
   return (
-    <div className="login">
+    <div className={s.signin}>
       <Layout cols={1}>
-        <Box align="center" marginTop="10%">
-          <Layout cols={1}>
-            <Image src={logo} height="200px" width="200px" />
-            <Heading appearance="H1" className="header">
-              The Learning Center
-            </Heading>
-            <Heading appearance="H3"> Log in to get going</Heading>
-          </Layout>
-        </Box>
-        <Container>
-          <Row>
-            <Col span="3" />
-            <Col span="6">
-              <Card>
-                <Card.Content>
-                  <Container fluid>
-                    <Row>
-                      <Col>
-                        <Cell>
-                          <InputWithLabel label="Email" />
-                        </Cell>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <Cell>
-                          <InputWithLabel type="password" label="Password" />
-                        </Cell>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <Box align="right">
-                          <Route
-                            render={({ history }) => (
-                              <Button
-                                as="button"
-                                onClick={() => handleSignInBtn(history)}
-                              >
-                                Login
-                              </Button>
-                            )}
-                          />
-                        </Box>
-                      </Col>
-                    </Row>
-                  </Container>
-                </Card.Content>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
+        <Header text="Log in to get going" />
+        <SignInForm
+          onSignInUser={user => handleSignIn(user)}
+        />
       </Layout>
     </div>
   );
 };
+
 export default SignIn;

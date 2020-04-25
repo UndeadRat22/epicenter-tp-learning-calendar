@@ -1,0 +1,5 @@
+const LOGGED_IN = 'LOGGED_IN';
+const LOGGED_OUT = 'LOGGED_OUT';
+const LOADING = 'LOADING';
+
+export { LOGGED_IN, LOGGED_OUT, LOADING };

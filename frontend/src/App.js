@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
-import { Loader } from 'wix-style-react';
 import './App.global.scss';
-import ExampleFeatureToggles from './components/ExampleFeatureToggles';
 import { TIMEOUT_MS } from './constants/FeatureToggles';
+import FeatureToggles from './FeatureToggles';
+import Routing from './router/Routing';
+import store from './state';
 import { FEATURES_URL } from './constants/URL';
-import FeatureToggles from './utils/FeatureToggles';
-import Routing from './components/Routing';
-import store from './state/store';
+import LoadingIndicator from './components/LoadingIndicator';
 
 const App = () => {
   const [featuresLoaded, setFeaturesLoaded] = useState(false);
@@ -31,14 +30,11 @@ const App = () => {
     return (
       <Provider store={store}>
         <Routing />
-        <ExampleFeatureToggles />
       </Provider>
     );
   }
   return (
-    <div className="center">
-      <Loader size="large" />
-    </div>
+    <LoadingIndicator text="Loading feature toggles..." />
   );
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Page, Button, Card, Breadcrumbs, Box, PopoverMenu, IconButton, Row, Col, Container, Text,
+  Page,
 } from 'wix-style-react';
 
 const Home = () => {
