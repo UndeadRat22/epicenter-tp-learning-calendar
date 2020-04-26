@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Epicenter.Domain.Entity.LearningCalendar;
+using Epicenter.Domain.Entity.LearningCalendar.ValueObject;
 using Epicenter.Infrastructure.Cryptography;
 using Epicenter.Persistence.Interface.Repository.LearningCalendar;
 using Epicenter.Service.Interface.Exceptions.Authentication;
@@ -43,23 +44,27 @@ namespace Epicenter.Service.Operations.Employee
             }
 
             return await (request.ManagerEmail == null
-                ? CreateManager(identity)
-                : CreateEmployee(request.ManagerEmail, identity));
+                ? CreateManager(identity, request)
+                : CreateEmployee(identity, request));
 
         }
 
-        private async Task<CreateEmployeeOperationResponse> CreateEmployee(string managerEmail, IdentityUser identityUser)
+        private async Task<CreateEmployeeOperationResponse> CreateEmployee(IdentityUser identityUser, CreateEmployeeOperationRequest request)
         {
-            var managerId = (await _employeeRepository.GetByEmailAsync(managerEmail)).Id;
+            var managerId = (await _employeeRepository.GetByEmailAsync(request.ManagerEmail)).Id;
 
             var getTeamResponse = await _ensureManagerHasTeamOperation.Execute(new EnsureManagerHasTeamRequest{ ManagerId = managerId });
-
-            Guid teamId = getTeamResponse.TeamId;
 
             var employee = new Domain.Entity.LearningCalendar.Employee
             {
                 Identity = identityUser, 
-                Team = new Domain.Entity.LearningCalendar.Team{ Id = teamId }
+                Team = new Domain.Entity.LearningCalendar.Team{ Id = getTeamResponse.TeamId },
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Image = new Image
+                {
+                    Value = request.ImageData
+                }
             };
             
             Limit limit = await _limitRepository.GetGlobalAsync();
@@ -77,7 +82,7 @@ namespace Epicenter.Service.Operations.Employee
             return new CreateEmployeeOperationResponse();
         }
 
-        private async Task<CreateEmployeeOperationResponse> CreateManager(IdentityUser identityUser)
+        private async Task<CreateEmployeeOperationResponse> CreateManager(IdentityUser identityUser, CreateEmployeeOperationRequest request)
         {
 
             try
@@ -85,7 +90,13 @@ namespace Epicenter.Service.Operations.Employee
                 var employee = new Domain.Entity.LearningCalendar.Employee
                 {
                     Identity = identityUser,
-                    Limit = new Limit()
+                    Limit = new Limit(),
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    Image = new Image
+                    {
+                        Value = request.ImageData
+                    }
                 };
 
                 await _employeeRepository.CreateAsync(employee);
