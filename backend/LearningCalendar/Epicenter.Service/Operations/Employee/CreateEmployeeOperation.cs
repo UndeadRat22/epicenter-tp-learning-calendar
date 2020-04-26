@@ -101,7 +101,7 @@ namespace Epicenter.Service.Operations.Employee
 
                 await _employeeRepository.CreateAsync(employee);
             }
-            catch (DbUpdateException e)
+            catch (DbUpdateException)
             {
                 throw new EmailAlreadyUseException();
             }

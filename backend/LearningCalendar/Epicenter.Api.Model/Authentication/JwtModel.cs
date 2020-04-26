@@ -2,7 +2,7 @@
 
 namespace Epicenter.Api.Model.Authentication
 {
-    public class JwtTokenModel
+    public class JwtModel
     {
         public DateTime Expires { get; set; }
         public string Token { get; set; }

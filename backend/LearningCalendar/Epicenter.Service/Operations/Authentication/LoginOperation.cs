@@ -36,11 +36,7 @@ namespace Epicenter.Service.Operations.Authentication
                 };
             }
 
-            var jwtRequest = new CreateJwtOperationRequest
-            {
-                Email = request.Email
-            };
-            var jwtResponse = _createJwtOperation.Execute(jwtRequest);
+            var jwtResponse = _createJwtOperation.Execute(new CreateJwtOperationRequest{ Email = request.Email });
 
 
             return new LoginOperationResponse

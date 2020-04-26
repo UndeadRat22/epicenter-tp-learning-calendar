@@ -4,11 +4,9 @@ using Epicenter.Infrastructure.Settings;
 using Epicenter.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -16,6 +14,7 @@ namespace Epicenter.Api
 {
     public class Startup
     {
+        private const string AllowAllCorsPolicy = nameof(AllowAllCorsPolicy);
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -54,7 +53,7 @@ namespace Epicenter.Api
                     };
                 });
 
-            services.AddCors(options => {options.AddPolicy(name: "ShittyPolicy", builder =>
+            services.AddCors(options => {options.AddPolicy(name: AllowAllCorsPolicy, builder =>
                 {
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
@@ -63,8 +62,10 @@ namespace Epicenter.Api
             });
 
             services.RegisterDbContext(Configuration);
-
+            
             services.RegisterDependencies();
+
+            services.AddHttpContextAccessor();
 
             services.AddControllers();
 
@@ -94,7 +95,7 @@ namespace Epicenter.Api
 
             app.UseHttpsRedirection();
 
-            app.UseCors("ShittyPolicy");
+            app.UseCors(AllowAllCorsPolicy);
 
             app.UseAuthentication();
 

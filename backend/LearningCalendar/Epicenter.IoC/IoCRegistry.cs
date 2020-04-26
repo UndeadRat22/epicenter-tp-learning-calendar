@@ -7,6 +7,8 @@ using Epicenter.Persistence.Interface.Repository.LearningCalendar;
 using Epicenter.Persistence.Repository.Authentication;
 using Epicenter.Persistence.Repository.Generic;
 using Epicenter.Persistence.Repository.LearningCalendar;
+using Epicenter.Service.Context.Authorization;
+using Epicenter.Service.Context.Interface.Authorization;
 using Epicenter.Service.Interface.Operations.Authentication;
 using Epicenter.Service.Interface.Operations.Authentication.Invite;
 using Epicenter.Service.Interface.Operations.Authentication.User;
@@ -62,6 +64,11 @@ namespace Epicenter.IoC
             services.AddScoped<IAssignGoalToEmployeeOperation, AssignGoalToEmployeeOperation>();
             services.AddScoped<IAssignGoalToTeamOperation, AssignGoalToTeamOperation>();
             services.AddScoped<ICreateJwtOperation, CreateJwtOperation>();
+            services.AddScoped<IRefreshJwtOperation, RefreshJwtOperation>();
+            services.AddScoped<IGetEmployeeDetailsOperation, GetEmployeeDetailsOperation>();
+
+            //contexts
+            services.AddScoped<IAuthorizationContext, AuthorizationContext>();
 
             return services;
         }

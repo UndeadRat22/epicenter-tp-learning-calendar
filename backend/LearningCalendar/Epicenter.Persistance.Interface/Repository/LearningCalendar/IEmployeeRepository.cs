@@ -10,5 +10,6 @@ namespace Epicenter.Persistence.Interface.Repository.LearningCalendar
         Task<Employee> GetTopLevelManagerAsync();
         Task<Employee> GetByEmailAsync(string email);
         Task<Employee> GetByIdAsync(Guid id);
+        Task<Employee> GetDetailsAsync(string email);
     }
 }

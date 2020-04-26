@@ -20,7 +20,7 @@ namespace Epicenter.Service.Operations.Authentication
             _jwtSettings = jwtSettings.Value;
         }
 
-        public CreateJwtOperationResponse Execute(CreateJwtOperationRequest request)
+        public JwtResponse Execute(CreateJwtOperationRequest request)
         {
             var claims = new[] { new Claim(ClaimTypes.Name, request.Email) };
 
@@ -35,7 +35,7 @@ namespace Epicenter.Service.Operations.Authentication
             string token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 
 
-            var result = new CreateJwtOperationResponse
+            var result = new JwtResponse
             {
                 Expires = expires,
                 Token = token

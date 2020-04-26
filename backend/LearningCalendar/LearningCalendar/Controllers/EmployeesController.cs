@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Epicenter.Api.Model.Authentication;
+using Epicenter.Api.Model.Team;
+using Epicenter.Api.Model.Team.Employee;
 using Epicenter.Service.Interface.Exceptions.Authentication;
 using Epicenter.Service.Interface.Operations.Employee;
 using Microsoft.AspNetCore.Authorization;
@@ -14,10 +16,13 @@ namespace Epicenter.Api.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly ICreateEmployeeOperation _createEmployeeOperation;
+        private readonly IGetEmployeeDetailsOperation _getEmployeeDetailsOperation;
 
-        public EmployeesController(ICreateEmployeeOperation employeeOperation)
+        public EmployeesController(ICreateEmployeeOperation employeeOperation, 
+            IGetEmployeeDetailsOperation employeeDetailsOperation)
         {
             _createEmployeeOperation = employeeOperation;
+            _getEmployeeDetailsOperation = employeeDetailsOperation;
         }
 
 
@@ -46,6 +51,21 @@ namespace Epicenter.Api.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet, Route("details")]
+        public async Task<IActionResult> GetDetails()
+        {
+            var details = await _getEmployeeDetailsOperation.Execute();
+            var model = new EmployeeModel
+            {
+                Email = details.Email,
+                FirstName = details.FirstName,
+                LastName = details.LastName,
+                ImageData = details.ImageData,
+                IsTopLevelManager = details.IsTopLevelManager
+            };
+            return Ok(model);
         }
 
 

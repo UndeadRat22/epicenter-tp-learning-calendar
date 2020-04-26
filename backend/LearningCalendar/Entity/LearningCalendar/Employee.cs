@@ -28,6 +28,6 @@ namespace Epicenter.Domain.Entity.LearningCalendar
         [Required]
         public virtual Image Image { get; set; }
 
-        public bool IsCeo => Team == null;
+        public bool IsTopLevelManager => Team == null;
     }
 }

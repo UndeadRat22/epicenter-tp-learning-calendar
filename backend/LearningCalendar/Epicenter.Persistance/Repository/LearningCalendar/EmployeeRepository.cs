@@ -45,10 +45,21 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
         {
             return await DbContext.Employees
                 .Include(employee => employee.Identity)
+                .Include(employee => employee.Limit)
                 .Include(employee => employee.LearningDays)
                 .Include(employee => employee.PersonalGoals)
                 .Include(employee => employee.Team)
                 .Where(employee => employee.Id == id)
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task<Employee> GetDetailsAsync(string email)
+        {
+            return await DbContext.Employees
+                .Include(employee => employee.Identity)
+                .Include(employee => employee.Image)
+                .Include(employee => employee.Team)
+                .Where(employee => employee.Identity.Email == email)
                 .SingleOrDefaultAsync();
         }
     }

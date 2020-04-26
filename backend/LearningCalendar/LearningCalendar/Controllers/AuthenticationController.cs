@@ -17,14 +17,14 @@ namespace Epicenter.Api.Controllers
         private readonly ILoginOperation _loginOperation;
         private readonly IRegisterUserOperation _registerUserOperation;
         private readonly ICreateEmployeeOperation _createEmployeeOperation;
-        private readonly ICreateJwtOperation _createJwtOperation;
+        private readonly IRefreshJwtOperation _refreshJwtOperation;
 
-        public AuthenticationController(ILoginOperation loginOperation, IRegisterUserOperation registerUserOperation, ICreateEmployeeOperation employeeOperation, ICreateJwtOperation jwtOperation)
+        public AuthenticationController(ILoginOperation loginOperation, IRegisterUserOperation registerUserOperation, ICreateEmployeeOperation employeeOperation, IRefreshJwtOperation refreshJwtOperation)
         {
             _loginOperation = loginOperation;
             _registerUserOperation = registerUserOperation;
             _createEmployeeOperation = employeeOperation;
-            _createJwtOperation = jwtOperation;
+            _refreshJwtOperation = refreshJwtOperation;
         }
 
         [AllowAnonymous]
@@ -40,7 +40,7 @@ namespace Epicenter.Api.Controllers
 
             if (authenticationResult.IsAuthenticated)
             {
-                var tokenModel = new JwtTokenModel
+                var tokenModel = new JwtModel
                 {
                     Token = authenticationResult.Token, 
                     Expires =  authenticationResult.Expires
@@ -55,14 +55,9 @@ namespace Epicenter.Api.Controllers
         [HttpGet, Route("refresh")]
         public IActionResult Refresh()
         {
-            var request = new CreateJwtOperationRequest
-            {
-                Email = HttpContext.User.Identity.Name
-            };
+            var response = _refreshJwtOperation.Execute();
 
-            var response = _createJwtOperation.Execute(request);
-
-            var model = new JwtTokenModel
+            var model = new JwtModel
             {
                 Expires = response.Expires,
                 Token = response.Token

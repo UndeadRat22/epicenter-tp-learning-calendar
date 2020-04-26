@@ -4,7 +4,7 @@ namespace Epicenter.Service.Interface.Operations.Authentication
 {
     public interface ICreateJwtOperation
     {
-        CreateJwtOperationResponse Execute(CreateJwtOperationRequest request);
+        JwtResponse Execute(CreateJwtOperationRequest request);
     }
 
     public class CreateJwtOperationRequest
@@ -12,7 +12,7 @@ namespace Epicenter.Service.Interface.Operations.Authentication
         public string Email { get; set; }
     }
 
-    public class CreateJwtOperationResponse
+    public class JwtResponse
     {
         public string Token { get; set; }
         public DateTime Expires { get; set; }
