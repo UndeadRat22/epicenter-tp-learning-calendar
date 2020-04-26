@@ -22,9 +22,6 @@ const SignIn = () => {
   if (status === LOGGED_IN)
     return <Redirect to="/home" />;
 
-  if (status === LOADING_FETCH_SELF)
-    return <LoadingIndicator text="Loading session..." />;
-
   if (status === LOGIN_FAILED)
     alert('Incorrect email or password!');
 

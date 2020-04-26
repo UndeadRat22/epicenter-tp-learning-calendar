@@ -32,6 +32,9 @@ const Routing = () => {
     return <Redirect to={isAuthenticated ? '/home' : '/signin'} />;
   };
 
+  if (status === LOADING_FETCH_SELF)
+    return <LoadingIndicator text="Loading session..." />;
+
   return (
     <Router>
       <div>

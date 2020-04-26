@@ -17,20 +17,18 @@ const setupAxios = () => {
   );
 
   Axios.interceptors.response.use(response => {
-    if (response.config.refreshToken || !cookies.get('token'))
-      return response;
+    const { config: { baseURL }, config: { url } } = response;
 
-    response.config.refreshToken = true;
+    if (baseURL !== BACKEND_API_URL || url === 'auth/refresh' || url === '/employees/self')
+      return response;
 
     Axios.get('auth/refresh').then(refreshResponse => {
       const { token, expires } = refreshResponse.data;
 
-      cookies.remove('token');
-
       const parsedExpires = new Date(Date.parse(expires));
+      // TODO: check if you need to remove token before setting it
       cookies.set('token', token, { path: '/', expires: parsedExpires, sameSite: true });
     });
-
     return response;
   });
 };
