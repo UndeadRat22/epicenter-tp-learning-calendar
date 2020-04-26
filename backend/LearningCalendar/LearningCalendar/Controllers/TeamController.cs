@@ -10,7 +10,7 @@ namespace Epicenter.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/team")]
     public class TeamController : ControllerBase
     {
         private readonly IGetDirectSubordinatesOperation _getDirectSubordinatesOperation;

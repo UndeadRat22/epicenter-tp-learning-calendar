@@ -10,7 +10,7 @@ namespace Epicenter.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/topics")]
     public class TopicsController : ControllerBase
     {
         private readonly IGetAllTopicsOperation _getAllTopicsOperation;
@@ -30,7 +30,7 @@ namespace Epicenter.Api.Controllers
             return Ok(new TopicListModel(response));
         }
 
-        [HttpPost]
+        [HttpPost, Route("topic")]
         public async Task<IActionResult> CreateTopic(CreateTopicModel model)
         {
             var request = new CreateTopicOperationRequest

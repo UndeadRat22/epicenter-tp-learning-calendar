@@ -11,7 +11,7 @@ namespace Epicenter.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     public class AuthenticationController : ControllerBase
     {
         private readonly ILoginOperation _loginOperation;

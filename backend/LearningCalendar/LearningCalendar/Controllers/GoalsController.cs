@@ -9,13 +9,13 @@ namespace Epicenter.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
-    public class GoalController : ControllerBase
+    [Route("api/goals")]
+    public class GoalsController : ControllerBase
     {
         private readonly IAssignGoalToEmployeeOperation _assignGoalToEmployeeOperation;
         private readonly IAssignGoalToTeamOperation _assignGoalToTeamOperation;
 
-        public GoalController(IAssignGoalToEmployeeOperation assignGoalToEmployeeOperation, 
+        public GoalsController(IAssignGoalToEmployeeOperation assignGoalToEmployeeOperation, 
             IAssignGoalToTeamOperation assignGoalToTeamOperation)
         {
             _assignGoalToEmployeeOperation = assignGoalToEmployeeOperation;

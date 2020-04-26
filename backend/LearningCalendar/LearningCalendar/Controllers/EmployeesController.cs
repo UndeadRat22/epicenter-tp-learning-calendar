@@ -28,7 +28,7 @@ namespace Epicenter.Api.Controllers
 
         //THIS IS FOR TESTING PURPOSES ONLY
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost, Route("employee")]
         public async Task<IActionResult> CreateTestEmployee([FromBody] CreateTestEmployeeModel model)
         {
             try
@@ -58,7 +58,7 @@ namespace Epicenter.Api.Controllers
         //[HttpGet] - should return all* employees  api/employees
 
         [HttpGet, Route("self")]
-        public async Task<IActionResult> GetDetails()
+        public async Task<IActionResult> GetEmployee()
         {
             var details = await _getEmployeeDetailsOperation.Execute();
             var model = new EmployeeModel
