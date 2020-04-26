@@ -12,7 +12,7 @@ namespace Epicenter.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/employees")]
     public class EmployeesController : ControllerBase
     {
         private readonly ICreateEmployeeOperation _createEmployeeOperation;
@@ -53,7 +53,11 @@ namespace Epicenter.Api.Controllers
             return Ok();
         }
 
-        [HttpGet, Route("details")]
+        //TODO
+        //[HttpGet] - should return employee by Id: api/employees/{id}
+        //[HttpGet] - should return all* employees  api/employees
+
+        [HttpGet, Route("self")]
         public async Task<IActionResult> GetDetails()
         {
             var details = await _getEmployeeDetailsOperation.Execute();
