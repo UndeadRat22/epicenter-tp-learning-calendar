@@ -23,7 +23,7 @@ namespace Epicenter.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<ActionResult<TopicListModel>> All()
         {
             var response = await _getAllTopicsOperation.Execute();
 
@@ -31,7 +31,7 @@ namespace Epicenter.Api.Controllers
         }
 
         [HttpPost, Route("topic")]
-        public async Task<IActionResult> CreateTopic(CreateTopicModel model)
+        public async Task<ActionResult<TopicModel>> CreateTopic(CreateTopicModel model)
         {
             var request = new CreateTopicOperationRequest
             {
@@ -50,7 +50,7 @@ namespace Epicenter.Api.Controllers
                 return BadRequest(ex.Message);
             }
 
-            return Ok(new { TopicId = response.Guid } );
+            return Ok(new TopicModel{Id = response.Id});
         }
     }
 }

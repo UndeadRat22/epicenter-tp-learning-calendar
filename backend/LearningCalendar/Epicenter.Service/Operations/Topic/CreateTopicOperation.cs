@@ -35,7 +35,7 @@ namespace Epicenter.Service.Operations.Topic
             }
             return new CreateTopicOperationResponse
             {
-                Guid = topic.Id
+                Id = topic.Id
             };
         }
     }

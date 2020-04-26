@@ -25,7 +25,7 @@ namespace Epicenter.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateInvite([FromBody] InviteModel model)
+        public async Task<ActionResult> CreateInvite([FromBody] InviteModel model)
         { 
             var currentUser = (ClaimsIdentity) HttpContext.User.Identity;
 
@@ -43,7 +43,7 @@ namespace Epicenter.Api.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetInvite([Required]Guid id)
+        public async Task<ActionResult<InvitationDetailsModel>> GetInvite([Required]Guid id)
         {
             var invitation =
                 await _getInvitationDetailsOperation.Execute(new GetInvitationDetailsOperationRequest {Id = id});

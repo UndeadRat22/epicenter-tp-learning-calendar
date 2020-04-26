@@ -22,7 +22,7 @@ namespace Epicenter.Api.Controllers
 
         [HttpGet]
         [Route("{managerId}")]
-        public async Task<IActionResult> GetTeam([Required]Guid managerId)
+        public async Task<ActionResult<TeamModel>> GetTeam([Required]Guid managerId)
         {
             var response = await _getDirectSubordinatesOperation
                 .Execute(new GetDirectSubordinatesOperationRequest {ManagerId = managerId});

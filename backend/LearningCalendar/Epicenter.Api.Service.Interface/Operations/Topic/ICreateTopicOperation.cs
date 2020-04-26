@@ -17,6 +17,6 @@ namespace Epicenter.Service.Interface.Operations.Topic
 
     public class CreateTopicOperationResponse
     {
-        public Guid Guid { get; set; }
+        public Guid Id { get; set; }
     }
 }

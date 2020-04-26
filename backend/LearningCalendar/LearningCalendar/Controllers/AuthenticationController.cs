@@ -29,7 +29,7 @@ namespace Epicenter.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost, Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        public async Task<ActionResult<JwtModel>> Login([FromBody] LoginModel model)
         {
             var loginRequest = new LoginOperationRequest
             {
@@ -53,7 +53,7 @@ namespace Epicenter.Api.Controllers
         }
 
         [HttpGet, Route("refresh")]
-        public IActionResult Refresh()
+        public ActionResult<JwtModel> Refresh()
         {
             var response = _refreshJwtOperation.Execute();
 
@@ -84,7 +84,7 @@ namespace Epicenter.Api.Controllers
             }
             catch (EmailAlreadyUseException e)
             {
-                return Conflict(e.Message);
+                return Conflict(new { Error = e.Message });
             }
             catch
             {
@@ -114,7 +114,7 @@ namespace Epicenter.Api.Controllers
             }
             catch
             {
-                return Conflict("Admin already created");
+                return Conflict(new {Error = "Admin already created"});
             }
 
             return Ok();
