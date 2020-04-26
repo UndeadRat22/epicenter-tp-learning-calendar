@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout } from 'wix-style-react';
-import { useHistory } from 'react-router';
+import { Redirect } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import Header from '../components/auth/Header';
 import SignUpForm from '../components/auth/signUpForm';
@@ -10,7 +10,6 @@ import { LOGGED_IN, REGISTER_SUCCEEDED } from '../constants/AuthStatus';
 
 // TODO: rename to Register
 const SignUp = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
 
@@ -22,7 +21,7 @@ const SignUp = () => {
     dispatch(fetchSelf());
     alert('Registration successful');
   } else if (auth.status === LOGGED_IN)
-    history.push('/');
+    return <Redirect to="/home" />;
 
   return (
     <div className={s.signup}>

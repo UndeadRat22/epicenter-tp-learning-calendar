@@ -6,7 +6,9 @@ import { login } from '../state/actions/auth';
 import Header from '../components/auth/Header';
 import SignInForm from '../components/auth/signInForm';
 import s from './SignIn.scss';
-import { LOGGED_IN, LOGIN_FAILED, LOADING_LOGIN } from '../constants/AuthStatus';
+import {
+  LOGGED_IN, LOGIN_FAILED, LOADING_LOGIN, LOADING_FETCH_SELF,
+} from '../constants/AuthStatus';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 const SignIn = () => {
@@ -20,8 +22,8 @@ const SignIn = () => {
   if (status === LOGGED_IN)
     return <Redirect to="/home" />;
 
-  // if (status === LOADING_LOGIN)
-  //   return <LoadingIndicator text="Loading user..." />;
+  if (status === LOADING_FETCH_SELF)
+    return <LoadingIndicator text="Loading session..." />;
 
   if (status === LOGIN_FAILED)
     alert('Incorrect email or password!');
