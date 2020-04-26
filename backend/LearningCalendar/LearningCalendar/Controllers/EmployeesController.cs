@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Epicenter.Api.Model.Authentication;
 using Epicenter.Service.Interface.Exceptions.Authentication;
 using Epicenter.Service.Interface.Operations.Employee;
@@ -27,11 +28,15 @@ namespace Epicenter.Api.Controllers
         {
             try
             {
+                var randomName = RandomName();
                 var request = new CreateEmployeeOperationRequest
                 {
                     Email = model.Email, 
                     Password = model.Password, 
-                    ManagerEmail = model.ManagerEmail
+                    ManagerEmail = model.ManagerEmail,
+                    FirstName = model.FirstName ?? randomName.FirstName,
+                    LastName = model.LastName ?? randomName.LastName,
+                    ImageData = model.ImageData ?? "",
                 };
                 await _createEmployeeOperation.Execute(request);
             }
@@ -41,6 +46,20 @@ namespace Epicenter.Api.Controllers
             }
 
             return Ok();
+        }
+
+
+        private (string FirstName, string LastName) RandomName()
+        {
+            var firstNames = new [] { "john", "aaron", "abdul", "abe", "abel", "abraham", "adam", "adan", "adolfo", "adolph", "adrian", "abby", "abigail", "adele", "adrian" };
+            var lastNames = new [] { "smith", "abbott", "acosta", "adams", "adkins", "aguilar" };
+
+            var rand = new Random((int)DateTime.Now.Ticks);
+
+            var firstName = firstNames[rand.Next(0, firstNames.Length)];
+            var lastName = lastNames[rand.Next(0, lastNames.Length)];
+
+            return (firstName, lastName);
         }
     }
 }

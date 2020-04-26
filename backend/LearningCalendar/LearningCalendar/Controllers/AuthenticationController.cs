@@ -30,8 +30,13 @@ namespace Epicenter.Api.Controllers
         [AllowAnonymous]
         [HttpPost, Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
-        { 
-            var authenticationResult = await _loginOperation.Execute(new LoginOperationRequest{ Email = model.Email, Password = model.Password });
+        {
+            var loginRequest = new LoginOperationRequest
+            {
+                Email = model.Email, Password = model.Password
+            };
+            
+            var authenticationResult = await _loginOperation.Execute(loginRequest);
 
             if (authenticationResult.IsAuthenticated)
             {
@@ -45,28 +50,6 @@ namespace Epicenter.Api.Controllers
             }
 
             return Unauthorized();
-        }
-
-        [AllowAnonymous]
-        [HttpPost, Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
-        {
-            var request = new RegisterUserOperationRequest
-                {InvitationId = model.InvitationId, Password = model.Password};
-            try
-            {
-                var authenticationResult = await _registerUserOperation.Execute(request);
-            }
-            catch (EmailAlreadyUseException e)
-            {
-                return Conflict(e.Message);
-            }
-            catch
-            {
-                return BadRequest();
-            }
-
-            return Ok();
         }
 
         [HttpGet, Route("refresh")]
@@ -88,6 +71,34 @@ namespace Epicenter.Api.Controllers
             return Ok(model);
         }
 
+        [AllowAnonymous]
+        [HttpPost, Route("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        {
+            var request = new RegisterUserOperationRequest
+            {
+                InvitationId = model.InvitationId, 
+                Password = model.Password,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                ImageData = model.ImageData
+            };
+            try
+            {
+                var response = await _registerUserOperation.Execute(request);
+            }
+            catch (EmailAlreadyUseException e)
+            {
+                return Conflict(e.Message);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
 
         [AllowAnonymous]
         [HttpPost, Route("admin")]
@@ -97,7 +108,10 @@ namespace Epicenter.Api.Controllers
             {
                 Email = "test@test.com",
                 Password = "password",
-                ManagerEmail = null
+                ManagerEmail = null,
+                FirstName = "Donald",
+                LastName = "Trump",
+                ImageData = ""
             };
             try
             {

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using Epicenter.Infrastructure.Cryptography;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -70,12 +71,14 @@ namespace Epicenter.Persistence.Context
 
             builder.Entity<Employee>()
                 .HasOne(employee => employee.Limit)
-                .WithMany(limit => limit.Employees);
+                .WithMany(limit => limit.Employees)
+                .HasForeignKey(employee => employee.LimitId);
 
             builder.Entity<Team>()
                 .HasOne(team => team.Manager);
 
-            builder.Entity<Team>().HasMany(team => team.Employees)
+            builder.Entity<Team>()
+                .HasMany(team => team.Employees)
                 .WithOne(employee => employee.Team);
 
             builder.Entity<Goal>()
@@ -94,6 +97,9 @@ namespace Epicenter.Persistence.Context
                 .HasOne(topic => topic.ParentTopic)
                 .WithMany(parent => parent.SubTopics)
                 .HasForeignKey(topic => topic.ParentTopicId);
+
+            builder.Entity<Employee>()
+                .HasOne(employee => employee.Image);
         }
     }
 }

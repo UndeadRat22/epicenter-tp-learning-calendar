@@ -29,7 +29,10 @@ namespace Epicenter.Service.Operations.Authentication
             {
                 Email = existingInvitation.InvitationTo,
                 ManagerEmail = existingInvitation.InvitationFrom.Email,
-                Password = request.Password
+                Password = request.Password,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                ImageData = request.ImageData
             });
 
             await _invitationRepository.DeleteAsync(existingInvitation);

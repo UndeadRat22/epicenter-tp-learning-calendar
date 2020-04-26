@@ -11,5 +11,9 @@ namespace Epicenter.Api.Model.Authentication
         [Required]
         public string ManagerEmail { get; set; }
 
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string ImageData { get; set; }
+
     }
 }

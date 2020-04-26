@@ -12,12 +12,12 @@ namespace Epicenter.Api.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class InvitationController : ControllerBase
+    public class InviteController : ControllerBase
     {
         private readonly ICreateInvitationOperation _createInvitationOperation;
         private readonly IGetInvitationDetailsOperation _getInvitationDetailsOperation;
 
-        public InvitationController(ICreateInvitationOperation invitationOperation, 
+        public InviteController(ICreateInvitationOperation invitationOperation, 
             IGetInvitationDetailsOperation invitationDetailsOperation)
         {
             _createInvitationOperation = invitationOperation;
@@ -25,7 +25,6 @@ namespace Epicenter.Api.Controllers
         }
 
         [HttpPost]
-        [Route("invite")]
         public async Task<IActionResult> AddInvitation([FromBody] InviteModel model)
         { 
             var currentUser = (ClaimsIdentity) HttpContext.User.Identity;
@@ -43,7 +42,7 @@ namespace Epicenter.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("invite/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> GetInvitation([Required]Guid id)
         {
             var invitation =
