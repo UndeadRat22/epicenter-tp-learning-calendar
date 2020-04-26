@@ -94,7 +94,7 @@ namespace Epicenter.Api
                 c.RoutePrefix = string.Empty;
             });
             //}
-            dbContext.Database.Migrate();
+            dbContext.Database.EnsureCreated();
 
             app.UseHttpsRedirection();
 
