@@ -12,7 +12,9 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../state/actions/auth';
 
 const TopNavBar = () => {
+  // TODO: use redux for avatar
   const [profilePicture, setProfilePicture] = useState(null);
+
   const history = useHistory();
   const dispatch = useDispatch();
 
