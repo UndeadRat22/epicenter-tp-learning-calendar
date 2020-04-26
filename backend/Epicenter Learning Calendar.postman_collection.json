@@ -1,0 +1,348 @@
+{
+	"info": {
+		"_postman_id": "b3fc88ae-46ed-4757-bddc-16900384dfa9",
+		"name": "Epicenter Learning Calendar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1f267bba-cd83-4192-a503-f49af6e9fafa",
+						"exec": [
+							"var token = pm.response.json().token;",
+							"pm.globals.set(\"bearer\", token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Email\": \"test@test.com\",\n    \"Password\": \"password\"\n}"
+				},
+				"url": {
+					"raw": "{{api-url}}/api/authentication/login",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"api",
+						"authentication",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetTeam",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api-url}}/api/Team/DA772A8C-7F67-414C-EE00-08D7E4B5D996",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"api",
+						"Team",
+						"DA772A8C-7F67-414C-EE00-08D7E4B5D996"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateAdmin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api-url}}/api/authentication/admin",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"api",
+						"authentication",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllTopics",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api-url}}/api/Topics",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"api",
+						"Topics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateTopic",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"parentTopic\": \"858ff83b-4ebe-4c1f-2336-08d7e52a5689\",\n\t\"subject\": \".net core\",\n\t\"description\": \"comprehensive knowledge of .net core technologies\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api-url}}/api/Topics",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"api",
+						"Topics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AssignGoalToEmployee",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"employeeId\": \"b024b4e1-b9d0-4103-b728-08d7e5391b29\",\r\n  \"topicId\": \"858ff83b-4ebe-4c1f-2336-08d7e52a5689\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api-url}}/api/Goal/employee",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"api",
+						"Goal",
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateTestEmployee",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"employee@employee.net\",\r\n  \"password\": \"string\",\r\n  \"managerEmail\": \"test@test.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api-url}}/api/Employees",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"api",
+						"Employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AssingGoalToTeam",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"managerId\": \"da772a8c-7f67-414c-ee00-08d7e4b5d996\",\n\t\"topicId\": \"a672d7d2-5631-409c-9a45-08d7e52d3ddb\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api-url}}/api/Goal/team",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"api",
+						"Goal",
+						"team"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RefreshToken",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api-url}}/api/authentication/refresh",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"api",
+						"authentication",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetEmployeeDetails (SELF)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api-url}}/api/employees/details",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"api",
+						"employees",
+						"details"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
