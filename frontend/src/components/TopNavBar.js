@@ -8,10 +8,18 @@ import Archive from 'wix-ui-icons-common/Archive';
 import Accessibility from 'wix-ui-icons-common/Accessibility';
 import UserLeave from 'wix-ui-icons-common/UserLeave';
 import User from 'wix-ui-icons-common/User';
+import { useDispatch } from 'react-redux';
+import { logout } from '../state/actions/auth';
 
 const TopNavBar = () => {
   const [profilePicture, setProfilePicture] = useState(null);
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const onLogout = () => {
+    dispatch(logout());
+    history.push('/');
+  };
 
   // TODO: use weight="normal" for current page
   return (
@@ -91,7 +99,7 @@ const TopNavBar = () => {
             text="Invite"
           />
           <PopoverMenu.MenuItem
-            onClick={() => history.push('/')}
+            onClick={onLogout}
             prefixIcon={<UserLeave style={{ color: 'red' }} />}
             text="Logout"
           />

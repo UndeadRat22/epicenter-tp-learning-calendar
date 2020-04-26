@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router, Route, Switch, Redirect, useHistory,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Loader } from 'wix-style-react';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import Home from '../pages/Home';
@@ -12,26 +11,25 @@ import MyTeam from '../pages/MyTeam';
 import Profile from '../pages/Profile';
 import ProtectedRoute from './ProtectedRoute';
 import TopNavBar from '../components/TopNavBar';
-import { LOGGED_IN, LOADING, LOGGED_OUT } from '../constants/AuthStatus';
-import { fetchCurrentUser } from '../state/actions';
+import { LOGGED_IN, LOADING_FETCH_SELF } from '../constants/AuthStatus';
+import { fetchSelf } from '../state/actions/auth';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 const Routing = () => {
-  const currentUser = useSelector(state => state.currentUser);
-  const isAuthenticated = currentUser.status === LOGGED_IN;
+  const auth = useSelector(state => state.auth);
+  const { status } = auth;
   const dispatch = useDispatch();
 
+  const isAuthenticated = auth.status === LOGGED_IN;
+
   useEffect(() => {
-    dispatch(fetchCurrentUser());
+    dispatch(fetchSelf());
   }, [dispatch]);
 
   const defaultPathComponent = () => {
-    const { status } = currentUser;
-
-    if (status === LOADING)
+    if (status === LOADING_FETCH_SELF)
       return <LoadingIndicator text="Loading session..." />;
-
-    return <Redirect to={status === LOGGED_IN ? '/home' : '/signin'} />;
+    return <Redirect to={isAuthenticated ? '/home' : '/signin'} />;
   };
 
   return (

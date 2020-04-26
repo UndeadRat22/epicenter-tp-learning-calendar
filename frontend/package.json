@@ -36,6 +36,7 @@
     "yoshi-style-dependencies": "^4.1.0"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "prop-types": "~15.6.0",
     "react": "^16.13.1",
     "react-dom": "16.12.0",
@@ -45,6 +46,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
+    "universal-cookie": "^4.0.3",
     "wix-style-react": "^8.0.0",
     "wix-ui-icons-common": "^2.0.162"
   },

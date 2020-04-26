@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import { LOGGED_IN } from '../constants/AuthStatus';
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
-  const currentUser = useSelector(state => state.currentUser);
-  const isAuthenticated = currentUser.status === LOGGED_IN;
+  const auth = useSelector(state => state.auth);
+  const isAuthenticated = auth.status === LOGGED_IN;
 
   return (
     <Route
