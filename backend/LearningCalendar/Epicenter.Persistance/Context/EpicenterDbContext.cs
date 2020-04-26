@@ -55,7 +55,9 @@ namespace Epicenter.Persistence.Context
                 .IsUnique();
 
             builder.Entity<Invite>()
-                .HasOne(invite => invite.InvitationFrom);
+                .HasOne(invite => invite.InvitationFrom)
+                .WithMany()
+                .HasForeignKey(invite => invite.InvitationFromId);
 
             builder.Entity<Employee>()
                 .HasOne(employee => employee.Identity);

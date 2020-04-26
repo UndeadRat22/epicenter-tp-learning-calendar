@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Epicenter.Persistence.Interface.Repository.Authentication;
 using Epicenter.Persistence.Interface.Repository.Generic;
+using Epicenter.Service.Context.Interface.Authorization;
 using Epicenter.Service.Interface.Operations.Authentication.Invite;
 using Epicenter.Service.Interface.Services.Mail;
 using Microsoft.AspNetCore.Identity;
@@ -13,23 +14,27 @@ namespace Epicenter.Service.Operations.Authentication.Invite
         private readonly IRepository<IdentityUser> _userRepository;
         private readonly IEmailService _emailService;
         private readonly IInvitationRepository _invitationRepository;
+        private readonly IAuthorizationContext _authorizationContext;
 
-        public CreateInvitationOperation(IRepository<IdentityUser> userRepository, IEmailService emailService, IInvitationRepository invitationRepository)
+        public CreateInvitationOperation(IRepository<IdentityUser> userRepository, IEmailService emailService, IInvitationRepository invitationRepository, IAuthorizationContext authorizationContext)
         {
             _userRepository = userRepository;
             _emailService = emailService;
             _invitationRepository = invitationRepository;
+            _authorizationContext = authorizationContext;
         }
 
         public async Task<CreateInvitationOperationResponse> Execute(CreateInvitationOperationRequest request)
         {
-            IdentityUser inviter = await _userRepository.QuerySingleOrDefaultAsync(user => user.Email == request.InviterEmail);
+            string email = _authorizationContext.IdentityName;
+            
+            IdentityUser inviter = await _userRepository.QuerySingleOrDefaultAsync(user => user.Email == email);
 
             var invite = new Domain.Entity.Authentication.Invite
             {
                 Id = Guid.NewGuid(),
                 InvitationTo = request.InviteeEmail,
-                InvitationFrom = inviter,
+                InvitationFromId = inviter.Id,
                 Created = DateTime.Now
             };
 
