@@ -25,7 +25,7 @@ const SignIn = () => {
         if (response.status === 200)
           confirmUser(response.json());
         else if (response.status === 401)
-          alert('Incorrent email or password!');
+          alert('Incorrect email or password!');
       })
       .catch(err => console.log(err));
   };
