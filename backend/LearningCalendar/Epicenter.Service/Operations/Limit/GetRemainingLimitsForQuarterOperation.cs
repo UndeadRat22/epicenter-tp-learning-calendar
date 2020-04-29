@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Epicenter.Infrastructure.Extensions;
 using Epicenter.Persistence.Interface.Repository.LearningCalendar;
 using Epicenter.Service.Context.Interface.Authorization;
 using Epicenter.Service.Interface.Operations.Limit;
@@ -29,8 +28,7 @@ namespace Epicenter.Service.Operations.Limit
             var assignedLimit = await _limitRepository.QuerySingleOrDefaultAsync(limit =>
                 limit.Employees.Any(employee => employee.Id == currentEmployee.Id));
 
-            var learningDaysInQuarter = (await _learningDayRepository.QueryAsync(learningDay => learningDay.EmployeeId == currentEmployee.Id))
-                .Count(learningDay => learningDay.Date.GetQuarter() == request.Quarter);
+            var learningDaysInQuarter = (await _learningDayRepository.GetByEmployeeIdForQuarterAsync(currentEmployee.Id, request.Quarter)).Count;
 
             var remainingDaysPerQuarter = assignedLimit.DaysPerQuarter - learningDaysInQuarter;
 

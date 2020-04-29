@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Epicenter.Infrastructure.Extensions;
 
 namespace Epicenter.Persistence.Repository.LearningCalendar
 {
@@ -37,6 +38,15 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 ?.Employees.SelectMany(employee => employee.LearningDays)
                 .ToList()
                 ?? new List<LearningDay>();
+        }
+
+        public async Task<List<LearningDay>> GetByEmployeeIdForQuarterAsync(Guid employeeId, int quarter)
+        {
+            return (await DbContext.Employees
+                    .Include(employee => employee.LearningDays)
+                    .SingleOrDefaultAsync(employee => employee.Id == employeeId))
+                .LearningDays.Where(learningDay => learningDay.Date.GetQuarter() == quarter)
+                .ToList();
         }
     }
 }
