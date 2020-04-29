@@ -1,4 +1,4 @@
-const LOCAL_FEATURES_URL = 'http://sasyska.lt:4242/api/client/features';
-const BACKEND_API_URL = 'https://c5cddfe5.ngrok.io';
+const FEATURES_URL = 'http://sasyska.lt:4242/api/client/features';
+const BACKEND_API_URL = 'https://epicenterlcapi.azurewebsites.net';
 
-export { LOCAL_FEATURES_URL, BACKEND_API_URL };
+export { FEATURES_URL, BACKEND_API_URL };

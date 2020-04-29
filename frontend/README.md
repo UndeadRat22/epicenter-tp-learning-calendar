@@ -17,9 +17,7 @@ localhost:8080 should open automatically. You can change the port in package.jso
 [color modifiers](https://wix-style-react.now.sh/?path=/story/design-guidelines-foundation--1-1-colors)
 Don't use RGB, use these color modifiers!
 
-## Using css/scss
-There are two ways. Note the difference between file names.
-- Using css modules:
+## Using css 
 ```
 // react-component.js
 import s from 'react-component.scss';
@@ -30,23 +28,14 @@ import s from 'react-component.scss';
     ...
 }
 ```
-- Not using css modules:
-```
-// react-component.js
-import 'react-component.global.scss';
-<div className="center"></div>
-
-// react-component.global.scss
-.center {
-    ...
-}
-```
 
 ## Using feature toggles
 FeatureToggles.isOn(string) returns true if feature is enabled, false otherwise
+
+> Note: API will probably change.
 ```
 import React from 'react';
-import FeatureToggles from '../utils/FeatureToggles';
+import FeatureToggles from './FeatureToggles';
 
 const ExampleFeatureToggles = () => {
   return (
@@ -59,24 +48,11 @@ const ExampleFeatureToggles = () => {
 
 ## Code style/guidelines
 Let's adhere to these points (some of them will disappear once we setup eslint)
-- Destructuring in props: `const Login = ({ onLogin }) => { ... };
+- Destructuring in props: `const Login = ({ onLogin }) => { ... }`;
 - Arrow functions instead of function declarations for function components
 - Only function components with hooks
 - Prefer functional approach - avoid for/while loops, use built-in .map(), .filter(), etc. or lodash
-- Use container pattern for large components (split 1 component into two - one for UI only, other for state)
 - Don't bother with performance optimizations for now (React.memo, useCallback, etc.)
 - Leave styling styling for later (unless it's absolutely necessary), focus on functionality of components
 - Use components from wix-style-react as soon as you can
-- Use css modules and nothing else for styling
 - If you comment code out, make it super explicit why you're doing so or don't comment code at all
-
-
-
-## Some information for further development
-To store the token we can use cookies. At this moment token is stored in a state (it's not safe).
-How to use it?
-import Cookie from 'js-cookie'
-GET token from cookies:
-const token =  Cookie.get("token") ? Cookie.get("token") : null;
-SET a cookie
-Cookie.set("token", await response);

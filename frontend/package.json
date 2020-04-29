@@ -32,12 +32,11 @@
     "jest-yoshi-preset": "^4.1.0",
     "lint-staged": "^10.0.7",
     "velocity": "~0.7.0",
-    "yoshi": "^4.1.0",
+    "yoshi": "^4.6.0",
     "yoshi-style-dependencies": "^4.1.0"
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "js-cookie": "^2.2.1",
     "prop-types": "~15.6.0",
     "react": "^16.13.1",
     "react-dom": "16.12.0",
@@ -45,9 +44,11 @@
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
+    "universal-cookie": "^4.0.3",
     "wix-style-react": "^8.0.0",
-    "wix-ui-icons-common": "^2.0.146"
+    "wix-ui-icons-common": "^2.0.162"
   },
   "yoshi": {
     "projectType": "app",

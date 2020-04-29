@@ -11,16 +11,16 @@ import {
 } from 'wix-style-react';
 import { Route } from 'react-router-dom';
 
-const InputFormContainer = ({ onSignInUser }) => {
+const LoginForm = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignInBtn = history => {
+  const handleLoginBtn = () => {
     const user = {
-      Email: email,
-      Password: password,
+      email,
+      password,
     };
-    onSignInUser(user, history);
+    onLogin(user);
   };
 
   return (
@@ -59,7 +59,7 @@ const InputFormContainer = ({ onSignInUser }) => {
                         render={({ history }) => (
                           <Button
                             as="button"
-                            onClick={() => handleSignInBtn(history)}
+                            onClick={() => handleLoginBtn(history)}
                           >
                             Login
                           </Button>
@@ -77,4 +77,4 @@ const InputFormContainer = ({ onSignInUser }) => {
   );
 };
 
-export default InputFormContainer;
+export default LoginForm;

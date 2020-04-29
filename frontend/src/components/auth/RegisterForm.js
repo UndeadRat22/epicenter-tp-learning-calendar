@@ -12,26 +12,20 @@ import {
   Card,
   FormField,
 } from 'wix-style-react';
-import { Route } from 'react-router-dom';
-import s from './SignUpForm.scss';
+import { Route, useParams } from 'react-router-dom';
+import s from './RegisterForm.scss';
 
-const InputFormContainer = ({ onRegister }) => {
+const RegisterForm = ({ onRegister }) => {
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmedPassword, setConfirmedPassword] = useState('');
   const [userPhoto, setUserPhoto] = useState('');
-  const [invitationId, setInvitationId] = useState('');
 
-  const extractInvitationId = pathname => {
-    const index = pathname.lastIndexOf('/');
-    const id = pathname.substr(index + 1);
-    setInvitationId(id);
-  };
+  const { invitationId } = useParams();
 
-  const handleRegisterBtn = history => {
+  const handleRegisterBtn = () => {
     if (confirmedPassword === password) {
-      extractInvitationId(history.location.pathname);
       const user = {
         invitationId,
         password,
@@ -39,7 +33,7 @@ const InputFormContainer = ({ onRegister }) => {
         // 'LastName': lastName,
         // 'photo': photo,
       };
-      onRegister(user, history);
+      onRegister(user);
     } else
       alert('Passwords do not match!');
   };
@@ -118,10 +112,10 @@ const InputFormContainer = ({ onRegister }) => {
                   <Col>
                     <Box align="right">
                       <Route
-                        render={({ history }) => (
+                        render={() => (
                           <Button
                             as="button"
-                            onClick={() => handleRegisterBtn(history)}
+                            onClick={() => handleRegisterBtn()}
                           >
                             Finish
                           </Button>
@@ -138,4 +132,4 @@ const InputFormContainer = ({ onRegister }) => {
     </Container>
   );
 };
-export default InputFormContainer;
+export default RegisterForm;

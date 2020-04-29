@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
-import { Loader } from 'wix-style-react';
 import './App.global.scss';
-import ExampleFeatureToggles from './components/ExampleFeatureToggles';
 import { TIMEOUT_MS } from './constants/FeatureToggles';
-import { LOCAL_FEATURES_URL } from './constants/URL';
+import Routing from './router/Routing';
 import FeatureToggles from './utils/FeatureToggles';
-import Routing from './Routing';
-import store from './state/store';
+import store from './state';
+import { FEATURES_URL } from './constants/URL';
+import LoadingIndicator from './components/LoadingIndicator';
 
 const App = () => {
   const [featuresLoaded, setFeaturesLoaded] = useState(false);
@@ -17,7 +16,7 @@ const App = () => {
       // if we don't fetch features before
       // TIMEOUT_MS expires, we render app without them
       await Promise.race([
-        FeatureToggles.init(LOCAL_FEATURES_URL),
+        FeatureToggles.init(FEATURES_URL),
         new Promise(resolve => setTimeout(resolve, TIMEOUT_MS)),
       ]);
 
@@ -31,14 +30,11 @@ const App = () => {
     return (
       <Provider store={store}>
         <Routing />
-        <ExampleFeatureToggles />
       </Provider>
     );
   }
   return (
-    <div className="center">
-      <Loader size="large" />
-    </div>
+    <LoadingIndicator text="Loading feature toggles..." />
   );
 };
 
