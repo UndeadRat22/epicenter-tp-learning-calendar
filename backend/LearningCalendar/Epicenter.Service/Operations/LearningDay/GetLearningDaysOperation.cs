@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Epicenter.Persistence.Interface.Repository.LearningCalendar;
 using Epicenter.Service.Interface.Operations.LearningDay;
 using System.Threading.Tasks;
@@ -23,22 +24,31 @@ namespace Epicenter.Service.Operations.LearningDay
             var employee = await _authorizationContext.Current();
             var learningDays = await _learningDayRepository.GetByEmployeeIdAsync(employee.Id);
 
-            return new GetLearningDaysOperationResponse
+            var responseLearningDays = new List<GetLearningDaysOperationResponse.LearningDay>();
+
+            foreach (var learningDay in learningDays)
             {
-                LearningDays = learningDays.Select(learningDay => new GetLearningDaysOperationResponse.LearningDay
+                var topics = learningDay.LearningDayTopics
+                    .Select(learningDayTopic => new GetLearningDaysOperationResponse.LearningDay.LearningDayTopic
+                    {
+                        Id = learningDayTopic.TopicId,
+                        Subject = learningDayTopic.Topic.Subject,
+                        ProgressStatus = learningDayTopic.ProgressStatus
+                    }).ToList();
+
+                responseLearningDays.Add(new GetLearningDaysOperationResponse.LearningDay
                 {
                     Id = learningDay.Id,
                     EmployeeId = employee.Id,
                     Date = learningDay.Date,
                     Comments = learningDay.Comments,
-                    Topics = learningDay.LearningDayTopics
-                        .Select(learningDayTopic => new GetLearningDaysOperationResponse.LearningDay.LearningDayTopic
-                        {
-                            Id = learningDayTopic.TopicId,
-                            Subject = learningDayTopic.Topic.Subject,
-                            ProgressStatus = learningDayTopic.ProgressStatus
-                        }).ToList()
-                }).ToList()
+                    Topics = topics
+                });
+            }
+
+            return new GetLearningDaysOperationResponse
+            {
+                LearningDays = responseLearningDays
             };
         }
     }

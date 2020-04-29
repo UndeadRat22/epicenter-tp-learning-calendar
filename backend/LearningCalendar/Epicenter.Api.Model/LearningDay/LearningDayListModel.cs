@@ -10,36 +10,54 @@ namespace Epicenter.Api.Model.LearningDay
     {
         public LearningDayListModel(GetLearningDaysOperationResponse response)
         {
-            LearningDays = response.LearningDays.Select(learningDay => new LearningDay
+            var learningDays = new List<LearningDay>();
+
+            foreach (var learningDay in response.LearningDays)
             {
-                Id = learningDay.Id,
-                EmployeeId = learningDay.EmployeeId,
-                Date = learningDay.Date,
-                Comments = learningDay.Comments,
-                Topics = learningDay.Topics.Select(topic => new LearningDay.LearningDayTopic
+                var topics = learningDay.Topics.Select(topic => new LearningDay.LearningDayTopic
                 {
                     Id = topic.Id,
                     Subject = topic.Subject,
                     ProgressStatus = topic.ProgressStatus
-                }).ToList()
-            }).ToList();
+                }).ToList();
+
+                learningDays.Add(new LearningDay
+                {
+                    Id = learningDay.Id,
+                    EmployeeId = learningDay.EmployeeId,
+                    Date = learningDay.Date,
+                    Comments = learningDay.Comments,
+                    Topics = topics
+                });
+            }
+
+            LearningDays = learningDays;
         }
 
         public LearningDayListModel(GetSubordinateLearningDaysOperationResponse response)
         {
-            LearningDays = response.LearningDays.Select(learningDay => new LearningDay
+            var learningDays = new List<LearningDay>();
+
+            foreach (var learningDay in response.LearningDays)
             {
-                Id = learningDay.Id,
-                EmployeeId = learningDay.EmployeeId,
-                Date = learningDay.Date,
-                Comments = learningDay.Comments,
-                Topics = learningDay.Topics.Select(topic => new LearningDay.LearningDayTopic
+                var topics = learningDay.Topics.Select(topic => new LearningDay.LearningDayTopic
                 {
                     Id = topic.Id,
                     Subject = topic.Subject,
                     ProgressStatus = topic.ProgressStatus
-                }).ToList()
-            }).ToList();
+                }).ToList();
+
+                learningDays.Add(new LearningDay
+                {
+                    Id = learningDay.Id,
+                    EmployeeId = learningDay.EmployeeId,
+                    Date = learningDay.Date,
+                    Comments = learningDay.Comments,
+                    Topics = topics
+                });
+            }
+
+            LearningDays = learningDays;
         }
 
         public List<LearningDay> LearningDays { get; set; }

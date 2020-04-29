@@ -1,4 +1,5 @@
-﻿using Epicenter.Persistence.Interface.Repository.LearningCalendar;
+﻿using System.Collections.Generic;
+using Epicenter.Persistence.Interface.Repository.LearningCalendar;
 using Epicenter.Service.Interface.Operations.LearningDay;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,21 +24,31 @@ namespace Epicenter.Service.Operations.LearningDay
             var employee = await _authorizationContext.Current();
             var learningDays = await _learningDayRepository.GetByManagerIdAsync(employee.Id);
 
-            return new GetSubordinateLearningDaysOperationResponse
+            var responseLearningDays = new List<GetSubordinateLearningDaysOperationResponse.LearningDay>();
+
+            foreach (var learningDay in learningDays)
             {
-                LearningDays = learningDays.Select(learningDay => new GetSubordinateLearningDaysOperationResponse.LearningDay
-                {
-                    Id = learningDay.Id,
-                    EmployeeId = learningDay.EmployeeId,
-                    Date = learningDay.Date,
-                    Comments = learningDay.Comments,
-                    Topics = learningDay.LearningDayTopics.Select(learningDayTopic => new GetSubordinateLearningDaysOperationResponse.LearningDay.LearningDayTopic
+                var topics = learningDay.LearningDayTopics
+                    .Select(learningDayTopic => new GetSubordinateLearningDaysOperationResponse.LearningDay.LearningDayTopic
                     {
-                        Id = learningDayTopic.Id,
+                        Id = learningDayTopic.TopicId,
                         Subject = learningDayTopic.Topic.Subject,
                         ProgressStatus = learningDayTopic.ProgressStatus
-                    }).ToList()
-                }).ToList()
+                    }).ToList();
+
+                responseLearningDays.Add(new GetSubordinateLearningDaysOperationResponse.LearningDay
+                {
+                    Id = learningDay.Id,
+                    EmployeeId = employee.Id,
+                    Date = learningDay.Date,
+                    Comments = learningDay.Comments,
+                    Topics = topics
+                });
+            }
+
+            return new GetSubordinateLearningDaysOperationResponse
+            {
+                LearningDays = responseLearningDays
             };
         }
     }
