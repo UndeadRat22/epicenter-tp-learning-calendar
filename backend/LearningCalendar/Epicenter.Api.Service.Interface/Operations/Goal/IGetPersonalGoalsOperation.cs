@@ -18,6 +18,7 @@ namespace Epicenter.Service.Interface.Operations.Goal
             public Guid Id { get; set; }
             public DateTime? CompletionDate { get; set; }
             public Guid TopicId { get; set; }
+            public bool IsCompleted => CompletionDate.HasValue;
         }
     }
 }
