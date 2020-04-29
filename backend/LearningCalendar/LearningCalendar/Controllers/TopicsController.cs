@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Epicenter.Api.Model.Topic;
 using Epicenter.Service.Interface.Exceptions.Topic;
 using Epicenter.Service.Interface.Operations.Topic;
@@ -15,11 +14,15 @@ namespace Epicenter.Api.Controllers
     {
         private readonly IGetAllTopicsOperation _getAllTopicsOperation;
         private readonly ICreateTopicOperation _createTopicOperation;
+        private readonly ILearnTopicOperation _learnTopicOperation;
 
-        public TopicsController(IGetAllTopicsOperation allTopicsOperation, ICreateTopicOperation topicOperation)
+        public TopicsController(IGetAllTopicsOperation allTopicsOperation,
+            ICreateTopicOperation topicOperation,
+            ILearnTopicOperation learnTopicOperation)
         {
             _getAllTopicsOperation = allTopicsOperation;
             _createTopicOperation = topicOperation;
+            _learnTopicOperation = learnTopicOperation;
         }
 
         [HttpGet]
@@ -51,6 +54,32 @@ namespace Epicenter.Api.Controllers
             }
 
             return Ok(new TopicModel{Id = response.Id});
+        }
+
+        [HttpPost]
+        [Route("learn")]
+        public async Task<IActionResult> LearnTopic(LearnTopicModel model)
+        {
+            var request = new LearnTopicOperationRequest
+            {
+                LearningDayId = model.LearningDayId,
+                TopicId = model.TopicId
+            };
+
+            try
+            {
+                await _learnTopicOperation.Execute(request);
+            }
+            catch (TopicNotInLearningDayException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (TopicAlreadyLearnedException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
         }
     }
 }

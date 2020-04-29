@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Persistence.Interface.Repository.Generic;
 
@@ -8,5 +9,6 @@ namespace Epicenter.Persistence.Interface.Repository.LearningCalendar
     {
         Task<Limit> GetGlobalAsync();
         Task<Limit> CreateDefaultGlobalLimitAsync();
+        Task<Limit> GetByEmployeeIdAsync(Guid employeeId);
     }
 }
