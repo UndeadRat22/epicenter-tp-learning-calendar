@@ -1,8 +1,7 @@
 {
-  "title": "Epicenter Learning Calendar",
+  "title": "Epicenter",
   "debug": true,
-  "experiments": {
-  },
+  "experiments": {},
   "locale": "en",
   "basename": "/",
   "clientTopology": {

@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="Epicenter - app for managing your learning days"
+      content="The Learning Center"
     />
     <link type="image/png" href="https://media.discordapp.net/attachments/674519890236932098/692073525498085487/Free_Sample_By_Wix.jpeg" rel="shortcut icon">
     <link rel="stylesheet" href="${clientTopology.staticsBaseUrl}app#if(!${debug}).min#{end}.css">
