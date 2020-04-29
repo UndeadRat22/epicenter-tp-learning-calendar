@@ -13,9 +13,9 @@ import {
   FormField,
 } from 'wix-style-react';
 import { Route, useParams } from 'react-router-dom';
-import s from './SignUpForm.scss';
+import s from './RegisterForm.scss';
 
-const InputFormContainer = ({ onRegister }) => {
+const RegisterForm = ({ onRegister }) => {
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
@@ -132,4 +132,4 @@ const InputFormContainer = ({ onRegister }) => {
     </Container>
   );
 };
-export default InputFormContainer;
+export default RegisterForm;

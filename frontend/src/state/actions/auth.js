@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import cookies from '../../cookies';
+import cookies from '../../utils/cookies';
 import {
   FETCH_SELF_SUCCESS, FETCH_SELF_FAIL, LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, FETCH_SELF_START, LOGIN_START, REGISTER_START, LOGOUT,
 } from './types/auth';

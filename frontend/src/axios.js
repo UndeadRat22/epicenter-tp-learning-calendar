@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import { BACKEND_API_URL } from './constants/URL';
-import cookies from './cookies';
+import cookies from './utils/cookies';
 
 const setupAxios = () => {
   Axios.defaults.baseURL = `${BACKEND_API_URL}/api/`;

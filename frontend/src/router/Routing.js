@@ -3,8 +3,8 @@ import {
   BrowserRouter as Router, Route, Switch, Redirect, useHistory,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import SignIn from '../pages/SignIn';
-import SignUp from '../pages/SignUp';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
 import Home from '../pages/Home';
 import Topics from '../pages/Topics';
 import MyTeam from '../pages/MyTeam';
@@ -29,7 +29,7 @@ const Routing = () => {
   const defaultPathComponent = () => {
     if (status === LOADING_FETCH_SELF)
       return <LoadingIndicator text="Loading session..." />;
-    return <Redirect to={isAuthenticated ? '/home' : '/signin'} />;
+    return <Redirect to={isAuthenticated ? '/home' : '/login'} />;
   };
 
   if (status === LOADING_FETCH_SELF)
@@ -45,8 +45,8 @@ const Routing = () => {
             exact
             component={defaultPathComponent}
           />
-          <Route path="/invitation/:invitationId" component={SignUp} />
-          <Route path="/signin" component={SignIn} />
+          <Route path="/invitation/:invitationId" component={Register} />
+          <Route path="/login" component={Login} />
           <ProtectedRoute path="/home" component={Home} />
           <ProtectedRoute path="/topics" component={Topics} />
           <ProtectedRoute path="/myteam" component={MyTeam} />
