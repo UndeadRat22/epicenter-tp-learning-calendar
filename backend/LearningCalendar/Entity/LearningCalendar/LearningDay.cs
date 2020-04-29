@@ -9,7 +9,9 @@ namespace Epicenter.Domain.Entity.LearningCalendar
         public Guid Id { get; set; }
         [Required]
         public Employee Employee { get; set; }
-        [Required]        
+        [Required]
+        public Guid EmployeeId { get; set; }
+        [Required]
         public DateTime Date { get; set; }
         public string Comments { get; set; }
         public List<LearningDayTopic> LearningDayTopics { get; set; }

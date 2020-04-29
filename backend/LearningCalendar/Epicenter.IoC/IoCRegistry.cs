@@ -14,6 +14,8 @@ using Epicenter.Service.Interface.Operations.Authentication.Invite;
 using Epicenter.Service.Interface.Operations.Authentication.User;
 using Epicenter.Service.Interface.Operations.Employee;
 using Epicenter.Service.Interface.Operations.Goal;
+using Epicenter.Service.Interface.Operations.LearningDay;
+using Epicenter.Service.Interface.Operations.Limit;
 using Epicenter.Service.Interface.Operations.Team;
 using Epicenter.Service.Interface.Operations.Topic;
 using Epicenter.Service.Interface.Services.Mail;
@@ -22,6 +24,8 @@ using Epicenter.Service.Operations.Authentication.Invite;
 using Epicenter.Service.Operations.Authentication.User;
 using Epicenter.Service.Operations.Employee;
 using Epicenter.Service.Operations.Goal;
+using Epicenter.Service.Operations.LearningDay;
+using Epicenter.Service.Operations.Limit;
 using Epicenter.Service.Operations.Team;
 using Epicenter.Service.Operations.Topic;
 using Epicenter.Service.Services.Mail;
@@ -46,6 +50,8 @@ namespace Epicenter.IoC
             services.AddScoped<ILimitRepository, LimitRepository>();
             services.AddScoped<ITopicRepository, TopicRepository>();
             services.AddScoped<IPersonalGoalRepository, PersonalGoalRepository>();
+            services.AddScoped<ILearningDayRepository, LearningDayRepository>();
+            services.AddScoped<ILearningDayTopicRepository, LearningDayTopicRepository>();
             
             services.AddScoped<IEmailService, EmailService>();
             
@@ -66,6 +72,14 @@ namespace Epicenter.IoC
             services.AddScoped<ICreateJwtOperation, CreateJwtOperation>();
             services.AddScoped<IRefreshJwtOperation, RefreshJwtOperation>();
             services.AddScoped<IGetEmployeeDetailsOperation, GetEmployeeDetailsOperation>();
+            services.AddScoped<ICreateLearningDayOperation, CreateLearningDayOperation>();
+            services.AddScoped<IGetLearningDaysOperation, GetLearningDaysOperation>();
+            services.AddScoped<IGetSubordinateLearningDaysOperation, GetSubordinateLearningDaysOperation>();
+            services.AddScoped<IGetPersonalGoalsOperation, GetPersonalGoalsOperation>();
+            services.AddScoped<IGetLimitsOperation, GetLimitsOperation>();
+            services.AddScoped<IGetRemainingLimitsForQuarterOperation, GetRemainingLimitsForQuarterOperation>();
+            services.AddScoped<ILearnTopicOperation, LearnTopicOperation>();
+            services.AddScoped<IFulfillPersonalGoalOperation, FulfillPersonalGoalOperation>();
 
             //contexts
             services.AddScoped<IAuthorizationContext, AuthorizationContext>();

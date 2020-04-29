@@ -67,7 +67,7 @@ namespace Epicenter.Service.Operations.Employee
                 }
             };
             
-            Limit limit = await _limitRepository.GetGlobalAsync();
+            var limit = await _limitRepository.GetGlobalAsync();
             limit.Employees.Add(employee);
 
             try
@@ -90,7 +90,7 @@ namespace Epicenter.Service.Operations.Employee
                 var employee = new Domain.Entity.LearningCalendar.Employee
                 {
                     Identity = identityUser,
-                    Limit = new Limit(),
+                    Limit = new Domain.Entity.LearningCalendar.Limit(),
                     FirstName = request.FirstName,
                     LastName = request.LastName,
                     Image = new Image

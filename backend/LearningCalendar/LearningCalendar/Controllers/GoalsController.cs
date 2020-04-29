@@ -9,17 +9,27 @@ namespace Epicenter.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/goals")]
+    [Route("api/[controller]")]
     public class GoalsController : ControllerBase
     {
+        private readonly IGetPersonalGoalsOperation _getPersonalGoalsOperation;
         private readonly IAssignGoalToEmployeeOperation _assignGoalToEmployeeOperation;
         private readonly IAssignGoalToTeamOperation _assignGoalToTeamOperation;
 
-        public GoalsController(IAssignGoalToEmployeeOperation assignGoalToEmployeeOperation, 
+        public GoalsController(IGetPersonalGoalsOperation getPersonalGoalsOperation,
+            IAssignGoalToEmployeeOperation assignGoalToEmployeeOperation,
             IAssignGoalToTeamOperation assignGoalToTeamOperation)
         {
+            _getPersonalGoalsOperation = getPersonalGoalsOperation;
             _assignGoalToEmployeeOperation = assignGoalToEmployeeOperation;
             _assignGoalToTeamOperation = assignGoalToTeamOperation;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<PersonalGoalListModel>> GetPersonalGoals()
+        {
+            var response = await _getPersonalGoalsOperation.Execute();
+            return Ok(new PersonalGoalListModel(response));
         }
 
         [HttpPost]

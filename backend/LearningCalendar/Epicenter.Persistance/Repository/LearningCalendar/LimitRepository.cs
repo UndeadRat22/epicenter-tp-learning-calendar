@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
 using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Persistence.Context;
@@ -28,6 +28,14 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
             var limit = new Limit();
             await CreateAsync(limit);
             return limit;
+        }
+
+        public async Task<Limit> GetByEmployeeIdAsync(Guid employeeId)
+        {
+            return (await DbContext.Employees
+                    .Include(employee => employee.Limit)
+                    .SingleOrDefaultAsync(employee => employee.Id == employeeId))
+                .Limit;
         }
     }
 }
