@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const express = require('express');
 const session = require('express-session');
 const renderVM = require('./vm');
@@ -13,22 +14,11 @@ app.use(
   }),
 );
 
-// Define a route to render our initial HTML.
 app.use('/', (req, res) => {
-  if (!req.session.visitCount) {
-    req.session.visitCount = 0;
-  }
-
-  req.session.visitCount++;
-
-  const html = renderVM({
-    visitCount: req.session.visitCount,
-  });
-
+  const html = renderVM();
   res.send(html);
 });
 
-// Launch the server
 app.listen(process.env.PORT, () => {
   console.info(`Frontend server is running on port ${process.env.PORT}`);
 });

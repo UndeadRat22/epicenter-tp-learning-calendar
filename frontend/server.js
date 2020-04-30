@@ -1,8 +1,9 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const serve = require('yoshi-common/serve');
 
 serve()
   .then(() => {
-    console.log('Server and CDN started successfully');
+    console.info('Yoshi started succesfully');
   })
   .catch(errorReason => {
     console.log(errorReason);
