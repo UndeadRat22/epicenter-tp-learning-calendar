@@ -48,19 +48,5 @@
     "universal-cookie": "^4.0.3",
     "wix-style-react": "8.5.0",
     "wix-ui-icons-common": "^2.0.162"
-  },
-  "yoshi": {
-    "projectType": "app",
-    "externals": {
-      "react": "React",
-      "react-dom": "ReactDOM"
-    },
-    "hmr": "auto",
-    "servers": {
-      "cdn": {
-        "port": 3200
-      }
-    },
-    "startUrl": "http://localhost:8080"
   }
 }
