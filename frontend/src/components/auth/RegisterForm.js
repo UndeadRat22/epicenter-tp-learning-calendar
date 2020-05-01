@@ -14,13 +14,13 @@ import {
 } from 'wix-style-react';
 import { Route, useParams } from 'react-router-dom';
 import s from './RegisterForm.scss';
+import Alert from '../Alert';
 
 const RegisterForm = ({ onRegister }) => {
-  const [name, setName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmedPassword, setConfirmedPassword] = useState('');
   const [userPhoto, setUserPhoto] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
 
   const { invitationId } = useParams();
 
@@ -29,13 +29,11 @@ const RegisterForm = ({ onRegister }) => {
       const user = {
         invitationId,
         password,
-        // 'Name': name,
-        // 'LastName': lastName,
-        // 'photo': photo,
+        // photo,
       };
       onRegister(user);
     } else
-      alert('Passwords do not match!');
+      setShowAlert(true);
   };
 
   return (
@@ -69,24 +67,6 @@ const RegisterForm = ({ onRegister }) => {
                 <Row>
                   <Col>
                     <Cell>
-                      <FormField label="Name" required>
-                        <Input onChange={event => setName(event.target.value)} />
-                      </FormField>
-                    </Cell>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Cell>
-                      <FormField label="Last name" required>
-                        <Input onChange={event => setLastName(event.target.value)} />
-                      </FormField>
-                    </Cell>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Cell>
                       <FormField label="Password" required>
                         <Input
                           type="password"
@@ -108,6 +88,20 @@ const RegisterForm = ({ onRegister }) => {
                     </Cell>
                   </Col>
                 </Row>
+                {showAlert ? (
+                  <Row>
+                    <Col>
+                      <Cell>
+                        <Alert
+                          appearance="danger"
+                          header="Alert!"
+                          text="Passwords do not match"
+                          onClose={() => setShowAlert(false)}
+                        />
+                      </Cell>
+                    </Col>
+                  </Row>
+                ) : null}
                 <Row>
                   <Col>
                     <Box align="right">
