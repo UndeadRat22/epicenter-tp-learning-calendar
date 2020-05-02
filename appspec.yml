@@ -1,8 +1,8 @@
 version: 0.0
 os: linux
 files:
-  - source: /
-    destination: /home/ec2-user
+  - source: /frontend
+    destination: /home/ec2-user/prod-frontend
 hooks:
   ApplicationStart:
     - location: ./startApp.sh
