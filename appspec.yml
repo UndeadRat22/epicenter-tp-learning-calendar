@@ -5,5 +5,5 @@ files:
     destination: /home/ec2-user/prod-frontend
 hooks:
   ApplicationStart:
-    - location: ./startApp.sh
+    - location: /home/ec2-user/startApp.sh
       timeout: 10000
