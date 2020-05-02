@@ -22,12 +22,12 @@ const RegisterForm = ({ onRegister }) => {
   const [confirmedPassword, setConfirmedPassword] = useState('');
   const [userPhoto, setUserPhoto] = useState('');
 
-  const { invitationId } = useParams();
+  const { inviteId } = useParams();
 
   const handleRegisterBtn = () => {
     if (confirmedPassword === password) {
       const user = {
-        invitationId,
+        inviteId,
         password,
         // 'Name': name,
         // 'LastName': lastName,

@@ -45,7 +45,7 @@ const Routing = () => {
             exact
             component={defaultPathComponent}
           />
-          <Route path="/invitation/:invitationId" component={Register} />
+          <Route path="/invite/:inviteId" component={Register} />
           <Route path="/login" component={Login} />
           <ProtectedRoute path="/home" component={Home} />
           <ProtectedRoute path="/topics" component={Topics} />
