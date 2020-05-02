@@ -1,41 +1,37 @@
-﻿using System.Net;
-using System.Net.Mail;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Epicenter.Infrastructure.Settings;
 using Epicenter.Service.Interface.Services.Mail;
 using Microsoft.Extensions.Options;
+
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace Epicenter.Service.Services.Mail
 {
     public class EmailService : IEmailService
     {
+        private const string NoReplyEmail = @"noreply@epicenter.com";
+        private const string NoReplyMailerName = @"Epicenter";
         private readonly EmailSettings _emailSettings;
-
         public EmailService(IOptions<EmailSettings> emailOptions)
         {
             _emailSettings = emailOptions.Value;
         }
 
-        private const string MailServerHost = "smtp.gmail.com";
-        private const int SmtpPort = 587;
-
         public async Task SendEmailAsync(string subject, string text, string receiver)
         {
-            using var message = new MailMessage(_emailSettings.Email, receiver)
+            var message = new SendGridMessage
             {
                 Subject = subject,
-                Body = text,
-                IsBodyHtml = true,
+                HtmlContent = text,
+                From = new EmailAddress(NoReplyEmail, NoReplyMailerName)
             };
 
-            using var client = new SmtpClient(MailServerHost)
-            {
-                Port = SmtpPort,
-                Credentials = new NetworkCredential(_emailSettings.Email, _emailSettings.Password),
-                EnableSsl = true
-            };
+            message.AddTo(new EmailAddress(receiver));
 
-            await client.SendMailAsync(message);
+            var client = new SendGridClient(_emailSettings.SendGridApiKey);
+
+            await client.SendEmailAsync(message);
         }
     }
 }

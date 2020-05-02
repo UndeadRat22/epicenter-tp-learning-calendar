@@ -39,14 +39,28 @@ namespace Epicenter.Service.Operations.Authentication.Invite
             };
 
             var createInviteTask = _invitationRepository.CreateAsync(invite);
-            //todo: url + / inviteId
+
+            string message = BuildInviteEmailMessage(invite.Id);
+
             var sendEmailTask =
-                _emailService.SendEmailAsync("Invitation to Epicenter Calender", invite.Id.ToString(), invite.InvitationTo);
+                _emailService.SendEmailAsync("Invitation to Epicenter Calender", message, invite.InvitationTo);
 
             await createInviteTask;
             await sendEmailTask;
 
             return new CreateInvitationOperationResponse();
         }
+
+        private const string Protocol = "http://";
+        private const string InviteUrlBase = "www.sasyska.lt/invite";
+
+        private string BuildInviteEmailMessage(Guid inviteId)
+        {
+            var link = $"{Protocol}{InviteUrlBase}/{inviteId}";
+
+            string message = link;
+
+            return message;
+        } 
     }
 }
