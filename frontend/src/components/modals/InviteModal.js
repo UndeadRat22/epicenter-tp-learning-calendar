@@ -31,7 +31,7 @@ const InviteModal = ({ isModalOpened, onCloseModal }) => {
         title="Invite new employee"
         maxHeight={MODAL_MAX_HEIGHT}
       >
-        {showNotification[1] && (
+        {showNotification && (
           <Notification
             type="success"
             text="Invitation sent"
