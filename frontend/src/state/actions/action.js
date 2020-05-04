@@ -12,20 +12,20 @@ const makeSyncActionCreator = type => {
   };
 };
 
-const postActionStart = makeSyncActionCreator(ACTION_START);
-const postActionSuccess = makeSyncActionCreator(ACTION_SUCCESS);
-const postActionFail = makeSyncActionCreator(ACTION_FAIL);
+const actionStart = makeSyncActionCreator(ACTION_START);
+const actionSuccess = makeSyncActionCreator(ACTION_SUCCESS);
+const actionFail = makeSyncActionCreator(ACTION_FAIL);
 
-const doPostAction = ({ actionUrl, data }) => async dispatch => {
+const post = ({ actionUrl, data }) => async dispatch => {
   try {
-    dispatch(postActionStart());
+    dispatch(actionStart());
     await Axios.post(actionUrl, data);
-    dispatch(postActionSuccess());
+    dispatch(actionSuccess());
   } catch (err) {
-    dispatch(postActionFail());
+    dispatch(actionFail());
   }
 };
 
 export {
-  postActionStart, postActionSuccess, postActionFail, doPostAction,
+  actionStart, actionSuccess, actionFail, post,
 };

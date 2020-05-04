@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import { Modal, MessageBoxFunctionalLayout } from 'wix-style-react';
 import { useSelector, useDispatch } from 'react-redux';
-import doAction from '../../state/actions/action';
+import post from '../../state/actions/action';
 import InviteForm from '../auth/InviteForm';
 import Notification from '../Notification';
-import {
-  ACTION_FAILED, ACTION_SUCCEEDED,
-} from '../../constants/ActionStatus';
+import { ACTION_SUCCEEDED } from '../../constants/ActionStatus';
+import { MODAL_MAX_HEIGHT } from '../../constants/Styling';
 
 const InviteModal = ({ isModalOpened, onCloseModal }) => {
   const [showNotification, setShowNotification] = useState(false);
 
   const dispatch = useDispatch();
-  const action = useSelector(state => state.action);
+  const action = useSelector(state => state.apiAction);
 
   const inviteUser = user => {
-    dispatch(doAction('invites/invite', user));
+    dispatch(post('invites/invite', user));
   };
 
   if (action.status === ACTION_SUCCEEDED)
@@ -30,15 +29,15 @@ const InviteModal = ({ isModalOpened, onCloseModal }) => {
     >
       <MessageBoxFunctionalLayout
         title="Invite new employee"
-        maxHeight="800px"
+        maxHeight={MODAL_MAX_HEIGHT}
       >
-        {showNotification ? (
+        {showNotification[1] && (
           <Notification
             type="success"
             text="Invitation sent"
             onClose={() => setShowNotification(false)}
           />
-        ) : null}
+        )}
         <InviteForm onInvite={user => inviteUser(user)} />
       </MessageBoxFunctionalLayout>
     </Modal>

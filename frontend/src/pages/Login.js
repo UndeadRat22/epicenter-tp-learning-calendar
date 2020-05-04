@@ -31,14 +31,14 @@ const Login = () => {
     <div className={s.login}>
       <Layout cols={1}>
         <Header text="Login to get going" isLoading={status === LOADING_LOGIN} />
-        {showAlert ? (
+        {showAlert && (
           <Alert
             appearance="danger"
             header="Alert!"
             text="Incorrect email or password"
             onClose={() => setShowAlert(false)}
           />
-        ) : null}
+        )}
         <LoginForm
           onLogin={user => handleLogin(user)}
         />

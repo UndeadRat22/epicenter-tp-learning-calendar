@@ -29,13 +29,13 @@ const Register = () => {
     <div className={s.register}>
       <Layout cols={1}>
         <Header text="Finish your registration" />
-        {showNotification ? (
+        {showNotification && (
           <Notification
             type="success"
             text="Registration successful"
             onClose={() => setShowNotification(false)}
           />
-        ) : null}
+        )}
         <RegisterForm
           onRegister={user => registerUser(user)}
         />

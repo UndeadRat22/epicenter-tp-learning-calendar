@@ -88,7 +88,7 @@ const RegisterForm = ({ onRegister }) => {
                     </Cell>
                   </Col>
                 </Row>
-                {showAlert ? (
+                {showAlert && (
                   <Row>
                     <Col>
                       <Cell>
@@ -101,7 +101,7 @@ const RegisterForm = ({ onRegister }) => {
                       </Cell>
                     </Col>
                   </Row>
-                ) : null}
+                )}
                 <Row>
                   <Col>
                     <Box align="right">
