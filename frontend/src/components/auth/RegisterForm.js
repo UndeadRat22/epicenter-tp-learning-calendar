@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import {
   Button,
   Box,
-  Layout,
-  Image,
   Input,
   Cell,
   Row,
@@ -13,13 +11,11 @@ import {
   FormField,
 } from 'wix-style-react';
 import { Route, useParams } from 'react-router-dom';
-import s from './RegisterForm.scss';
 import Alert from '../Alert';
 
 const RegisterForm = ({ onRegister }) => {
   const [password, setPassword] = useState('');
   const [confirmedPassword, setConfirmedPassword] = useState('');
-  const [userPhoto, setUserPhoto] = useState('');
   const [showAlert, setShowAlert] = useState(false);
 
   const { invitationId } = useParams();
@@ -29,7 +25,6 @@ const RegisterForm = ({ onRegister }) => {
       const user = {
         invitationId,
         password,
-        // photo,
       };
       onRegister(user);
     } else
@@ -44,26 +39,6 @@ const RegisterForm = ({ onRegister }) => {
           <Card>
             <Card.Content>
               <Container fluid>
-                <Row>
-                  <Col>
-                    <Cell>
-                      <Layout cols={1}>
-                        <div align="center" className={s.box}>
-                          <Image src={userPhoto} height="100px" width="100px" />
-                        </div>
-                        <div align="center">
-                          <Button
-                            as="button"
-                            skin="premium"
-                            size="small"
-                          >
-                            Upload profile picture
-                          </Button>
-                        </div>
-                      </Layout>
-                    </Cell>
-                  </Col>
-                </Row>
                 <Row>
                   <Col>
                     <Cell>
