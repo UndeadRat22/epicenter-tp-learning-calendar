@@ -63,7 +63,7 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<Employee> GetByIdentityId(string identityId)
+        public async Task<Employee> GetByIdentityIdAsync(string identityId)
         {
             return await DbContext.Employees
                 .Include(employee => employee.Identity)
