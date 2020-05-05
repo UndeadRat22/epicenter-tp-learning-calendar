@@ -42,7 +42,7 @@ namespace Epicenter.Api.Controllers
         }
 
         [HttpPost]
-        [Route("learningDay")]
+        [Route("learning-day")]
         public async Task<ActionResult<LearningDayModel>> CreateLearningDay(CreateLearningDayModel model)
         {
             var request = new CreateLearningDayOperationRequest
