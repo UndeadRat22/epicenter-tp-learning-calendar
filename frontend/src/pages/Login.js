@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Layout } from 'wix-style-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -12,10 +12,10 @@ import {
 } from '../constants/AuthStatus';
 
 const Login = () => {
-  const [showAlert, setShowAlert] = useState(false);
-
   const auth = useSelector(state => state.auth);
   const { status } = auth;
+
+  const showAlert = auth.status === LOGIN_FAILED;
 
   const dispatch = useDispatch();
 
@@ -24,24 +24,20 @@ const Login = () => {
   if (status === LOGGED_IN)
     return <Redirect to="/home" />;
 
-  if (status === LOGIN_FAILED)
-    setShowAlert(true);
-
   return (
     <div className={s.login}>
       <Layout cols={1}>
         <Header text="Login to get going" isLoading={status === LOADING_LOGIN} />
+        <LoginForm
+          onLogin={user => handleLogin(user)}
+        />
         {showAlert && (
           <Alert
             appearance="danger"
             header="Alert!"
             text="Incorrect email or password"
-            onClose={() => setShowAlert(false)}
           />
         )}
-        <LoginForm
-          onLogin={user => handleLogin(user)}
-        />
       </Layout>
     </div>
   );

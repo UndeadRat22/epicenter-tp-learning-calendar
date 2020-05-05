@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import cookies from '../../utils/cookies';
 import {
-  FETCH_SELF_SUCCESS, FETCH_SELF_FAIL, LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, FETCH_SELF_START, LOGIN_START, REGISTER_START, LOGOUT,
+  FETCH_SELF_SUCCESS, FETCH_SELF_FAIL, LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, FETCH_SELF_START, LOGIN_START, REGISTER_START, LOGOUT, INVITE_FAIL, INVITE_START, INVITE_SUCCESS,
 } from './types/auth';
 
 const makeSyncActionCreator = type => {
@@ -26,6 +26,20 @@ const registerSuccess = makeSyncActionCreator(REGISTER_SUCCESS);
 const registerFail = makeSyncActionCreator(REGISTER_FAIL);
 
 const onLogout = makeSyncActionCreator(LOGOUT);
+
+const inviteStart = makeSyncActionCreator(INVITE_START);
+const inviteSuccess = makeSyncActionCreator(INVITE_SUCCESS);
+const inviteFail = makeSyncActionCreator(INVITE_FAIL);
+
+const invite = ({ data }) => async dispatch => {
+  try {
+    dispatch(inviteStart());
+    await Axios.post('invites/invite', data);
+    dispatch(inviteSuccess());
+  } catch (err) {
+    dispatch(inviteFail());
+  }
+};
 
 const login = ({ email, password }) => async dispatch => {
   try {
@@ -70,5 +84,5 @@ const logout = () => dispatch => {
 };
 
 export {
-  fetchSelfSuccess, fetchSelfFail, loginSuccess, loginFail, registerSuccess, registerFail, login, fetchSelf, register, logout,
+  fetchSelfSuccess, fetchSelfFail, loginSuccess, loginFail, registerSuccess, registerFail, login, fetchSelf, register, logout, inviteFail, inviteStart, inviteSuccess, invite,
 };

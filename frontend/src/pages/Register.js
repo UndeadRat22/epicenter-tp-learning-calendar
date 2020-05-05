@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Layout } from 'wix-style-react';
 import { Redirect } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,19 +10,18 @@ import { LOGGED_IN, REGISTER_SUCCEEDED } from '../constants/AuthStatus';
 import Notification from '../components/Notification';
 
 const Register = () => {
-  const [showNotification, setShowNotification] = useState(false);
-
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
+
+  const showNotification = auth.status === REGISTER_SUCCEEDED;
 
   const registerUser = user => {
     dispatch(register(user));
   };
 
-  if (auth.status === REGISTER_SUCCEEDED) {
+  if (auth.status === REGISTER_SUCCEEDED)
     dispatch(fetchSelf());
-    setShowNotification(true);
-  } else if (auth.status === LOGGED_IN)
+  else if (auth.status === LOGGED_IN)
     return <Redirect to="/home" />;
 
   return (
@@ -33,7 +32,6 @@ const Register = () => {
           <Notification
             type="success"
             text="Registration successful"
-            onClose={() => setShowNotification(false)}
           />
         )}
         <RegisterForm
