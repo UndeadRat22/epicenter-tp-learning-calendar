@@ -10,7 +10,7 @@ namespace Epicenter.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/learning-days")]
     public class LearningDaysController : ControllerBase
     {
         private readonly IGetLearningDaysOperation _getLearningDaysOperation;

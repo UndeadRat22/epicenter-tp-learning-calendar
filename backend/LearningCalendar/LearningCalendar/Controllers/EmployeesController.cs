@@ -53,10 +53,6 @@ namespace Epicenter.Api.Controllers
             return Ok();
         }
 
-        //TODO
-        //[HttpGet] - should return employee by Id: api/employees/{id}
-        //[HttpGet] - should return all* employees  api/employees
-
         [HttpGet, Route("self")]
         public async Task<ActionResult<EmployeeModel>> GetEmployee()
         {
