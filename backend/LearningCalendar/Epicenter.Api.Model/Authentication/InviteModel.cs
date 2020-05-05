@@ -5,6 +5,12 @@ namespace Epicenter.Api.Model.Authentication
     public class InviteModel
     {
         [Required]
-        public string InviteeEmail { get; set; }
+        public string Email { get; set; }
+        [Required] 
+        public string FirstName { get; set; }
+        [Required] 
+        public string LastName { get; set; }
+        [Required] 
+        public string Role { get; set; }
     }
 }

@@ -42,6 +42,7 @@ namespace Epicenter.IoC
         {
             services.AddScopedRepository<Employee>();
             services.AddScopedRepository<Invite>();
+            services.AddScopedRepository<Role>();
             services.AddScoped<IRepository<IdentityUser>, Repository<IdentityUser>>();
 
             services.AddScoped<IInvitationRepository, InvitationRepository>();
@@ -52,7 +53,7 @@ namespace Epicenter.IoC
             services.AddScoped<IPersonalGoalRepository, PersonalGoalRepository>();
             services.AddScoped<ILearningDayRepository, LearningDayRepository>();
             services.AddScoped<ILearningDayTopicRepository, LearningDayTopicRepository>();
-            
+
             services.AddScoped<IEmailService, EmailService>();
             
             //operations

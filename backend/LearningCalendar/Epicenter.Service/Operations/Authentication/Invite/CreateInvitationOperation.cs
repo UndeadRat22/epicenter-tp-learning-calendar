@@ -33,8 +33,11 @@ namespace Epicenter.Service.Operations.Authentication.Invite
             var invite = new Domain.Entity.Authentication.Invite
             {
                 Id = Guid.NewGuid(),
-                InvitationTo = request.InviteeEmail,
+                InvitationTo = request.Email,
                 InvitationFromId = inviter.Id,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Role = request.Role,
                 Created = DateTime.Now
             };
 

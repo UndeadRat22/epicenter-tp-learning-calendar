@@ -28,6 +28,7 @@ namespace Epicenter.Persistence.Context
         public DbSet<Team> Teams { get; set; }
         public DbSet<Topic> Topics { get; set; }
         public DbSet<Limit> Limits { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -102,6 +103,15 @@ namespace Epicenter.Persistence.Context
 
             builder.Entity<Employee>()
                 .HasOne(employee => employee.Image);
+
+            builder.Entity<Employee>()
+                .HasOne(employee => employee.Role)
+                .WithMany()
+                .HasForeignKey(employee => employee.RoleId);
+
+            builder.Entity<Role>()
+                .HasIndex(role => role.Title)
+                .IsUnique();
         }
     }
 }

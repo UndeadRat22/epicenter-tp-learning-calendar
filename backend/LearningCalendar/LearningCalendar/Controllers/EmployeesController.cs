@@ -42,6 +42,7 @@ namespace Epicenter.Api.Controllers
                     FirstName = model.FirstName ?? randomName.FirstName,
                     LastName = model.LastName ?? randomName.LastName,
                     ImageData = model.ImageData ?? "",
+                    Role = RandomRole()
                 };
                 await _createEmployeeOperation.Execute(request);
             }
@@ -80,6 +81,17 @@ namespace Epicenter.Api.Controllers
             var lastName = lastNames[rand.Next(0, lastNames.Length)];
 
             return (firstName, lastName);
+        }
+
+        private string RandomRole()
+        {
+            var roles = new[]
+            {
+                "Tester", "Developer", "Software Engineer", "Software Developer", "Software Architect", "DevOps",
+                "Test Engineer", "Test Engineer"
+            };
+
+            return roles[new Random((int) DateTime.Now.Ticks).Next(0, roles.Length)];
         }
     }
 }

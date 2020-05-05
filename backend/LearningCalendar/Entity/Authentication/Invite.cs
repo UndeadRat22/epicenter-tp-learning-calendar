@@ -14,6 +14,12 @@ namespace Epicenter.Domain.Entity.Authentication
         [Required]
         public string InvitationTo { get; set; }
         [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
+        [Required]
+        public string Role { get; set; }
+        [Required]
         public DateTime Created { get; set; }
     }
 }
