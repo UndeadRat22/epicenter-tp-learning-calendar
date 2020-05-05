@@ -22,7 +22,7 @@ namespace Epicenter.Service.Operations.Authentication.Invite
         {
             var invitation = await _invitationRepository.GetWithInviterAsync(request.Id);
 
-            var inviter = await _employeeRepository.GetByIdentityId(invitation.InvitationFromId);
+            var inviter = await _employeeRepository.GetByIdentityIdAsync(invitation.InvitationFromId);
 
             return new GetInvitationDetailsOperationResponse
             {
