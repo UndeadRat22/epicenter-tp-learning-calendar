@@ -27,6 +27,11 @@ namespace Epicenter.Domain.Entity.LearningCalendar
         public virtual Guid ImageId { get; set; }
         [Required]
         public virtual Image Image { get; set; }
+        
+        [Required]
+        public virtual Guid RoleId { get; set; }
+        [Required]
+        public virtual Role Role { get; set; }
 
         public bool IsTopLevelManager => Team == null;
     }

@@ -16,7 +16,16 @@ namespace Epicenter.Service.Interface.Operations.Authentication.Invite
     public class GetInvitationDetailsOperationResponse
     {
         public Guid InvitationId { get; set; }
-        public string InvitationTo { get; set; }
-        public string InvitationFrom { get; set; }
+
+        public class Details
+        {
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string Email { get; set; }
+            public string Role { get; set; }
+        }
+
+        public Details InviterDetails { get; set; }
+        public Details InviteeDetails { get; set; }
     }
 }

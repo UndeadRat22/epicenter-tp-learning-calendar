@@ -8,7 +8,7 @@ namespace Epicenter.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/limits")]
     public class LimitsController : ControllerBase
     {
         private readonly IGetLimitsOperation _getLimitsOperation;

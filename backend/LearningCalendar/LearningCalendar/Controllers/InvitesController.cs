@@ -28,7 +28,10 @@ namespace Epicenter.Api.Controllers
         {
             var request = new CreateInvitationOperationRequest
             {
-                InviteeEmail = model.InviteeEmail,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Role = model.Role
             };
 
             await _createInvitationOperation.Execute(request);
@@ -40,15 +43,10 @@ namespace Epicenter.Api.Controllers
         [HttpGet, Route("invite/{id}")]
         public async Task<ActionResult<InvitationDetailsModel>> GetInvite([Required]Guid id)
         {
-            var invitation =
+            var operationResponse =
                 await _getInvitationDetailsOperation.Execute(new GetInvitationDetailsOperationRequest {Id = id});
 
-            var model = new InvitationDetailsModel
-            {
-                InvitationFrom = invitation.InvitationFrom, 
-                InvitationId = invitation.InvitationId,
-                InvitationTo = invitation.InvitationTo
-            };
+            var model = new InvitationDetailsModel(operationResponse);
 
             return Ok(model);
         }

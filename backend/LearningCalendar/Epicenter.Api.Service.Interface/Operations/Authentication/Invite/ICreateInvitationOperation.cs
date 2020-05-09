@@ -9,7 +9,10 @@ namespace Epicenter.Service.Interface.Operations.Authentication.Invite
 
     public class CreateInvitationOperationRequest
     {
-        public string InviteeEmail { get; set; }
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Role { get; set; }
     }
 
     public class CreateInvitationOperationResponse

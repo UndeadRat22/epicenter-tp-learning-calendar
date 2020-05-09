@@ -1,0 +1,9 @@
+version: 0.0
+os: linux
+files:
+  - source: /frontend
+    destination: /home/ec2-user/prod-frontend
+hooks:
+  ApplicationStart:
+    - location: /home/ec2-user/startApp.sh
+      timeout: 10000

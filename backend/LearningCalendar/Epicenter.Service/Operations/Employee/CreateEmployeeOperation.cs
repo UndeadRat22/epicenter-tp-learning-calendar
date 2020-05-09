@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Domain.Entity.LearningCalendar.ValueObject;
 using Epicenter.Infrastructure.Cryptography;
+using Epicenter.Persistence.Interface.Repository.Generic;
 using Epicenter.Persistence.Interface.Repository.LearningCalendar;
 using Epicenter.Service.Interface.Exceptions.Authentication;
 using Epicenter.Service.Interface.Operations.Employee;
@@ -15,15 +16,15 @@ namespace Epicenter.Service.Operations.Employee
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly ILimitRepository _limitRepository;
-        private readonly ITeamRepository _teamRepository;
+        private readonly IRepository<Role> _roleRepository;
         private readonly IEnsureManagerHasTeamOperation _ensureManagerHasTeamOperation;
 
-        public CreateEmployeeOperation(IEmployeeRepository employeeRepository, ILimitRepository limitRepository, ITeamRepository teamRepository, IEnsureManagerHasTeamOperation managerHasTeamOperation)
+        public CreateEmployeeOperation(IEmployeeRepository employeeRepository, ILimitRepository limitRepository, IRepository<Role> roleRepository, IEnsureManagerHasTeamOperation ensureManagerHasTeamOperation)
         {
             _employeeRepository = employeeRepository;
             _limitRepository = limitRepository;
-            _teamRepository = teamRepository;
-            _ensureManagerHasTeamOperation = managerHasTeamOperation;
+            _roleRepository = roleRepository;
+            _ensureManagerHasTeamOperation = ensureManagerHasTeamOperation;
         }
 
         public async Task<CreateEmployeeOperationResponse> Execute(CreateEmployeeOperationRequest request)
@@ -39,21 +40,25 @@ namespace Epicenter.Service.Operations.Employee
                 var topLevelManager = await _employeeRepository.GetTopLevelManagerAsync();
                 if (topLevelManager != null)
                 {
-                    return new CreateEmployeeOperationResponse { };
+                    return new CreateEmployeeOperationResponse();
                 }
             }
 
             return await (request.ManagerEmail == null
-                ? CreateManager(identity, request)
+                ? CreateTopLevelManager(identity, request)
                 : CreateEmployee(identity, request));
-
         }
 
         private async Task<CreateEmployeeOperationResponse> CreateEmployee(IdentityUser identityUser, CreateEmployeeOperationRequest request)
         {
+            var roleTask = _roleRepository
+                .QuerySingleOrDefaultAsync(role => role.Title == request.Role);
+
             var managerId = (await _employeeRepository.GetByEmailAsync(request.ManagerEmail)).Id;
 
             var getTeamResponse = await _ensureManagerHasTeamOperation.Execute(new EnsureManagerHasTeamRequest{ ManagerId = managerId });
+
+            Role role = await roleTask;
 
             var employee = new Domain.Entity.LearningCalendar.Employee
             {
@@ -64,6 +69,10 @@ namespace Epicenter.Service.Operations.Employee
                 Image = new Image
                 {
                     Value = request.ImageData
+                },
+                Role = role ?? new Role
+                {
+                    Title = request.Role
                 }
             };
             
@@ -82,7 +91,7 @@ namespace Epicenter.Service.Operations.Employee
             return new CreateEmployeeOperationResponse();
         }
 
-        private async Task<CreateEmployeeOperationResponse> CreateManager(IdentityUser identityUser, CreateEmployeeOperationRequest request)
+        private async Task<CreateEmployeeOperationResponse> CreateTopLevelManager(IdentityUser identityUser, CreateEmployeeOperationRequest request)
         {
 
             try
@@ -96,6 +105,10 @@ namespace Epicenter.Service.Operations.Employee
                     Image = new Image
                     {
                         Value = request.ImageData
+                    },
+                    Role = new Role
+                    {
+                        Title = "CEO"
                     }
                 };
 

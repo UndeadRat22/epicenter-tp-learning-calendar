@@ -62,5 +62,14 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 .Where(employee => employee.Identity.Email == email)
                 .SingleOrDefaultAsync();
         }
+
+        public async Task<Employee> GetByIdentityIdAsync(string identityId)
+        {
+            return await DbContext.Employees
+                .Include(employee => employee.Identity)
+                .Include(employee => employee.Role)
+                .Where(employee => employee.Identity.Id == identityId)
+                .SingleOrDefaultAsync();
+        }
     }
 }

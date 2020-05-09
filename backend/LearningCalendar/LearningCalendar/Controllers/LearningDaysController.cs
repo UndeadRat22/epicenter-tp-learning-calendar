@@ -10,7 +10,7 @@ namespace Epicenter.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/learning-days")]
     public class LearningDaysController : ControllerBase
     {
         private readonly IGetLearningDaysOperation _getLearningDaysOperation;
@@ -42,7 +42,7 @@ namespace Epicenter.Api.Controllers
         }
 
         [HttpPost]
-        [Route("learningDay")]
+        [Route("learning-day")]
         public async Task<ActionResult<LearningDayModel>> CreateLearningDay(CreateLearningDayModel model)
         {
             var request = new CreateLearningDayOperationRequest

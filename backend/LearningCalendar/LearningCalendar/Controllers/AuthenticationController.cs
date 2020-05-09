@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Epicenter.Api.Model.Authentication;
 using Epicenter.Service.Interface.Exceptions.Authentication;
 using Epicenter.Service.Interface.Operations.Authentication;
@@ -74,8 +75,6 @@ namespace Epicenter.Api.Controllers
             {
                 InvitationId = model.InvitationId, 
                 Password = model.Password,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
                 ImageData = model.ImageData
             };
             try
@@ -86,7 +85,7 @@ namespace Epicenter.Api.Controllers
             {
                 return Conflict(new { Error = e.Message });
             }
-            catch
+            catch (Exception e)
             {
                 return BadRequest();
             }

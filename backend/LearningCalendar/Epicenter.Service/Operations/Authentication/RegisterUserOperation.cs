@@ -29,9 +29,10 @@ namespace Epicenter.Service.Operations.Authentication
             {
                 Email = existingInvitation.InvitationTo,
                 ManagerEmail = existingInvitation.InvitationFrom.Email,
+                FirstName = existingInvitation.FirstName,
+                LastName = existingInvitation.LastName,
+                Role = existingInvitation.Role,
                 Password = request.Password,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
                 ImageData = request.ImageData
             });
 

@@ -9,7 +9,7 @@ namespace Epicenter.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/personal-goals")]
     public class GoalsController : ControllerBase
     {
         private readonly IGetPersonalGoalsOperation _getPersonalGoalsOperation;
