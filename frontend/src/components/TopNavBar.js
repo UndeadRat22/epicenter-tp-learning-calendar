@@ -8,15 +8,17 @@ import Archive from 'wix-ui-icons-common/Archive';
 import Accessibility from 'wix-ui-icons-common/Accessibility';
 import UserLeave from 'wix-ui-icons-common/UserLeave';
 import User from 'wix-ui-icons-common/User';
-import { useDispatch } from 'react-redux';
+import UserAdd from 'wix-ui-icons-common/UserAdd';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../state/actions/auth';
+import InviteModal from './modals/InviteModal';
 
 const TopNavBar = () => {
-  // TODO: use redux for avatar
-  const [profilePicture, setProfilePicture] = useState(null);
-
   const history = useHistory();
   const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.user);
+
+  const [isOpened, setIsOpened] = useState(false);
 
   const onLogout = () => {
     dispatch(logout());
@@ -70,23 +72,16 @@ const TopNavBar = () => {
         </TextButton>
       </ComposerHeader.Actions>
       <ComposerHeader.MainActions>
+        <InviteModal isModalOpened={isOpened} onCloseModal={() => setIsOpened(false)} />
         <PopoverMenu
           placement="bottom-end"
           triggerElement={
-              profilePicture ? (
-                <Avatar
-                  imgProps={{
-                    src: 'https://randomuser.me/api/portraits/women/39.jpg',
-                  }}
-                  onClick={() => console.log('Avatar click!')}
-                />
-              ) : (
-                <Avatar
-                  name="Aurelija Cyg"
-                  color="A1"
-                  size="size36"
-                  onClick={() => console.log('Avatar click!')}
-                />
+               (
+                 <Avatar
+                   name={`${user.firstName} ${user.lastName}`}
+                   color="A1"
+                   size="size36"
+                 />
               )
             }
         >
@@ -96,8 +91,8 @@ const TopNavBar = () => {
             text="Profile"
           />
           <PopoverMenu.MenuItem
-            onClick={() => history.push('/invite')}
-            prefixIcon={<User />}
+            onClick={() => setIsOpened(true)}
+            prefixIcon={<UserAdd />}
             text="Invite"
           />
           <PopoverMenu.MenuItem

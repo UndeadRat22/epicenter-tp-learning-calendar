@@ -1,0 +1,4 @@
+const MODAL_MAX_HEIGHT = '800px';
+const MODAL_HEIGHT = '800px';
+
+export { MODAL_MAX_HEIGHT, MODAL_HEIGHT };

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  BrowserRouter as Router, Route, Switch, Redirect, useHistory,
+  BrowserRouter as Router, Route, Switch, Redirect,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Login from '../pages/Login';
@@ -16,29 +16,28 @@ import { fetchSelf } from '../state/actions/auth';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 const Routing = () => {
-  const auth = useSelector(state => state.auth);
-  const { status } = auth;
+  const authStatus = useSelector(state => state.auth.status);
   const dispatch = useDispatch();
 
-  const isAuthenticated = auth.status === LOGGED_IN;
+  const isLoggedIn = authStatus === LOGGED_IN;
 
   useEffect(() => {
     dispatch(fetchSelf());
   }, [dispatch]);
 
   const defaultPathComponent = () => {
-    if (status === LOADING_FETCH_SELF)
+    if (authStatus === LOADING_FETCH_SELF)
       return <LoadingIndicator text="Loading session..." />;
-    return <Redirect to={isAuthenticated ? '/home' : '/login'} />;
+    return <Redirect to={isLoggedIn ? '/home' : '/login'} />;
   };
 
-  if (status === LOADING_FETCH_SELF)
+  if (authStatus === LOADING_FETCH_SELF)
     return <LoadingIndicator text="Loading session..." />;
 
   return (
     <Router>
       <div>
-        {isAuthenticated ? <TopNavBar /> : null}
+        {isLoggedIn ? <TopNavBar /> : null}
         <Switch>
           <Route
             path="/"
