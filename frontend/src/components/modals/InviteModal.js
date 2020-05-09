@@ -23,13 +23,11 @@ const InviteModal = ({ isModalOpened, onCloseModal }) => {
   return (
     <Modal
       isOpen={isModalOpened}
-      onRequestClose={() => onCloseModal()}
-      onClose={() => onCloseModal()}
-      shouldDisplayCloseButton
     >
       <MessageBoxFunctionalLayout
         title="Invite new employee"
         maxHeight={MODAL_MAX_HEIGHT}
+        onClose={onCloseModal}
       >
         {showNotification && (
           <Notification
