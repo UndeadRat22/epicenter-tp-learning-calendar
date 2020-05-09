@@ -9,14 +9,16 @@ import Accessibility from 'wix-ui-icons-common/Accessibility';
 import UserLeave from 'wix-ui-icons-common/UserLeave';
 import User from 'wix-ui-icons-common/User';
 import UserAdd from 'wix-ui-icons-common/UserAdd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../state/actions/auth';
 import InviteModal from './modals/InviteModal';
 
 const TopNavBar = () => {
-  const [isOpened, setIsOpened] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.user);
+
+  const [isOpened, setIsOpened] = useState(false);
 
   const onLogout = () => {
     dispatch(logout());
@@ -76,10 +78,9 @@ const TopNavBar = () => {
           triggerElement={
                (
                  <Avatar
-                   name="Aurelija Cyg"
+                   name={`${user.firstName} ${user.lastName}`}
                    color="A1"
                    size="size36"
-                   onClick={() => console.log('Avatar click!')}
                  />
               )
             }

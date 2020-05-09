@@ -18,12 +18,12 @@ const RegisterForm = ({ onRegister }) => {
   const [confirmedPassword, setConfirmedPassword] = useState('');
   const [showAlert, setShowAlert] = useState(false);
 
-  const { invitationId } = useParams();
+  const { inviteId } = useParams();
 
   const handleRegisterBtn = () => {
     if (confirmedPassword === password) {
       const user = {
-        invitationId,
+        inviteId,
         password,
       };
       onRegister(user);

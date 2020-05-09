@@ -1,8 +1,8 @@
 import {
-  LOGGED_OUT, LOGGED_IN, LOADING_FETCH_SELF, LOGIN_FAILED, FETCH_SELF_FAILED, REGISTER_FAILED, REGISTER_SUCCEEDED, LOADING_LOGIN, LOADING_REGISTER, LOADING_INVITE, INVITE_FAILED, INVITE_SUCCEEDED,
+  LOGGED_OUT, LOGGED_IN, LOADING_FETCH_SELF, LOGIN_FAILED, FETCH_SELF_FAILED, REGISTER_FAILED, REGISTER_SUCCEEDED, LOADING_LOGIN, LOADING_REGISTER,
 } from '../../constants/AuthStatus';
 import {
-  FETCH_SELF_SUCCESS, FETCH_SELF_FAIL, LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, LOGOUT, LOGIN_START, FETCH_SELF_START, REGISTER_START, INVITE_FAIL, INVITE_START, INVITE_SUCCESS,
+  FETCH_SELF_SUCCESS, FETCH_SELF_FAIL, LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, LOGOUT, LOGIN_START, FETCH_SELF_START, REGISTER_START,
 } from '../actions/types/auth';
 
 const initialState = {
@@ -61,21 +61,6 @@ const auth = (state = initialState, action) => {
       return {
         status: LOGGED_OUT,
         user: null,
-      };
-    case INVITE_START:
-      return {
-        ...state,
-        status: LOADING_INVITE,
-      };
-    case INVITE_SUCCESS:
-      return {
-        ...state,
-        status: INVITE_SUCCEEDED,
-      };
-    case INVITE_FAIL:
-      return {
-        ...state,
-        status: INVITE_FAILED,
       };
     default:
       return state;
