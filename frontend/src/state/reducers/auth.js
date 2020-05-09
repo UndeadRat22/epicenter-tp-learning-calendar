@@ -10,8 +10,6 @@ const initialState = {
   user: null,
 };
 
-// not sure if all this boilerplate with actions is needed
-// maybe setStatus, setUser, setBoth would be enough?
 const auth = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_START:
@@ -32,12 +30,12 @@ const auth = (state = initialState, action) => {
     case FETCH_SELF_SUCCESS:
       return {
         status: LOGGED_IN,
-        user: action.payload.user,
+        user: action.payload,
       };
     case FETCH_SELF_FAIL:
       return {
-        user: null,
         status: FETCH_SELF_FAILED,
+        user: null,
       };
     case LOGIN_SUCCESS:
       return {
@@ -66,14 +64,17 @@ const auth = (state = initialState, action) => {
       };
     case INVITE_START:
       return {
+        ...state,
         status: LOADING_INVITE,
       };
     case INVITE_SUCCESS:
       return {
+        ...state,
         status: INVITE_SUCCEEDED,
       };
     case INVITE_FAIL:
       return {
+        ...state,
         status: INVITE_FAILED,
       };
     default:

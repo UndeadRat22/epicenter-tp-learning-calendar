@@ -31,10 +31,14 @@ const inviteStart = makeSyncActionCreator(INVITE_START);
 const inviteSuccess = makeSyncActionCreator(INVITE_SUCCESS);
 const inviteFail = makeSyncActionCreator(INVITE_FAIL);
 
-const invite = ({ data }) => async dispatch => {
+const invite = ({
+  email, firstName, lastName, role,
+}) => async dispatch => {
   try {
     dispatch(inviteStart());
-    await Axios.post('invites/invite', data);
+    await Axios.post('invites/invite', {
+      email, firstName, lastName, role,
+    });
     dispatch(inviteSuccess());
   } catch (err) {
     dispatch(inviteFail());

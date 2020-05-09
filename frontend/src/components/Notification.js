@@ -14,4 +14,5 @@ const Notification = ({ type, text, onClose }) => {
     </Layout>
   );
 };
+
 export default Notification;

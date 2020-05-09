@@ -13,17 +13,17 @@ import {
 
 
 const InviteForm = ({ onInvite }) => {
-  const [subordinateName, setSubordinateName] = useState('');
-  const [subordinateLastName, setSubordinateLastName] = useState('');
-  const [subordinateEmail, setSubordinateEmail] = useState('');
-  const [subordinateRole, setSubordinateRole] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState('');
 
   const handleInviteBtn = () => {
     const user = {
-      subordinateName,
-      subordinateLastName,
-      subordinateEmail,
-      subordinateRole,
+      firstName,
+      lastName,
+      email,
+      role,
     };
     onInvite(user);
   };
@@ -39,9 +39,9 @@ const InviteForm = ({ onInvite }) => {
                 <Row>
                   <Col>
                     <Cell>
-                      <FormField label="Employee name" required>
+                      <FormField label="First Name" required>
                         <Input
-                          onChange={event => setSubordinateName(event.target.value)}
+                          onChange={event => setFirstName(event.target.value)}
                         />
                       </FormField>
                     </Cell>
@@ -50,9 +50,9 @@ const InviteForm = ({ onInvite }) => {
                 <Row>
                   <Col>
                     <Cell>
-                      <FormField label="Employee last name" required>
+                      <FormField label="Last Name" required>
                         <Input
-                          onChange={event => setSubordinateLastName(event.target.value)}
+                          onChange={event => setLastName(event.target.value)}
                         />
                       </FormField>
                     </Cell>
@@ -61,9 +61,9 @@ const InviteForm = ({ onInvite }) => {
                 <Row>
                   <Col>
                     <Cell>
-                      <FormField label="Employee email" required>
+                      <FormField label="Email" required>
                         <Input
-                          onChange={event => setSubordinateEmail(event.target.value)}
+                          onChange={event => setEmail(event.target.value)}
                         />
                       </FormField>
                     </Cell>
@@ -72,9 +72,9 @@ const InviteForm = ({ onInvite }) => {
                 <Row>
                   <Col>
                     <Cell>
-                      <FormField label="Employee role" required>
+                      <FormField label="Role">
                         <Input
-                          onChange={event => setSubordinateRole(event.target.value)}
+                          onChange={event => setRole(event.target.value)}
                         />
                       </FormField>
                     </Cell>
