@@ -2,23 +2,23 @@ const initialData = {
   employees: [
     {
       id: 'employee-1',
-      firstName: 'Aš',
-      lastName: '',
-      topicIds: [
-        'topic-2',
+      name: 'Aš',
+      goalTopics: [
+        {
+          topicId: 'topic-2',
+          topic: '.net 2',
+        },
       ],
     },
     {
       id: 'employee-2',
-      firstName: 'Tu',
-      lastName: '',
-      topicIds: [],
+      name: 'Tu',
+      goalTopics: [],
     },
     {
       id: 'employee-3',
-      firstName: 'Dar',
-      lastName: 'vienas',
-      topicIds: [],
+      name: 'Dar vienas',
+      goalTopics: [],
     },
   ],
   topics: [

@@ -1,5 +1,7 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
+import { useDispatch } from 'react-redux';
+import { assignGoal } from '../../../state/actions/goals';
 import TopicTag from './TopicTag';
 import ItemTypes from './ItemTypes';
 
@@ -14,14 +16,18 @@ const style = {
   flexDirection: 'column',
 };
 
-const Employee = ({ employee, topics }) => {
+const Employee = ({ employee }) => {
+  const dispatch = useDispatch();
+  const handleAssignGoal = topic => dispatch(assignGoal({ employeeId: employee.id, topic }));
+
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: ItemTypes.TOPIC,
     drop: (item, monitor) => {
-      if (!topics.some(topic => topic.id === item.topic.id))
-        topics.push(item.topic);
+      if (!employee.goalTopics.some(goalTopic => goalTopic.topicId === item.topic.id))
+        handleAssignGoal({ topicId: item.topic.id, topic: item.topic.subject });
 
-      return { name: employee.firstName };
+
+      return { name: employee.name };
     },
     collect: monitor => ({
       isOver: monitor.isOver(),
@@ -40,11 +46,11 @@ const Employee = ({ employee, topics }) => {
 
   return (
     <div ref={drop} style={{ ...style, backgroundColor }}>
-      {`${employee.firstName} ${employee.lastName}`}
-      {/* {isActive ? 'Release to drop' : employee.firstName + ' ' + employee.lastName} */}
+      {employee.name}
+      {/* {isActive ? 'Release to drop' : employee.name} */}
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        {topics.map(topic => {
-          return <TopicTag key={topic.id} topic={topic} />;
+        {employee.goalTopics.map(goalTopic => {
+          return <TopicTag key={goalTopic.topicId} goalTopic={goalTopic} />;
         })}
       </div>
     </div>

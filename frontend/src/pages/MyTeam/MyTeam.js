@@ -7,7 +7,7 @@ const MyTeam = () => {
     <Page height="1000px">
       <Page.Header title="My Team" />
       <Page.Content>
-        Here you can manage your team in a new and glorious way!
+        Assign goals by dragging and dropping them on employees!
         <br />
         <DragAndDropComponent />
       </Page.Content>

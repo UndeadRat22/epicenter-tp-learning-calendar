@@ -8,10 +8,10 @@ const style = {
   marginRight: '4px',
 };
 
-const TopicTag = ({ topic }) => {
+const TopicTag = ({ goalTopic }) => {
   return (
     <div style={style}>
-      {topic.subject}
+      {goalTopic.topic}
     </div>
   );
 };
