@@ -23,6 +23,8 @@ const InviteModal = ({ isModalOpened, onCloseModal }) => {
   return (
     <Modal
       isOpen={isModalOpened}
+      shouldCloseOnOverlayClick
+      onRequestClose={onCloseModal}
     >
       <MessageBoxFunctionalLayout
         title="Invite new employee"
