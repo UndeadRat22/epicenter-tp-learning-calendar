@@ -7,7 +7,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Home from '../pages/Home';
 import Topics from '../pages/Topics';
-import MyTeam from '../pages/MyTeam';
+import MyTeam from '../pages/MyTeam/MyTeam';
 import Profile from '../pages/Profile';
 import ProtectedRoute from './ProtectedRoute';
 import TopNavBar from '../components/TopNavBar';
