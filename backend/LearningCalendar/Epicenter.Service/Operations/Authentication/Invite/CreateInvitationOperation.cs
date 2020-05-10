@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Persistence.Interface.Repository.Authentication;
 using Epicenter.Persistence.Interface.Repository.Generic;
 using Epicenter.Service.Context.Interface.Authorization;
@@ -37,7 +38,7 @@ namespace Epicenter.Service.Operations.Authentication.Invite
                 InvitationFromId = inviter.Id,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                Role = request.Role,
+                Role = request.Role ?? Constants.Employee.DefaultRole,
                 Created = DateTime.Now
             };
 

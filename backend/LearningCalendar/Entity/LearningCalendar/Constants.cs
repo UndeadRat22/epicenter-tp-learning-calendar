@@ -7,5 +7,11 @@
             public const int MaxDaysPerQuarter = 3;
             public const int MaxTopicsPerDay = 4;
         }
+
+        public static class Employee
+        {
+            public const string DefaultRole = "Employee";
+            public const string TopLevelManagerRole = "CEO";
+        }
     }
 }
