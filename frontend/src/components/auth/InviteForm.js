@@ -11,19 +11,19 @@ import {
   FormField,
 } from 'wix-style-react';
 
-
+// TODO: introduce roles as a dropdown if we have time left
 const InviteForm = ({ onInvite }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [role, setRole] = useState('');
+  // const [role, setRole] = useState('');
 
   const handleInviteBtn = () => {
     const user = {
       firstName,
       lastName,
       email,
-      role,
+      // role,
     };
     onInvite(user);
   };
@@ -69,7 +69,7 @@ const InviteForm = ({ onInvite }) => {
                     </Cell>
                   </Col>
                 </Row>
-                <Row>
+                {/* <Row>
                   <Col>
                     <Cell>
                       <FormField label="Role">
@@ -79,7 +79,7 @@ const InviteForm = ({ onInvite }) => {
                       </FormField>
                     </Cell>
                   </Col>
-                </Row>
+                </Row> */}
               </Container>
             </Card.Content>
           </Card>
