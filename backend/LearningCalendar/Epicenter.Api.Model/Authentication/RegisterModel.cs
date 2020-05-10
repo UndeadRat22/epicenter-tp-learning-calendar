@@ -6,7 +6,7 @@ namespace Epicenter.Api.Model.Authentication
     public class RegisterModel
     {
         [Required]
-        public Guid InvitationId { get; set; }
+        public Guid InviteId { get; set; }
         [Required]
         public string Password { get; set; }
         [Required]

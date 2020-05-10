@@ -19,10 +19,10 @@ namespace Epicenter.Service.Operations.Authentication
 
         public async Task<RegisterUserOperationResponse> Execute(RegisterUserOperationRequest request)
         {
-            var existingInvitation = await _invitationRepository.GetWithInviterAsync(request.InvitationId);
+            var existingInvitation = await _invitationRepository.GetWithInviterAsync(request.InviteId);
             if (existingInvitation == null)
             {
-                throw new InvitationDoesNotExistException(request.InvitationId);
+                throw new InvitationDoesNotExistException(request.InviteId);
             }
 
             var response = await _createEmployeeOperation.Execute(new CreateEmployeeOperationRequest

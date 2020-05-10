@@ -73,7 +73,7 @@ namespace Epicenter.Api.Controllers
         {
             var request = new RegisterUserOperationRequest
             {
-                InvitationId = model.InvitationId, 
+                InviteId = model.InviteId, 
                 Password = model.Password,
                 ImageData = model.ImageData
             };
