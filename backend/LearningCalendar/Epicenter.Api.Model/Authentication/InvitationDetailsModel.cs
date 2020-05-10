@@ -7,7 +7,7 @@ namespace Epicenter.Api.Model.Authentication
     {
         public InvitationDetailsModel(GetInvitationDetailsOperationResponse details)
         {
-            InvitationId = details.InvitationId;
+            InviteId = details.InvitationId;
             InviteeDetails = new PersonDetails
             {
                 FirstName = details.InviteeDetails.FirstName,
@@ -24,7 +24,7 @@ namespace Epicenter.Api.Model.Authentication
             };
         }
 
-        public Guid InvitationId { get; set; }
+        public Guid InviteId { get; set; }
         public PersonDetails InviteeDetails { get; set; }
         public PersonDetails InviterDetails { get; set; }
 
