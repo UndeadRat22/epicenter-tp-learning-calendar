@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import cookies from '../../utils/cookies';
 import {
-  FETCH_SELF_SUCCESS, FETCH_SELF_FAIL, LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, FETCH_SELF_START, LOGIN_START, REGISTER_START, LOGOUT,
+  FETCH_SELF_SUCCESS, FETCH_SELF_FAIL, LOGIN_SUCCESS, LOGIN_FAIL, FETCH_SELF_START, LOGIN_START, LOGOUT,
 } from './types';
 import makeSyncActionCreator from '../syncActionCreator';
 
@@ -12,10 +12,6 @@ const fetchSelfFail = makeSyncActionCreator(FETCH_SELF_FAIL);
 const loginStart = makeSyncActionCreator(LOGIN_START);
 const loginSuccess = makeSyncActionCreator(LOGIN_SUCCESS);
 const loginFail = makeSyncActionCreator(LOGIN_FAIL);
-
-const registerStart = makeSyncActionCreator(REGISTER_START);
-const registerSuccess = makeSyncActionCreator(REGISTER_SUCCESS);
-const registerFail = makeSyncActionCreator(REGISTER_FAIL);
 
 const onLogout = makeSyncActionCreator(LOGOUT);
 
@@ -48,19 +44,11 @@ const fetchSelf = () => async dispatch => {
   }
 };
 
-const register = () => dispatch => {
-  try {
-    dispatch(registerStart());
-  } catch (err) {
-    dispatch(registerFail());
-  }
-};
-
 const logout = () => dispatch => {
   cookies.remove('token');
   dispatch(onLogout());
 };
 
 export {
-  fetchSelfSuccess, fetchSelfFail, loginSuccess, loginFail, registerSuccess, registerFail, login, fetchSelf, register, logout,
+  fetchSelfSuccess, fetchSelfFail, loginSuccess, loginFail, login, fetchSelf, logout,
 };

@@ -20,6 +20,7 @@ const InviteModal = ({ isModalOpened, onCloseModal }) => {
     dispatch(invite(user));
   };
 
+  // TODO: fix notification (it's not being shown)
   return (
     <Modal
       isOpen={isModalOpened}
