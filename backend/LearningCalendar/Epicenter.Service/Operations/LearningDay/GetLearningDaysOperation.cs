@@ -21,7 +21,7 @@ namespace Epicenter.Service.Operations.LearningDay
 
         public async Task<GetLearningDaysOperationResponse> Execute()
         {
-            var employee = await _authorizationContext.Current();
+            var employee = await _authorizationContext.CurrentEmployee();
             var learningDays = await _learningDayRepository.GetByEmployeeIdAsync(employee.Id);
 
             var responseLearningDays = new List<GetLearningDaysOperationResponse.LearningDay>();

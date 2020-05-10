@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
+using Epicenter.Api.Model;
 using Epicenter.Api.Model.Authentication;
 using Epicenter.Service.Interface.Exceptions.Authentication;
 using Epicenter.Service.Interface.Operations.Authentication;
@@ -69,6 +71,9 @@ namespace Epicenter.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost, Route("register")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.Conflict)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             var request = new RegisterUserOperationRequest
@@ -81,13 +86,13 @@ namespace Epicenter.Api.Controllers
             {
                 var response = await _registerUserOperation.Execute(request);
             }
-            catch (EmailAlreadyUseException e)
+            catch (EmailAlreadyUseException exception)
             {
-                return Conflict(new { Error = e.Message });
+                return Conflict(new ErrorModel(exception.Message));
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                return BadRequest();
+                return BadRequest(new ErrorModel(exception.Message));
             }
 
             return Ok();

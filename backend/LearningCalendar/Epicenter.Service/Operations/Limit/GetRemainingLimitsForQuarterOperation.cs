@@ -23,7 +23,7 @@ namespace Epicenter.Service.Operations.Limit
 
         public async Task<GetRemainingLimitsForQuarterOperationResponse> Execute(GetRemainingLimitsForQuarterOperationRequest request)
         {
-            var currentEmployee = await _authorizationContext.Current();
+            var currentEmployee = await _authorizationContext.CurrentEmployee();
 
             var assignedLimit = await _limitRepository.QuerySingleOrDefaultAsync(limit =>
                 limit.Employees.Any(employee => employee.Id == currentEmployee.Id));

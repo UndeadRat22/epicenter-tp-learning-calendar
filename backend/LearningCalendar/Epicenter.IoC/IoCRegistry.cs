@@ -81,6 +81,7 @@ namespace Epicenter.IoC
             services.AddScoped<IGetRemainingLimitsForQuarterOperation, GetRemainingLimitsForQuarterOperation>();
             services.AddScoped<ILearnTopicOperation, LearnTopicOperation>();
             services.AddScoped<IFulfillPersonalGoalOperation, FulfillPersonalGoalOperation>();
+            services.AddScoped<IDeleteInvitationsForEmailOperation, DeleteInvitationsForEmailOperation>();
 
             //contexts
             services.AddScoped<IAuthorizationContext, AuthorizationContext>();
