@@ -30,7 +30,7 @@ namespace Epicenter.Service.Operations.Authentication.Invite
         public async Task<CreateInvitationOperationResponse> Execute(CreateInvitationOperationRequest request)
         {
             var inviter = await _authorizationContext.CurrentIdentity();
-            var existingInvitee = _userRepository.QuerySingleOrDefaultAsync(user => user.Email == request.Email);
+            var existingInvitee = await _userRepository.QuerySingleOrDefaultAsync(user => user.Email == request.Email);
 
             if (existingInvitee != null)
             {
