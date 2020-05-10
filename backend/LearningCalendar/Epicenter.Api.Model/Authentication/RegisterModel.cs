@@ -7,9 +7,9 @@ namespace Epicenter.Api.Model.Authentication
     {
         [Required]
         public Guid InviteId { get; set; }
-        [Required]
+
+        [Required] 
         public string Password { get; set; }
-        [Required]
         public string ImageData { get; set; }
     }
 }
