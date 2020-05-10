@@ -11,6 +11,7 @@ import {
 } from 'wix-style-react';
 import { Route } from 'react-router-dom';
 
+// TODO: login on enter press
 const LoginForm = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

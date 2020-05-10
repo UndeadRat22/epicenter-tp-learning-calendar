@@ -14,6 +14,8 @@ import TopNavBar from '../components/TopNavBar';
 import { LOGGED_IN, LOADING_FETCH_SELF } from '../constants/AuthStatus';
 import { fetchSelf } from '../state/actions/auth';
 import LoadingIndicator from '../components/LoadingIndicator';
+import GuestRoute from './GuestRoute';
+import Subordinates from '../pages/Subordinates';
 
 const Routing = () => {
   const authStatus = useSelector(state => state.auth.status);
@@ -44,11 +46,12 @@ const Routing = () => {
             exact
             component={defaultPathComponent}
           />
-          <Route path="/invite/:inviteId" component={Register} />
-          <Route path="/login" component={Login} />
+          <GuestRoute path="/invite/:inviteId" component={Register} />
+          <GuestRoute path="/login" component={Login} />
           <ProtectedRoute path="/home" component={Home} />
           <ProtectedRoute path="/topics" component={Topics} />
           <ProtectedRoute path="/myteam" component={MyTeam} />
+          <ProtectedRoute path="/subordinates" component={Subordinates} />
           <ProtectedRoute path="/profile" component={Profile} />
           <Route path="*" component={() => '404 NOT FOUND'} />
         </Switch>
