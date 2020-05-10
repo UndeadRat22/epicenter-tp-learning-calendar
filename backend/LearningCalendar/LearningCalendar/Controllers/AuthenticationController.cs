@@ -21,13 +21,15 @@ namespace Epicenter.Api.Controllers
         private readonly IRegisterUserOperation _registerUserOperation;
         private readonly ICreateEmployeeOperation _createEmployeeOperation;
         private readonly IRefreshJwtOperation _refreshJwtOperation;
+        private readonly IChangeUserPasswordOperation _changeUserPasswordOperation;
 
-        public AuthenticationController(ILoginOperation loginOperation, IRegisterUserOperation registerUserOperation, ICreateEmployeeOperation employeeOperation, IRefreshJwtOperation refreshJwtOperation)
+        public AuthenticationController(ILoginOperation loginOperation, IRegisterUserOperation registerUserOperation, ICreateEmployeeOperation employeeOperation, IRefreshJwtOperation refreshJwtOperation, IChangeUserPasswordOperation changeUserPasswordOperation)
         {
             _loginOperation = loginOperation;
             _registerUserOperation = registerUserOperation;
             _createEmployeeOperation = employeeOperation;
             _refreshJwtOperation = refreshJwtOperation;
+            _changeUserPasswordOperation = changeUserPasswordOperation;
         }
 
         [AllowAnonymous]
@@ -67,6 +69,27 @@ namespace Epicenter.Api.Controllers
             };
 
             return Ok(model);
+        }
+
+        [HttpPut, Route("password")]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordModel model)
+        {
+            var request = new ChangeUserPasswordOperationRequest
+            {
+                NewPassword = model.NewPassword,
+                OldPassword = model.OldPassword
+            };
+            try
+            {
+                await _changeUserPasswordOperation.Execute(request);
+            }
+            catch (WrongPasswordException exception)
+            {
+                return BadRequest(new ErrorModel(exception.Message));
+            }
+            return Ok();
         }
 
         [AllowAnonymous]

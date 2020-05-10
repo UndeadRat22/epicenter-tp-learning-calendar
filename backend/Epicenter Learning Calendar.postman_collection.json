@@ -58,7 +58,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"invitationId\": \"6163e6e7-3301-4387-b65a-bf2e9d165d52\",\r\n  \"password\": \"password\",\r\n  \"imageData\": \"string\"\r\n}",
+					"raw": "{\n    \"inviteId\": \"a80c905c-5ed5-4348-adce-590248f19095\",\n    \"password\": \"omg\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -390,7 +390,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"Email\": \"valdas@rakutis.lt\",\n\t\"FirstName\": \"Valdas\",\n\t\"LastName\": \"Rakutis\",\n\t\"Role\": \"Software Architect\"\n}",
+					"raw": "{\n\t\"Email\": \"eepicentras@gmail.com\",\n\t\"FirstName\": \"Valdas\",\n\t\"LastName\": \"Rakutis\",\n\t\"Role\": \"Software Engineer\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -417,7 +417,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{api-url}}/api/invites/invite/6163e6e7-3301-4387-b65a-bf2e9d165d52",
+					"raw": "{{api-url}}/api/invites/invite/82a8e95b-019c-4fff-ba47-91c5f2cab8fe",
 					"host": [
 						"{{api-url}}"
 					],
@@ -425,7 +425,45 @@
 						"api",
 						"invites",
 						"invite",
-						"6163e6e7-3301-4387-b65a-bf2e9d165d52"
+						"82a8e95b-019c-4fff-ba47-91c5f2cab8fe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Password",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"newPassword\": \"password\",\n\t\"oldPassword\": \"test123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api-url}}/api/auth/password",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"password"
 					]
 				}
 			},
