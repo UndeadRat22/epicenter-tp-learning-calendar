@@ -5,7 +5,7 @@ import {
 import { INVITE_START, INVITE_SUCCESS, INVITE_FAIL } from '../actions/types';
 
 const initialState = {
-  status: LOADING_INVITE,
+  status: '',
 };
 
 const invite = (state = initialState, action) => {

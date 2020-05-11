@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Box,
@@ -9,12 +9,23 @@ import {
   Container,
   Card,
 } from 'wix-style-react';
-import { Route } from 'react-router-dom';
 
-// TODO: login on enter press
 const LoginForm = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    const listener = event => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+        if (email !== '' && password !== '')
+          handleLoginBtn();
+      }
+    };
+    document.addEventListener('keydown', listener);
+    return () => {
+      document.removeEventListener('keydown', listener);
+    };
+  });
 
   const handleLoginBtn = () => {
     const user = {
@@ -56,16 +67,12 @@ const LoginForm = ({ onLogin }) => {
                 <Row>
                   <Col>
                     <Box align="right">
-                      <Route
-                        render={({ history }) => (
-                          <Button
-                            as="button"
-                            onClick={() => handleLoginBtn(history)}
-                          >
-                            Login
-                          </Button>
-                        )}
-                      />
+                      <Button
+                        as="button"
+                        onClick={() => handleLoginBtn()}
+                      >
+                        Login
+                      </Button>
                     </Box>
                   </Col>
                 </Row>

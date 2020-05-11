@@ -10,19 +10,19 @@ import {
   Card,
   FormField,
 } from 'wix-style-react';
-import { Route, useParams } from 'react-router-dom';
 import ErrorNotification from '../ErrorNotification';
 
-const RegisterForm = ({ onRegister }) => {
-  const [password, setPassword] = useState('');
+const ChangePasswordForm = ({ onChange }) => {
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [confirmedPassword, setConfirmedPassword] = useState('');
   const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
     const listener = event => {
       if (event.code === 'Enter' || event.code === 'NumpadEnter') {
-        if (password !== '' && confirmedPassword !== '')
-          handleRegisterBtn();
+        if (oldPassword !== '' && newPassword !== '' && confirmedPassword !== '')
+          handleChangePasswordBtn();
       }
     };
     document.addEventListener('keydown', listener);
@@ -31,21 +31,19 @@ const RegisterForm = ({ onRegister }) => {
     };
   });
 
-  const { inviteId } = useParams();
-
-  const handleRegisterBtn = () => {
-    if (confirmedPassword === password) {
-      const user = {
-        inviteId,
-        password,
+  const handleChangePasswordBtn = () => {
+    if (confirmedPassword === newPassword) {
+      const passwords = {
+        oldPassword,
+        newPassword,
       };
-      onRegister(user);
+      onChange(passwords);
     } else
       setShowNotification(true);
   };
 
   return (
-    <Container>
+    <Container fluid>
       <Row>
         <Col span="3" />
         <Col span="6">
@@ -55,10 +53,10 @@ const RegisterForm = ({ onRegister }) => {
                 <Row>
                   <Col>
                     <Cell>
-                      <FormField label="Password" required>
+                      <FormField label="Old password">
                         <Input
                           type="password"
-                          onChange={event => setPassword(event.target.value)}
+                          onChange={event => setOldPassword(event.target.value)}
                         />
                       </FormField>
                     </Cell>
@@ -67,7 +65,19 @@ const RegisterForm = ({ onRegister }) => {
                 <Row>
                   <Col>
                     <Cell>
-                      <FormField label="Confirm password" required>
+                      <FormField label="New password">
+                        <Input
+                          type="password"
+                          onChange={event => setNewPassword(event.target.value)}
+                        />
+                      </FormField>
+                    </Cell>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Cell>
+                      <FormField label="Confirm new password">
                         <Input
                           type="password"
                           onChange={event => setConfirmedPassword(event.target.value)}
@@ -76,25 +86,21 @@ const RegisterForm = ({ onRegister }) => {
                     </Cell>
                   </Col>
                 </Row>
-                <Row>
-                  <Col>
-                    <Box align="right">
-                      <Route
-                        render={() => (
-                          <Button
-                            as="button"
-                            onClick={() => handleRegisterBtn()}
-                          >
-                            Finish
-                          </Button>
-                        )}
-                      />
-                    </Box>
-                  </Col>
-                </Row>
               </Container>
             </Card.Content>
           </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Box align="right">
+            <Button
+              as="button"
+              onClick={() => handleChangePasswordBtn()}
+            >
+              Change
+            </Button>
+          </Box>
         </Col>
       </Row>
       {showNotification && (
@@ -106,4 +112,5 @@ const RegisterForm = ({ onRegister }) => {
     </Container>
   );
 };
-export default RegisterForm;
+
+export default ChangePasswordForm;

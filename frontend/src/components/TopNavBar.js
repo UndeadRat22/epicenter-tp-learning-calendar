@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
-  ComposerHeader, TextButton, Avatar, PopoverMenu,
+  ComposerHeader, Avatar, PopoverMenu,
 } from 'wix-style-react';
 import Home from 'wix-ui-icons-common/Home';
 import Archive from 'wix-ui-icons-common/Archive';
@@ -9,9 +9,11 @@ import UserLeave from 'wix-ui-icons-common/UserLeave';
 import User from 'wix-ui-icons-common/User';
 import Users from 'wix-ui-icons-common/Users';
 import UserAdd from 'wix-ui-icons-common/UserAdd';
+import Edit from 'wix-ui-icons-common/Edit';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../state/actions/auth';
 import InviteModal from './modals/InviteModal';
+import ChangePasswordModal from './modals/ChangePasswordModal';
 import TopNavBarTextButton from './TopNavBarTextButton';
 
 const TopNavBar = () => {
@@ -21,7 +23,8 @@ const TopNavBar = () => {
 
   const user = useSelector(state => state.auth.user);
 
-  const [isOpened, setIsOpened] = useState(false);
+  const [isOpenedInvite, setIsOpenedInvite] = useState(false);
+  const [isOpenedChangePassword, setIsOpenedChangePassword] = useState(false);
 
   const onLogout = () => {
     dispatch(logout());
@@ -37,7 +40,8 @@ const TopNavBar = () => {
         <TopNavBarTextButton text="Subordinates" Icon={<Users />} path="/subordinates" isCurrentPath={pathname === '/subordinates'} />
       </ComposerHeader.Actions>
       <ComposerHeader.MainActions>
-        <InviteModal isModalOpened={isOpened} onCloseModal={() => setIsOpened(false)} />
+        <InviteModal isModalOpened={isOpenedInvite} onCloseModal={() => setIsOpenedInvite(false)} />
+        <ChangePasswordModal isModalOpened={isOpenedChangePassword} onCloseModal={() => setIsOpenedChangePassword(false)} />
         <PopoverMenu
           placement="bottom-end"
           triggerElement={
@@ -56,9 +60,14 @@ const TopNavBar = () => {
             text="Profile"
           />
           <PopoverMenu.MenuItem
-            onClick={() => setIsOpened(true)}
+            onClick={() => setIsOpenedInvite(true)}
             prefixIcon={<UserAdd />}
             text="Invite"
+          />
+          <PopoverMenu.MenuItem
+            onClick={() => setIsOpenedChangePassword(true)}
+            prefixIcon={<Edit />}
+            text="Change password"
           />
           <PopoverMenu.MenuItem
             onClick={onLogout}

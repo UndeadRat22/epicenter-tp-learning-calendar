@@ -1,4 +1,4 @@
 const MODAL_MAX_HEIGHT = '800px';
-const MODAL_HEIGHT = '800px';
 
-export { MODAL_MAX_HEIGHT, MODAL_HEIGHT };
+// eslint-disable-next-line import/prefer-default-export
+export { MODAL_MAX_HEIGHT };
