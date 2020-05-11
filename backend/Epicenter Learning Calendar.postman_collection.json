@@ -152,13 +152,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{api-url}}/api/Topics",
+					"raw": "{{api-url}}/api/topics",
 					"host": [
 						"{{api-url}}"
 					],
 					"path": [
 						"api",
-						"Topics"
+						"topics"
 					]
 				}
 			},
@@ -181,7 +181,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"parentTopic\": \"858ff83b-4ebe-4c1f-2336-08d7e52a5689\",\n\t\"subject\": \".net core\",\n\t\"description\": \"comprehensive knowledge of .net core technologies\"\n}",
+					"raw": "{\n\t\"parentTopic\": \"01de7400-5651-42b8-d95f-08d7f5beea1f\",\n\t\"subject\": \"Tensorflow\",\n\t\"description\": \"learn the technology\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -189,13 +189,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{api-url}}/api/Topics",
+					"raw": "{{api-url}}/api/topics/topic",
 					"host": [
 						"{{api-url}}"
 					],
 					"path": [
 						"api",
-						"Topics"
+						"topics",
+						"topic"
 					]
 				}
 			},
@@ -464,6 +465,35 @@
 						"api",
 						"auth",
 						"password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetTopicTree",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api-url}}/api/topics/tree",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"api",
+						"topics",
+						"tree"
 					]
 				}
 			},
