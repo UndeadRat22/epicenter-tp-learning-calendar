@@ -1,4 +1,4 @@
-import { LOADING_CHANGE_PASSWORD, CHANGE_FAILED_PASSWORD, CHANGE_SUCCEEDED_PASSWORD } from '../../constants/ChangePasswordStatus';
+import { LOADING_CHANGE_PASSWORD, CHANGE_PASSWORD_FAILED, CHANGE_PASSWORD_SUCCEEDED } from '../../constants/ChangePasswordStatus';
 import { CHANGE_PASSWORD_FAIL, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_START } from '../actions/types/password';
 
 const initialState = {
@@ -13,11 +13,11 @@ const changePassword = (state = initialState, action) => {
       };
     case CHANGE_PASSWORD_SUCCESS:
       return {
-        status: CHANGE_SUCCEEDED_PASSWORD,
+        status: CHANGE_PASSWORD_SUCCEEDED,
       };
     case CHANGE_PASSWORD_FAIL:
       return {
-        status: CHANGE_FAILED_PASSWORD,
+        status: CHANGE_PASSWORD_FAILED,
       };
     default:
       return state;
