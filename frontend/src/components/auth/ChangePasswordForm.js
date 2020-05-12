@@ -20,10 +20,8 @@ const ChangePasswordForm = ({ onChange }) => {
 
   useEffect(() => {
     const listener = event => {
-      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
-        if (oldPassword !== '' && newPassword !== '' && confirmedPassword !== '')
-          handleChangePasswordBtn();
-      }
+      if (event.code === 'Enter' || event.code === 'NumpadEnter')
+        handleChangePasswordBtn();
     };
     document.addEventListener('keydown', listener);
     return () => {
@@ -32,14 +30,16 @@ const ChangePasswordForm = ({ onChange }) => {
   });
 
   const handleChangePasswordBtn = () => {
-    if (confirmedPassword === newPassword) {
-      const passwords = {
-        oldPassword,
-        newPassword,
-      };
-      onChange(passwords);
-    } else
-      setShowNotification(true);
+    if (oldPassword !== '' && newPassword !== '' && confirmedPassword !== '') {
+      if (confirmedPassword === newPassword) {
+        const passwords = {
+          oldPassword,
+          newPassword,
+        };
+        onChange(passwords);
+      } else
+        setShowNotification(true);
+    }
   };
 
   return (

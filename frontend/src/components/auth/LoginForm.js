@@ -16,10 +16,8 @@ const LoginForm = ({ onLogin }) => {
 
   useEffect(() => {
     const listener = event => {
-      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
-        if (email !== '' && password !== '')
-          handleLoginBtn();
-      }
+      if (event.code === 'Enter' || event.code === 'NumpadEnter')
+        handleLoginBtn();
     };
     document.addEventListener('keydown', listener);
     return () => {
@@ -28,11 +26,13 @@ const LoginForm = ({ onLogin }) => {
   });
 
   const handleLoginBtn = () => {
-    const user = {
-      email,
-      password,
-    };
-    onLogin(user);
+    if (email !== '' && password !== '') {
+      const user = {
+        email,
+        password,
+      };
+      onLogin(user);
+    }
   };
 
   return (

@@ -20,10 +20,8 @@ const RegisterForm = ({ onRegister }) => {
 
   useEffect(() => {
     const listener = event => {
-      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
-        if (password !== '' && confirmedPassword !== '')
-          handleRegisterBtn();
-      }
+      if (event.code === 'Enter' || event.code === 'NumpadEnter')
+        handleRegisterBtn();
     };
     document.addEventListener('keydown', listener);
     return () => {
@@ -34,14 +32,16 @@ const RegisterForm = ({ onRegister }) => {
   const { inviteId } = useParams();
 
   const handleRegisterBtn = () => {
-    if (confirmedPassword === password) {
-      const user = {
-        inviteId,
-        password,
-      };
-      onRegister(user);
-    } else
-      setShowNotification(true);
+    if (password !== '' && confirmedPassword !== '') {
+      if (confirmedPassword === password) {
+        const user = {
+          inviteId,
+          password,
+        };
+        onRegister(user);
+      } else
+        setShowNotification(true);
+    }
   };
 
   return (

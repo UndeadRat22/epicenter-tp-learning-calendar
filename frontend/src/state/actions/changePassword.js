@@ -1,10 +1,10 @@
 import Axios from 'axios';
 import makeSyncActionCreator from '../syncActionCreator';
-import { CHANGE_FAIL, CHANGE_SUCCESS, CHANGE_START } from './types/password';
+import { CHANGE_PASSWORD_FAIL, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_START } from './types/password';
 
-const changeStart = makeSyncActionCreator(CHANGE_START);
-const changeSuccess = makeSyncActionCreator(CHANGE_SUCCESS);
-const changeFail = makeSyncActionCreator(CHANGE_FAIL);
+const changeStart = makeSyncActionCreator(CHANGE_PASSWORD_START);
+const changeSuccess = makeSyncActionCreator(CHANGE_PASSWORD_SUCCESS);
+const changeFail = makeSyncActionCreator(CHANGE_PASSWORD_FAIL);
 
 const changePassword = ({ oldPassword, newPassword }) => async dispatch => {
   try {
