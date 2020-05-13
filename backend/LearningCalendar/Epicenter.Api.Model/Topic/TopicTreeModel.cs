@@ -19,12 +19,12 @@ namespace Epicenter.Api.Model.Topic
             public Topic(GetTopicTreeOperationResponse.Topic topic)
             {
                 Id = topic.Id;
-                Subject = topic.Subject;
-                SubTopics = topic.Children.Select(c => new Topic(c)).ToList();
+                Name = topic.Subject;
+                Children = topic.Children.Select(c => new Topic(c)).ToList();
             }
-            public List<Topic> SubTopics { get; set; }
+            public List<Topic> Children { get; set; }
             public Guid Id { get; set; }
-            public string Subject { get; set; }
+            public string Name { get; set; }
         }
     }
 }
