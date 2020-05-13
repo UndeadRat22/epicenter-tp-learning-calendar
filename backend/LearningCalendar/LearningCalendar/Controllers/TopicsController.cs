@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
+using Epicenter.Api.Model;
 using Epicenter.Api.Model.Topic;
 using Epicenter.Service.Interface.Exceptions.Topic;
 using Epicenter.Service.Interface.Operations.Topic;
@@ -15,26 +17,43 @@ namespace Epicenter.Api.Controllers
         private readonly IGetAllTopicsOperation _getAllTopicsOperation;
         private readonly ICreateTopicOperation _createTopicOperation;
         private readonly ILearnTopicOperation _learnTopicOperation;
+        private readonly IGetTopicTreeOperation _getTopicTreeOperation;
 
-        public TopicsController(IGetAllTopicsOperation allTopicsOperation,
-            ICreateTopicOperation topicOperation,
-            ILearnTopicOperation learnTopicOperation)
+        public TopicsController(IGetAllTopicsOperation allTopicsOperation, 
+            ICreateTopicOperation topicOperation, 
+            ILearnTopicOperation learnTopicOperation, 
+            IGetTopicTreeOperation topicTreeOperation)
         {
             _getAllTopicsOperation = allTopicsOperation;
             _createTopicOperation = topicOperation;
             _learnTopicOperation = learnTopicOperation;
+            _getTopicTreeOperation = topicTreeOperation;
         }
 
         [HttpGet]
-        public async Task<ActionResult<TopicListModel>> All()
+        [ProducesResponseType(typeof(TopicListModel), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> All()
         {
             var response = await _getAllTopicsOperation.Execute();
 
             return Ok(new TopicListModel(response));
         }
 
+        [HttpGet, Route("tree")]
+        //[ProducesResponseType(typeof(TopicTreeModel), (int)HttpStatusCode.OK)] Swagger fails because of recursive definition in model
+        public async Task<IActionResult> Tree()
+        {
+            var response = await _getTopicTreeOperation.Execute();
+
+            var model = new TopicTreeModel(response);
+
+            return Ok(model);
+        }
+        
         [HttpPost, Route("topic")]
-        public async Task<ActionResult<TopicModel>> CreateTopic(CreateTopicModel model)
+        [ProducesResponseType(typeof(TopicModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> CreateTopic(CreateTopicModel model)
         {
             var request = new CreateTopicOperationRequest
             {
@@ -50,14 +69,16 @@ namespace Epicenter.Api.Controllers
             }
             catch (TopicAlreadyExistsException ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new ErrorModel(ex.Message));
             }
 
-            return Ok(new TopicModel{Id = response.Id});
+            return Ok(new TopicModel(response));
         }
 
         [HttpPost]
         [Route("learn")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> LearnTopic(LearnTopicModel model)
         {
             var request = new LearnTopicOperationRequest
@@ -72,11 +93,11 @@ namespace Epicenter.Api.Controllers
             }
             catch (TopicNotInLearningDayException ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new ErrorModel(ex.Message));
             }
             catch (TopicAlreadyLearnedException ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new ErrorModel(ex.Message));
             }
 
             return Ok();

@@ -15,7 +15,7 @@ namespace Epicenter.Service.Operations.Employee
 
         public async Task<GetEmployeeDetailsOperationResponse> Execute()
         {
-            var employee = await _authorizationContext.Current();
+            var employee = await _authorizationContext.CurrentEmployee();
 
             return new GetEmployeeDetailsOperationResponse
             {

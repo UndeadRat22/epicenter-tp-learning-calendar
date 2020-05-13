@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Entity\Epicenter.Domain.Entity.csproj" />
+    <ProjectReference Include="..\Epicenter.Infrastructure\Epicenter.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

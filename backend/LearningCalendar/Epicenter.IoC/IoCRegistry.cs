@@ -40,47 +40,50 @@ namespace Epicenter.IoC
     {
         public static IServiceCollection RegisterDependencies(IServiceCollection services)
         {
-            services.AddScopedRepository<Employee>();
-            services.AddScopedRepository<Invite>();
-            services.AddScopedRepository<Role>();
-            services.AddScoped<IRepository<IdentityUser>, Repository<IdentityUser>>();
+            services.AddTransientRepository<Employee>();
+            services.AddTransientRepository<Invite>();
+            services.AddTransientRepository<Role>();
+            services.AddTransient<IRepository<IdentityUser>, Repository<IdentityUser>>();
 
-            services.AddScoped<IInvitationRepository, InvitationRepository>();
-            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-            services.AddScoped<ITeamRepository, TeamRepository>();
-            services.AddScoped<ILimitRepository, LimitRepository>();
-            services.AddScoped<ITopicRepository, TopicRepository>();
-            services.AddScoped<IPersonalGoalRepository, PersonalGoalRepository>();
-            services.AddScoped<ILearningDayRepository, LearningDayRepository>();
-            services.AddScoped<ILearningDayTopicRepository, LearningDayTopicRepository>();
+            services.AddTransient<IInvitationRepository, InvitationRepository>();
+            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+            services.AddTransient<ITeamRepository, TeamRepository>();
+            services.AddTransient<ILimitRepository, LimitRepository>();
+            services.AddTransient<ITopicRepository, TopicRepository>();
+            services.AddTransient<IPersonalGoalRepository, PersonalGoalRepository>();
+            services.AddTransient<ILearningDayRepository, LearningDayRepository>();
+            services.AddTransient<ILearningDayTopicRepository, LearningDayTopicRepository>();
 
-            services.AddScoped<IEmailService, EmailService>();
+            services.AddTransient<IEmailService, EmailService>();
             
             //operations
-            services.AddScoped<ILoginOperation, LoginOperation>();
-            services.AddScoped<ICreateInvitationOperation, CreateInvitationOperation>();
-            services.AddScoped<IGetInvitationDetailsOperation, GetInvitationDetailsOperation>();
-            services.AddScoped<ICheckUserCredentialsOperation, CheckUserCredentialsOperation>();
-            services.AddScoped<IUserExistsOperation, UserExistsOperation>();
-            services.AddScoped<IRegisterUserOperation, RegisterUserOperation>();
-            services.AddScoped<ICreateEmployeeOperation, CreateEmployeeOperation>();
-            services.AddScoped<IEnsureManagerHasTeamOperation, EnsureManagerHasTeamOperation>();
-            services.AddScoped<IGetDirectSubordinatesOperation, GetDirectSubordinatesOperation>();
-            services.AddScoped<IGetAllTopicsOperation, GetAllTopicsOperation>();
-            services.AddScoped<ICreateTopicOperation, CreateTopicOperation>();
-            services.AddScoped<IAssignGoalToEmployeeOperation, AssignGoalToEmployeeOperation>();
-            services.AddScoped<IAssignGoalToTeamOperation, AssignGoalToTeamOperation>();
-            services.AddScoped<ICreateJwtOperation, CreateJwtOperation>();
-            services.AddScoped<IRefreshJwtOperation, RefreshJwtOperation>();
-            services.AddScoped<IGetEmployeeDetailsOperation, GetEmployeeDetailsOperation>();
-            services.AddScoped<ICreateLearningDayOperation, CreateLearningDayOperation>();
-            services.AddScoped<IGetLearningDaysOperation, GetLearningDaysOperation>();
-            services.AddScoped<IGetSubordinateLearningDaysOperation, GetSubordinateLearningDaysOperation>();
-            services.AddScoped<IGetPersonalGoalsOperation, GetPersonalGoalsOperation>();
-            services.AddScoped<IGetLimitsOperation, GetLimitsOperation>();
-            services.AddScoped<IGetRemainingLimitsForQuarterOperation, GetRemainingLimitsForQuarterOperation>();
-            services.AddScoped<ILearnTopicOperation, LearnTopicOperation>();
-            services.AddScoped<IFulfillPersonalGoalOperation, FulfillPersonalGoalOperation>();
+            services.AddTransient<ILoginOperation, LoginOperation>();
+            services.AddTransient<ICreateInvitationOperation, CreateInvitationOperation>();
+            services.AddTransient<IGetInvitationDetailsOperation, GetInvitationDetailsOperation>();
+            services.AddTransient<ICheckUserCredentialsOperation, CheckUserCredentialsOperation>();
+            services.AddTransient<IUserExistsOperation, UserExistsOperation>();
+            services.AddTransient<IRegisterUserOperation, RegisterUserOperation>();
+            services.AddTransient<ICreateEmployeeOperation, CreateEmployeeOperation>();
+            services.AddTransient<IEnsureManagerHasTeamOperation, EnsureManagerHasTeamOperation>();
+            services.AddTransient<IGetDirectSubordinatesOperation, GetDirectSubordinatesOperation>();
+            services.AddTransient<IGetAllTopicsOperation, GetAllTopicsOperation>();
+            services.AddTransient<ICreateTopicOperation, CreateTopicOperation>();
+            services.AddTransient<IAssignGoalToEmployeeOperation, AssignGoalToEmployeeOperation>();
+            services.AddTransient<IAssignGoalToTeamOperation, AssignGoalToTeamOperation>();
+            services.AddTransient<ICreateJwtOperation, CreateJwtOperation>();
+            services.AddTransient<IRefreshJwtOperation, RefreshJwtOperation>();
+            services.AddTransient<IGetEmployeeDetailsOperation, GetEmployeeDetailsOperation>();
+            services.AddTransient<ICreateLearningDayOperation, CreateLearningDayOperation>();
+            services.AddTransient<IGetLearningDaysOperation, GetLearningDaysOperation>();
+            services.AddTransient<IGetSubordinateLearningDaysOperation, GetSubordinateLearningDaysOperation>();
+            services.AddTransient<IGetPersonalGoalsOperation, GetPersonalGoalsOperation>();
+            services.AddTransient<IGetLimitsOperation, GetLimitsOperation>();
+            services.AddTransient<IGetRemainingLimitsForQuarterOperation, GetRemainingLimitsForQuarterOperation>();
+            services.AddTransient<ILearnTopicOperation, LearnTopicOperation>();
+            services.AddTransient<IFulfillPersonalGoalOperation, FulfillPersonalGoalOperation>();
+            services.AddTransient<IDeleteInvitationsForEmailOperation, DeleteInvitationsForEmailOperation>();
+            services.AddTransient<IChangeUserPasswordOperation, ChangeUserPasswordOperation>();
+            services.AddTransient<IGetTopicTreeOperation, GetTopicTreeOperation>();
 
             //contexts
             services.AddScoped<IAuthorizationContext, AuthorizationContext>();

@@ -10,7 +10,7 @@ namespace Epicenter.Service.Interface.Operations.Authentication.User
 
     public class RegisterUserOperationRequest
     {
-        public Guid InvitationId { get; set; }
+        public Guid InviteId { get; set; }
         public string Password { get; set; }
         public string ImageData { get; set; }
     }

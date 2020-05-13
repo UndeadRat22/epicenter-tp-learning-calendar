@@ -1,10 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Threading.Tasks;
+using Epicenter.Api.Model;
 using Epicenter.Api.Model.Authentication;
+using Epicenter.Service.Interface.Exceptions.Authentication;
 using Epicenter.Service.Interface.Operations.Authentication.Invite;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Extensions;
 
 namespace Epicenter.Api.Controllers
 {
@@ -24,7 +28,9 @@ namespace Epicenter.Api.Controllers
         }
 
         [HttpPost, Route("invite")]
-        public async Task<ActionResult> CreateInvite([FromBody] InviteModel model)
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> CreateInvite([FromBody] InviteModel model)
         {
             var request = new CreateInvitationOperationRequest
             {
@@ -34,7 +40,14 @@ namespace Epicenter.Api.Controllers
                 Role = model.Role
             };
 
-            await _createInvitationOperation.Execute(request);
+            try
+            {
+                await _createInvitationOperation.Execute(request);
+            }
+            catch (EmailAlreadyUseException exception)
+            {
+                return BadRequest(new ErrorModel(exception.Message));
+            }
 
             return Ok();
         }

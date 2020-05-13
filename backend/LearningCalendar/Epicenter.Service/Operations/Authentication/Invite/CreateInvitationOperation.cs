@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Persistence.Interface.Repository.Authentication;
 using Epicenter.Persistence.Interface.Repository.Generic;
+using Epicenter.Persistence.Interface.Repository.LearningCalendar;
 using Epicenter.Service.Context.Interface.Authorization;
+using Epicenter.Service.Interface.Exceptions.Authentication;
 using Epicenter.Service.Interface.Operations.Authentication.Invite;
 using Epicenter.Service.Interface.Services.Mail;
 using Microsoft.AspNetCore.Identity;
@@ -15,7 +18,7 @@ namespace Epicenter.Service.Operations.Authentication.Invite
         private readonly IEmailService _emailService;
         private readonly IInvitationRepository _invitationRepository;
         private readonly IAuthorizationContext _authorizationContext;
-
+        
         public CreateInvitationOperation(IRepository<IdentityUser> userRepository, IEmailService emailService, IInvitationRepository invitationRepository, IAuthorizationContext authorizationContext)
         {
             _userRepository = userRepository;
@@ -26,9 +29,13 @@ namespace Epicenter.Service.Operations.Authentication.Invite
 
         public async Task<CreateInvitationOperationResponse> Execute(CreateInvitationOperationRequest request)
         {
-            string email = _authorizationContext.IdentityName;
-            
-            IdentityUser inviter = await _userRepository.QuerySingleOrDefaultAsync(user => user.Email == email);
+            var inviter = await _authorizationContext.CurrentIdentity();
+            var existingInvitee = await _userRepository.QuerySingleOrDefaultAsync(user => user.Email == request.Email);
+
+            if (existingInvitee != null)
+            {
+                throw new EmailAlreadyUseException();
+            }
 
             var invite = new Domain.Entity.Authentication.Invite
             {
@@ -37,7 +44,7 @@ namespace Epicenter.Service.Operations.Authentication.Invite
                 InvitationFromId = inviter.Id,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                Role = request.Role,
+                Role = request.Role ?? Constants.Employee.DefaultRole,
                 Created = DateTime.Now
             };
 

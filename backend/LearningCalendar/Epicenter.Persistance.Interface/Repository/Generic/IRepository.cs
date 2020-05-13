@@ -9,6 +9,7 @@ namespace Epicenter.Persistence.Interface.Repository.Generic
     {
         Task CreateAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);
+        Task DeleteAsync(IEnumerable<TEntity> entities);
         Task UpdateAsync(TEntity entity);
         Task UpdateAsync(IEnumerable<TEntity> entities);
         Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate);

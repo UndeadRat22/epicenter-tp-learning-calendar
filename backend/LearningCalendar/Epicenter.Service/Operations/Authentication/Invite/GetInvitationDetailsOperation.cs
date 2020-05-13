@@ -37,7 +37,7 @@ namespace Epicenter.Service.Operations.Authentication.Invite
                 InviteeDetails = new GetInvitationDetailsOperationResponse.Details
                 {
                     FirstName = invitation.FirstName,
-                    LastName = inviter.LastName,
+                    LastName = invitation.LastName,
                     Email = invitation.InvitationTo,
                     Role = invitation.Role
                 }

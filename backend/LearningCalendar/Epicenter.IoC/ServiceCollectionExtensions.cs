@@ -8,10 +8,10 @@ namespace Epicenter.IoC
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddScopedRepository<T>(this IServiceCollection services)
+        public static IServiceCollection AddTransientRepository<T>(this IServiceCollection services)
             where T : class
         {
-            return services.AddScoped<IRepository<T>, Repository<T>>();
+            return services.AddTransient<IRepository<T>, Repository<T>>();
         }
 
         public static IServiceCollection RegisterDependencies(this IServiceCollection services)

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
+using Epicenter.Api.Model;
 using Epicenter.Api.Model.Authentication;
 using Epicenter.Service.Interface.Exceptions.Authentication;
 using Epicenter.Service.Interface.Operations.Authentication;
@@ -19,13 +21,15 @@ namespace Epicenter.Api.Controllers
         private readonly IRegisterUserOperation _registerUserOperation;
         private readonly ICreateEmployeeOperation _createEmployeeOperation;
         private readonly IRefreshJwtOperation _refreshJwtOperation;
+        private readonly IChangeUserPasswordOperation _changeUserPasswordOperation;
 
-        public AuthenticationController(ILoginOperation loginOperation, IRegisterUserOperation registerUserOperation, ICreateEmployeeOperation employeeOperation, IRefreshJwtOperation refreshJwtOperation)
+        public AuthenticationController(ILoginOperation loginOperation, IRegisterUserOperation registerUserOperation, ICreateEmployeeOperation employeeOperation, IRefreshJwtOperation refreshJwtOperation, IChangeUserPasswordOperation changeUserPasswordOperation)
         {
             _loginOperation = loginOperation;
             _registerUserOperation = registerUserOperation;
             _createEmployeeOperation = employeeOperation;
             _refreshJwtOperation = refreshJwtOperation;
+            _changeUserPasswordOperation = changeUserPasswordOperation;
         }
 
         [AllowAnonymous]
@@ -67,13 +71,37 @@ namespace Epicenter.Api.Controllers
             return Ok(model);
         }
 
+        [HttpPut, Route("password")]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordModel model)
+        {
+            var request = new ChangeUserPasswordOperationRequest
+            {
+                NewPassword = model.NewPassword,
+                OldPassword = model.OldPassword
+            };
+            try
+            {
+                await _changeUserPasswordOperation.Execute(request);
+            }
+            catch (WrongPasswordException exception)
+            {
+                return BadRequest(new ErrorModel(exception.Message));
+            }
+            return Ok();
+        }
+
         [AllowAnonymous]
         [HttpPost, Route("register")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.Conflict)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             var request = new RegisterUserOperationRequest
             {
-                InvitationId = model.InvitationId, 
+                InviteId = model.InviteId, 
                 Password = model.Password,
                 ImageData = model.ImageData
             };
@@ -81,13 +109,13 @@ namespace Epicenter.Api.Controllers
             {
                 var response = await _registerUserOperation.Execute(request);
             }
-            catch (EmailAlreadyUseException e)
+            catch (EmailAlreadyUseException exception)
             {
-                return Conflict(new { Error = e.Message });
+                return Conflict(new ErrorModel(exception.Message));
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                return BadRequest();
+                return BadRequest(new ErrorModel(exception.Message));
             }
 
             return Ok();

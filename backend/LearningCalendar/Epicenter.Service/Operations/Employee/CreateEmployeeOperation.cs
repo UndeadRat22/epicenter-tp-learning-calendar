@@ -108,7 +108,7 @@ namespace Epicenter.Service.Operations.Employee
                     },
                     Role = new Role
                     {
-                        Title = "CEO"
+                        Title = Constants.Employee.TopLevelManagerRole
                     }
                 };
 

@@ -20,7 +20,7 @@ namespace Epicenter.Service.Operations.Goal
 
         public async Task<GetPersonalGoalsOperationResponse> Execute()
         {
-            var employee = await _authorizationContext.Current();
+            var employee = await _authorizationContext.CurrentEmployee();
             var personalGoals = await _personalGoalRepository.GetByEmployeeIdAsync(employee.Id);
             
             return new GetPersonalGoalsOperationResponse

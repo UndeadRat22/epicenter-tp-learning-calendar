@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Epicenter.Api.Service.Interface\Epicenter.Service.Interface.csproj" />
+    <ProjectReference Include="..\Epicenter.Infrastructure\Epicenter.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

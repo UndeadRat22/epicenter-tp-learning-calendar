@@ -28,7 +28,7 @@ namespace Epicenter.Service.Operations.LearningDay
 
         public async Task<CreateLearningDayOperationResponse> Execute(CreateLearningDayOperationRequest request)
         {
-            var employee = await _authorizationContext.Current();
+            var employee = await _authorizationContext.CurrentEmployee();
             await ThrowIfInvalidLearningDayAsync(employee.Id, request.Date);
 
             var learningDayTopics = request.TopicIds?
