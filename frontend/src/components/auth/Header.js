@@ -16,7 +16,7 @@ const Header = ({ text, isLoading }) => {
       <Layout cols={1}>
         <Image src={logo} height="200px" width="200px" />
         <Heading as="h1">The Learning Center</Heading>
-        <Text skin="premium">
+        <Text skin="premium" size="medium" weight="bold">
           {text}
           {'  '}
           {isLoading && <Loader size="tiny" />}

@@ -1,0 +1,63 @@
+{
+    "name": "Topics",
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [],
+                    "id": "23fa8f94-1020-437e-d95a-08d7f5beea1f",
+                    "name": "EF in .net core"
+                }
+            ],
+            "id": "e8c87da6-b259-4a2b-d959-08d7f5beea1f",
+            "name": ".net core"
+        },
+        {
+            "children": [
+                {
+                    "children": [],
+                    "id": "af3f4f6d-d8e9-48ba-d95c-08d7f5beea1f",
+                    "name": "Java EE"
+                },
+                {
+                    "id": "78f7161f-2d04-426d-d95d-08d7f5beea1f",
+                    "name": "Spring",
+                    "children": [
+                        {
+                            "children": [],
+                            "id": "3ea82f2a-314f-4051-d95e-08d7f5beea1f",
+                            "name": "Spring boot"
+                        }
+                    ]
+                }
+            ],
+            "id": "76ca78f1-eef9-45ec-d95b-08d7f5beea1f",
+            "name": "Java"
+        },
+        {
+            "children": [
+                {
+                    "children": [],
+                    "id": "10bc3076-52aa-449f-d960-08d7f5beea1f",
+                    "name": "Flask"
+                },
+                {
+                    "children": [],
+                    "id": "5fdc1b38-664c-4003-d961-08d7f5beea1f",
+                    "name": "PyTorch"
+                },
+                {
+                    "children": [],
+                    "id": "e0919a72-aeb2-46a1-d962-08d7f5beea1f",
+                    "name": "Tensorflow"
+                }
+            ],
+            "id": "01de7400-5651-42b8-d95f-08d7f5beea1f",
+            "name": "Python"
+        }
+    ]
+}
+
+
+
+
