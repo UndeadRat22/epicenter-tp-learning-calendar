@@ -1,0 +1,24 @@
+.employee {
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: white;
+  transition: background-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.selectedEmployee {
+  @extend .employee;
+  background-color: rgb(241, 241, 241);
+}
+
+.tagContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tagContainer > * {
+  margin-right: 2px;
+}

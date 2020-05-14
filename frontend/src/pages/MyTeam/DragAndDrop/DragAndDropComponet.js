@@ -1,6 +1,9 @@
 import React from 'react';
 import { DndProvider } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
+import {
+  Container, Row, Col, Card, Search,
+} from 'wix-style-react';
 import { useSelector } from 'react-redux';
 import Employee from './Employee';
 import Topic from './Topic';
@@ -11,34 +14,40 @@ const DragAndDropComponent = () => {
 
   return (
     <DndProvider backend={Backend}>
-      <div style={{ display: 'flex' }}>
-        <div style={{
-          border: '1px solid lightgrey', borderRadius: '2px', margin: '8px', flex: '50%', display: 'flex', flexDirection: 'column',
-        }}
-        >
-          <h3 style={{ padding: '8px', margin: '0px', fontWeight: 'normal' }}>
-            Topics
-          </h3>
-          <div style={{ padding: '8px', backgroundColor: 'white', flexGrow: '1' }}>
-            {topics.map(topic => {
-              return <Topic key={topic.id} topic={topic} />;
-            })}
-          </div>
-        </div>
-        <div style={{
-          border: '1px solid lightgrey', borderRadius: '2px', margin: '8px', flex: '50%', display: 'flex', flexDirection: 'column',
-        }}
-        >
-          <h3 style={{ padding: '8px', margin: '0px', fontWeight: 'normal' }}>
-            Employees
-          </h3>
-          <div style={{ padding: '8px', backgroundColor: 'white', flexGrow: '1' }}>
-            {employees.map(employee => {
-              return <Employee key={employee.id} employee={employee} />;
-            })}
-          </div>
-        </div>
-      </div>
+      <Container>
+        <Row stretchViewsVertically>
+          <Col span={4}>
+            <Card stretchVertically>
+              <Card.Header
+                title="Topics"
+                suffix={(
+                  <Search
+                    debounceMs={250}
+                    clearButton={false}
+                  // TODO: filter topics
+                    onChange={e => console.log(e.target.value)}
+                  />
+              )}
+              />
+              <Card.Content>
+                {topics.map(topic => {
+                  return <Topic key={topic.id} topic={topic} />;
+                })}
+              </Card.Content>
+            </Card>
+          </Col>
+          <Col span={4}>
+            <Card stretchVertically>
+              <Card.Header title="Employees" />
+              <Card.Content>
+                {employees.map(employee => {
+                  return <Employee key={employee.id} employee={employee} />;
+                })}
+              </Card.Content>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     </DndProvider>
   );
 };

@@ -7,8 +7,6 @@ const MyTeam = () => {
     <Page height="1000px">
       <Page.Header title="My Team" />
       <Page.Content>
-        Assign goals by dragging and dropping them on employees!
-        <br />
         <DragAndDropComponent />
       </Page.Content>
     </Page>

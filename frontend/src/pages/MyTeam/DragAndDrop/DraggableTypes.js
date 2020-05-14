@@ -1,3 +1,3 @@
 export default {
-  TOPIC: 'topic',
+  TOPIC: 'TOPIC',
 };

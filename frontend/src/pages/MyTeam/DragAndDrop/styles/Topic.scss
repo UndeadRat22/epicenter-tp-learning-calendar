@@ -1,0 +1,14 @@
+.topic {
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  background-color: white;
+  padding: 8px;
+  margin-bottom: 8px;
+  transition: opacity 0.2s ease;
+  cursor: move;
+}
+
+.draggedTopic {
+  @extend .topic;
+  opacity: 0.4;
+}
