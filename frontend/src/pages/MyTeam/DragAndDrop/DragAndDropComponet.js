@@ -1,22 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
 import {
-  Container, Row, Col, Card, Search,
+  Container, Row, Col, Card, Search, Text,
 } from 'wix-style-react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchTopics } from '../../../state/actions/topics';
+import {
+  LOADING_FETCH_TOPICS, FETCH_TOPICS_SUCCEEDED, FETCH_TOPICS_FAILED,
+} from '../../../constants/FetchTopicsStatus';
+import LoadingIndicator from '../../../components/LoadingIndicator';
 import Employee from './Employee';
 import Topic from './Topic';
 
 const DragAndDropComponent = () => {
-  const topics = useSelector(state => state.topics);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTopics());
+  }, [dispatch]);
+
+  const { topics, status } = useSelector(state => state.topics);
   const employees = useSelector(state => state.employees);
 
   return (
     <DndProvider backend={Backend}>
       <Container>
         <Row stretchViewsVertically>
-          <Col span={4}>
+          <Col span={5}>
             <Card stretchVertically>
               <Card.Header
                 title="Topics"
@@ -30,19 +41,18 @@ const DragAndDropComponent = () => {
               )}
               />
               <Card.Content>
-                {topics.map(topic => {
-                  return <Topic key={topic.id} topic={topic} />;
-                })}
+                {status === LOADING_FETCH_TOPICS && <LoadingIndicator text="Loading topics..." />}
+                {status === FETCH_TOPICS_SUCCEEDED && topics.map(topic => <Topic key={topic.id} topic={topic} />)}
+                {status === FETCH_TOPICS_FAILED && <Text>Failed to load topics</Text>}
               </Card.Content>
             </Card>
           </Col>
-          <Col span={4}>
+          <Col span={1} />
+          <Col span={6}>
             <Card stretchVertically>
               <Card.Header title="Employees" />
               <Card.Content>
-                {employees.map(employee => {
-                  return <Employee key={employee.id} employee={employee} />;
-                })}
+                {employees.map(employee => <Employee key={employee.id} employee={employee} />)}
               </Card.Content>
             </Card>
           </Col>

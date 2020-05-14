@@ -32,14 +32,14 @@ const Employee = ({ employee }) => {
       <Layout gap={8}>
         <Cell span={12}>
           <Layout>
-            <Cell span={2}>
+            <Cell span={1}>
               <Avatar
                 name={employee.name}
                 color="A1"
                 size="size36"
               />
             </Cell>
-            <Cell span={10}>
+            <Cell span={11}>
               <Text>
                 {employee.name}
               </Text>
