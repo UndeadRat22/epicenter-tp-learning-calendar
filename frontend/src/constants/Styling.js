@@ -1,4 +1,8 @@
 const MODAL_MAX_HEIGHT = '800px';
+const PAGE_HEIGHT = '1000px';
+const TOPICS_TREE_HEIGHT = 500;
+const TOPICS_TREE_WIDTH = 1000;
 
-// eslint-disable-next-line import/prefer-default-export
-export { MODAL_MAX_HEIGHT };
+export {
+  MODAL_MAX_HEIGHT, PAGE_HEIGHT, TOPICS_TREE_HEIGHT, TOPICS_TREE_WIDTH,
+};
