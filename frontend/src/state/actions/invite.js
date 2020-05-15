@@ -7,7 +7,7 @@ import {
 const inviteStart = makeSyncActionCreator(INVITE_START);
 const inviteSuccess = makeSyncActionCreator(INVITE_SUCCESS);
 const inviteFail = makeSyncActionCreator(INVITE_FAIL);
-const inviteSuspend = makeSyncActionCreator(INVITE_SUSPEND);
+const suspendInvite = makeSyncActionCreator(INVITE_SUSPEND);
 
 const invite = ({
   email, firstName, lastName, role,
@@ -22,10 +22,6 @@ const invite = ({
     console.log(err);
     dispatch(inviteFail());
   }
-};
-
-const suspendInvite = () => async dispatch => {
-  dispatch(inviteSuspend());
 };
 
 export { invite, suspendInvite };

@@ -20,15 +20,15 @@ const ChangePasswordModal = ({ isModalOpened, onCloseModal }) => {
   const isLoading = changePasswordStatus === LOADING_CHANGE_PASSWORD;
 
   if (changePasswordStatus === CHANGE_PASSWORD_SUCCEEDED)
-    setTimeout(() => { handleChangePasswordSucceed(); }, NOTIFICATION_AUTO_HIDE_TIMEOUT);
-
-  const handleChangePasswordSucceed = () => {
-    dispatch(suspendChangePassword());
-    onCloseModal();
-  };
+    setTimeout(() => { onCloseModalWrapper(); }, NOTIFICATION_AUTO_HIDE_TIMEOUT);
 
   const changeCurrentPassword = passwords => {
     dispatch(changePassword(passwords));
+  };
+
+  const onCloseModalWrapper = () => {
+    dispatch(suspendChangePassword());
+    onCloseModal();
   };
 
   return (
@@ -36,7 +36,7 @@ const ChangePasswordModal = ({ isModalOpened, onCloseModal }) => {
       <Modal
         isOpen={isModalOpened}
         shouldCloseOnOverlayClick
-        onRequestClose={onCloseModal}
+        onRequestClose={onCloseModalWrapper}
       >
         <MessageBoxFunctionalLayout
           title="Change password"

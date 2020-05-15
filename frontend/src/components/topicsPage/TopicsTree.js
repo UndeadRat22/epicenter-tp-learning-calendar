@@ -4,7 +4,7 @@ import {
 } from 'wix-style-react';
 import { useDispatch, useSelector } from 'react-redux';
 import Tree from 'react-tree-graph';
-import { getTopicsTree } from '../../state/actions/getTopicsTree';
+import { getTopicsTree } from '../../state/actions/topicsTree';
 import { LOADING_TOPICS_TREE } from '../../constants/TopicsTreeStatus';
 import { TOPICS_TREE_HEIGHT, TOPICS_TREE_WIDTH } from '../../constants/Styling';
 import LoadingIndicator from '../LoadingIndicator';
@@ -13,8 +13,8 @@ import example from './topicsexample.json';
 
 
 const TopicsTree = ({ onNodeClick }) => {
-  const topicsTreeStatus = useSelector(state => state.getTopicsTree.status);
-  const topics = useSelector(state => state.getTopicsTree.topicsTree);
+  const topicsTreeStatus = useSelector(state => state.topicsTree.status);
+  const topics = useSelector(state => state.topicsTree.topicsTree);
 
   const showLoadingIndicator = topicsTreeStatus === LOADING_TOPICS_TREE;
 

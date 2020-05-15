@@ -1,12 +1,12 @@
 import {
-  LOADING_CHANGE_PASSWORD, CHANGE_PASSWORD_FAILED, CHANGE_PASSWORD_SUCCEEDED, CHANGE_PASSWORD_SUSPENDED,
+  LOADING_CHANGE_PASSWORD, CHANGE_PASSWORD_FAILED, CHANGE_PASSWORD_SUCCEEDED, CHANGE_PASSWORD_INACTIVE,
 } from '../../constants/ChangePasswordStatus';
 import {
   CHANGE_PASSWORD_FAIL, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_START, SUSPEND_CHANGE_PASSWORD,
-} from '../actions/types/password';
+} from '../actions/types/changePassword';
 
 const initialState = {
-  status: CHANGE_PASSWORD_SUSPENDED,
+  status: CHANGE_PASSWORD_INACTIVE,
 };
 
 const changePassword = (state = initialState, action) => {
@@ -25,7 +25,7 @@ const changePassword = (state = initialState, action) => {
       };
     case SUSPEND_CHANGE_PASSWORD:
       return {
-        status: CHANGE_PASSWORD_SUSPENDED,
+        status: CHANGE_PASSWORD_INACTIVE,
       };
     default:
       return state;
