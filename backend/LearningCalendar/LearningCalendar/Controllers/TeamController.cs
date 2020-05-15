@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Threading.Tasks;
 using Epicenter.Api.Model.Team;
 using Epicenter.Service.Interface.Operations.Team;
@@ -10,18 +11,21 @@ namespace Epicenter.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/team")]
+    [Route("api/teams")]
     public class TeamController : ControllerBase
     {
         private readonly IGetDirectSubordinatesOperation _getDirectSubordinatesOperation;
+        private readonly IGetSelfTeamsOperation _getSelfTeamsOperation;
 
-        public TeamController(IGetDirectSubordinatesOperation directSubordinatesOperation)
+        public TeamController(IGetDirectSubordinatesOperation directSubordinatesOperation,
+            IGetSelfTeamsOperation getSelfTeamsOperation)
         {
             _getDirectSubordinatesOperation = directSubordinatesOperation;
+            _getSelfTeamsOperation = getSelfTeamsOperation;
         }
 
         [HttpGet]
-        [Route("{managerId}")]
+        [Route("team/{managerId}")]
         public async Task<ActionResult<TeamModel>> GetTeam([Required]Guid managerId)
         {
             var response = await _getDirectSubordinatesOperation
@@ -29,6 +33,17 @@ namespace Epicenter.Api.Controllers
 
             var model = new TeamModel(response);
 
+            return Ok(model);
+        }
+
+        [HttpGet]
+        [Route("team/self")]
+        [ProducesResponseType(typeof(SelfTeamsModel), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetSelfTeams()
+        {
+            var getSelfTeamsResponse = await _getSelfTeamsOperation.Execute();
+            var model = new SelfTeamsModel(getSelfTeamsResponse);
+            
             return Ok(model);
         }
     }

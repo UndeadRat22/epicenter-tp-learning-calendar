@@ -20,14 +20,15 @@ namespace Epicenter.Service.Operations.Team
         {
             var team = await _teamRepository.GetByManagerIdAsync(request.ManagerId);
 
-            var employees = team.Employees
+
+            var employees = team?.Employees
                 .Select(employee => new GetDirectSubordinatesOperationResponse.Employee
                 {
                     Id = employee.Id,
                     Name = employee.Identity.Email,
                     GoalTopics = MapGoals(employee)
                 })
-                .ToList();
+                .ToList() ?? new List<GetDirectSubordinatesOperationResponse.Employee>();
 
             return new GetDirectSubordinatesOperationResponse
             {
