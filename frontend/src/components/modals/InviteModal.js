@@ -7,7 +7,6 @@ import { invite, suspendInvite } from '../../state/actions';
 import InviteForm from '../auth/InviteForm';
 import { MODAL_MAX_HEIGHT } from '../../constants/Styling';
 import { INVITE_FAILED, INVITE_SUCCEEDED, LOADING_INVITE } from '../../constants/InviteStatus';
-import { NOTIFICATION_AUTO_HIDE_TIMEOUT } from '../../constants/General';
 import SuccessNotification from '../SuccessNotification';
 import ErrorNotification from '../ErrorNotification';
 
@@ -19,15 +18,13 @@ const InviteModal = ({ isModalOpened, onCloseModal }) => {
   const showNotificationError = inviteStatus === INVITE_FAILED;
   const isLoading = inviteStatus === LOADING_INVITE;
 
-  if (inviteStatus === INVITE_SUCCEEDED)
-    setTimeout(() => { handleChangePasswordSucceed(); }, NOTIFICATION_AUTO_HIDE_TIMEOUT);
-
-  const handleChangePasswordSucceed = () => {
-    dispatch(suspendInvite());
-  };
-
   const inviteUser = user => {
     dispatch(invite(user));
+  };
+
+  const onCloseModalWrapper = () => {
+    dispatch(suspendInvite());
+    onCloseModal();
   };
 
   return (
@@ -35,7 +32,7 @@ const InviteModal = ({ isModalOpened, onCloseModal }) => {
       <Modal
         isOpen={isModalOpened}
         shouldCloseOnOverlayClick
-        onRequestClose={onCloseModal}
+        onRequestClose={onCloseModalWrapper}
       >
         <MessageBoxFunctionalLayout
           title="Invite new employee"

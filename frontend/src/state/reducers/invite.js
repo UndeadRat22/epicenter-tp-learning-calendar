@@ -1,13 +1,13 @@
 
 import {
-  LOADING_INVITE, INVITE_FAILED, INVITE_SUCCEEDED, INVITE_SUSPENDED,
+  LOADING_INVITE, INVITE_FAILED, INVITE_SUCCEEDED, INVITE_INACTIVE,
 } from '../../constants/InviteStatus';
 import {
   INVITE_START, INVITE_SUCCESS, INVITE_FAIL, INVITE_SUSPEND,
 } from '../actions/types';
 
 const initialState = {
-  status: INVITE_SUSPENDED,
+  status: INVITE_INACTIVE,
 };
 
 const invite = (state = initialState, action) => {
@@ -26,7 +26,7 @@ const invite = (state = initialState, action) => {
       };
     case INVITE_SUSPEND:
       return {
-        status: INVITE_SUSPENDED,
+        status: INVITE_INACTIVE,
       };
     default:
       return state;

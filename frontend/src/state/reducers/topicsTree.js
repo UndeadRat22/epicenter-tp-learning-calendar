@@ -10,7 +10,7 @@ const initialState = {
   topicsTree: null,
 };
 
-const getTopicsTree = (state = initialState, action) => {
+const topicsTree = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_TOPICS_TREE_START:
       return {
@@ -32,4 +32,4 @@ const getTopicsTree = (state = initialState, action) => {
   }
 };
 
-export default getTopicsTree;
+export default topicsTree;
