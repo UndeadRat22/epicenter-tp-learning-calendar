@@ -366,14 +366,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{api-url}}/api/Team/DA772A8C-7F67-414C-EE00-08D7E4B5D996",
+							"raw": "{{api-url}}/api/teams/team/7e9ab320-cbe0-4bce-f57b-08d7f8c2d3e9",
 							"host": [
 								"{{api-url}}"
 							],
 							"path": [
 								"api",
-								"Team",
-								"DA772A8C-7F67-414C-EE00-08D7E4B5D996"
+								"teams",
+								"team",
+								"7e9ab320-cbe0-4bce-f57b-08d7f8c2d3e9"
 							]
 						}
 					},

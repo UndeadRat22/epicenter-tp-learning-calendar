@@ -60,7 +60,7 @@ namespace Epicenter.IoC
             services.AddTransient<IRegisterUserOperation, RegisterUserOperation>();
             services.AddTransient<ICreateEmployeeOperation, CreateEmployeeOperation>();
             services.AddTransient<IEnsureManagerHasTeamOperation, EnsureManagerHasTeamOperation>();
-            services.AddTransient<IGetDirectSubordinatesOperation, GetDirectSubordinatesOperation>();
+            services.AddTransient<IGetTeamDetailsOperation, GetTeamDetailsOperation>();
             services.AddTransient<IGetAllTopicsOperation, GetAllTopicsOperation>();
             services.AddTransient<ICreateTopicOperation, CreateTopicOperation>();
             services.AddTransient<IAssignGoalToEmployeeOperation, AssignGoalToEmployeeOperation>();

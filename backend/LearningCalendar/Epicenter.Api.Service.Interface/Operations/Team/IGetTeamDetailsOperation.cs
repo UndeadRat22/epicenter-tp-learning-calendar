@@ -4,20 +4,25 @@ using System.Threading.Tasks;
 
 namespace Epicenter.Service.Interface.Operations.Team
 {
-    public interface IGetDirectSubordinatesOperation
+    public interface IGetTeamDetailsOperation
     {
-        Task<GetDirectSubordinatesOperationResponse> Execute(GetDirectSubordinatesOperationRequest request);
+        Task<GetTeamDetailsOperationResponse> Execute(GetTeamDetailsOperationRequest request);
     }
 
-    public class GetDirectSubordinatesOperationRequest
+    public class GetTeamDetailsOperationRequest
     {
         public Guid ManagerId { get; set; }
     }
 
-    public class GetDirectSubordinatesOperationResponse
+    public class GetTeamDetailsOperationResponse
     {
-        public Guid ManagerId { get; set; }
-        public List<Employee> Employees { get; set; }
+        public Details Team { get; set; }
+        public class Details
+        {
+            public Employee Manager { get; set; }
+            public List<Employee> Employees { get; set; }
+        }
+
         public class Employee
         {
             public Guid Id { get; set; }

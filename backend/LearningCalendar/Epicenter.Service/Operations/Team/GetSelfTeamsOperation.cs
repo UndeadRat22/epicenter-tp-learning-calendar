@@ -7,12 +7,12 @@ namespace Epicenter.Service.Operations.Team
 {
     public class GetSelfTeamsOperation : IGetSelfTeamsOperation
     {
-        private readonly IGetDirectSubordinatesOperation _getDirectSubordinatesOperation;
+        private readonly IGetTeamDetailsOperation _getTeamDetailsOperation;
         private readonly IAuthorizationContext _authorizationContext;
 
-        public GetSelfTeamsOperation(IGetDirectSubordinatesOperation directSubordinatesOperation, IAuthorizationContext authorizationContext)
+        public GetSelfTeamsOperation(IGetTeamDetailsOperation teamDetailsOperation, IAuthorizationContext authorizationContext)
         {
-            _getDirectSubordinatesOperation = directSubordinatesOperation;
+            _getTeamDetailsOperation = teamDetailsOperation;
             _authorizationContext = authorizationContext;
         }
 
@@ -20,60 +20,37 @@ namespace Epicenter.Service.Operations.Team
         {
             var employee = await _authorizationContext.CurrentEmployee();
 
-            var getMySubordinatesRequest = new GetDirectSubordinatesOperationRequest
+            var getMySubordinatesRequest = new GetTeamDetailsOperationRequest
             {
                 ManagerId = employee.Id
             };
-            var subordinates = await _getDirectSubordinatesOperation.Execute(getMySubordinatesRequest);
+            var subordinates = await _getTeamDetailsOperation.Execute(getMySubordinatesRequest);
 
-            GetDirectSubordinatesOperationResponse peers;
+            GetTeamDetailsOperationResponse peers;
             if (employee.IsTopLevelManager)
             {
                 peers = null;
             }
             else
             {
-                var getMyPeersRequest = new GetDirectSubordinatesOperationRequest
+                var getMyPeersRequest = new GetTeamDetailsOperationRequest
                 {
                     ManagerId = employee.Team.Manager.Id
                 };
 
-                peers = await _getDirectSubordinatesOperation.Execute(getMyPeersRequest);
+                peers = await _getTeamDetailsOperation.Execute(getMyPeersRequest);
             }
 
             return MapToResponse(subordinates, peers);
         }
 
-        private GetSelfTeamsOperationResponse MapToResponse(GetDirectSubordinatesOperationResponse subordinates, GetDirectSubordinatesOperationResponse peers)
+        private GetSelfTeamsOperationResponse MapToResponse(GetTeamDetailsOperationResponse subordinates, GetTeamDetailsOperationResponse peers)
         {
             return new GetSelfTeamsOperationResponse
             {
-                ManagedTeam = MapTeam(subordinates),
-                BelongingToTeam = MapTeam(peers)
+                ManagedTeam = subordinates,
+                BelongingToTeam = peers
             };
-        }
-
-        private GetSelfTeamsOperationResponse.Team MapTeam(GetDirectSubordinatesOperationResponse getDirectSubordinatesResponse)
-        {
-            if (getDirectSubordinatesResponse == null)
-            {
-                return null;
-            }
-
-            var employees = getDirectSubordinatesResponse.Employees.Select(employee =>
-                new GetSelfTeamsOperationResponse.Employee
-                {
-                    Id = employee.Id,
-                    Name = employee.Name
-                }).ToList();
-
-            var team = new GetSelfTeamsOperationResponse.Team
-            {
-                Employees = employees,
-                ManagerId = getDirectSubordinatesResponse.ManagerId
-            };
-
-            return team;
         }
     }
 }

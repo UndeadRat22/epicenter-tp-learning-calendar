@@ -12,15 +12,15 @@ namespace Epicenter.Api.Controllers
     [Authorize]
     [ApiController]
     [Route("api/teams")]
-    public class TeamController : ControllerBase
+    public class TeamsController : ControllerBase
     {
-        private readonly IGetDirectSubordinatesOperation _getDirectSubordinatesOperation;
+        private readonly IGetTeamDetailsOperation _getTeamDetailsOperation;
         private readonly IGetSelfTeamsOperation _getSelfTeamsOperation;
 
-        public TeamController(IGetDirectSubordinatesOperation directSubordinatesOperation,
+        public TeamsController(IGetTeamDetailsOperation teamDetailsOperation,
             IGetSelfTeamsOperation getSelfTeamsOperation)
         {
-            _getDirectSubordinatesOperation = directSubordinatesOperation;
+            _getTeamDetailsOperation = teamDetailsOperation;
             _getSelfTeamsOperation = getSelfTeamsOperation;
         }
 
@@ -28,8 +28,8 @@ namespace Epicenter.Api.Controllers
         [Route("team/{managerId}")]
         public async Task<ActionResult<TeamModel>> GetTeam([Required]Guid managerId)
         {
-            var response = await _getDirectSubordinatesOperation
-                .Execute(new GetDirectSubordinatesOperationRequest {ManagerId = managerId});
+            var response = await _getTeamDetailsOperation
+                .Execute(new GetTeamDetailsOperationRequest {ManagerId = managerId});
 
             var model = new TeamModel(response);
 
