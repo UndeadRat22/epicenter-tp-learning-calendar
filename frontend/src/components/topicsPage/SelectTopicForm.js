@@ -19,11 +19,9 @@ const SelectTopicForm = ({ onSelectTopic }) => {
 
   const getOptions = () => {
     let reformattedArray = [];
-    if (topics !== null) {
-      reformattedArray = topics.map(obj => {
-        return { id: obj.id, value: obj.subject };
-      });
-    }
+    reformattedArray = topics.map(obj => {
+      return { id: obj.id, value: obj.subject };
+    });
     return reformattedArray;
   };
 

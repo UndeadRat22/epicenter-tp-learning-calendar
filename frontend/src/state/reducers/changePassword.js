@@ -3,7 +3,7 @@ import {
 } from '../../constants/ChangePasswordStatus';
 import {
   CHANGE_PASSWORD_FAIL, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_START, SUSPEND_CHANGE_PASSWORD,
-} from '../actions/types/password';
+} from '../actions/types/changePassword';
 
 const initialState = {
   status: CHANGE_PASSWORD_INACTIVE,

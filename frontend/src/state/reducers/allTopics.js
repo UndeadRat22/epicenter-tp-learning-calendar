@@ -7,7 +7,7 @@ import {
 
 const initialState = {
   status: '',
-  topics: null,
+  topics: [],
 };
 
 const allTopics = (state = initialState, action) => {
@@ -15,12 +15,12 @@ const allTopics = (state = initialState, action) => {
     case FETCH_ALL_TOPICS_START:
       return {
         status: LOADING_ALL_TOPICS,
-        topics: null,
+        topics: [],
       };
     case FETCH_ALL_TOPICS_FAIL:
       return {
         status: FETCH_ALL_TOPICS_FAILED,
-        topics: null,
+        topics: [],
       };
     case FETCH_ALL_TOPICS_SUCCESS:
       return {

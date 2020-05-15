@@ -2,7 +2,7 @@ import Axios from 'axios';
 import makeSyncActionCreator from '../syncActionCreator';
 import {
   CHANGE_PASSWORD_FAIL, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_START, SUSPEND_CHANGE_PASSWORD,
-} from './types/password';
+} from './types/changePassword';
 
 const changeStart = makeSyncActionCreator(CHANGE_PASSWORD_START);
 const changeSuccess = makeSyncActionCreator(CHANGE_PASSWORD_SUCCESS);
