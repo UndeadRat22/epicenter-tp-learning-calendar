@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
-namespace Epicenter.Domain.Entity.Authentication
+namespace Epicenter.Domain.Entity.Infrastructure.Authentication
 {
     public class Invite
     {

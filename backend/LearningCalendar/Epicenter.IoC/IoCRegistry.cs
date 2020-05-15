@@ -4,7 +4,7 @@ using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Castle.Core.Logging;
 using Castle.DynamicProxy;
-using Epicenter.Domain.Entity.Authentication;
+using Epicenter.Domain.Entity.Infrastructure.Authentication;
 using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Infrastructure.AOP.Attributes;
 using Epicenter.Infrastructure.AOP.Interceptors;
@@ -35,7 +35,7 @@ namespace Epicenter.Infrastructure.IoC
 
         private static void RegisterAOPComponents(ContainerBuilder builder)
         {
-            builder.Register(i => new AutoLogger(Console.Out));
+            builder.RegisterType<AutoLogger>().InstancePerDependency();
         }
 
         private static void RegisterLoggedComponents(ContainerBuilder builder)

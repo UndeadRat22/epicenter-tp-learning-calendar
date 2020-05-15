@@ -36,7 +36,7 @@ namespace Epicenter.Service.Operations.Authentication.Invite
                 throw new EmailAlreadyUseException();
             }
 
-            var invite = new Domain.Entity.Authentication.Invite
+            var invite = new Domain.Entity.Infrastructure.Authentication.Invite
             {
                 Id = Guid.NewGuid(),
                 InvitationTo = request.Email,

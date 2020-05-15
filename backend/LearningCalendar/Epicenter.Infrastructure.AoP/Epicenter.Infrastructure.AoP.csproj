@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -6,6 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Epicenter.Persistance.Interface\Epicenter.Persistence.Interface.csproj" />
+    <ProjectReference Include="..\Epicenter.Serivce.Context.Inferface\Epicenter.Service.Context.Interface.csproj" />
   </ItemGroup>
 
 </Project>

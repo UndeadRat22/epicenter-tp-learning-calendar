@@ -1,24 +1,37 @@
 ﻿using System;
-using System.IO;
 using Castle.DynamicProxy;
+using Epicenter.Domain.Entity.Infrastructure.Logging;
+using Epicenter.Persistence.Interface.Repository.Logging;
+using Epicenter.Service.Context.Interface.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Epicenter.Infrastructure.AOP.Interceptors
 {
     public class AutoLogger : IInterceptor
     {
-        private readonly TextWriter _textWriter;
+        private readonly ILogRepository _logRepository;
+        private readonly IAuthorizationContext _authorizationContext;
 
-        public AutoLogger(TextWriter textWriter)
+        public AutoLogger(ILogRepository logRepository, IAuthorizationContext authorizationContext)
         {
-            _textWriter = textWriter;
+            _logRepository = logRepository;
+            _authorizationContext = authorizationContext;
         }
 
         public void Intercept(IInvocation invocation)
         {
-            //TODO turn on/off
-            //TODO Name, Claims
-            var message = $"[{DateTime.Now}]{invocation.Method.DeclaringType}.{invocation.Method.Name}";
-            _textWriter.WriteLine(message);
+            IdentityUser user = _authorizationContext.CurrentIdentity().Result;
+
+            var log = new Log
+            {
+                Timestamp = DateTime.Now,
+                Event = "AutoLog",
+                Description = $"{invocation.Method.DeclaringType}.{invocation.Method.Name}",
+                UserId = user?.Id
+            };
+
+            _logRepository.CreateAsync(log);
+
             invocation.Proceed();
         }
     }

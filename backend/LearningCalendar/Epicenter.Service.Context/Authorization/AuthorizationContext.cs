@@ -32,7 +32,7 @@ namespace Epicenter.Service.Context.Authorization
         {
             string email = IdentityName;
 
-            return await _userRepository.QuerySingleAsync(user => user.Email == email);
+            return await _userRepository.QuerySingleOrDefaultAsync(user => user.Email == email);
         }
 
         public string IdentityName => _httpContextAccessor.HttpContext.User.Identity.Name;
