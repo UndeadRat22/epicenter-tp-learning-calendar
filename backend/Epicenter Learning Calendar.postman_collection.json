@@ -6,498 +6,660 @@
 	},
 	"item": [
 		{
-			"name": "Login",
-			"event": [
+			"name": "Topic",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"id": "1f267bba-cd83-4192-a503-f49af6e9fafa",
-						"exec": [
-							"var token = pm.response.json().token;",
-							"pm.globals.set(\"bearer\", token);"
-						],
-						"type": "text/javascript"
-					}
+					"name": "GetTopic",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/topics/topic/af3f4f6d-d8e9-48ba-d95c-08d7f5beea1f",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"topics",
+								"topic",
+								"af3f4f6d-d8e9-48ba-d95c-08d7f5beea1f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTopicTree",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/topics/tree",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"topics",
+								"tree"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllTopics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/topics",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"topics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateTopic",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"parentTopic\": \"01de7400-5651-42b8-d95f-08d7f5beea1f\",\n\t\"subject\": \"urlib3\",\n\t\"description\": \"learn the technology\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/topics/topic",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"topics",
+								"topic"
+							]
+						}
+					},
+					"response": []
 				}
 			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"Email\": \"test@test.com\",\n    \"Password\": \"password\"\n}"
-				},
-				"url": {
-					"raw": "{{api-url}}/api/auth/login",
-					"host": [
-						"{{api-url}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"login"
-					]
-				}
-			},
-			"response": []
+			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Register",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"inviteId\": \"a80c905c-5ed5-4348-adce-590248f19095\",\n    \"password\": \"omg\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{api-url}}/api/auth/register",
-					"host": [
-						"{{api-url}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CreateAdmin",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{api-url}}/api/auth/admin",
-					"host": [
-						"{{api-url}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"admin"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetTeam",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
 						{
-							"key": "token",
-							"value": "{{bearer}}",
-							"type": "string"
+							"listen": "test",
+							"script": {
+								"id": "1f267bba-cd83-4192-a503-f49af6e9fafa",
+								"exec": [
+									"var token = pm.response.json().token;",
+									"pm.globals.set(\"bearer\", token);"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{api-url}}/api/Team/DA772A8C-7F67-414C-EE00-08D7E4B5D996",
-					"host": [
-						"{{api-url}}"
 					],
-					"path": [
-						"api",
-						"Team",
-						"DA772A8C-7F67-414C-EE00-08D7E4B5D996"
-					]
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Email\": \"test@test.com\",\n    \"Password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{api-url}}/api/auth/login",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"inviteId\": \"a80c905c-5ed5-4348-adce-590248f19095\",\n    \"password\": \"omg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/auth/register",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RefreshToken",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/auth/refresh",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"newPassword\": \"password\",\n\t\"oldPassword\": \"test123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/auth/password",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"password"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "GetAllTopics",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{bearer}}",
-							"type": "string"
+			"name": "Invite",
+			"item": [
+				{
+					"name": "GetInviteDetails",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/invites/invite/82a8e95b-019c-4fff-ba47-91c5f2cab8fe",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"invites",
+								"invite",
+								"82a8e95b-019c-4fff-ba47-91c5f2cab8fe"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{api-url}}/api/topics",
-					"host": [
-						"{{api-url}}"
-					],
-					"path": [
-						"api",
-						"topics"
-					]
+				{
+					"name": "IniviteNew",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Email\": \"eepicentras@gmail.com\",\n\t\"FirstName\": \"Valdas\",\n\t\"LastName\": \"Rakutis\",\n\t\"Role\": \"Software Engineer\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/invites/invite",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"invites",
+								"invite"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "CreateTopic",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{bearer}}",
-							"type": "string"
+			"name": "Team",
+			"item": [
+				{
+					"name": "GetTeam",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/Team/DA772A8C-7F67-414C-EE00-08D7E4B5D996",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"Team",
+								"DA772A8C-7F67-414C-EE00-08D7E4B5D996"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"parentTopic\": \"01de7400-5651-42b8-d95f-08d7f5beea1f\",\n\t\"subject\": \"Tensorflow\",\n\t\"description\": \"learn the technology\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "GetSelfTeams",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/teams/team/self",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"teams",
+								"team",
+								"self"
+							]
 						}
-					}
-				},
-				"url": {
-					"raw": "{{api-url}}/api/topics/topic",
-					"host": [
-						"{{api-url}}"
-					],
-					"path": [
-						"api",
-						"topics",
-						"topic"
-					]
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "AssignGoalToEmployee",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{bearer}}",
-							"type": "string"
+			"name": "Goal",
+			"item": [
+				{
+					"name": "AssignGoalToEmployee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"employeeId\": \"b024b4e1-b9d0-4103-b728-08d7e5391b29\",\r\n  \"topicId\": \"57521455-1729-4403-f52b-08d7f8c2ae13\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/Goal/employee",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"Goal",
+								"employee"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"employeeId\": \"b024b4e1-b9d0-4103-b728-08d7e5391b29\",\r\n  \"topicId\": \"858ff83b-4ebe-4c1f-2336-08d7e52a5689\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "AssingGoalToTeam",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"managerId\": \"da772a8c-7f67-414c-ee00-08d7e4b5d996\",\n\t\"topicId\": \"a672d7d2-5631-409c-9a45-08d7e52d3ddb\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/Goal/team",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"Goal",
+								"team"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{api-url}}/api/Goal/employee",
-					"host": [
-						"{{api-url}}"
-					],
-					"path": [
-						"api",
-						"Goal",
-						"employee"
-					]
+				{
+					"name": "GetSelfGoals",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/personal-goals/employee/self",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"personal-goals",
+								"employee",
+								"self"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetEmployeeGoals",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/personal-goals/employee/fee3064d-ef6f-4aa8-1dd6-08d7f0fb46cb",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"personal-goals",
+								"employee",
+								"fee3064d-ef6f-4aa8-1dd6-08d7f0fb46cb"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "CreateTestEmployee",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{bearer}}",
-							"type": "string"
+			"name": "Employee",
+			"item": [
+				{
+					"name": "GetEmployeeDetails (SELF)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/employees/self",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"self"
+							]
 						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"employee@employee.net\",\r\n  \"password\": \"string\",\r\n  \"managerEmail\": \"test@test.com\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{api-url}}/api/employees/employee",
-					"host": [
-						"{{api-url}}"
-					],
-					"path": [
-						"api",
-						"employees",
-						"employee"
-					]
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "AssingGoalToTeam",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{bearer}}",
-							"type": "string"
+			"name": "Misc",
+			"item": [
+				{
+					"name": "CreateTestEmployee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"1a@employee.net\",\r\n  \"password\": \"string\",\r\n  \"managerEmail\": \"test@test.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/employees/employee",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"employee"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"managerId\": \"da772a8c-7f67-414c-ee00-08d7e4b5d996\",\n\t\"topicId\": \"a672d7d2-5631-409c-9a45-08d7e52d3ddb\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "CreateAdmin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/auth/admin",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"admin"
+							]
 						}
-					}
-				},
-				"url": {
-					"raw": "{{api-url}}/api/Goal/team",
-					"host": [
-						"{{api-url}}"
-					],
-					"path": [
-						"api",
-						"Goal",
-						"team"
-					]
+					},
+					"response": []
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "RefreshToken",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{bearer}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{api-url}}/api/auth/refresh",
-					"host": [
-						"{{api-url}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"refresh"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetEmployeeDetails (SELF)",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{bearer}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{api-url}}/api/employees/self",
-					"host": [
-						"{{api-url}}"
-					],
-					"path": [
-						"api",
-						"employees",
-						"self"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "IniviteNew",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{bearer}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"Email\": \"eepicentras@gmail.com\",\n\t\"FirstName\": \"Valdas\",\n\t\"LastName\": \"Rakutis\",\n\t\"Role\": \"Software Engineer\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{api-url}}/api/invites/invite",
-					"host": [
-						"{{api-url}}"
-					],
-					"path": [
-						"api",
-						"invites",
-						"invite"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetInviteDetails",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{api-url}}/api/invites/invite/82a8e95b-019c-4fff-ba47-91c5f2cab8fe",
-					"host": [
-						"{{api-url}}"
-					],
-					"path": [
-						"api",
-						"invites",
-						"invite",
-						"82a8e95b-019c-4fff-ba47-91c5f2cab8fe"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update Password",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{bearer}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"newPassword\": \"password\",\n\t\"oldPassword\": \"test123\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{api-url}}/api/auth/password",
-					"host": [
-						"{{api-url}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"password"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetTopicTree",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{bearer}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{api-url}}/api/topics/tree",
-					"host": [
-						"{{api-url}}"
-					],
-					"path": [
-						"api",
-						"topics",
-						"tree"
-					]
-				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
 		}
 	]
 }
