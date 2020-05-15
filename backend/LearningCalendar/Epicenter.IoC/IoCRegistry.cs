@@ -80,6 +80,7 @@ namespace Epicenter.IoC
             services.AddTransient<IChangeUserPasswordOperation, ChangeUserPasswordOperation>();
             services.AddTransient<IGetTopicTreeOperation, GetTopicTreeOperation>();
             services.AddTransient<IGetTopicDetailsOperation, GetTopicDetailsOperation>();
+            services.AddTransient<IAssignGoalToSelfOperation, AssignGoalToSelfOperation>();
         }
 
         private static void RegisterStrategies(IServiceCollection services)

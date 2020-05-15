@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 using Epicenter.Api.Model.Goal;
 using Epicenter.Service.Interface.Exceptions.Authentication;
 using Epicenter.Service.Interface.Operations.Goal;
@@ -15,14 +16,17 @@ namespace Epicenter.Api.Controllers
         private readonly IGetPersonalGoalsOperation _getPersonalGoalsOperation;
         private readonly IAssignGoalToEmployeeOperation _assignGoalToEmployeeOperation;
         private readonly IAssignGoalToTeamOperation _assignGoalToTeamOperation;
+        private readonly IAssignGoalToSelfOperation _assignGoalToSelfOperation;
 
         public GoalsController(IGetPersonalGoalsOperation getPersonalGoalsOperation,
             IAssignGoalToEmployeeOperation assignGoalToEmployeeOperation,
-            IAssignGoalToTeamOperation assignGoalToTeamOperation)
+            IAssignGoalToTeamOperation assignGoalToTeamOperation, 
+            IAssignGoalToSelfOperation assignGoalToSelfOperation)
         {
             _getPersonalGoalsOperation = getPersonalGoalsOperation;
             _assignGoalToEmployeeOperation = assignGoalToEmployeeOperation;
             _assignGoalToTeamOperation = assignGoalToTeamOperation;
+            _assignGoalToSelfOperation = assignGoalToSelfOperation;
         }
 
         [HttpGet]
@@ -50,6 +54,19 @@ namespace Epicenter.Api.Controllers
                 return BadRequest(e.Message);
             }
 
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("employee/self")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> CreateEmployeeGoalSelf(CreateEmployeeGoalSelfModel model)
+        {
+            var request = new AssignGoalToSelfOperationRequest
+            {
+                TopicId = model.TopicId
+            }; 
+            await _assignGoalToSelfOperation.Execute(request);
             return Ok();
         }
 
