@@ -15,19 +15,19 @@ namespace Epicenter.Api.Model.Topic
             Subject = response.Subject;
             Description = response.Description;
             Employees = response.Employees
-                .Select(employee => new Employee
+                .Select(employee => new TopicEmployee
                 {
                     FullName = employee.FullName,
                     Id = employee.Id,
-                    ProgressStatus = MapProgressStatus(employee.ProgressStatus)
+                    ProgressStatus = employee.ProgressStatus.ToString()
                 }).ToList();
             Teams = response.Teams
-                .Select(team => new Team
+                .Select(team => new TeamTopic
                 {
                     TeamId = team.TeamId,
                     ManagerId = team.ManagerId,
                     ManagerFullName = team.ManagerFullName,
-                    ProgressStatus = MapProgressStatus(team.ProgressStatus)
+                    ProgressStatus = team.ProgressStatus.ToString()
                 }).ToList();
         }
         public Guid Id { get; set; }
@@ -35,39 +35,22 @@ namespace Epicenter.Api.Model.Topic
         public string ParentSubject { get; set; }
         public string Subject { get; set; }
         public string Description { get; set; }
-        public List<Employee> Employees { get; set; }
-        public List<Team> Teams { get; set; }
+        public List<TopicEmployee> Employees { get; set; }
+        public List<TeamTopic> Teams { get; set; }
 
-        public class Employee
+        public class TopicEmployee
         {
             public Guid Id { get; set; }
             public string FullName { get; set; }
-            public ProgressStatus ProgressStatus { get; set; }
+            public string ProgressStatus { get; set; }
         }
 
-        public class Team
+        public class TeamTopic
         {
             public Guid ManagerId { get; set; }
             public Guid TeamId { get; set; }
             public string ManagerFullName { get; set; }
-            public ProgressStatus ProgressStatus { get; set; }
-        }
-
-        public enum ProgressStatus
-        {
-            NotLearned,
-            Learned
-        }
-
-        private ProgressStatus MapProgressStatus(GetTopicDetailsOperationResponse.ProgressStatus status)
-        {
-            var result = status switch
-            {
-                GetTopicDetailsOperationResponse.ProgressStatus.NotLearned => ProgressStatus.NotLearned,
-                GetTopicDetailsOperationResponse.ProgressStatus.Learned => ProgressStatus.Learned,
-                _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
-            };
-            return result;
+            public string ProgressStatus { get; set; }
         }
     }
 }

@@ -46,11 +46,11 @@ namespace Epicenter.Api.Controllers
 
         [HttpGet, Route("topic/{id}")]
         [ProducesResponseType(typeof(TopicModel), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Topic([Required]Guid topicId)
+        public async Task<IActionResult> Topic([Required]Guid id)
         {
             var request = new GetTopicDetailsOperationRequest
             {
-                TopicId = topicId
+                TopicId = id
             };
 
             var response = await _getTopicDetailsOperation.Execute(request);
@@ -59,7 +59,7 @@ namespace Epicenter.Api.Controllers
         }
 
         [HttpGet, Route("tree")]
-        //[ProducesResponseType(typeof(TopicTreeModel), (int)HttpStatusCode.OK)] Swagger fails because of recursive definition in model
+        [ProducesResponseType(typeof(TopicTreeModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> TopicTree()
         {
             var response = await _getTopicTreeOperation.Execute();
