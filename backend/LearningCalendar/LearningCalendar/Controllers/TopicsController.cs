@@ -51,7 +51,7 @@ namespace Epicenter.Api.Controllers
         }
         
         [HttpPost, Route("topic")]
-        [ProducesResponseType(typeof(TopicModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CreateTopic(CreateTopicModel model)
         {
@@ -62,17 +62,16 @@ namespace Epicenter.Api.Controllers
                 Subject = model.Subject
             };
 
-            CreateTopicOperationResponse response;
             try
             {
-                response = await _createTopicOperation.Execute(request);
+                 await _createTopicOperation.Execute(request);
             }
             catch (TopicAlreadyExistsException ex)
             {
                 return BadRequest(new ErrorModel(ex.Message));
             }
 
-            return Ok(new TopicModel(response));
+            return Ok();
         }
 
         [HttpPost]
