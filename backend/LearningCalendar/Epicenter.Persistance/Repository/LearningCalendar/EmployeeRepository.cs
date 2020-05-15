@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Epicenter.Domain.Entity.LearningCalendar;
@@ -70,6 +71,21 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 .Include(employee => employee.Role)
                 .Where(employee => employee.Identity.Id == identityId)
                 .SingleOrDefaultAsync();
+        }
+
+        public async Task<List<Employee>> GetByTopicIdAsync(Guid topicId)
+        {
+            var result = await DbContext.Employees
+                .Include(employee => employee.Team)
+                .ThenInclude(team => team.Manager)
+                .Include(employee => employee.LearningDays)
+                .ThenInclude(day => day.LearningDayTopics)
+                .ThenInclude(dayTopic => dayTopic.Topic)
+                .Where(employee =>
+                    employee.LearningDays.Any(day =>
+                        day.LearningDayTopics.Any(dayTopic => dayTopic.Topic.Id == topicId)))
+                .ToListAsync();
+            return result;
         }
     }
 }

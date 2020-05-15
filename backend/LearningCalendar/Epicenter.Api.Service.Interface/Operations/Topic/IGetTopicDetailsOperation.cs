@@ -11,7 +11,7 @@ namespace Epicenter.Service.Interface.Operations.Topic
 
     public class GetTopicDetailsOperationRequest
     {
-        public Guid Id { get; set; }
+        public Guid TopicId { get; set; }
     }
 
     public class GetTopicDetailsOperationResponse

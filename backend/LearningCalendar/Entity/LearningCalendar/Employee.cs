@@ -33,6 +33,11 @@ namespace Epicenter.Domain.Entity.LearningCalendar
         [Required]
         public virtual Role Role { get; set; }
 
+        #region NonPersistentProperties
         public bool IsTopLevelManager => Team == null;
+
+        public string FullName => $"{FirstName} {LastName}";
+
+        #endregion
     }
 }
