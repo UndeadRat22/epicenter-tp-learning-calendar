@@ -82,6 +82,7 @@ namespace Epicenter.IoC
             services.AddTransient<IGetTopicDetailsOperation, GetTopicDetailsOperation>();
             services.AddTransient<IAssignGoalToSelfOperation, AssignGoalToSelfOperation>();
             services.AddTransient<IGetSelfTeamsOperation, GetSelfTeamsOperation>();
+            services.AddTransient<IGetEmployeeGoalsOperation, GetEmployeeGoalsOperation>();
         }
 
         private static void RegisterStrategies(IServiceCollection services)

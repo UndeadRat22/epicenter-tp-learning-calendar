@@ -1,6 +1,4 @@
-﻿using Epicenter.Persistence.Interface.Repository.LearningCalendar;
-using Epicenter.Service.Interface.Operations.Goal;
-using System.Linq;
+﻿using Epicenter.Service.Interface.Operations.Goal;
 using System.Threading.Tasks;
 using Epicenter.Service.Context.Interface.Authorization;
 
@@ -9,29 +7,19 @@ namespace Epicenter.Service.Operations.Goal
     public class GetPersonalGoalsOperation : IGetPersonalGoalsOperation
     {
         private readonly IAuthorizationContext _authorizationContext;
-        private readonly IPersonalGoalRepository _personalGoalRepository;
+        private readonly IGetEmployeeGoalsOperation _getEmployeeGoalsOperation;
 
-        public GetPersonalGoalsOperation(IAuthorizationContext authorizationContext,
-            IPersonalGoalRepository personalGoalRepository)
+        public GetPersonalGoalsOperation(IAuthorizationContext authorizationContext, IGetEmployeeGoalsOperation employeeGoalsOperation)
         {
             _authorizationContext = authorizationContext;
-            _personalGoalRepository = personalGoalRepository;
+            _getEmployeeGoalsOperation = employeeGoalsOperation;
         }
 
-        public async Task<GetPersonalGoalsOperationResponse> Execute()
+        public async Task<GetEmployeeGoalsOperationResponse> Execute()
         {
             var employee = await _authorizationContext.CurrentEmployee();
-            var personalGoals = await _personalGoalRepository.GetByEmployeeIdAsync(employee.Id);
             
-            return new GetPersonalGoalsOperationResponse
-            {
-                PersonalGoals = personalGoals.Select(personalGoal => new GetPersonalGoalsOperationResponse.PersonalGoal
-                {
-                    Id = personalGoal.Id,
-                    CompletionDate = personalGoal.CompletionDate,
-                    TopicId = personalGoal.TopicId
-                }).ToList()
-            };
+            return await _getEmployeeGoalsOperation.Execute(new GetEmployeeGoalsOperationRequest {EmployeeId = employee.Id});
         }
     }
 }

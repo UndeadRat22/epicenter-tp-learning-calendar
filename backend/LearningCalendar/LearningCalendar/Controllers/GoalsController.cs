@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Threading.Tasks;
 using Epicenter.Api.Model.Goal;
 using Epicenter.Service.Interface.Exceptions.Authentication;
@@ -14,6 +16,7 @@ namespace Epicenter.Api.Controllers
     public class GoalsController : ControllerBase
     {
         private readonly IGetPersonalGoalsOperation _getPersonalGoalsOperation;
+        private readonly IGetEmployeeGoalsOperation _getEmployeeGoalsOperation;
         private readonly IAssignGoalToEmployeeOperation _assignGoalToEmployeeOperation;
         private readonly IAssignGoalToTeamOperation _assignGoalToTeamOperation;
         private readonly IAssignGoalToSelfOperation _assignGoalToSelfOperation;
@@ -21,18 +24,33 @@ namespace Epicenter.Api.Controllers
         public GoalsController(IGetPersonalGoalsOperation getPersonalGoalsOperation,
             IAssignGoalToEmployeeOperation assignGoalToEmployeeOperation,
             IAssignGoalToTeamOperation assignGoalToTeamOperation, 
-            IAssignGoalToSelfOperation assignGoalToSelfOperation)
+            IAssignGoalToSelfOperation assignGoalToSelfOperation, 
+            IGetEmployeeGoalsOperation getEmployeeGoalsOperation)
         {
             _getPersonalGoalsOperation = getPersonalGoalsOperation;
             _assignGoalToEmployeeOperation = assignGoalToEmployeeOperation;
             _assignGoalToTeamOperation = assignGoalToTeamOperation;
             _assignGoalToSelfOperation = assignGoalToSelfOperation;
+            _getEmployeeGoalsOperation = getEmployeeGoalsOperation;
         }
 
         [HttpGet]
-        public async Task<ActionResult<PersonalGoalListModel>> GetPersonalGoals()
+        [Route("employee/self")]
+        [ProducesResponseType(typeof(PersonalGoalListModel), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetPersonalGoals()
         {
             var response = await _getPersonalGoalsOperation.Execute();
+            return Ok(new PersonalGoalListModel(response));
+        }
+
+        [HttpGet]
+        [Route("employee/{id}")]
+        [ProducesResponseType(typeof(PersonalGoalListModel), (int) HttpStatusCode.OK)]
+        public async Task<IActionResult> GetGoals([Required]Guid id)
+        {
+            var request = new GetEmployeeGoalsOperationRequest {EmployeeId = id};
+            var response =
+                await _getEmployeeGoalsOperation.Execute(request);
             return Ok(new PersonalGoalListModel(response));
         }
 
