@@ -9,7 +9,7 @@ using Epicenter.Service.Interface.Operations.Employee;
 
 namespace Epicenter.Service.Operations.Employee
 {
-    public class EnsureManagerHasTeamOperation : IEnsureManagerHasTeamOperation
+    public class EnsureManagerHasTeamOperation : Operation, IEnsureManagerHasTeamOperation
     {
         private readonly ITeamRepository _teamRepository;
         private readonly IEmployeeRepository _employeeRepository;

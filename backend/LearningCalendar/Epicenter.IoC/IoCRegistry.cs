@@ -19,17 +19,24 @@ namespace Epicenter.IoC
     {
         public static void RegisterComponents(ContainerBuilder builder)
         {
-            RegisterContexts(builder);
+            RegisterLoggedComponents(builder);
             RegisterRepositories(builder);
-            RegisterOperations(builder);
             RegisterStrategies(builder);
         }
 
-        private static void RegisterOperations(ContainerBuilder builder)
+        private static void RegisterLoggedComponents(ContainerBuilder builder)
         {
-            builder.RegisterAssemblyTypes(typeof(LoginOperation).Assembly)
-                .AsImplementedInterfaces();
+            var assemblies = new[]
+            {
+                typeof(LoginOperation).Assembly,
+                typeof(AuthorizationContext).Assembly
+            };
+
+            builder.RegisterAssemblyTypes(assemblies)
+                .AsImplementedInterfaces()
+                .InstancePerDependency();
         }
+
 
         private static void RegisterStrategies(ContainerBuilder builder)
         {
@@ -49,13 +56,6 @@ namespace Epicenter.IoC
             builder.RegisterType<Repository<Invite>>().As<IRepository<Invite>>().InstancePerDependency();
             builder.RegisterType<Repository<Role>>().As<IRepository<Role>>().InstancePerDependency();
             builder.RegisterType<Repository<IdentityUser>>().As<IRepository<IdentityUser>>().InstancePerDependency();
-        }
-
-        private static void RegisterContexts(ContainerBuilder builder)
-        {
-            builder.RegisterAssemblyTypes(typeof(AuthorizationContext).Assembly)
-                .AsImplementedInterfaces()
-                .InstancePerDependency();
         }
 
         public static IServiceCollection RegisterDbContext(IServiceCollection services, IConfiguration configuration)

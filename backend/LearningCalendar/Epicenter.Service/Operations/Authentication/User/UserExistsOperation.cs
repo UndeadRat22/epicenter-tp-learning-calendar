@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Epicenter.Service.Operations.Authentication.User
 {
-    public class UserExistsOperation : IUserExistsOperation
+    public class UserExistsOperation : Operation, IUserExistsOperation
     {
         private readonly IRepository<IdentityUser> _identityRepository;
 

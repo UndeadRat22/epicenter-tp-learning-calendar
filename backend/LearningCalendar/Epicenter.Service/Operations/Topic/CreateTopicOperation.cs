@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Epicenter.Service.Operations.Topic
 {
-    public class CreateTopicOperation : ICreateTopicOperation
+    public class CreateTopicOperation : Operation, ICreateTopicOperation
     {
         private readonly ITopicRepository _topicRepository;
 

@@ -9,7 +9,7 @@ using Epicenter.Service.Strategy.Interface.Topic;
 
 namespace Epicenter.Service.Operations.Topic
 {
-    public class GetTopicDetailsOperation : IGetTopicDetailsOperation
+    public class GetTopicDetailsOperation : Operation, IGetTopicDetailsOperation
     {
         private readonly IEmployeeTopicProgressStatusStrategy _employeeTopicProgressStatusStrategy;
         private readonly ITeamTopicProgressStatusStrategy _teamTopicProgressStatusStrategy;

@@ -4,7 +4,7 @@ using Epicenter.Service.Context.Interface.Authorization;
 
 namespace Epicenter.Service.Operations.Goal
 {
-    public class GetPersonalGoalsOperation : IGetPersonalGoalsOperation
+    public class GetPersonalGoalsOperation : Operation, IGetPersonalGoalsOperation
     {
         private readonly IAuthorizationContext _authorizationContext;
         private readonly IGetEmployeeGoalsOperation _getEmployeeGoalsOperation;

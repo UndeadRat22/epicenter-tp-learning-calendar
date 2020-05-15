@@ -5,7 +5,7 @@ using Epicenter.Service.Interface.Operations.Goal;
 
 namespace Epicenter.Service.Operations.Goal
 {
-    public class AssignGoalToTeamOperation : IAssignGoalToTeamOperation
+    public class AssignGoalToTeamOperation : Operation, IAssignGoalToTeamOperation
     {
         private readonly ITeamRepository _teamRepository;
         private readonly IAssignGoalToEmployeeOperation _assignGoalToEmployeeOperation;

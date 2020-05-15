@@ -3,7 +3,7 @@ using Epicenter.Service.Interface.Operations.Authentication;
 
 namespace Epicenter.Service.Operations.Authentication
 {
-    public class RefreshJwtOperation : IRefreshJwtOperation
+    public class RefreshJwtOperation : Operation, IRefreshJwtOperation
     {
         private readonly ICreateJwtOperation _createJwtOperation;
         private readonly IAuthorizationContext _authorizationContext;

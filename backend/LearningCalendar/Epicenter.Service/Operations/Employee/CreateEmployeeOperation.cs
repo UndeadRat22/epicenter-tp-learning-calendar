@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Epicenter.Service.Operations.Employee
 {
-    public class CreateEmployeeOperation : ICreateEmployeeOperation
+    public class CreateEmployeeOperation : Operation, ICreateEmployeeOperation
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly ILimitRepository _limitRepository;

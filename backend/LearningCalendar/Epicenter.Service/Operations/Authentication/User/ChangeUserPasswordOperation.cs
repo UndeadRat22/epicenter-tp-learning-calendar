@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Epicenter.Service.Operations.Authentication.User
 {
-    public class ChangeUserPasswordOperation : IChangeUserPasswordOperation
+    public class ChangeUserPasswordOperation : Operation, IChangeUserPasswordOperation
     {
         private readonly IRepository<IdentityUser> _userRepository;
         private readonly IAuthorizationContext _authorizationContext;
