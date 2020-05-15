@@ -13,6 +13,8 @@
     <ProjectReference Include="..\Epicenter.Persistance\Epicenter.Persistence.csproj" />
     <ProjectReference Include="..\Epicenter.Serivce.Context.Inferface\Epicenter.Service.Context.Interface.csproj" />
     <ProjectReference Include="..\Epicenter.Service.Context\Epicenter.Service.Context.csproj" />
+    <ProjectReference Include="..\Epicenter.Service.Strategy.Interface\Epicenter.Service.Strategy.Interface.csproj" />
+    <ProjectReference Include="..\Epicenter.Service.Strategy\Epicenter.Service.Strategy.csproj" />
     <ProjectReference Include="..\Epicenter.Service\Epicenter.Service.csproj" />
   </ItemGroup>
 

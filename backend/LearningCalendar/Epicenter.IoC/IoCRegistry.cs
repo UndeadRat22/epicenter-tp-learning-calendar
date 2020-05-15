@@ -29,6 +29,8 @@ using Epicenter.Service.Operations.Limit;
 using Epicenter.Service.Operations.Team;
 using Epicenter.Service.Operations.Topic;
 using Epicenter.Service.Services.Mail;
+using Epicenter.Service.Strategy.Interface.Topic;
+using Epicenter.Service.Strategy.Topic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -38,25 +40,18 @@ namespace Epicenter.IoC
 {
     public static class IoCRegistry
     {
-        public static IServiceCollection RegisterDependencies(IServiceCollection services)
+        public static IServiceCollection RegisterComponents(IServiceCollection services)
         {
-            services.AddTransientRepository<Employee>();
-            services.AddTransientRepository<Invite>();
-            services.AddTransientRepository<Role>();
-            services.AddTransient<IRepository<IdentityUser>, Repository<IdentityUser>>();
+            RegisterRepositories(services);
+            RegisterContexts(services);
+            RegisterStrategies(services);
+            RegisterServices(services);
+            RegisterOperations(services);
+            return services;
+        }
 
-            services.AddTransient<IInvitationRepository, InvitationRepository>();
-            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-            services.AddTransient<ITeamRepository, TeamRepository>();
-            services.AddTransient<ILimitRepository, LimitRepository>();
-            services.AddTransient<ITopicRepository, TopicRepository>();
-            services.AddTransient<IPersonalGoalRepository, PersonalGoalRepository>();
-            services.AddTransient<ILearningDayRepository, LearningDayRepository>();
-            services.AddTransient<ILearningDayTopicRepository, LearningDayTopicRepository>();
-
-            services.AddTransient<IEmailService, EmailService>();
-            
-            //operations
+        private static void RegisterOperations(IServiceCollection services)
+        {
             services.AddTransient<ILoginOperation, LoginOperation>();
             services.AddTransient<ICreateInvitationOperation, CreateInvitationOperation>();
             services.AddTransient<IGetInvitationDetailsOperation, GetInvitationDetailsOperation>();
@@ -84,12 +79,43 @@ namespace Epicenter.IoC
             services.AddTransient<IDeleteInvitationsForEmailOperation, DeleteInvitationsForEmailOperation>();
             services.AddTransient<IChangeUserPasswordOperation, ChangeUserPasswordOperation>();
             services.AddTransient<IGetTopicTreeOperation, GetTopicTreeOperation>();
-
-            //contexts
-            services.AddScoped<IAuthorizationContext, AuthorizationContext>();
-
-            return services;
+            services.AddTransient<IGetTopicDetailsOperation, GetTopicDetailsOperation>();
         }
+
+        private static void RegisterStrategies(IServiceCollection services)
+        {
+            //TODO add configuration
+            services.AddTransient<IEmployeeTopicProgressStatusStrategy, EmployeeTopicProgressStatusHasToLearnOnceStrategy>();
+            services.AddTransient<ITeamTopicProgressStatusStrategy, TeamTopicProgressStatusAllHaveToLearnStrategy>();
+        }
+
+        private static void RegisterServices(IServiceCollection services)
+        {
+            services.AddTransient<IEmailService, EmailService>();
+        }
+
+        private static void RegisterRepositories(IServiceCollection services)
+        {
+            services.AddTransientRepository<Employee>();
+            services.AddTransientRepository<Invite>();
+            services.AddTransientRepository<Role>();
+            services.AddTransient<IRepository<IdentityUser>, Repository<IdentityUser>>();
+
+            services.AddTransient<IInvitationRepository, InvitationRepository>();
+            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+            services.AddTransient<ITeamRepository, TeamRepository>();
+            services.AddTransient<ILimitRepository, LimitRepository>();
+            services.AddTransient<ITopicRepository, TopicRepository>();
+            services.AddTransient<IPersonalGoalRepository, PersonalGoalRepository>();
+            services.AddTransient<ILearningDayRepository, LearningDayRepository>();
+            services.AddTransient<ILearningDayTopicRepository, LearningDayTopicRepository>();
+        }
+
+        private static void RegisterContexts(IServiceCollection services)
+        {
+            services.AddTransient<IAuthorizationContext, AuthorizationContext>();
+        }
+
 
         public static IServiceCollection RegisterDbContext(IServiceCollection services, IConfiguration configuration)
         {

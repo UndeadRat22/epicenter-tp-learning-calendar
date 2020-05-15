@@ -1,5 +1,4 @@
-﻿using Epicenter.Domain.Entity;
-using Epicenter.Persistence.Interface.Repository.Generic;
+﻿using Epicenter.Persistence.Interface.Repository.Generic;
 using Epicenter.Persistence.Repository.Generic;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,9 +13,9 @@ namespace Epicenter.IoC
             return services.AddTransient<IRepository<T>, Repository<T>>();
         }
 
-        public static IServiceCollection RegisterDependencies(this IServiceCollection services)
+        public static IServiceCollection RegisterComponents(this IServiceCollection services)
         {
-            return IoCRegistry.RegisterDependencies(services);
+            return IoCRegistry.RegisterComponents(services);
         }
 
         public static IServiceCollection RegisterDbContext(this IServiceCollection services, IConfiguration configuration)
