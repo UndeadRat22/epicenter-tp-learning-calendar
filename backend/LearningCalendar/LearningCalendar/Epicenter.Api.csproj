@@ -27,7 +27,7 @@
     <ProjectReference Include="..\Epicenter.Api.Model\Epicenter.Api.Model.csproj" />
     <ProjectReference Include="..\Epicenter.Api.Service.Interface\Epicenter.Service.Interface.csproj" />
     <ProjectReference Include="..\Epicenter.Infrastructure\Epicenter.Infrastructure.csproj" />
-    <ProjectReference Include="..\Epicenter.IoC\Epicenter.IoC.csproj" />
+    <ProjectReference Include="..\Epicenter.IoC\Epicenter.Infrastructure.IoC.csproj" />
   </ItemGroup>
 
   <ItemGroup>

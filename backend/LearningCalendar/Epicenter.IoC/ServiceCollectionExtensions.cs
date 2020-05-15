@@ -1,4 +1,5 @@
-﻿using Epicenter.Persistence.Interface.Repository.Generic;
+﻿using Epicenter.Infrastructure.IoC;
+using Epicenter.Persistence.Interface.Repository.Generic;
 using Epicenter.Persistence.Repository.Generic;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

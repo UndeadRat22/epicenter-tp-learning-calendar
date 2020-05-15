@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Persistence", "Ep
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{A5E889C1-76B8-45AA-BBFD-D9D398E000B9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.IoC", "Epicenter.IoC\Epicenter.IoC.csproj", "{41C73EB2-F332-4C30-B17C-01B9BD4124B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Infrastructure.IoC", "Epicenter.IoC\Epicenter.Infrastructure.IoC.csproj", "{41C73EB2-F332-4C30-B17C-01B9BD4124B1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Infrastructure", "Epicenter.Infrastructure\Epicenter.Infrastructure.csproj", "{6444BA96-C909-4458-9C4A-F86A77AC7156}"
 EndProject
@@ -37,9 +37,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Service.Context",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Service.Context.Interface", "Epicenter.Serivce.Context.Inferface\Epicenter.Service.Context.Interface.csproj", "{33DAD5E3-DCB4-46F3-8334-50716496DEDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epicenter.Service.Strategy.Interface", "Epicenter.Service.Strategy.Interface\Epicenter.Service.Strategy.Interface.csproj", "{B7E3B9C7-3810-48F1-B430-D4850269015C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Service.Strategy.Interface", "Epicenter.Service.Strategy.Interface\Epicenter.Service.Strategy.Interface.csproj", "{B7E3B9C7-3810-48F1-B430-D4850269015C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epicenter.Service.Strategy", "Epicenter.Service.Strategy\Epicenter.Service.Strategy.csproj", "{FF15F895-D22B-4B62-A856-0169B7899D1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Service.Strategy", "Epicenter.Service.Strategy\Epicenter.Service.Strategy.csproj", "{FF15F895-D22B-4B62-A856-0169B7899D1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epicenter.Infrastructure.AoP", "Epicenter.Infrastructure.AoP\Epicenter.Infrastructure.AoP.csproj", "{2D942256-CEA4-44B3-AC91-0CE5899C98D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +101,10 @@ Global
 		{FF15F895-D22B-4B62-A856-0169B7899D1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF15F895-D22B-4B62-A856-0169B7899D1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF15F895-D22B-4B62-A856-0169B7899D1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D942256-CEA4-44B3-AC91-0CE5899C98D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D942256-CEA4-44B3-AC91-0CE5899C98D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D942256-CEA4-44B3-AC91-0CE5899C98D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D942256-CEA4-44B3-AC91-0CE5899C98D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +128,7 @@ Global
 		{33DAD5E3-DCB4-46F3-8334-50716496DEDB} = {7D021FB4-600C-435F-B7C2-69A0D5BE580E}
 		{B7E3B9C7-3810-48F1-B430-D4850269015C} = {7D021FB4-600C-435F-B7C2-69A0D5BE580E}
 		{FF15F895-D22B-4B62-A856-0169B7899D1A} = {7D021FB4-600C-435F-B7C2-69A0D5BE580E}
+		{2D942256-CEA4-44B3-AC91-0CE5899C98D4} = {A5E889C1-76B8-45AA-BBFD-D9D398E000B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {41704A08-82E5-41C9-89FF-555119862B4E}

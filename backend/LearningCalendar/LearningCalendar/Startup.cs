@@ -1,5 +1,6 @@
 using System.Text;
 using Autofac;
+using Epicenter.Infrastructure.IoC;
 using Epicenter.Infrastructure.Settings;
 using Epicenter.IoC;
 using Epicenter.Persistence.Context;

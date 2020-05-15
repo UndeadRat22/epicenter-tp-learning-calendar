@@ -1,39 +1,67 @@
-﻿using Autofac;
+﻿using System;
+using System.Reflection;
+using Autofac;
+using Autofac.Extras.DynamicProxy;
+using Castle.Core.Logging;
+using Castle.DynamicProxy;
 using Epicenter.Domain.Entity.Authentication;
 using Epicenter.Domain.Entity.LearningCalendar;
+using Epicenter.Infrastructure.AoP.Attributes;
+using Epicenter.Infrastructure.AoP.Interceptors;
+using Epicenter.Infrastructure.Extensions;
 using Epicenter.Persistence.Context;
 using Epicenter.Persistence.Interface.Repository.Generic;
 using Epicenter.Persistence.Repository.Generic;
 using Epicenter.Persistence.Repository.LearningCalendar;
 using Epicenter.Service.Context.Authorization;
-using Epicenter.Service.Operations.Authentication;
+using Epicenter.Service.Operations;
 using Epicenter.Service.Strategy.Topic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Epicenter.IoC
+namespace Epicenter.Infrastructure.IoC
 {
     public static class IoCRegistry
     {
         public static void RegisterComponents(ContainerBuilder builder)
         {
+            RegisterAOPComponents(builder);
             RegisterLoggedComponents(builder);
             RegisterRepositories(builder);
             RegisterStrategies(builder);
+        }
+
+        private static void RegisterAOPComponents(ContainerBuilder builder)
+        {
+            builder.Register(i => new AutoLogger(Console.Out));
         }
 
         private static void RegisterLoggedComponents(ContainerBuilder builder)
         {
             var assemblies = new[]
             {
-                typeof(LoginOperation).Assembly,
+                typeof(Operation).Assembly,
                 typeof(AuthorizationContext).Assembly
             };
 
             builder.RegisterAssemblyTypes(assemblies)
                 .AsImplementedInterfaces()
+                .InstancePerDependency();
+
+            RegisterInterceptorForAttribute<AutoLogAttribute, AutoLogger>(builder, assemblies);
+        }
+
+        private static void RegisterInterceptorForAttribute<TAttribute, TInterceptor>(ContainerBuilder builder, params Assembly[] assemblies)
+            where TAttribute : Attribute
+            where TInterceptor : IInterceptor
+        {
+            builder.RegisterAssemblyTypes(assemblies)
+                .AsImplementedInterfaces()
+                .Where(type => type.HasAttribute<TAttribute>())
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(TInterceptor))
                 .InstancePerDependency();
         }
 
