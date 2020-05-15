@@ -1,4 +1,5 @@
 using System.Text;
+using Autofac;
 using Epicenter.Infrastructure.Settings;
 using Epicenter.IoC;
 using Epicenter.Persistence.Context;
@@ -22,7 +23,6 @@ namespace Epicenter.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
@@ -62,8 +62,6 @@ namespace Epicenter.Api
             });
 
             services.RegisterDbContext(Configuration);
-            
-            services.RegisterComponents();
 
             services.AddHttpContextAccessor();
 
@@ -77,6 +75,11 @@ namespace Epicenter.Api
                     Version = "v1"
                 });
             });
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            IoCRegistry.RegisterComponents(builder);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

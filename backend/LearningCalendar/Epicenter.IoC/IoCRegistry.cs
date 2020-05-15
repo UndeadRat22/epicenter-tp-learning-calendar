@@ -1,35 +1,12 @@
-﻿using Epicenter.Domain.Entity.Authentication;
+﻿using Autofac;
+using Epicenter.Domain.Entity.Authentication;
 using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Persistence.Context;
-using Epicenter.Persistence.Interface.Repository.Authentication;
 using Epicenter.Persistence.Interface.Repository.Generic;
-using Epicenter.Persistence.Interface.Repository.LearningCalendar;
-using Epicenter.Persistence.Repository.Authentication;
 using Epicenter.Persistence.Repository.Generic;
 using Epicenter.Persistence.Repository.LearningCalendar;
 using Epicenter.Service.Context.Authorization;
-using Epicenter.Service.Context.Interface.Authorization;
-using Epicenter.Service.Interface.Operations.Authentication;
-using Epicenter.Service.Interface.Operations.Authentication.Invite;
-using Epicenter.Service.Interface.Operations.Authentication.User;
-using Epicenter.Service.Interface.Operations.Employee;
-using Epicenter.Service.Interface.Operations.Goal;
-using Epicenter.Service.Interface.Operations.LearningDay;
-using Epicenter.Service.Interface.Operations.Limit;
-using Epicenter.Service.Interface.Operations.Team;
-using Epicenter.Service.Interface.Operations.Topic;
-using Epicenter.Service.Interface.Services.Mail;
 using Epicenter.Service.Operations.Authentication;
-using Epicenter.Service.Operations.Authentication.Invite;
-using Epicenter.Service.Operations.Authentication.User;
-using Epicenter.Service.Operations.Employee;
-using Epicenter.Service.Operations.Goal;
-using Epicenter.Service.Operations.LearningDay;
-using Epicenter.Service.Operations.Limit;
-using Epicenter.Service.Operations.Team;
-using Epicenter.Service.Operations.Topic;
-using Epicenter.Service.Services.Mail;
-using Epicenter.Service.Strategy.Interface.Topic;
 using Epicenter.Service.Strategy.Topic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -40,85 +17,46 @@ namespace Epicenter.IoC
 {
     public static class IoCRegistry
     {
-        public static IServiceCollection RegisterComponents(IServiceCollection services)
+        public static void RegisterComponents(ContainerBuilder builder)
         {
-            RegisterRepositories(services);
-            RegisterContexts(services);
-            RegisterStrategies(services);
-            RegisterServices(services);
-            RegisterOperations(services);
-            return services;
+            RegisterContexts(builder);
+            RegisterRepositories(builder);
+            RegisterOperations(builder);
+            RegisterStrategies(builder);
         }
 
-        private static void RegisterOperations(IServiceCollection services)
+        private static void RegisterOperations(ContainerBuilder builder)
         {
-            services.AddTransient<ILoginOperation, LoginOperation>();
-            services.AddTransient<ICreateInvitationOperation, CreateInvitationOperation>();
-            services.AddTransient<IGetInvitationDetailsOperation, GetInvitationDetailsOperation>();
-            services.AddTransient<ICheckUserCredentialsOperation, CheckUserCredentialsOperation>();
-            services.AddTransient<IUserExistsOperation, UserExistsOperation>();
-            services.AddTransient<IRegisterUserOperation, RegisterUserOperation>();
-            services.AddTransient<ICreateEmployeeOperation, CreateEmployeeOperation>();
-            services.AddTransient<IEnsureManagerHasTeamOperation, EnsureManagerHasTeamOperation>();
-            services.AddTransient<IGetTeamDetailsOperation, GetTeamDetailsOperation>();
-            services.AddTransient<IGetAllTopicsOperation, GetAllTopicsOperation>();
-            services.AddTransient<ICreateTopicOperation, CreateTopicOperation>();
-            services.AddTransient<IAssignGoalToEmployeeOperation, AssignGoalToEmployeeOperation>();
-            services.AddTransient<IAssignGoalToTeamOperation, AssignGoalToTeamOperation>();
-            services.AddTransient<ICreateJwtOperation, CreateJwtOperation>();
-            services.AddTransient<IRefreshJwtOperation, RefreshJwtOperation>();
-            services.AddTransient<IGetEmployeeDetailsOperation, GetEmployeeDetailsOperation>();
-            services.AddTransient<ICreateLearningDayOperation, CreateLearningDayOperation>();
-            services.AddTransient<IGetLearningDaysOperation, GetLearningDaysOperation>();
-            services.AddTransient<IGetSubordinateLearningDaysOperation, GetSubordinateLearningDaysOperation>();
-            services.AddTransient<IGetPersonalGoalsOperation, GetPersonalGoalsOperation>();
-            services.AddTransient<IGetLimitsOperation, GetLimitsOperation>();
-            services.AddTransient<IGetRemainingLimitsForQuarterOperation, GetRemainingLimitsForQuarterOperation>();
-            services.AddTransient<ILearnTopicOperation, LearnTopicOperation>();
-            services.AddTransient<IFulfillPersonalGoalOperation, FulfillPersonalGoalOperation>();
-            services.AddTransient<IDeleteInvitationsForEmailOperation, DeleteInvitationsForEmailOperation>();
-            services.AddTransient<IChangeUserPasswordOperation, ChangeUserPasswordOperation>();
-            services.AddTransient<IGetTopicTreeOperation, GetTopicTreeOperation>();
-            services.AddTransient<IGetTopicDetailsOperation, GetTopicDetailsOperation>();
-            services.AddTransient<IAssignGoalToSelfOperation, AssignGoalToSelfOperation>();
-            services.AddTransient<IGetSelfTeamsOperation, GetSelfTeamsOperation>();
-            services.AddTransient<IGetEmployeeGoalsOperation, GetEmployeeGoalsOperation>();
+            builder.RegisterAssemblyTypes(typeof(LoginOperation).Assembly)
+                .AsImplementedInterfaces();
         }
 
-        private static void RegisterStrategies(IServiceCollection services)
+        private static void RegisterStrategies(ContainerBuilder builder)
         {
-            //TODO add configuration
-            services.AddTransient<IEmployeeTopicProgressStatusStrategy, EmployeeTopicProgressStatusHasToLearnOnceStrategy>();
-            services.AddTransient<ITeamTopicProgressStatusStrategy, TeamTopicProgressStatusAllHaveToLearnStrategy>();
+            //TODO config for strategy
+            builder.RegisterAssemblyTypes(typeof(EmployeeTopicProgressStatusHasToLearnOnceStrategy).Assembly)
+                .AsImplementedInterfaces()
+                .InstancePerDependency();
         }
 
-        private static void RegisterServices(IServiceCollection services)
+        private static void RegisterRepositories(ContainerBuilder builder)
         {
-            services.AddTransient<IEmailService, EmailService>();
+            builder.RegisterAssemblyTypes(typeof(EmployeeRepository).Assembly)
+                .AsImplementedInterfaces()
+                .InstancePerDependency();
+
+            builder.RegisterType<Repository<Employee>>().As<IRepository<Employee>>().InstancePerDependency();
+            builder.RegisterType<Repository<Invite>>().As<IRepository<Invite>>().InstancePerDependency();
+            builder.RegisterType<Repository<Role>>().As<IRepository<Role>>().InstancePerDependency();
+            builder.RegisterType<Repository<IdentityUser>>().As<IRepository<IdentityUser>>().InstancePerDependency();
         }
 
-        private static void RegisterRepositories(IServiceCollection services)
+        private static void RegisterContexts(ContainerBuilder builder)
         {
-            services.AddTransientRepository<Employee>();
-            services.AddTransientRepository<Invite>();
-            services.AddTransientRepository<Role>();
-            services.AddTransient<IRepository<IdentityUser>, Repository<IdentityUser>>();
-
-            services.AddTransient<IInvitationRepository, InvitationRepository>();
-            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-            services.AddTransient<ITeamRepository, TeamRepository>();
-            services.AddTransient<ILimitRepository, LimitRepository>();
-            services.AddTransient<ITopicRepository, TopicRepository>();
-            services.AddTransient<IPersonalGoalRepository, PersonalGoalRepository>();
-            services.AddTransient<ILearningDayRepository, LearningDayRepository>();
-            services.AddTransient<ILearningDayTopicRepository, LearningDayTopicRepository>();
+            builder.RegisterAssemblyTypes(typeof(AuthorizationContext).Assembly)
+                .AsImplementedInterfaces()
+                .InstancePerDependency();
         }
-
-        private static void RegisterContexts(IServiceCollection services)
-        {
-            services.AddTransient<IAuthorizationContext, AuthorizationContext>();
-        }
-
 
         public static IServiceCollection RegisterDbContext(IServiceCollection services, IConfiguration configuration)
         {

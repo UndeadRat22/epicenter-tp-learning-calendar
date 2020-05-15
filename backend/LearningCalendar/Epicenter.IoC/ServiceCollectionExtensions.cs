@@ -13,11 +13,6 @@ namespace Epicenter.IoC
             return services.AddTransient<IRepository<T>, Repository<T>>();
         }
 
-        public static IServiceCollection RegisterComponents(this IServiceCollection services)
-        {
-            return IoCRegistry.RegisterComponents(services);
-        }
-
         public static IServiceCollection RegisterDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             return IoCRegistry.RegisterDbContext(services, configuration);
