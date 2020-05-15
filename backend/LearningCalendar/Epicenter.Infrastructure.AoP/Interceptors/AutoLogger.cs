@@ -2,7 +2,7 @@
 using System.IO;
 using Castle.DynamicProxy;
 
-namespace Epicenter.Infrastructure.AoP.Interceptors
+namespace Epicenter.Infrastructure.AOP.Interceptors
 {
     public class AutoLogger : IInterceptor
     {

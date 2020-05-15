@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Epicenter.Api.Service.Interface\Epicenter.Service.Interface.csproj" />
-    <ProjectReference Include="..\Epicenter.Infrastructure.AoP\Epicenter.Infrastructure.AoP.csproj" />
+    <ProjectReference Include="..\Epicenter.Infrastructure.AoP\Epicenter.Infrastructure.AOP.csproj" />
     <ProjectReference Include="..\Epicenter.Infrastructure\Epicenter.Infrastructure.csproj" />
     <ProjectReference Include="..\Epicenter.Persistance.Interface\Epicenter.Persistence.Interface.csproj" />
     <ProjectReference Include="..\Epicenter.Serivce.Context.Inferface\Epicenter.Service.Context.Interface.csproj" />

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Epicenter.Infrastructure.AoP.Attributes;
+using Epicenter.Infrastructure.AOP.Attributes;
 using Epicenter.Infrastructure.Settings;
 using Epicenter.Service.Interface.Services.Mail;
 using Microsoft.Extensions.Options;

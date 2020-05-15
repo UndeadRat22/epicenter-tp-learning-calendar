@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Service.Strategy.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Service.Strategy", "Epicenter.Service.Strategy\Epicenter.Service.Strategy.csproj", "{FF15F895-D22B-4B62-A856-0169B7899D1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epicenter.Infrastructure.AoP", "Epicenter.Infrastructure.AoP\Epicenter.Infrastructure.AoP.csproj", "{2D942256-CEA4-44B3-AC91-0CE5899C98D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Infrastructure.AOP", "Epicenter.Infrastructure.AoP\Epicenter.Infrastructure.AOP.csproj", "{2D942256-CEA4-44B3-AC91-0CE5899C98D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

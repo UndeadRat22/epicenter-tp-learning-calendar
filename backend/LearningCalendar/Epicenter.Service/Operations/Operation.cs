@@ -1,4 +1,4 @@
-﻿using Epicenter.Infrastructure.AoP.Attributes;
+﻿using Epicenter.Infrastructure.AOP.Attributes;
 
 namespace Epicenter.Service.Operations
 {

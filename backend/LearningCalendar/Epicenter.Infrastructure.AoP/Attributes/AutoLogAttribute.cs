@@ -1,4 +1,4 @@
-﻿namespace Epicenter.Infrastructure.AoP.Attributes
+﻿namespace Epicenter.Infrastructure.AOP.Attributes
 {
     public class AutoLogAttribute : System.Attribute
     {
