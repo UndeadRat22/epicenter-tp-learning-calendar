@@ -25,7 +25,7 @@ const TopicsTree = ({ onNodeClick }) => {
   }, []);
 
   /* TODO: tree design
-    TODO: instead of data example use topics (already implemented)
+    TODO: instead of data example use topics (already implemented). Also investigate another tree
     const children = example.topicTrees;
     const data = {
       name: 'Root',
