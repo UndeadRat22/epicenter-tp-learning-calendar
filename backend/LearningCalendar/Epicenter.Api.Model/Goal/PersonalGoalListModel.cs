@@ -7,7 +7,7 @@ namespace Epicenter.Api.Model.Goal
 {
     public class PersonalGoalListModel
     {
-        public PersonalGoalListModel(GetPersonalGoalsOperationResponse response)
+        public PersonalGoalListModel(GetEmployeeGoalsOperationResponse response)
         {
             Goals = response.PersonalGoals.Select(goal => new PersonalGoal
             {

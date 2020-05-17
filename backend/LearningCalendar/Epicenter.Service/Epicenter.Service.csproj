@@ -15,6 +15,7 @@
     <ProjectReference Include="..\Epicenter.Infrastructure\Epicenter.Infrastructure.csproj" />
     <ProjectReference Include="..\Epicenter.Persistance.Interface\Epicenter.Persistence.Interface.csproj" />
     <ProjectReference Include="..\Epicenter.Serivce.Context.Inferface\Epicenter.Service.Context.Interface.csproj" />
+    <ProjectReference Include="..\Epicenter.Service.Strategy.Interface\Epicenter.Service.Strategy.Interface.csproj" />
   </ItemGroup>
 
 </Project>

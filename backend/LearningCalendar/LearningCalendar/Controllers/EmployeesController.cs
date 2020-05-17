@@ -55,7 +55,7 @@ namespace Epicenter.Api.Controllers
         }
 
         [HttpGet, Route("self")]
-        public async Task<ActionResult<EmployeeModel>> GetEmployee()
+        public async Task<ActionResult<EmployeeModel>> GetSelf()
         {
             var details = await _getEmployeeDetailsOperation.Execute();
             var model = new EmployeeModel

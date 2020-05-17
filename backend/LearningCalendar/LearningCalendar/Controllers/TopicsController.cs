@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Threading.Tasks;
 using Epicenter.Api.Model;
 using Epicenter.Api.Model.Topic;
@@ -18,16 +20,19 @@ namespace Epicenter.Api.Controllers
         private readonly ICreateTopicOperation _createTopicOperation;
         private readonly ILearnTopicOperation _learnTopicOperation;
         private readonly IGetTopicTreeOperation _getTopicTreeOperation;
+        private readonly IGetTopicDetailsOperation _getTopicDetailsOperation;
 
         public TopicsController(IGetAllTopicsOperation allTopicsOperation, 
             ICreateTopicOperation topicOperation, 
             ILearnTopicOperation learnTopicOperation, 
-            IGetTopicTreeOperation topicTreeOperation)
+            IGetTopicTreeOperation topicTreeOperation, 
+            IGetTopicDetailsOperation getTopicDetailsOperation)
         {
             _getAllTopicsOperation = allTopicsOperation;
             _createTopicOperation = topicOperation;
             _learnTopicOperation = learnTopicOperation;
             _getTopicTreeOperation = topicTreeOperation;
+            _getTopicDetailsOperation = getTopicDetailsOperation;
         }
 
         [HttpGet]
@@ -39,9 +44,23 @@ namespace Epicenter.Api.Controllers
             return Ok(new TopicListModel(response));
         }
 
+        [HttpGet, Route("topic/{id}")]
+        [ProducesResponseType(typeof(TopicModel), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Topic([Required]Guid id)
+        {
+            var request = new GetTopicDetailsOperationRequest
+            {
+                TopicId = id
+            };
+
+            var response = await _getTopicDetailsOperation.Execute(request);
+
+            return Ok(new TopicModel(response));
+        }
+
         [HttpGet, Route("tree")]
-        //[ProducesResponseType(typeof(TopicTreeModel), (int)HttpStatusCode.OK)] Swagger fails because of recursive definition in model
-        public async Task<IActionResult> Tree()
+        [ProducesResponseType(typeof(TopicTreeModel), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> TopicTree()
         {
             var response = await _getTopicTreeOperation.Execute();
 
@@ -51,7 +70,7 @@ namespace Epicenter.Api.Controllers
         }
         
         [HttpPost, Route("topic")]
-        [ProducesResponseType(typeof(TopicModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CreateTopic(CreateTopicModel model)
         {
@@ -62,17 +81,16 @@ namespace Epicenter.Api.Controllers
                 Subject = model.Subject
             };
 
-            CreateTopicOperationResponse response;
             try
             {
-                response = await _createTopicOperation.Execute(request);
+                 await _createTopicOperation.Execute(request);
             }
             catch (TopicAlreadyExistsException ex)
             {
                 return BadRequest(new ErrorModel(ex.Message));
             }
 
-            return Ok(new TopicModel(response));
+            return Ok();
         }
 
         [HttpPost]

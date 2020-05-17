@@ -7,10 +7,11 @@ namespace Epicenter.Api.Model.Team
 {
     public class TeamModel
     {
-        public TeamModel(GetDirectSubordinatesOperationResponse response)
+        public TeamModel(GetTeamDetailsOperationResponse response)
         {
-            ManagerId = response.ManagerId;
-            Employees = response.Employees
+            ManagerId = response.Team.Manager.Id;
+            ManagerName = response.Team.Manager.Name;
+            Employees = response.Team.Employees
                 .Select(employee => new Employee
                 {
                     Id = employee.Id,
@@ -25,6 +26,7 @@ namespace Epicenter.Api.Model.Team
         }
 
         public Guid ManagerId { get; set; }
+        public string ManagerName { get; set; }
         public List<Employee> Employees { get; set; }
         public class Employee
         {

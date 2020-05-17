@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Box,
@@ -11,24 +11,37 @@ import {
   FormField,
 } from 'wix-style-react';
 import { Route, useParams } from 'react-router-dom';
-import Alert from '../Alert';
+import ErrorNotification from '../ErrorNotification';
 
 const RegisterForm = ({ onRegister }) => {
   const [password, setPassword] = useState('');
   const [confirmedPassword, setConfirmedPassword] = useState('');
-  const [showAlert, setShowAlert] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+
+  useEffect(() => {
+    const listener = event => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter')
+        handleRegisterBtn();
+    };
+    document.addEventListener('keydown', listener);
+    return () => {
+      document.removeEventListener('keydown', listener);
+    };
+  });
 
   const { inviteId } = useParams();
 
   const handleRegisterBtn = () => {
-    if (confirmedPassword === password) {
-      const user = {
-        inviteId,
-        password,
-      };
-      onRegister(user);
-    } else
-      setShowAlert(true);
+    if (password !== '' && confirmedPassword !== '') {
+      if (confirmedPassword === password) {
+        const user = {
+          inviteId,
+          password,
+        };
+        onRegister(user);
+      } else
+        setShowNotification(true);
+    }
   };
 
   return (
@@ -63,20 +76,6 @@ const RegisterForm = ({ onRegister }) => {
                     </Cell>
                   </Col>
                 </Row>
-                {showAlert && (
-                  <Row>
-                    <Col>
-                      <Cell>
-                        <Alert
-                          appearance="danger"
-                          header="Alert!"
-                          text="Passwords do not match"
-                          onClose={() => setShowAlert(false)}
-                        />
-                      </Cell>
-                    </Col>
-                  </Row>
-                )}
                 <Row>
                   <Col>
                     <Box align="right">
@@ -98,6 +97,12 @@ const RegisterForm = ({ onRegister }) => {
           </Card>
         </Col>
       </Row>
+      {showNotification && (
+        <ErrorNotification
+          text="Passwords do not match!"
+          onClose={() => setShowNotification(false)}
+        />
+      )}
     </Container>
   );
 };

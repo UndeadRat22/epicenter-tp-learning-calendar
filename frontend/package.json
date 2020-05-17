@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "d3-hierarchy": "^1.1.9",
     "prop-types": "~15.6.0",
     "react": "^16.13.1",
     "react-dnd": "^10.0.2",
@@ -44,6 +45,7 @@
     "react-redux": "^7.2.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
+    "react-tree-graph": "^4.1.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",

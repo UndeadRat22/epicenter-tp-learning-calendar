@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using Epicenter.Infrastructure.Settings;
 using Epicenter.IoC;
@@ -6,7 +5,6 @@ using Epicenter.Persistence.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -65,7 +63,7 @@ namespace Epicenter.Api
 
             services.RegisterDbContext(Configuration);
             
-            services.RegisterDependencies();
+            services.RegisterComponents();
 
             services.AddHttpContextAccessor();
 
