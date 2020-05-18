@@ -9,6 +9,7 @@ using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Infrastructure.AOP.Attributes;
 using Epicenter.Infrastructure.AOP.Interceptors;
 using Epicenter.Infrastructure.Extensions;
+using Epicenter.Infrastructure.Settings;
 using Epicenter.Persistence.Context;
 using Epicenter.Persistence.Interface.Repository.Generic;
 using Epicenter.Persistence.Repository.Generic;
@@ -25,10 +26,10 @@ namespace Epicenter.Infrastructure.IoC
 {
     public static class IoCRegistry
     {
-        public static void RegisterComponents(ContainerBuilder builder)
+        public static void RegisterComponents(ContainerBuilder builder, LoggingSettings settings)
         {
             RegisterAOPComponents(builder);
-            RegisterLoggedComponents(builder);
+            RegisterLoggedComponents(builder, settings);
             RegisterRepositories(builder);
             RegisterStrategies(builder);
         }
@@ -38,7 +39,7 @@ namespace Epicenter.Infrastructure.IoC
             builder.RegisterType<AutoLogger>().InstancePerDependency();
         }
 
-        private static void RegisterLoggedComponents(ContainerBuilder builder)
+        private static void RegisterLoggedComponents(ContainerBuilder builder, LoggingSettings settings)
         {
             var assemblies = new[]
             {
@@ -49,8 +50,10 @@ namespace Epicenter.Infrastructure.IoC
             builder.RegisterAssemblyTypes(assemblies)
                 .AsImplementedInterfaces()
                 .InstancePerDependency();
-
-            RegisterInterceptorForAttribute<AutoLogAttribute, AutoLogger>(builder, assemblies);
+            if (settings.Enabled)
+            {
+                RegisterInterceptorForAttribute<AutoLogAttribute, AutoLogger>(builder, assemblies);
+            }
         }
 
         private static void RegisterInterceptorForAttribute<TAttribute, TInterceptor>(ContainerBuilder builder, params Assembly[] assemblies)
