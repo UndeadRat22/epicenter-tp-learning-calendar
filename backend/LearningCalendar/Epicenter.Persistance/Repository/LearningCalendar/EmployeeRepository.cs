@@ -87,15 +87,5 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 .ToListAsync();
             return result;
         }
-
-        public async Task<Employee> GetWithSubordinateTree(Guid id)
-        {
-            var result = await DbContext.Employees
-                .Include(employee => employee.Team)
-                .ThenInclude(team => team.Manager)
-                .ToListAsync();
-
-            return result.SingleOrDefault(employee => employee.Id == id);
-        }
     }
 }
