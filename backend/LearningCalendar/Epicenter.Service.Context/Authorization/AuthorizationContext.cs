@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Infrastructure.Extensions;
@@ -13,16 +14,22 @@ namespace Epicenter.Service.Context.Authorization
     public class AuthorizationContext : IAuthorizationContext
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly ITeamRepository _teamRepository;
         private readonly IRepository<IdentityUser> _userRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthorizationContext(IEmployeeRepository employeeRepository, IRepository<IdentityUser> userRepository,
-            IHttpContextAccessor httpContextAccessor)
+        public AuthorizationContext(IEmployeeRepository employeeRepository, 
+            IRepository<IdentityUser> userRepository,
+            IHttpContextAccessor httpContextAccessor, 
+            ITeamRepository teamRepository)
         {
             _employeeRepository = employeeRepository;
             _userRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
+            _teamRepository = teamRepository;
         }
+
+        public string IdentityName => _httpContextAccessor.HttpContext.User.Identity.Name;
 
         public async Task<Employee> CurrentEmployee()
         {
@@ -38,21 +45,28 @@ namespace Epicenter.Service.Context.Authorization
             return await _userRepository.QuerySingleOrDefaultAsync(user => user.Email == email);
         }
 
-        public async Task<Employee> GetEmployeeTreeIfAuthorizedFor(Guid employeeId)
+        public async Task<Team> GetTeamTreeIfAuthorizedForEmployee(Guid employeeId)
         {
-            var employee = await CurrentEmployee();
-            employee = await _employeeRepository.GetWithSubordinateTree(employee.Id);
+            var team = await GetTeamTree();
 
-            var selectedEmployee = employee.FindAnyOrDefault(root => root.Team.Employees, child => child.Id == employeeId);
+            var selectedTeam = team.FindAnyOrDefault(
+                root => root.Employees.Select(employee => employee.ManagedTeam),
+                child => child.Manager.Id == employeeId);
 
-            if (selectedEmployee == null)
-            {
-                throw new ApplicationException($"Employee ({employee.Id}) is not authorized to view ({employeeId}).");
+            if (selectedTeam == null)
+            { 
+                throw new ApplicationException($"Employee ({team.Manager}) is not authorized to view ({employeeId}).");
             }
 
-            return selectedEmployee;
+            return selectedTeam;
         }
 
-        public string IdentityName => _httpContextAccessor.HttpContext.User.Identity.Name;
+        public async Task<Team> GetTeamTree()
+        {
+            var employee = await CurrentEmployee();
+            var team = await _teamRepository.GetTeamTreeAsync(employee.Id);
+
+            return team;
+        }
     }
 }

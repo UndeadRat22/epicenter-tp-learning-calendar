@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Service.Strategy.Interface.Topic;
 
@@ -11,11 +12,26 @@ namespace Epicenter.Service.Strategy.Topic
             bool IsTopicLearned(LearningDayTopic dayTopic) 
                 => dayTopic.TopicId == topic.Id && dayTopic.ProgressStatus == ProgressStatus.Done;
 
+            bool isPlanned =  employee.PersonalGoals.Any(goal => goal.Topic.Id == topic.Id);
+
             bool isTopicLearned = employee.LearningDays.Any(day => day.LearningDayTopics.Any(IsTopicLearned));
 
-            return isTopicLearned
-                ? Status.Learned
-                : Status.NotLearned;
+            Status status;
+
+            if (isTopicLearned)
+            {
+                status = Status.Learned;
+            }
+            else if (isPlanned)
+            {
+                status = Status.Planned;
+            }
+            else
+            {
+                status = Status.NotPlanned;
+            }
+
+            return status;
         }
     }
 }

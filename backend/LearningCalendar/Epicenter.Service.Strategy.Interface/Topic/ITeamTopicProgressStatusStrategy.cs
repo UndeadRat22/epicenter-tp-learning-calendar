@@ -4,6 +4,13 @@ namespace Epicenter.Service.Strategy.Interface.Topic
 {
     public interface ITeamTopicProgressStatusStrategy
     {
-        Status GetStatus(Team team, Domain.Entity.LearningCalendar.Topic topic);
+        TeamProgressStatus GetStatus(Team team, Domain.Entity.LearningCalendar.Topic topic);
+    }
+
+    public class TeamProgressStatus
+    {
+        public int LearnedCount { get; set; }
+        public int TotalCount { get; set; }
+        public Status Status { get; set; }
     }
 }

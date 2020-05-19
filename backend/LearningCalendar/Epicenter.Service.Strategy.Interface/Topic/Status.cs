@@ -2,7 +2,8 @@
 {
     public enum Status
     {
-        NotLearned,
+        NotPlanned,
+        Planned,
         Learned
     }
 }

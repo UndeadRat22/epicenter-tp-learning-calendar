@@ -79,8 +79,10 @@ namespace Epicenter.Persistence.Context
                 .WithMany(limit => limit.Employees)
                 .HasForeignKey(employee => employee.LimitId);
 
-            builder.Entity<Team>()
-                .HasOne(team => team.Manager);
+            builder.Entity<Employee>()
+                .HasOne(employee => employee.ManagedTeam)
+                .WithOne(team => team.Manager)
+                .HasForeignKey<Employee>(employee => employee.ManagedTeamId);
 
             builder.Entity<Team>()
                 .HasMany(team => team.Employees)

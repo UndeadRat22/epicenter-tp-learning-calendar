@@ -12,6 +12,8 @@ namespace Epicenter.Domain.Entity.LearningCalendar
         [Required]
         public IdentityUser Identity { get; set; }
         public Team Team { get; set; }
+        public Guid? ManagedTeamId { get; set; }
+        public Team ManagedTeam { get; set; }
         public List<LearningDay> LearningDays { get; set; }
         public List<PersonalGoal> PersonalGoals { get; set; }
 

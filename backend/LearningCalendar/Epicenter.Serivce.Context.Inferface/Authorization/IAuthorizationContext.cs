@@ -7,9 +7,10 @@ namespace Epicenter.Service.Context.Interface.Authorization
 {
     public interface IAuthorizationContext
     {
+        string IdentityName { get; }
         Task<Employee> CurrentEmployee();
         Task<IdentityUser> CurrentIdentity();
-        Task<Employee> GetEmployeeTreeIfAuthorizedFor(Guid id);
-        string IdentityName { get; }
+        Task<Team> GetTeamTreeIfAuthorizedForEmployee(Guid id);
+        Task<Team> GetTeamTree();
     }
 }

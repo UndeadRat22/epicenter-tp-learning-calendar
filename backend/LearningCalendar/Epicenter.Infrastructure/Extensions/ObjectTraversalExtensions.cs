@@ -14,14 +14,21 @@ namespace Epicenter.Infrastructure.Extensions
 
         public static IEnumerable<T> Flatten<T>(this T root, Func<T, IEnumerable<T>> childSelector)
         {
-            yield return root;
-            IEnumerable<T> children = childSelector(root);
-            foreach (T child in children)
+            if (root == null)
             {
-                IEnumerable<T> flatChildren = child.Flatten(childSelector);
-                foreach (T flatChild in flatChildren)
+                yield break;
+            }
+            yield return root;
+            var children = childSelector(root);
+            if (children == null)
+            {
+                yield break;
+            }
+            foreach (var child in children)
+            {
+                foreach (var value in child.Flatten(childSelector))
                 {
-                    yield return flatChild;
+                    yield return value;
                 }
             }
         }
