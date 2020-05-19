@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Epicenter.Infrastructure.Extensions
 {
     public static class ObjectTraversalExtensions
     {
-        public static T FindAnyOrDefault<T>(this T root, Func<T, IEnumerable<T>> childSelector, Func<T, bool> condition)
+        public static T FindAnyOrDefault<T>(this T root, Func<T, IEnumerable<T>> childSelector, Func<T, bool> predicate)
             where T : class
         {
-            if (condition(root))
-            {
-                return root;
-            }
+            return root.Flatten(childSelector).FirstOrDefault(predicate);
+        }
 
-            foreach (T child in childSelector(root))
+        public static IEnumerable<T> Flatten<T>(this T root, Func<T, IEnumerable<T>> childSelector)
+        {
+            yield return root;
+            IEnumerable<T> children = childSelector(root);
+            foreach (T child in children)
             {
-                T finding = child.FindAnyOrDefault(childSelector, condition);
-                if (finding != null)
+                IEnumerable<T> flatChildren = child.Flatten(childSelector);
+                foreach (T flatChild in flatChildren)
                 {
-                    return finding;
+                    yield return flatChild;
                 }
             }
-
-            return null;
         }
     }
 }
