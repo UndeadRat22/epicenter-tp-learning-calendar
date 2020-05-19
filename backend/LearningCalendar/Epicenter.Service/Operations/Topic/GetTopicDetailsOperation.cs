@@ -46,7 +46,7 @@ namespace Epicenter.Service.Operations.Topic
 
             var mappedEmployees = employees
                 .Select(employee => MapEmployee(employee, topic))
-                //.Where(employee => employee.ProgressStatus != GetTopicDetailsOperationResponse.ProgressStatus.NotPlanned)
+                .Where(employee => employee.ProgressStatus != GetTopicDetailsOperationResponse.ProgressStatus.NotPlanned)
                 .ToList();
 
             var mappedTeams = employees
@@ -54,7 +54,7 @@ namespace Epicenter.Service.Operations.Topic
                 .Where(team => team != null)
                 .DistinctBy(team => team.Id)
                 .Select(team => MapTeam(team, topic))
-                //.Where(team => team.ProgressStatus != GetTopicDetailsOperationResponse.ProgressStatus.NotPlanned)
+                .Where(team => team.ProgressStatus != GetTopicDetailsOperationResponse.ProgressStatus.NotPlanned)
                 .ToList();
 
             return new GetTopicDetailsOperationResponse
