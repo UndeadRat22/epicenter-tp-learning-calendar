@@ -6,8 +6,9 @@ import changePassword from './changePassword';
 import topicsTree from './topicsTree';
 import topic from './topic';
 import allTopics from './allTopics';
-import employees from './employees';
+import myTeam from './myTeam';
+import personalGoals from './personalGoals';
 
 export default combineReducers({
-  auth, invite, register, changePassword, topicsTree, topic, allTopics, employees,
+  auth, invite, register, changePassword, topicsTree, topic, allTopics, myTeam, personalGoals,
 });

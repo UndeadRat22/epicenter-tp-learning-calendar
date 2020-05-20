@@ -6,3 +6,5 @@ export * from './topicsTree';
 export * from './topic';
 export * from './allTopics';
 export * from './goals';
+export * from './myTeam';
+export * from './personalGoals';
