@@ -27,7 +27,9 @@ namespace Epicenter.Api.Model.Topic
                     TeamId = team.TeamId,
                     ManagerId = team.ManagerId,
                     ManagerFullName = team.ManagerFullName,
-                    ProgressStatus = team.ProgressStatus.ToString()
+                    ProgressStatus = team.ProgressStatus.ToString(),
+                    LearnedCount = team.EmployeeWhoLearnedCount,
+                    TotalCount = team.EmployeeCount
                 }).ToList();
         }
         public Guid Id { get; set; }
@@ -51,6 +53,8 @@ namespace Epicenter.Api.Model.Topic
             public Guid TeamId { get; set; }
             public string ManagerFullName { get; set; }
             public string ProgressStatus { get; set; }
+            public int LearnedCount { get; set; }
+            public int TotalCount { get; set; }
         }
     }
 }
