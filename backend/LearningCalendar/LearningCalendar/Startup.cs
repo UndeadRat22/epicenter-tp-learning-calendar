@@ -1,6 +1,7 @@
 using System.Text;
+using Autofac;
+using Epicenter.Infrastructure.IoC;
 using Epicenter.Infrastructure.Settings;
-using Epicenter.IoC;
 using Epicenter.Persistence.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -22,13 +23,13 @@ namespace Epicenter.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
 
             services.Configure<JwtSettings>(Configuration.GetSection(nameof(JwtSettings)));
             services.Configure<EmailSettings>(Configuration.GetSection(nameof(EmailSettings)));
+            services.Configure<LoggingSettings>(Configuration.GetSection(nameof(LoggingSettings)));
 
             var jwtSettings = Configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
             
@@ -62,8 +63,6 @@ namespace Epicenter.Api
             });
 
             services.RegisterDbContext(Configuration);
-            
-            services.RegisterComponents();
 
             services.AddHttpContextAccessor();
 
@@ -77,6 +76,12 @@ namespace Epicenter.Api
                     Version = "v1"
                 });
             });
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            var loggingSettings = Configuration.GetSection(nameof(LoggingSettings)).Get<LoggingSettings>();
+            IoCRegistry.RegisterComponents(builder, loggingSettings);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

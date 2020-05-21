@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Epicenter.Domain.Entity.Authentication;
+using Epicenter.Domain.Entity.Infrastructure.Authentication;
 using Epicenter.Persistence.Context;
 using Epicenter.Persistence.Interface.Repository.Authentication;
 using Microsoft.EntityFrameworkCore;

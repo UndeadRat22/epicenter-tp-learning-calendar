@@ -37,12 +37,15 @@ namespace Epicenter.Service.Interface.Operations.Topic
             public Guid TeamId { get; set; }
             public string ManagerFullName { get; set; }
             public ProgressStatus ProgressStatus { get; set; }
+            public int EmployeeCount { get; set; }
+            public int EmployeeWhoLearnedCount { get; set; }
         }
 
         public enum ProgressStatus
         {
-            NotLearned,
-            Learned
+            NotPlanned,
+            Planned,
+            Learned,
         }
     }
 }

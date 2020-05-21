@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Epicenter.Service.Operations.Authentication
 {
-    public class LoginOperation : ILoginOperation
+    public class LoginOperation : Operation, ILoginOperation
     {
         private readonly ICheckUserCredentialsOperation _checkUserCredentialsOperation;
         private readonly ICreateJwtOperation _createJwtOperation;

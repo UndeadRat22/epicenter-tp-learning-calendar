@@ -7,7 +7,7 @@ using Epicenter.Service.Interface.Operations.Team;
 
 namespace Epicenter.Service.Operations.Team
 {
-    public class GetTeamDetailsOperation : IGetTeamDetailsOperation
+    public class GetTeamDetailsOperation : Operation, IGetTeamDetailsOperation
     {
         private readonly ITeamRepository _teamRepository;
         private readonly IEmployeeRepository _employeeRepository;

@@ -1,5 +1,4 @@
-﻿using Epicenter.Domain.Entity.Authentication;
-using Epicenter.Domain.Entity.LearningCalendar;
+﻿using Epicenter.Domain.Entity.LearningCalendar;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
+using Epicenter.Domain.Entity.Infrastructure.Authentication;
+using Epicenter.Domain.Entity.Infrastructure.Logging;
 using Epicenter.Infrastructure.Cryptography;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -29,6 +30,7 @@ namespace Epicenter.Persistence.Context
         public DbSet<Topic> Topics { get; set; }
         public DbSet<Limit> Limits { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Log> Logs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -77,8 +79,10 @@ namespace Epicenter.Persistence.Context
                 .WithMany(limit => limit.Employees)
                 .HasForeignKey(employee => employee.LimitId);
 
-            builder.Entity<Team>()
-                .HasOne(team => team.Manager);
+            builder.Entity<Employee>()
+                .HasOne(employee => employee.ManagedTeam)
+                .WithOne(team => team.Manager)
+                .HasForeignKey<Employee>(employee => employee.ManagedTeamId);
 
             builder.Entity<Team>()
                 .HasMany(team => team.Employees)
@@ -112,6 +116,12 @@ namespace Epicenter.Persistence.Context
             builder.Entity<Role>()
                 .HasIndex(role => role.Title)
                 .IsUnique();
+
+            //infrastructure
+            builder.Entity<Log>()
+                .HasOne(log => log.User)
+                .WithMany()
+                .HasForeignKey(log => log.UserId);
         }
     }
 }

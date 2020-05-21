@@ -6,7 +6,7 @@ using Epicenter.Service.Interface.Operations.Topic;
 
 namespace Epicenter.Service.Operations.Topic
 {
-    public class GetTopicTreeOperation : IGetTopicTreeOperation
+    public class GetTopicTreeOperation : Operation, IGetTopicTreeOperation
     {
         private readonly ITopicRepository _topicRepository;
 

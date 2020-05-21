@@ -4,7 +4,7 @@ using Epicenter.Service.Interface.Operations.Authentication.Invite;
 
 namespace Epicenter.Service.Operations.Authentication.Invite
 {
-    public class DeleteInvitationsForEmailOperation : IDeleteInvitationsForEmailOperation
+    public class DeleteInvitationsForEmailOperation : Operation, IDeleteInvitationsForEmailOperation
     {
         private readonly IInvitationRepository _invitationRepository;
 

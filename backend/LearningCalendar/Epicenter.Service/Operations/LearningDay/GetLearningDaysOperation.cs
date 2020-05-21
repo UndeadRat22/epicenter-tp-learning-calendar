@@ -7,7 +7,7 @@ using Epicenter.Service.Context.Interface.Authorization;
 
 namespace Epicenter.Service.Operations.LearningDay
 {
-    public class GetLearningDaysOperation : IGetLearningDaysOperation
+    public class GetLearningDaysOperation : Operation, IGetLearningDaysOperation
     {
         private readonly IAuthorizationContext _authorizationContext;
         private readonly ILearningDayRepository _learningDayRepository;

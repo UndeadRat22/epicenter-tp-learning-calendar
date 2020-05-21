@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Persistence.Context;
@@ -25,20 +26,45 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 .SingleOrDefaultAsync(team => team.Manager.Id == id);
         }
 
-        public Task<Team> GetByManagerEmail(string email)
+        public async Task<Team> GetByManagerEmailAsync(string email)
         {
-            return DbContext.Teams
+            return await DbContext.Teams
                 .Include(team => team.Manager)
                 .Include(team => team.Employees)
                 .SingleOrDefaultAsync(team => team.Manager.Identity.Email == email);
         }
 
-        public Task<Team> GetById(Guid id)
+        public async Task<Team> GetByIdAsync(Guid id)
         {
-            return DbContext.Teams
+            return await DbContext.Teams
                 .Include(team => team.Manager)
                 .Include(team => team.Employees)
                 .SingleOrDefaultAsync(team => team.Id == id);
+        }
+
+        public async Task<Team> GetTeamTreeAsync(Guid managerId)
+        {
+            var flatTeams = await DbContext.Teams
+                //employee part
+                .Include(team => team.Employees)
+                    .ThenInclude(employee => employee.LearningDays)
+                        .ThenInclude(day => day.LearningDayTopics)
+                            .ThenInclude(dayTopic => dayTopic.Topic)
+                .Include(team => team.Employees)
+                    .ThenInclude(employee => employee.PersonalGoals)
+                        .ThenInclude(goal => goal.Topic)
+                //manager part
+                .Include(team => team.Manager)
+                    .ThenInclude(manager => manager.LearningDays)
+                        .ThenInclude(day => day.LearningDayTopics)
+                            .ThenInclude(dayTopic => dayTopic.Topic)
+                .Include(team => team.Manager)
+                    .ThenInclude(employee => employee.PersonalGoals)
+                        .ThenInclude(goal => goal.Topic)
+                .ToListAsync();
+
+            return flatTeams.SingleOrDefault(team => team.Manager.Id == managerId);
+
         }
     }
 }

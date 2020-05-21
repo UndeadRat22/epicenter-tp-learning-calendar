@@ -9,7 +9,7 @@ using Epicenter.Service.Interface.Operations.Goal;
 
 namespace Epicenter.Service.Operations.Goal
 {
-    public class FulfillPersonalGoalOperation : IFulfillPersonalGoalOperation
+    public class FulfillPersonalGoalOperation : Operation, IFulfillPersonalGoalOperation
     {
         private readonly IAuthorizationContext _authorizationContext;
         private readonly IPersonalGoalRepository _personalGoalRepository;

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Epicenter.Service.Operations.Authentication.User
 {
-    public class CheckUserCredentialsOperation : ICheckUserCredentialsOperation
+    public class CheckUserCredentialsOperation : Operation, ICheckUserCredentialsOperation
     {
         private readonly IRepository<IdentityUser> _userRepository;
 

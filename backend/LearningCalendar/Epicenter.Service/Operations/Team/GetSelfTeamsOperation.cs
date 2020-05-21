@@ -5,7 +5,7 @@ using Epicenter.Service.Interface.Operations.Team;
 
 namespace Epicenter.Service.Operations.Team
 {
-    public class GetSelfTeamsOperation : IGetSelfTeamsOperation
+    public class GetSelfTeamsOperation : Operation, IGetSelfTeamsOperation
     {
         private readonly IGetTeamDetailsOperation _getTeamDetailsOperation;
         private readonly IAuthorizationContext _authorizationContext;

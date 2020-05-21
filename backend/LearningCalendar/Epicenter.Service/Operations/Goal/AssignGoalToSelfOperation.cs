@@ -4,7 +4,7 @@ using Epicenter.Service.Interface.Operations.Goal;
 
 namespace Epicenter.Service.Operations.Goal
 {
-    public class AssignGoalToSelfOperation : IAssignGoalToSelfOperation
+    public class AssignGoalToSelfOperation : Operation, IAssignGoalToSelfOperation
     {
         private readonly IAuthorizationContext _authorizationContext;
         private readonly IAssignGoalToEmployeeOperation _assignGoalToEmployeeOperation;

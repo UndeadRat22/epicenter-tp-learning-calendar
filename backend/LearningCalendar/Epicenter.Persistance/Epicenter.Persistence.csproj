@@ -17,6 +17,8 @@
     <Compile Remove="Migrations\20200426082233_LC_EmployeeFKs.Designer.cs" />
     <Compile Remove="Migrations\20200426200618_Test.cs" />
     <Compile Remove="Migrations\20200426200618_Test.Designer.cs" />
+    <Compile Remove="Migrations\20200519120509_LC_Employee_Managed_Team_Nav.cs" />
+    <Compile Remove="Migrations\20200519120509_LC_Employee_Managed_Team_Nav.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

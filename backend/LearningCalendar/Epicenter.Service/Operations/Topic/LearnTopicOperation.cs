@@ -9,7 +9,7 @@ using Epicenter.Service.Interface.Operations.Goal;
 
 namespace Epicenter.Service.Operations.Topic
 {
-    public class LearnTopicOperation : ILearnTopicOperation
+    public class LearnTopicOperation : Operation, ILearnTopicOperation
     {
         private readonly ILearningDayTopicRepository _learningDayTopicRepository;
         private readonly IFulfillPersonalGoalOperation _fulfillPersonalGoalOperation;

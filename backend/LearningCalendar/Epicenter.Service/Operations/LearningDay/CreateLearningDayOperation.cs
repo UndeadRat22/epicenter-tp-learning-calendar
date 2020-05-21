@@ -11,7 +11,7 @@ using Epicenter.Service.Interface.Operations.Limit;
 
 namespace Epicenter.Service.Operations.LearningDay
 {
-    public class CreateLearningDayOperation : ICreateLearningDayOperation
+    public class CreateLearningDayOperation : Operation, ICreateLearningDayOperation
     {
         private readonly IAuthorizationContext _authorizationContext;
         private readonly ILearningDayRepository _learningDayRepository;
