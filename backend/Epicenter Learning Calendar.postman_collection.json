@@ -112,7 +112,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"parentTopic\": \"01de7400-5651-42b8-d95f-08d7f5beea1f\",\n\t\"subject\": \"urlib3\",\n\t\"description\": \"learn the technology\"\n}",
+							"raw": "{\n\t\"parentTopic\": \"8db1dc7b-eb86-4174-7da9-08d7fe4316f2\",\n\t\"subject\": \"ASP net coreee\",\n\t\"description\": \"learn the technology\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -128,6 +128,90 @@
 								"api",
 								"topics",
 								"topic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPersonalTopics",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/topics/employee/self",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"topics",
+								"employee",
+								"self"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetEmployeeTopics",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/topics/employee/af91cf85-d66b-4dfd-92be-08d7fbedddef",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"topics",
+								"employee",
+								"af91cf85-d66b-4dfd-92be-08d7fbedddef"
 							]
 						}
 					},
@@ -163,8 +247,8 @@
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -433,7 +517,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"employeeId\": \"b024b4e1-b9d0-4103-b728-08d7e5391b29\",\r\n  \"topicId\": \"57521455-1729-4403-f52b-08d7f8c2ae13\"\r\n}",
+							"raw": "{\r\n  \"employeeId\": \"af91cf85-d66b-4dfd-92be-08d7fbedddef\",\r\n  \"topicId\": \"63c3a1ff-07c4-4036-7da5-08d7fe4316f2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -441,14 +525,53 @@
 							}
 						},
 						"url": {
-							"raw": "{{api-url}}/api/Goal/employee",
+							"raw": "{{api-url}}/api/personal-goals/employee",
 							"host": [
 								"{{api-url}}"
 							],
 							"path": [
 								"api",
-								"Goal",
+								"personal-goals",
 								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AssignGoalToSelf",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"topicId\": \"e9807c6c-af23-47e6-7b12-08d7fbee8d68\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/personal-goals/employee/self",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"personal-goals",
+								"employee",
+								"self"
 							]
 						}
 					},
@@ -610,7 +733,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"1a@employee.net\",\r\n  \"password\": \"string\",\r\n  \"managerEmail\": \"test@test.com\"\r\n}",
+							"raw": "{\r\n  \"email\": \"sub9@employee.net\",\r\n  \"password\": \"password\",\r\n  \"managerEmail\": \"sub7@employee.net\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
