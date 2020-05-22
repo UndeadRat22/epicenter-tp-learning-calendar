@@ -8,15 +8,22 @@ import Calendar from '../components/homePage/Calendar';
 import GoalsCard from '../components/homePage/GoalsCard';
 import { getPersonalGoals } from '../state/actions/personalGoals';
 import { FETCH_PERSONAL_GOALS_SUCCEEDED } from '../constants/PersonalGoalsStatus';
+import { getLimits } from '../state/actions/limits';
+import LimitsCard from '../components/homePage/LimitsCard';
+import { FETCH_LIMITS_SUCCEEDED } from '../constants/LimitsStatus';
 
 const Home = () => {
   const [isMonthlyView, setIsMonthlyView] = useState(true);
   const [breadcrumbs, setBreadcrumbs] = useState(getBreadcrumbs(true));
-  const { goals, status } = useSelector(state => state.personalGoals);
+
+  const { goals, status: goalsStatus } = useSelector(state => state.personalGoals);
+  const { assignedLimit, remainingLimit, status: limitsStatus } = useSelector(state => state.limits);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getPersonalGoals());
+    dispatch(getLimits());
   }, [dispatch]);
 
   const filteredGoals = goals.filter(goal => !goal.isCompleted);
@@ -57,9 +64,11 @@ const Home = () => {
       <Page.Content>
         <div>
           {isMonthlyView
+          && <LimitsCard assignedLimit={assignedLimit} remainingLimit={remainingLimit} isLoading={limitsStatus !== FETCH_LIMITS_SUCCEEDED} />}
+          {isMonthlyView
           && (
           <div style={{ marginBottom: 20 }}>
-            <GoalsCard goals={filteredGoals} isLoading={status !== FETCH_PERSONAL_GOALS_SUCCEEDED} />
+            <GoalsCard goals={filteredGoals} isLoading={goalsStatus !== FETCH_PERSONAL_GOALS_SUCCEEDED} />
           </div>
           )}
           <Calendar onLearningDayClick={onLearningDayClick} isMonthlyView={isMonthlyView} />

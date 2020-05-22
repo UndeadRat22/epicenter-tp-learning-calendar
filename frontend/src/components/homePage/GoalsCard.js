@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  EmptyState, Loader,
+  EmptyState, StatusIndicator,
 } from 'wix-style-react';
 import GoalTag from './GoalTag';
 
@@ -13,7 +13,7 @@ const GoalsCard = ({ goals, isLoading }) => {
       theme="page"
     >
       <div>
-        {isLoading ? <Loader size="tiny" /> : goals.map(goal => <GoalTag key={goal.id} label={goal.topic.subject} id={goal.id} />)}
+        {isLoading ? <StatusIndicator status="loading" message="Loading goals" /> : goals.map(goal => <GoalTag key={goal.id} label={goal.topic.subject} id={goal.id} />)}
       </div>
     </EmptyState>
   );
