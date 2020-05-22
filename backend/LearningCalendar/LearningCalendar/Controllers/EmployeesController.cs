@@ -60,6 +60,7 @@ namespace Epicenter.Api.Controllers
             var details = await _getEmployeeDetailsOperation.Execute();
             var model = new EmployeeModel
             {
+                Id = details.Id,
                 Email = details.Email,
                 FirstName = details.FirstName,
                 LastName = details.LastName,

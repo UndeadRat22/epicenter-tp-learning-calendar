@@ -32,5 +32,32 @@ namespace Epicenter.Infrastructure.Extensions
                 }
             }
         }
+
+        public static T GetRootOrDefault<T>(this T leaf, Func<T, T> parentSelector)
+            where T : class
+        {
+            var root = parentSelector(leaf);
+            if (root == null)
+            {
+                return null;
+            }
+
+            while (true)
+            {
+                var newRoot = parentSelector(root);
+                if (newRoot == null)
+                {
+                    return root;
+                }
+                root = newRoot;
+            }
+        }
+
+        public static IEnumerable<T> GetLeaves<T>(this T root, Func<T, IEnumerable<T>> childSelector)
+        {
+            return root.Flatten(childSelector)
+                .Where(child => childSelector(child).IsNullOrEmpty());
+        }
+
     }
 }

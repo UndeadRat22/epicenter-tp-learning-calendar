@@ -40,12 +40,5 @@ namespace Epicenter.Service.Interface.Operations.Topic
             public int EmployeeCount { get; set; }
             public int EmployeeWhoLearnedCount { get; set; }
         }
-
-        public enum ProgressStatus
-        {
-            NotPlanned,
-            Planned,
-            Learned,
-        }
     }
 }

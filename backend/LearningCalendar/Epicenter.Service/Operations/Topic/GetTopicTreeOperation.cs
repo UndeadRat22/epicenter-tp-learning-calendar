@@ -17,10 +17,9 @@ namespace Epicenter.Service.Operations.Topic
 
         public async Task<GetTopicTreeOperationResponse> Execute()
         {
-            var topics = await _topicRepository.ListAsync();
-
+            var topics = await _topicRepository.GetRootTopics();
+            
             var roots = topics
-                .Where(topic => !topic.HasParent)
                 .Select(MapTopic)
                 .ToList();
                 
@@ -31,7 +30,8 @@ namespace Epicenter.Service.Operations.Topic
             };
         }
 
-        private GetTopicTreeOperationResponse.Topic MapTopic(Domain.Entity.LearningCalendar.Topic topic)
+        private GetTopicTreeOperationResponse.Topic MapTopic(
+            Domain.Entity.LearningCalendar.Topic topic)
         {
             return new GetTopicTreeOperationResponse.Topic
             {

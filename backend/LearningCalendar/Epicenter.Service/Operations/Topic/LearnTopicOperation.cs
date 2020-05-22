@@ -6,6 +6,7 @@ using Epicenter.Persistence.Interface.Exceptions;
 using Epicenter.Service.Interface.Exceptions.Goal;
 using Epicenter.Service.Interface.Exceptions.Topic;
 using Epicenter.Service.Interface.Operations.Goal;
+using ProgressStatus = Epicenter.Domain.Entity.LearningCalendar.ProgressStatus;
 
 namespace Epicenter.Service.Operations.Topic
 {
