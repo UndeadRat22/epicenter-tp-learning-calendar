@@ -46,7 +46,7 @@ const Home = () => {
   };
 
   return (
-    <Page height="1000px">
+    <Page height="1140px">
       <Page.Header
         showBackButton={!isMonthlyView}
         onBackClicked={onBackClick}
@@ -62,17 +62,15 @@ const Home = () => {
       )}
       />
       <Page.Content>
-        <div>
-          {isMonthlyView
+        {isMonthlyView
           && <LimitsCard assignedLimit={assignedLimit} remainingLimit={remainingLimit} isLoading={limitsStatus !== FETCH_LIMITS_SUCCEEDED} />}
-          {isMonthlyView
+        {isMonthlyView
           && (
           <div style={{ marginBottom: 20 }}>
             <GoalsCard goals={filteredGoals} isLoading={goalsStatus !== FETCH_PERSONAL_GOALS_SUCCEEDED} />
           </div>
           )}
-          <Calendar onLearningDayClick={onLearningDayClick} isMonthlyView={isMonthlyView} />
-        </div>
+        <Calendar onLearningDayClick={onLearningDayClick} isMonthlyView={isMonthlyView} />
       </Page.Content>
 
     </Page>
