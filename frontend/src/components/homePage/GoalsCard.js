@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Container, Row, Col, EmptyState, Tag,
+  EmptyState,
 } from 'wix-style-react';
 import GoalTag from './GoalTag';
 

@@ -3,7 +3,6 @@ import {
   Page,
   Breadcrumbs,
 } from 'wix-style-react';
-import Archive from 'wix-ui-icons-common/Archive';
 import Calendar from '../components/homePage/Calendar';
 import GoalsCard from '../components/homePage/GoalsCard';
 
@@ -18,6 +17,26 @@ const mockGoals = {
       },
       topicId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
       isCompleted: false,
+    },
+    {
+      id: 'rq3po42go4k2gp42p4k21po',
+      completionDate: '2020-05-22T19:56:07.432Z',
+      topic: {
+        id: '....',
+        subject: 'Java programming uber skills ultra hard',
+      },
+      topicId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      isCompleted: false,
+    },
+    {
+      id: 'qwrwq55q4',
+      completionDate: '2020-05-22T19:56:07.432Z',
+      topic: {
+        id: '....',
+        subject: 'You shouldnt see this goal, its already completed',
+      },
+      topicId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      isCompleted: true,
     },
   ],
 };
