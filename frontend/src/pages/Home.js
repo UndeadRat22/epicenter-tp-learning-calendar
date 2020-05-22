@@ -1,51 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Page,
   Breadcrumbs,
 } from 'wix-style-react';
+import { useSelector, useDispatch } from 'react-redux';
 import Calendar from '../components/homePage/Calendar';
 import GoalsCard from '../components/homePage/GoalsCard';
-
-const mockGoals = {
-  goals: [
-    {
-      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-      completionDate: '2020-05-22T19:56:07.432Z',
-      topic: {
-        id: '....',
-        subject: 'C#',
-      },
-      topicId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-      isCompleted: false,
-    },
-    {
-      id: 'rq3po42go4k2gp42p4k21po',
-      completionDate: '2020-05-22T19:56:07.432Z',
-      topic: {
-        id: '....',
-        subject: 'Java programming uber skills ultra hard',
-      },
-      topicId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-      isCompleted: false,
-    },
-    {
-      id: 'qwrwq55q4',
-      completionDate: '2020-05-22T19:56:07.432Z',
-      topic: {
-        id: '....',
-        subject: 'You shouldnt see this goal, its already completed',
-      },
-      topicId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-      isCompleted: true,
-    },
-  ],
-};
+import { getPersonalGoals } from '../state/actions/personalGoals';
+import { FETCH_PERSONAL_GOALS_SUCCEEDED } from '../constants/PersonalGoalsStatus';
 
 const Home = () => {
   const [isMonthlyView, setIsMonthlyView] = useState(true);
   const [breadcrumbs, setBreadcrumbs] = useState(getBreadcrumbs(true));
+  const { goals, status } = useSelector(state => state.personalGoals);
+  const dispatch = useDispatch();
 
-  const filteredGoals = mockGoals.goals.filter(goal => !goal.isCompleted);
+  useEffect(() => {
+    dispatch(getPersonalGoals());
+  }, [dispatch]);
+
+  const filteredGoals = goals.filter(goal => !goal.isCompleted);
 
   const onBreadcrumbClick = ({ id }) => {
     if (id === 0) {
@@ -85,7 +59,7 @@ const Home = () => {
           {isMonthlyView
           && (
           <div style={{ marginBottom: 20 }}>
-            <GoalsCard goals={filteredGoals} />
+            <GoalsCard goals={filteredGoals} isLoading={status !== FETCH_PERSONAL_GOALS_SUCCEEDED} />
           </div>
           )}
           <Calendar onLearningDayClick={onLearningDayClick} isMonthlyView={isMonthlyView} />

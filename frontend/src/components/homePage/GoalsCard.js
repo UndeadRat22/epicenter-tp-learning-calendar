@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  EmptyState,
+  EmptyState, Loader,
 } from 'wix-style-react';
 import GoalTag from './GoalTag';
 
-const GoalsCard = ({ goals }) => {
+const GoalsCard = ({ goals, isLoading }) => {
   return (
     <EmptyState
       align="start"
@@ -13,7 +13,7 @@ const GoalsCard = ({ goals }) => {
       theme="page"
     >
       <div>
-        {goals.map(goal => <GoalTag key={goal.id} label={goal.topic.subject} id={goal.id} />)}
+        {isLoading ? <Loader size="tiny" /> : goals.map(goal => <GoalTag key={goal.id} label={goal.topic.subject} id={goal.id} />)}
       </div>
     </EmptyState>
   );
