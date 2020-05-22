@@ -7,9 +7,26 @@ import Archive from 'wix-ui-icons-common/Archive';
 import Calendar from '../components/homePage/Calendar';
 import GoalsCard from '../components/homePage/GoalsCard';
 
+const mockGoals = {
+  goals: [
+    {
+      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      completionDate: '2020-05-22T19:56:07.432Z',
+      topic: {
+        id: '....',
+        subject: 'C#',
+      },
+      topicId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      isCompleted: false,
+    },
+  ],
+};
+
 const Home = () => {
   const [isMonthlyView, setIsMonthlyView] = useState(true);
   const [breadcrumbs, setBreadcrumbs] = useState(getBreadcrumbs(true));
+
+  const filteredGoals = mockGoals.goals.filter(goal => !goal.isCompleted);
 
   const onBreadcrumbClick = ({ id }) => {
     if (id === 0) {
@@ -44,12 +61,17 @@ const Home = () => {
           />
       )}
       />
-      <Page.FixedContent>
-        <div style={{ marginBottom: 20 }}>
-          <GoalsCard />
+      <Page.Content>
+        <div>
+          {isMonthlyView
+          && (
+          <div style={{ marginBottom: 20 }}>
+            <GoalsCard goals={filteredGoals} />
+          </div>
+          )}
+          <Calendar onLearningDayClick={onLearningDayClick} isMonthlyView={isMonthlyView} />
         </div>
-        <Calendar onLearningDayClick={onLearningDayClick} isMonthlyView={isMonthlyView} />
-      </Page.FixedContent>
+      </Page.Content>
 
     </Page>
   );

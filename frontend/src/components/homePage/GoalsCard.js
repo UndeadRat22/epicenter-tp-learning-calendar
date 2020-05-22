@@ -2,20 +2,18 @@ import React from 'react';
 import {
   Container, Row, Col, EmptyState, Tag,
 } from 'wix-style-react';
+import GoalTag from './GoalTag';
 
-const GoalsCard = () => {
+const GoalsCard = ({ goals }) => {
   return (
     <EmptyState
-      align="left"
+      align="start"
       title="Goals"
-      subtitle="Topics you should consider delving into"
+      subtitle="Topics that have been assigned to you"
       theme="page"
     >
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        <Tag removable={false} size="medium" theme="dark">C#</Tag>
-        <Tag removable={false} size="medium" theme="dark">Functional programming in Java</Tag>
-        <Tag removable={false} size="medium" theme="dark">Functional programming in Java</Tag>
-        <Tag removable={false} size="medium" theme="dark">Functional programming in Java</Tag>
+      <div>
+        {goals.map(goal => <GoalTag key={goal.id} label={goal.topic.subject} id={goal.id} />)}
       </div>
     </EmptyState>
   );
