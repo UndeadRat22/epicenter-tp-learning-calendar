@@ -50,7 +50,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "universal-cookie": "^4.0.3",
-    "wix-style-react": "8.5.0",
+    "wix-style-react": "^8.12.0",
     "wix-ui-icons-common": "^2.0.162"
   }
 }

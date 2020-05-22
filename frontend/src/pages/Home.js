@@ -3,7 +3,9 @@ import {
   Page,
   Breadcrumbs,
 } from 'wix-style-react';
+import Archive from 'wix-ui-icons-common/Archive';
 import Calendar from '../components/homePage/Calendar';
+import GoalsCard from '../components/homePage/GoalsCard';
 
 const Home = () => {
   const [isMonthlyView, setIsMonthlyView] = useState(true);
@@ -43,8 +45,12 @@ const Home = () => {
       )}
       />
       <Page.FixedContent>
+        <div style={{ marginBottom: 20 }}>
+          <GoalsCard />
+        </div>
         <Calendar onLearningDayClick={onLearningDayClick} isMonthlyView={isMonthlyView} />
       </Page.FixedContent>
+
     </Page>
   );
 };

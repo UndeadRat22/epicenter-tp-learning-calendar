@@ -13,7 +13,7 @@ const VIEWS = {
 
 const defaultView = 'month';
 
-const Calendar = ({ onLearningDayClick, isMonthlyView }) => {
+const Calendar = ({ onLearningDayClick, isMonthlyView, learningDays }) => {
   return (
     <BigCalendar
       localizer={localizer}
