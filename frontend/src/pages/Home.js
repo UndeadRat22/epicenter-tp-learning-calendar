@@ -52,7 +52,7 @@ const Home = () => {
 const getBreadcrumbs = isMonthlyView => {
   const monthlyViewBreadcrumb = {
     id: 0,
-    value: 'Monthly',
+    value: 'Month',
   };
 
   const learningDayViewBreadcrumb = {

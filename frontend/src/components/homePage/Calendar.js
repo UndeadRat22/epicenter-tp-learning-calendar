@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-// has to be .global.scss to import built-in big-calendar styles
 import './Calendar.global.scss';
+import CalendarToolbar from './CalendarToolbar';
 
 const localizer = momentLocalizer(moment);
+
+const VIEWS = {
+  month: true,
+  day: true,
+};
 
 const defaultView = 'month';
 
@@ -17,12 +22,14 @@ const Calendar = ({ onLearningDayClick, isMonthlyView }) => {
       endAccessor="end"
       style={{ height: 600 }}
       view={isMonthlyView ? 'month' : 'day'}
+      views={VIEWS}
       defaultView={defaultView}
       onView={newView => {
         if (newView === 'day')
           onLearningDayClick();
       }}
       showMultiDayTimes={false}
+      components={{ toolbar: CalendarToolbar }}
     />
   );
 };
