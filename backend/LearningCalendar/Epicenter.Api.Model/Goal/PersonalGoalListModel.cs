@@ -13,7 +13,12 @@ namespace Epicenter.Api.Model.Goal
             {
                 Id = goal.Id,
                 CompletionDate = goal.CompletionDate,
-                TopicId = goal.TopicId
+                Topic = new PersonalGoalTopic
+                {
+                    Id = goal.Topic.Id,
+                    Subject = goal.Topic.Subject,
+                    Description = goal.Topic.Description,
+                }
             }).ToList();
         }
 
@@ -23,8 +28,15 @@ namespace Epicenter.Api.Model.Goal
         {
             public Guid Id { get; set; }
             public DateTime? CompletionDate { get; set; }
-            public Guid TopicId { get; set; }
+            public PersonalGoalTopic Topic { get; set; }
             public bool IsCompleted => CompletionDate.HasValue;
+        }
+
+        public class PersonalGoalTopic
+        {
+            public Guid Id { get; set; }
+            public string Subject { get; set; }
+            public string Description { get; set; }
         }
     }
 }
