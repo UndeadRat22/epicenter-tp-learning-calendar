@@ -5,7 +5,6 @@ namespace Epicenter.Api.Model.Topic
 {
     public class UpdateTopicModel
     {
-        [Required]
         public Guid? ParentTopicId { get; set; }
         [Required]
         public Guid TopicId { get; set; }

@@ -30,7 +30,7 @@ namespace Epicenter.Service.Operations.Team
                 .Select(employee => new GetTeamDetailsOperationResponse.Employee
                 {
                     Id = employee.Id,
-                    Name = employee.Identity.Email,
+                    Name = employee.FullName,
                     GoalTopics = MapGoals(employee)
                 })
                 .ToList() ?? new List<GetTeamDetailsOperationResponse.Employee>();
