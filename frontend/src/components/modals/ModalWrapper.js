@@ -21,11 +21,12 @@ const ModalWrapper = ({
         onClose={onClose}
         onOk={onOk}
         onCancel={onClose}
-        footerBottomChildren={(
+        footerBottomChildren={footerText
+          && (
           <div>
             <Text size="small">{footerText}</Text>
           </div>
-  )}
+          )}
       >
         {text}
         {isLoading && <Loader size="tiny" />}
