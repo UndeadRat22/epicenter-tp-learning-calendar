@@ -9,6 +9,7 @@ import { getOnlyLocalDate } from '../../utils/dateParser';
 import { START_LEARNING_DAY_SUCCEEDED, START_LEARNING_DAY_FAILED, LOADING_START_LEARNING_DAY } from '../../constants/LearningDaysStatus';
 import SuccessNotification from '../SuccessNotification';
 import ErrorNotification from '../ErrorNotification';
+import ModalWrapper from '../modals/ModalWrapper';
 
 const LearningDay = ({
   date, accessors, allDayAccessors, dayPropGetter, drillDownView, getNow, onView, onSelectSlot, onNavigate, events,
@@ -31,21 +32,28 @@ const LearningDay = ({
     dispatch(suspendStartLearningDay());
   };
 
+  const onErrorNotificationEnd = () => {
+    dispatch(suspendStartLearningDay());
+  };
+
   return (
     <div style={{ margin: '0 auto' }}>
       {learningDayStarted && (
       <SuccessNotification text="Success" onClose={onSuccessNotificationEnd} />
       )}
-      <StartLearningDayModal
-        onStartLearningDay={onStartLearningDay}
+      <ModalWrapper
+        onOk={onStartLearningDay}
         isOpen={isStartLearningDayModalOpen && !learningDayStarted}
         onClose={() => setIsStartLearningDayModalOpen(false)}
         isLoading={isLoading}
+        title="Start Learning Day"
+        footerText="You can cancel it at any point in the future"
+        text="Are you sure you want to start a learning day?"
       >
         {learningDayFailed && (
-        <ErrorNotification text="Failed" />
+        <ErrorNotification text="Failed" onClose={onErrorNotificationEnd} />
         )}
-      </StartLearningDayModal>
+      </ModalWrapper>
       <Button
         size="small"
         priority="secondary"
