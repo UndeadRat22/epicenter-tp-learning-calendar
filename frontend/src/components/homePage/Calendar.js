@@ -56,7 +56,6 @@ const Calendar = ({ onLearningDayClick, isMonthlyView, learningDays }) => {
   return (
     <>
       <DeleteLearningDayModal isOpen={isCancelModalOpen} onClose={() => setIsCancelModalOpen(false)} />
-      {/* <CreateTopicModal isModalOpened={isCancelModalOpen} onCloseModal={() => setIsCancelModalOpen(false)} /> */}
       <BigCalendar
         events={[]}
         dayPropGetter={getDayProps}

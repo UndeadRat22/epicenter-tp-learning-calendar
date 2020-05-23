@@ -28,10 +28,6 @@ const LimitsCard = ({ assignedLimit, remainingLimit, isLoading }) => {
               days per quarter:
               {' '}
               {remainingLimit.daysPerQuarter}
-              {' '}
-              | topics per day:
-              {' '}
-              {remainingLimit.topicsPerDay}
             </span>
           )}
       </div>
