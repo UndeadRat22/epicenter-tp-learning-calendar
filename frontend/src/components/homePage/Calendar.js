@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
+import { Calendar as BigCalendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import './Calendar.global.scss';
 import {
@@ -8,15 +8,14 @@ import {
 import Minus from 'wix-ui-icons-common/Minus';
 import CalendarToolbar from './CalendarToolbar';
 import CancelLearningDayModal from '../modals/CancelLearningDayModal';
+import LearningDay from './LearningDay';
 
 const localizer = momentLocalizer(moment);
 
 const VIEWS = {
   month: true,
-  day: true,
+  day: LearningDay,
 };
-
-const defaultView = 'month';
 
 const getDayProps = date => {
   const className = `cursor ${date.getDate() === 7 ? 'learning-day' : ''}`;
@@ -27,7 +26,7 @@ const Calendar = ({ onLearningDayClick, isMonthlyView, learningDays }) => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  const onDaySquareClick = ({ start }) => {
+  const switchToLearningDayView = ({ start }) => {
     if (isCancelModalOpen)
       return;
 
@@ -68,13 +67,12 @@ const Calendar = ({ onLearningDayClick, isMonthlyView, learningDays }) => {
         startAccessor="start"
         endAccessor="end"
         style={{ height: 600 }}
-        view={isMonthlyView ? 'month' : 'day'}
+        view={isMonthlyView ? Views.MONTH : Views.DAY}
         views={VIEWS}
         date={currentDate}
-        defaultView={defaultView}
+        defaultView={Views.MONTH}
         onView={newView => {
-          console.log('yee...');
-          if (newView === 'day')
+          if (newView === Views.DAY)
             onLearningDayClick();
         }}
         showMultiDayTimes={false}
@@ -86,7 +84,7 @@ const Calendar = ({ onLearningDayClick, isMonthlyView, learningDays }) => {
           },
           toolbar: CalendarToolbar,
         }}
-        onSelectSlot={onDaySquareClick}
+        onSelectSlot={switchToLearningDayView}
       />
     </>
   );
