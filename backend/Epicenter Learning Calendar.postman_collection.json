@@ -134,6 +134,44 @@
 					"response": []
 				},
 				{
+					"name": "Update Topic",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"parentTopicId\": \"55384beb-d016-43df-7b10-08d7fbee8d68\",\n\t\"topicId\": \"c94cb77c-09c6-48c0-7daa-08d7fe4316f2\",\n\t\"subject\": \"ASP net coreee\",\n\t\"description\": \"learn the technology\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/topics/topic",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"topics",
+								"topic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GetPersonalTopics",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -212,6 +250,146 @@
 								"topics",
 								"employee",
 								"af91cf85-d66b-4dfd-92be-08d7fbedddef"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "LearningDay",
+			"item": [
+				{
+					"name": "Create Learning Day",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"date\": \"2020-05-23T11:02:51.499Z\",\r\n  \"comments\": \"string\",\r\n  \"topicIds\": [\r\n    \"63c3a1ff-07c4-4036-7da5-08d7fe4316f2\",\r\n    \"be3e2e3a-030e-4053-7da6-08d7fe4316f2\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/learning-days/learning-day",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"learning-days",
+								"learning-day"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Learning Days",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/learning-days",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"learning-days"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Learning Day",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"learningDayId\": \"3eeb2900-cdc2-49ec-90a8-08d7ff0912d0\",\r\n  \"comments\": \"string\",\r\n  \"date\": \"2020-05-23T11:01:44.393Z\",\r\n  \"learningDayTopics\": [\r\n    {\r\n      \"topicId\": \"63c3a1ff-07c4-4036-7da5-08d7fe4316f2\",\r\n      \"progressStatus\": 1\r\n    },\r\n    {\r\n      \"topicId\": \"be3e2e3a-030e-4053-7da6-08d7fe4316f2\",\r\n      \"progressStatus\": 0\r\n    },\r\n        {\r\n      \"topicId\": \"be3e2e3a-030e-4053-7da6-08d7fe4316f2\",\r\n      \"progressStatus\": 0\r\n    },\r\n        {\r\n      \"topicId\": \"be3e2e3a-030e-4053-7da6-08d7fe4316f2\",\r\n      \"progressStatus\": 0\r\n    },\r\n        {\r\n      \"topicId\": \"be3e2e3a-030e-4053-7da6-08d7fe4316f2\",\r\n      \"progressStatus\": 0\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/learning-days/learning-day",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"learning-days",
+								"learning-day"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Learning Day",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/learning-days/learning-day/3eeb2900-cdc2-49ec-90a8-08d7ff0912d0",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"learning-days",
+								"learning-day",
+								"3eeb2900-cdc2-49ec-90a8-08d7ff0912d0"
 							]
 						}
 					},
@@ -407,7 +585,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"Email\": \"eepicentras@gmail.com\",\n\t\"FirstName\": \"Valdas\",\n\t\"LastName\": \"Rakutis\",\n\t\"Role\": \"Software Engineer\"\n}",
+							"raw": "{\n\t\"Email\": \"tomas@zaicevas.wtf\",\n\t\"FirstName\": \"Tomas\",\n\t\"LastName\": \"Zaicevas\",\n\t\"Role\": \"Software Engineer\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -777,6 +955,117 @@
 								"api",
 								"auth",
 								"admin"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Limit",
+			"item": [
+				{
+					"name": "GetLimits",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/limits",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"limits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateLimit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"employeeId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n  \"daysPerQuarter\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/limits/limit",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"limits",
+								"limit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateLimit (GLOBAL)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"daysPerQuarter\": 15\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/limits/limit/global",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"limits",
+								"limit",
+								"global"
 							]
 						}
 					},
