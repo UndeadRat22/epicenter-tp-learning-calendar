@@ -2,8 +2,10 @@ import Axios from 'axios';
 import { BACKEND_API_URL } from './constants/URL';
 import cookies from './utils/cookies';
 
+const BASE_URL = `${BACKEND_API_URL}/api/`;
+
 const setupAxios = () => {
-  Axios.defaults.baseURL = `${BACKEND_API_URL}/api/`;
+  Axios.defaults.baseURL = BASE_URL;
   Axios.defaults.headers.common['Content-Type'] = 'application/json';
 
   Axios.interceptors.request.use(
@@ -19,14 +21,13 @@ const setupAxios = () => {
   Axios.interceptors.response.use(response => {
     const { config: { baseURL }, config: { url } } = response;
 
-    if (baseURL !== BACKEND_API_URL || url === 'auth/refresh' || url === '/employees/self')
+    if (baseURL !== BASE_URL || url === 'auth/refresh' || url === 'employees/self')
       return response;
 
     Axios.get('auth/refresh').then(refreshResponse => {
       const { token, expires } = refreshResponse.data;
 
       const parsedExpires = new Date(Date.parse(expires));
-      // TODO: check if you need to remove token before setting it
       cookies.set('token', token, { path: '/', expires: parsedExpires, sameSite: true });
     });
     return response;
