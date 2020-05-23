@@ -21,7 +21,7 @@ LearningDay.navigate = (date, action) => {
 };
 
 LearningDay.title = date => {
-  return date.toLocaleDateString();
+  return date.toISOString().slice(0, 10);
 };
 
 export default LearningDay;
