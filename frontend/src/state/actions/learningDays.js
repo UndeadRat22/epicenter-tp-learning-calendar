@@ -2,6 +2,7 @@ import Axios from 'axios';
 import makeSyncActionCreator from '../syncActionCreator';
 import {
   FETCH_LEARNING_DAYS_START, FETCH_LEARNING_DAYS_SUCCESS, FETCH_LEARNING_DAYS_FAIL, START_LEARNING_DAY_START, START_LEARNING_DAY_SUCCESS, START_LEARNING_DAY_FAIL,
+  START_LEARNING_DAY_SUSPEND,
 } from './types/learningDays';
 import { getLocalIsoString } from '../../utils/dateParser';
 
@@ -12,6 +13,7 @@ const fetchLearningDaysFail = makeSyncActionCreator(FETCH_LEARNING_DAYS_FAIL);
 const startLearningDayStart = makeSyncActionCreator(START_LEARNING_DAY_START);
 const startLearningDaySuccess = makeSyncActionCreator(START_LEARNING_DAY_SUCCESS);
 const startLearningDayFail = makeSyncActionCreator(START_LEARNING_DAY_FAIL);
+const suspendStartLearningDay = makeSyncActionCreator(START_LEARNING_DAY_SUSPEND);
 
 const getLearningDays = () => async dispatch => {
   try {
@@ -43,8 +45,10 @@ const startLearningDay = date => async dispatch => {
       topicIds: [],
     };
 
-    const response = await Axios.post('learning-days/learning-day', learningDay);
-    const { id } = response.data;
+    // const response = await Axios.post('learning-days/learning-day', learningDay);
+    // const { id } = response.data;
+    const response = await new Promise((resolve, reject) => setTimeout(() => resolve(''), 2000));
+    const id = 'fake-id';
 
     dispatch(startLearningDaySuccess(id));
   } catch (err) {
@@ -52,4 +56,4 @@ const startLearningDay = date => async dispatch => {
   }
 };
 
-export { getLearningDays, startLearningDay };
+export { getLearningDays, startLearningDay, suspendStartLearningDay };

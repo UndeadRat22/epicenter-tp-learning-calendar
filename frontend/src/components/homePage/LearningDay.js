@@ -2,24 +2,50 @@ import React, { useState } from 'react';
 import * as dates from 'date-arithmetic';
 import { Button } from 'wix-style-react';
 import Add from 'wix-ui-icons-common/Add';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import StartLearningDayModal from '../modals/StartLearningDayModal';
-import { startLearningDay } from '../../state/actions/learningDays';
+import { startLearningDay, suspendStartLearningDay } from '../../state/actions/learningDays';
 import { getOnlyLocalDate } from '../../utils/dateParser';
+import { START_LEARNING_DAY_SUCCEEDED, START_LEARNING_DAY_FAILED, LOADING_START_LEARNING_DAY } from '../../constants/LearningDaysStatus';
+import SuccessNotification from '../SuccessNotification';
+import ErrorNotification from '../ErrorNotification';
 
 const LearningDay = ({
   date, accessors, allDayAccessors, dayPropGetter, drillDownView, getNow, onView, onSelectSlot, onNavigate, events,
 }) => {
-  const [isStartLearningDayModalOpen, setIsStartLearningDayModalOpen] = useState(false);
+  const status = useSelector(state => state.learningDays.startStatus);
   const dispatch = useDispatch();
+
+  const learningDayStarted = status === START_LEARNING_DAY_SUCCEEDED;
+  const learningDayFailed = status === START_LEARNING_DAY_FAILED;
+  const isLoading = status === LOADING_START_LEARNING_DAY;
+
+  const [isStartLearningDayModalOpen, setIsStartLearningDayModalOpen] = useState(false);
 
   const onStartLearningDay = () => {
     dispatch(startLearningDay(date));
   };
 
+  const onSuccessNotificationEnd = () => {
+    setIsStartLearningDayModalOpen(false);
+    dispatch(suspendStartLearningDay());
+  };
+
   return (
     <div style={{ margin: '0 auto' }}>
-      <StartLearningDayModal onStartLearningDay={onStartLearningDay} isOpen={isStartLearningDayModalOpen} onClose={() => setIsStartLearningDayModalOpen(false)} />
+      {learningDayStarted && (
+      <SuccessNotification text="Started" onClose={onSuccessNotificationEnd} />
+      )}
+      <StartLearningDayModal
+        onStartLearningDay={onStartLearningDay}
+        isOpen={isStartLearningDayModalOpen && !learningDayStarted}
+        onClose={() => setIsStartLearningDayModalOpen(false)}
+        isLoading={isLoading}
+      >
+        {learningDayFailed && (
+        <ErrorNotification text="Failed" />
+        )}
+      </StartLearningDayModal>
       <Button
         size="small"
         priority="secondary"

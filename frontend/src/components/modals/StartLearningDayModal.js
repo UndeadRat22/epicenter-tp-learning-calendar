@@ -1,15 +1,18 @@
 import React from 'react';
 import {
-  MessageBoxFunctionalLayout, Text, Modal,
+  MessageBoxFunctionalLayout, Text, Modal, Loader,
 } from 'wix-style-react';
 
-const StartLearningDayModal = ({ isOpen, onClose, onStartLearningDay }) => {
+const StartLearningDayModal = ({
+  isOpen, onClose, onStartLearningDay, isLoading, children,
+}) => {
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
       shouldCloseOnOverlayClick
     >
+      {children}
       <MessageBoxFunctionalLayout
         title="Start Learning Day"
         confirmText="Yes"
@@ -25,6 +28,7 @@ const StartLearningDayModal = ({ isOpen, onClose, onStartLearningDay }) => {
   )}
       >
         Are you sure you want to start a learning day?
+        {isLoading && <Loader size="tiny" />}
       </MessageBoxFunctionalLayout>
     </Modal>
   );
