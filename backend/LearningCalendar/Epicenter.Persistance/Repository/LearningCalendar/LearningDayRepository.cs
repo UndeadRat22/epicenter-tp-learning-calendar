@@ -31,8 +31,8 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
             return (await DbContext.Teams
                     .Include(team => team.Employees)
                     .ThenInclude(employee => employee.LearningDays)
-                    .ThenInclude(learningDay => learningDay.LearningDayTopics)
-                    .ThenInclude(learningDayTopic => learningDayTopic.Topic)
+                        .ThenInclude(learningDay => learningDay.LearningDayTopics)
+                            .ThenInclude(learningDayTopic => learningDayTopic.Topic)
                     .Include(team => team.Manager)
                     .SingleOrDefaultAsync(team => team.Manager.Id == managerId))
                 ?.Employees.SelectMany(employee => employee.LearningDays)
