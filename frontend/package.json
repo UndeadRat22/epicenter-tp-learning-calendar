@@ -40,7 +40,7 @@
     "d3-hierarchy": "^1.1.9",
     "date-arithmetic": "^4.1.0",
     "moment": "^2.26.0",
-    "prop-types": "~15.6.0",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-big-calendar": "^0.24.6",
     "react-dom": "16.12.0",
