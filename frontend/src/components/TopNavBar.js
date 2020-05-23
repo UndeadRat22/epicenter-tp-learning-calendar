@@ -55,11 +55,6 @@ const TopNavBar = () => {
             }
         >
           <PopoverMenu.MenuItem
-            onClick={() => history.push('/profile')}
-            prefixIcon={<User />}
-            text="Profile"
-          />
-          <PopoverMenu.MenuItem
             onClick={() => setIsOpenedInvite(true)}
             prefixIcon={<UserAdd />}
             text="Invite"
