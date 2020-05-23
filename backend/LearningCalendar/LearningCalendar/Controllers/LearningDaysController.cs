@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using Epicenter.Api.Model.LearningDay;
@@ -21,16 +22,19 @@ namespace Epicenter.Api.Controllers
         private readonly IGetSubordinateLearningDaysOperation _getSubordinateLearningDaysOperation;
         private readonly ICreateLearningDayOperation _createLearningDayOperation;
         private readonly IUpdateLearningDayOperation _updateLearningDayOperation;
+        private readonly IDeleteLearningDayOperation _deleteLearningDayOperation;
 
         public LearningDaysController(IGetLearningDaysOperation getLearningDaysOperation,
             IGetSubordinateLearningDaysOperation getSubordinateLearningDaysOperation,
             ICreateLearningDayOperation createLearningDayOperation, 
-            IUpdateLearningDayOperation updateLearningDayOperation)
+            IUpdateLearningDayOperation updateLearningDayOperation, 
+            IDeleteLearningDayOperation deleteLearningDayOperation)
         {
             _getLearningDaysOperation = getLearningDaysOperation;
             _getSubordinateLearningDaysOperation = getSubordinateLearningDaysOperation;
             _createLearningDayOperation = createLearningDayOperation;
             _updateLearningDayOperation = updateLearningDayOperation;
+            _deleteLearningDayOperation = deleteLearningDayOperation;
         }
 
         [HttpGet]
@@ -46,6 +50,19 @@ namespace Epicenter.Api.Controllers
         {
             var response = await _getSubordinateLearningDaysOperation.Execute();
             return Ok(new LearningDayListModel(response));
+        }
+
+        [HttpDelete]
+        [Route("learning-day/{id}")]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        public async Task<IActionResult> DeleteLearningDay([Required]Guid id)
+        {
+            var request = new DeleteLearningDayOperationRequest
+            {
+                LearningDayId = id
+            };
+            await _deleteLearningDayOperation.Execute(request);
+            return Ok();
         }
 
         [HttpPost]
