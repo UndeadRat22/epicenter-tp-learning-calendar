@@ -75,6 +75,7 @@ namespace Epicenter.Api
                     Title = "Epicenter API",
                     Version = "v1"
                 });
+                c.CustomSchemaIds(i => i.FullName);
             });
         }
 

@@ -48,5 +48,14 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 .LearningDays.Where(learningDay => learningDay.Date.GetQuarter() == quarter)
                 .ToList();
         }
+
+        public async Task<LearningDay> GetByIdAsync(Guid id)
+        {
+            return await DbContext.LearningDays
+                .Include(day => day.Employee)
+                .Include(day => day.LearningDayTopics)
+                .ThenInclude(dayTopic => dayTopic.Topic)
+                .SingleOrDefaultAsync(day => day.Id == id);
+        }
     }
 }
