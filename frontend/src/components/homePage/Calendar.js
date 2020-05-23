@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import CalendarToolbar from './CalendarToolbar';
 import CancelLearningDayModal from '../modals/CancelLearningDayModal';
 import LearningDay from './LearningDay';
-import { fromISOStringToDate, areDatesEqual } from '../../utils/dateParser';
+import { isSelfLearningDay, isTeamLearningDay } from '../../utils/learningDay';
 
 const localizer = momentLocalizer(moment);
 
@@ -20,13 +20,13 @@ const VIEWS = {
 };
 
 const getDayProps = (date, selfLearningDays, teamLearningDays, userId) => {
-  const isSelfLearningDay = selfLearningDays.some(day => areDatesEqual(date, fromISOStringToDate(day.date)));
-  const isTeamLearningDay = teamLearningDays.some(day => areDatesEqual(date, fromISOStringToDate(day.date)) && day.employeeId === userId);
+  const selfLearningDay = isSelfLearningDay(date, selfLearningDays);
+  const teamLearningDay = isTeamLearningDay(date, teamLearningDays, userId);
 
-  if (isSelfLearningDay && isTeamLearningDay)
+  if (selfLearningDay && teamLearningDay)
     return 'cursor self-and-team-learning-day';
 
-  const className = `cursor ${isSelfLearningDay ? 'self-learning-day' : ''} ${isTeamLearningDay ? 'team-learning-day' : ''}`;
+  const className = `cursor ${selfLearningDay ? 'self-learning-day' : ''} ${teamLearningDay ? 'team-learning-day' : ''}`;
   return { className };
 };
 
@@ -51,7 +51,7 @@ const Calendar = ({
   }) => {
     return (
       <span className="cursor">
-        {date.getDate() === 7
+        {isSelfLearningDay(date, selfLearningDays)
       && (
       <IconButton
         as="button"
