@@ -7,6 +7,7 @@ import {
 } from 'wix-style-react';
 import Minus from 'wix-ui-icons-common/Minus';
 import { useSelector } from 'react-redux';
+import Axios from 'axios';
 import CalendarToolbar from './CalendarToolbar';
 import CancelLearningDayModal from '../modals/CancelLearningDayModal';
 import LearningDay from './LearningDay';
