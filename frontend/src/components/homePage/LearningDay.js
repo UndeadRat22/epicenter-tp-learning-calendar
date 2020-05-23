@@ -34,7 +34,7 @@ const LearningDay = ({
   return (
     <div style={{ margin: '0 auto' }}>
       {learningDayStarted && (
-      <SuccessNotification text="Started" onClose={onSuccessNotificationEnd} />
+      <SuccessNotification text="Success" onClose={onSuccessNotificationEnd} />
       )}
       <StartLearningDayModal
         onStartLearningDay={onStartLearningDay}
