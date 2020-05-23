@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Epicenter.Service.Context.Interface.Authorization;
 using Epicenter.Service.Interface.Operations.Team;
@@ -16,7 +17,7 @@ namespace Epicenter.Service.Operations.Team
             _authorizationContext = authorizationContext;
         }
 
-        public async Task<GetSelfTeamsOperationResponse> Execute()
+        public async Task<GetTeamDetailsOperationResponse> Execute()
         {
             var employee = await _authorizationContext.CurrentEmployee();
 
@@ -24,33 +25,7 @@ namespace Epicenter.Service.Operations.Team
             {
                 ManagerId = employee.Id
             };
-            var subordinates = await _getTeamDetailsOperation.Execute(getMySubordinatesRequest);
-
-            GetTeamDetailsOperationResponse peers;
-            if (employee.IsTopLevelManager)
-            {
-                peers = null;
-            }
-            else
-            {
-                var getMyPeersRequest = new GetTeamDetailsOperationRequest
-                {
-                    ManagerId = employee.Team.Manager.Id
-                };
-
-                peers = await _getTeamDetailsOperation.Execute(getMyPeersRequest);
-            }
-
-            return MapToResponse(subordinates, peers);
-        }
-
-        private GetSelfTeamsOperationResponse MapToResponse(GetTeamDetailsOperationResponse subordinates, GetTeamDetailsOperationResponse peers)
-        {
-            return new GetSelfTeamsOperationResponse
-            {
-                ManagedTeam = subordinates,
-                BelongingToTeam = peers
-            };
+           return await _getTeamDetailsOperation.Execute(getMySubordinatesRequest);
         }
     }
 }

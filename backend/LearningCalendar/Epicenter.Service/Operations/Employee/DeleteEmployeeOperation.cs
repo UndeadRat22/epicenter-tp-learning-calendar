@@ -40,11 +40,7 @@ namespace Epicenter.Service.Operations.Employee
                 throw new EmployeeHasSubordinatesException(request.EmployeeId);
             }
 
-            var isAuthorizedToDelete = (await _authorizationContext.GetTeamTree())
-                .Flatten(team => team.Employees.Select(employee => employee.ManagedTeam))
-                .SelectMany(team => team?.Employees)
-                .Where(employee => employee != null)
-                .Any(employee => employee.Id == request.EmployeeId);
+            var isAuthorizedToDelete = await _authorizationContext.IsAuthorizedForEmployee(request.EmployeeId);
 
             if (!isAuthorizedToDelete)
             {

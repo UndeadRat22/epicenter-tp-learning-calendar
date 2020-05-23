@@ -22,15 +22,18 @@ namespace Epicenter.Api.Controllers
         private readonly ICreateEmployeeOperation _createEmployeeOperation;
         private readonly IGetEmployeeDetailsOperation _getEmployeeDetailsOperation;
         private readonly IDeleteEmployeeOperation _deleteEmployeeOperation;
+        private readonly IReassignEmployeeOperation _reassignEmployeeOperation;
 
         public EmployeesController(
             ICreateEmployeeOperation employeeOperation, 
             IGetEmployeeDetailsOperation employeeDetailsOperation, 
-            IDeleteEmployeeOperation deleteEmployeeOperation)
+            IDeleteEmployeeOperation deleteEmployeeOperation, 
+            IReassignEmployeeOperation reassignEmployeeOperation)
         {
             _createEmployeeOperation = employeeOperation;
             _getEmployeeDetailsOperation = employeeDetailsOperation;
             _deleteEmployeeOperation = deleteEmployeeOperation;
+            _reassignEmployeeOperation = reassignEmployeeOperation;
         }
 
 
@@ -95,6 +98,20 @@ namespace Epicenter.Api.Controllers
             {
                 return Conflict(ex.Message);
             }
+
+            return Ok();
+        }
+
+        [HttpPut, Route("employee/team")]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        public async Task<IActionResult> UpdateEmployee(ReassignEmployeeModel model)
+        {
+            var request = new ReassignEmployeeOperationRequest
+            {
+                EmployeeId = model.EmployeeId,
+                ManagerId = model.ManagerId
+            };
+            await _reassignEmployeeOperation.Execute(request);
 
             return Ok();
         }

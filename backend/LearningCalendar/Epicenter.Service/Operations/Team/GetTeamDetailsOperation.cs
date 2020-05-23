@@ -22,9 +22,9 @@ namespace Epicenter.Service.Operations.Team
         {
             var team = await _teamRepository.GetByManagerIdAsync(request.ManagerId);
 
-            var managerName = 
-                team?.Manager.FullName ??
-                (await _employeeRepository.GetByIdAsync(request.ManagerId)).FullName;
+            var manager = 
+                team?.Manager ??
+                (await _employeeRepository.GetByIdAsync(request.ManagerId));
 
             var employees = team?.Employees
                 .Select(employee => new GetTeamDetailsOperationResponse.Employee
@@ -42,7 +42,8 @@ namespace Epicenter.Service.Operations.Team
                     Manager = new GetTeamDetailsOperationResponse.Employee
                     {
                         Id = request.ManagerId,
-                        Name = managerName
+                        Name = manager.FullName,
+                        GoalTopics = MapGoals(manager)
                     },
                     Employees = employees
                 }

@@ -61,6 +61,15 @@ namespace Epicenter.Service.Context.Authorization
             return selectedTeam;
         }
 
+        public async Task<bool> IsAuthorizedForEmployee(Guid employeeId)
+        {
+            return (await GetTeamTree())
+                .Flatten(team => team.Employees.Select(employee => employee.ManagedTeam))
+                .SelectMany(team => team?.Employees)
+                .Where(employee => employee != null)
+                .Any(employee => employee.Id == employeeId);
+        }
+
         public async Task<Team> GetTeamTree()
         {
             var employee = await CurrentEmployee();
