@@ -11,6 +11,7 @@ import { FETCH_PERSONAL_GOALS_SUCCEEDED } from '../constants/PersonalGoalsStatus
 import { getLimits } from '../state/actions/limits';
 import LimitsCard from '../components/homePage/LimitsCard';
 import { FETCH_LIMITS_SUCCEEDED } from '../constants/LimitsStatus';
+import { getLearningDays } from '../state/actions/learningDays';
 
 const Home = () => {
   const [isMonthlyView, setIsMonthlyView] = useState(true);
@@ -24,6 +25,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(getPersonalGoals());
     dispatch(getLimits());
+    dispatch(getLearningDays());
   }, [dispatch]);
 
   const filteredGoals = goals.filter(goal => !goal.isCompleted);
