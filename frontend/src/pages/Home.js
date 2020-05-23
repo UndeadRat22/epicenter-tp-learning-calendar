@@ -19,6 +19,7 @@ const Home = () => {
 
   const { goals, status: goalsStatus } = useSelector(state => state.personalGoals);
   const { assignedLimit, remainingLimit, status: limitsStatus } = useSelector(state => state.limits);
+  const { selfLearningDays, teamLearningDays, status: learningDaysStatus } = useSelector(state => state.learningDays);
 
   const dispatch = useDispatch();
 
@@ -72,7 +73,7 @@ const Home = () => {
             <GoalsCard goals={filteredGoals} isLoading={goalsStatus !== FETCH_PERSONAL_GOALS_SUCCEEDED} />
           </div>
           )}
-        <Calendar onLearningDayClick={onLearningDayClick} isMonthlyView={isMonthlyView} />
+        <Calendar onLearningDayClick={onLearningDayClick} isMonthlyView={isMonthlyView} selfLearningDays={selfLearningDays} teamLearningDays={teamLearningDays} />
       </Page.Content>
 
     </Page>

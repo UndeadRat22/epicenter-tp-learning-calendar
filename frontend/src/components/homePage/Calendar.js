@@ -6,9 +6,11 @@ import {
   CounterBadge, TextButton, Badge, IconButton,
 } from 'wix-style-react';
 import Minus from 'wix-ui-icons-common/Minus';
+import { useSelector } from 'react-redux';
 import CalendarToolbar from './CalendarToolbar';
 import CancelLearningDayModal from '../modals/CancelLearningDayModal';
 import LearningDay from './LearningDay';
+import { fromISOStringToDate, areDatesEqual } from '../../utils/dateParser';
 
 const localizer = momentLocalizer(moment);
 
@@ -17,14 +19,24 @@ const VIEWS = {
   day: LearningDay,
 };
 
-const getDayProps = date => {
-  const className = `cursor ${date.getDate() === 7 ? 'learning-day' : ''}`;
+const getDayProps = (date, selfLearningDays, teamLearningDays, userId) => {
+  const isSelfLearningDay = selfLearningDays.some(day => areDatesEqual(date, fromISOStringToDate(day.date)));
+  const isTeamLearningDay = teamLearningDays.some(day => areDatesEqual(date, fromISOStringToDate(day.date)) && day.employeeId === userId);
+
+  if (isSelfLearningDay && isTeamLearningDay)
+    return 'cursor self-and-team-learning-day';
+
+  const className = `cursor ${isSelfLearningDay ? 'self-learning-day' : ''} ${isTeamLearningDay ? 'team-learning-day' : ''}`;
   return { className };
 };
 
-const Calendar = ({ onLearningDayClick, isMonthlyView, learningDays }) => {
+const Calendar = ({
+  onLearningDayClick, isMonthlyView, selfLearningDays, teamLearningDays,
+}) => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
+
+  const user = useSelector(state => state.auth.user);
 
   const switchToLearningDayView = ({ start }) => {
     if (isCancelModalOpen)
@@ -61,7 +73,7 @@ const Calendar = ({ onLearningDayClick, isMonthlyView, learningDays }) => {
       <CancelLearningDayModal isOpen={isCancelModalOpen} onClose={() => setIsCancelModalOpen(false)} />
       <BigCalendar
         events={[]}
-        dayPropGetter={getDayProps}
+        dayPropGetter={date => getDayProps(date, selfLearningDays, teamLearningDays, user.id)}
         selectable
         localizer={localizer}
         startAccessor="start"

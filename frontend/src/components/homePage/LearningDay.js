@@ -3,7 +3,6 @@ import * as dates from 'date-arithmetic';
 import { Button } from 'wix-style-react';
 import Add from 'wix-ui-icons-common/Add';
 import { useDispatch } from 'react-redux';
-import moment from 'moment';
 import StartLearningDayModal from '../modals/StartLearningDayModal';
 import { startLearningDay } from '../../state/actions/learningDays';
 import { getOnlyLocalDate } from '../../utils/dateParser';
