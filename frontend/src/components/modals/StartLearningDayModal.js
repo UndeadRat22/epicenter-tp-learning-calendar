@@ -3,7 +3,7 @@ import {
   MessageBoxFunctionalLayout, Text, Modal,
 } from 'wix-style-react';
 
-const StartLearningDayModal = ({ isOpen, onClose }) => {
+const StartLearningDayModal = ({ isOpen, onClose, onStartLearningDay }) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -16,10 +16,11 @@ const StartLearningDayModal = ({ isOpen, onClose }) => {
         cancelText="No"
         theme="blue"
         onClose={onClose}
+        onOk={onStartLearningDay}
         onCancel={onClose}
         footerBottomChildren={(
           <div>
-            <Text size="small">You can cancel it at any point.</Text>
+            <Text size="small">You can cancel it at any point in the future</Text>
           </div>
   )}
       >

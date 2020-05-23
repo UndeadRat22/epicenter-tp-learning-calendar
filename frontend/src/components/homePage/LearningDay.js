@@ -2,16 +2,25 @@ import React, { useState } from 'react';
 import * as dates from 'date-arithmetic';
 import { Button } from 'wix-style-react';
 import Add from 'wix-ui-icons-common/Add';
+import { useDispatch } from 'react-redux';
+import moment from 'moment';
 import StartLearningDayModal from '../modals/StartLearningDayModal';
+import { startLearningDay } from '../../state/actions/learningDays';
+import { getOnlyLocalDate } from '../../utils/dateParser';
 
 const LearningDay = ({
   date, accessors, allDayAccessors, dayPropGetter, drillDownView, getNow, onView, onSelectSlot, onNavigate, events,
 }) => {
   const [isStartLearningDayModalOpen, setIsStartLearningDayModalOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const onStartLearningDay = () => {
+    dispatch(startLearningDay(date));
+  };
 
   return (
     <div style={{ margin: '0 auto' }}>
-      <StartLearningDayModal isOpen={isStartLearningDayModalOpen} onClose={() => setIsStartLearningDayModalOpen(false)} />
+      <StartLearningDayModal onStartLearningDay={onStartLearningDay} isOpen={isStartLearningDayModalOpen} onClose={() => setIsStartLearningDayModalOpen(false)} />
       <Button
         size="small"
         priority="secondary"
@@ -39,7 +48,7 @@ LearningDay.navigate = (date, action) => {
 };
 
 LearningDay.title = date => {
-  return date.toISOString().slice(0, 10);
+  return getOnlyLocalDate(date);
 };
 
 export default LearningDay;
