@@ -19,6 +19,7 @@ namespace Epicenter.Api.Controllers
     {
         private readonly IGetAllTopicsOperation _getAllTopicsOperation;
         private readonly ICreateTopicOperation _createTopicOperation;
+        private readonly IUpdateTopicOperation _updateTopicOperation;
         private readonly ILearnTopicOperation _learnTopicOperation;
         private readonly IGetTopicTreeOperation _getTopicTreeOperation;
         private readonly IGetTopicDetailsOperation _getTopicDetailsOperation;
@@ -31,7 +32,8 @@ namespace Epicenter.Api.Controllers
             IGetTopicTreeOperation topicTreeOperation, 
             IGetTopicDetailsOperation getTopicDetailsOperation, 
             IGetEmployeeTopicTreeOperation getEmployeeTopicTreeOperation, 
-            IGetPersonalTopicTreeOperation getPersonalTopicTreeOperation)
+            IGetPersonalTopicTreeOperation getPersonalTopicTreeOperation,
+            IUpdateTopicOperation updateTopicOperation)
         {
             _getAllTopicsOperation = allTopicsOperation;
             _createTopicOperation = topicOperation;
@@ -40,6 +42,7 @@ namespace Epicenter.Api.Controllers
             _getTopicDetailsOperation = getTopicDetailsOperation;
             _getEmployeeTopicTreeOperation = getEmployeeTopicTreeOperation;
             _getPersonalTopicTreeOperation = getPersonalTopicTreeOperation;
+            _updateTopicOperation = updateTopicOperation;
         }
 
         [HttpGet]
@@ -117,7 +120,6 @@ namespace Epicenter.Api.Controllers
                 Description = model.Description,
                 Subject = model.Subject
             };
-
             try
             {
                  await _createTopicOperation.Execute(request);
@@ -130,6 +132,29 @@ namespace Epicenter.Api.Controllers
             return Ok();
         }
 
+        [HttpPut, Route("topic")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> CreateTopic(UpdateTopicModel model)
+        {
+            var updateRequest = new UpdateTopicOperationRequest
+            {
+                Id = model.TopicId,
+                ParentTopicId = model.ParentTopicId,
+                Description = model.Description,
+                Subject = model.Subject
+            };
+            try
+            {
+                await _updateTopicOperation.Execute(updateRequest);
+            }
+            catch (TopicAlreadyExistsException ex)
+            {
+                return BadRequest(new ErrorModel(ex.Message));
+            }
+
+            return Ok();
+        }
         [HttpPost]
         [Route("learn")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
