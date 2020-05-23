@@ -53,6 +53,8 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 .Include(employee => employee.PersonalGoals)
                     .ThenInclude(goal => goal.Topic)
                 .Include(employee => employee.Team)
+                .Include(employee => employee.ManagedTeam)
+                    .ThenInclude(team => team.Employees)
                 .Where(employee => employee.Id == id)
                 .SingleOrDefaultAsync();
         }

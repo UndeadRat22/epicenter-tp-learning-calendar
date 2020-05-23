@@ -45,7 +45,7 @@ namespace Epicenter.Service.Context.Authorization
             return await _userRepository.QuerySingleOrDefaultAsync(user => user.Email == email);
         }
 
-        public async Task<Team> GetTeamTreeIfAuthorizedForEmployee(Guid employeeId)
+        public async Task<Team> GetSubordinateTeamTreeIfAuthorized(Guid employeeId)
         {
             var team = await GetTeamTree();
 
