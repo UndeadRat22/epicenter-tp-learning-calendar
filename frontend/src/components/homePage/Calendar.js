@@ -5,11 +5,9 @@ import './Calendar.global.scss';
 import {
   CounterBadge, TextButton, Badge, IconButton,
 } from 'wix-style-react';
-import ChevronDownSmall from 'wix-ui-icons-common/ChevronDownSmall';
 import Minus from 'wix-ui-icons-common/Minus';
 import CalendarToolbar from './CalendarToolbar';
-import CreateTopicModal from '../modals/CreateTopicModal';
-import DeleteLearningDayModal from '../modals/DeleteLearningDayModal';
+import CancelLearningDayModal from '../modals/CancelLearningDayModal';
 
 const localizer = momentLocalizer(moment);
 
@@ -27,6 +25,15 @@ const getDayProps = date => {
 
 const Calendar = ({ onLearningDayClick, isMonthlyView, learningDays }) => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  const onDaySquareClick = ({ start }) => {
+    if (isCancelModalOpen)
+      return;
+
+    setCurrentDate(start);
+    onLearningDayClick();
+  };
 
   const CustomDateHeader = ({
     label, date, onDrillDown, drillDownView, isOffRange,
@@ -37,10 +44,7 @@ const Calendar = ({ onLearningDayClick, isMonthlyView, learningDays }) => {
       && (
       <IconButton
         as="button"
-        onClick={e => {
-          setIsCancelModalOpen(true);
-          console.log('icon clicked');
-        }}
+        onClick={() => setIsCancelModalOpen(true)}
         size="tiny"
         priority="secondary"
         skin="premium"
@@ -55,7 +59,7 @@ const Calendar = ({ onLearningDayClick, isMonthlyView, learningDays }) => {
   };
   return (
     <>
-      <DeleteLearningDayModal isOpen={isCancelModalOpen} onClose={() => setIsCancelModalOpen(false)} />
+      <CancelLearningDayModal isOpen={isCancelModalOpen} onClose={() => setIsCancelModalOpen(false)} />
       <BigCalendar
         events={[]}
         dayPropGetter={getDayProps}
@@ -66,19 +70,23 @@ const Calendar = ({ onLearningDayClick, isMonthlyView, learningDays }) => {
         style={{ height: 600 }}
         view={isMonthlyView ? 'month' : 'day'}
         views={VIEWS}
+        date={currentDate}
         defaultView={defaultView}
         onView={newView => {
+          console.log('yee...');
           if (newView === 'day')
             onLearningDayClick();
         }}
         showMultiDayTimes={false}
+        defaultDate={new Date()}
+        onNavigate={newDate => setCurrentDate(newDate)}
         components={{
           month: {
             dateHeader: CustomDateHeader,
           },
           toolbar: CalendarToolbar,
         }}
-        onSelectSlot={x => console.log(`onSelectSlot: ${isCancelModalOpen}`)}
+        onSelectSlot={onDaySquareClick}
       />
     </>
   );

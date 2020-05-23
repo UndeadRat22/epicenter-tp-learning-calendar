@@ -3,7 +3,7 @@ import {
   MessageBoxFunctionalLayout, FormField, Checkbox, Text, Modal,
 } from 'wix-style-react';
 
-const DeleteLearningDayModal = ({ isOpen, onClose }) => {
+const CancelLearningDayModal = ({ isOpen, onClose }) => {
   const [dontAskChecked, setDontAskChecked] = useState(false);
 
   return (
@@ -13,7 +13,7 @@ const DeleteLearningDayModal = ({ isOpen, onClose }) => {
       shouldCloseOnOverlayClick
     >
       <MessageBoxFunctionalLayout
-        title="Delete learning day"
+        title="Cancel Learning Day"
         confirmText="Yes"
         cancelText="No"
         theme="red"
@@ -21,7 +21,7 @@ const DeleteLearningDayModal = ({ isOpen, onClose }) => {
         onCancel={onClose}
         footerBottomChildren={(
           <div>
-            <Text size="small">Once deleted, cannot be undone.</Text>
+            <Text size="small">Once cancelled, cannot be undone.</Text>
           </div>
   )}
         sideActions={(
@@ -30,10 +30,10 @@ const DeleteLearningDayModal = ({ isOpen, onClose }) => {
           </FormField>
   )}
       >
-        Do you really want to delete learning day together with all topics?
+        Do you really want to cancel learning day together with all topics?
       </MessageBoxFunctionalLayout>
     </Modal>
   );
 };
 
-export default DeleteLearningDayModal;
+export default CancelLearningDayModal;
