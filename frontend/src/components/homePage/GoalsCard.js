@@ -9,7 +9,7 @@ const GoalsCard = ({ goals, isLoading }) => {
     <EmptyState
       align="start"
       title="Goals"
-      subtitle="Topics that have been assigned to you"
+      subtitle="Topics that you should consider learning"
       theme="page"
     >
       <div>

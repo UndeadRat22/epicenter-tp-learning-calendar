@@ -1,1 +1,24 @@
 @import 'react-big-calendar/lib/sass/styles';
+
+.minus-icon {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.cursor:hover {
+    cursor: pointer;
+}
+
+.rbc-date-cell:hover {
+    cursor: pointer;
+}
+
+.learning-day {
+    border: solid 2px #ffaaaa !important;
+    // border-radius: 6px;
+}
+
+.icon-position {
+    float: left;
+    margin-top: 2px;
+}
