@@ -13,14 +13,14 @@
   border: 2px solid #7a92a5 !important;
 }
 
-.availableEmployee {
+.notDroppableEmployee {
   @extend .employee;
-  background-color: rgb(245, 245, 245);
+  background-color: #FFEBEB;
 }
 
 .activeEmployee {
   @extend .employee;
-  background-color: rgb(230, 230, 230);
+  background-color: #C9EEBC;
 }
 
 .tagContainer {

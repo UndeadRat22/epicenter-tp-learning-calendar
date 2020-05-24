@@ -42,8 +42,8 @@ const Employee = ({ employee }) => {
   let employeeClass = s.employee;
   if (isActive)
     employeeClass = s.activeEmployee;
-  else if (canDrop)
-    employeeClass = s.availableEmployee;
+  else if (!canDrop && isOver)
+    employeeClass = s.notDroppableEmployee;
 
   if (isSelf)
     employeeClass = `${employeeClass} ${s.selfEmployee}`;
