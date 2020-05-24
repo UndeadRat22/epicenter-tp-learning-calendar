@@ -51,8 +51,8 @@ const Calendar = ({
   };
 
   useToast({
-    successText: 'Successfull Cancel',
-    errorText: 'Failure cancelling',
+    successText: 'Successfully cancelled Learning Day',
+    errorText: 'Failed to Cancel Learning Day',
     shouldShowSuccessWhen: status === CANCEL_LEARNING_DAY_SUCCEEDED,
     shouldShowErrorWhen: status === CANCEL_LEARNING_DAY_FAILED,
     onSuccess,

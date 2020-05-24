@@ -4,8 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import Header from '../components/auth/Header';
 import RegisterForm from '../components/auth/RegisterForm';
-import SuccessNotification from '../components/SuccessNotification';
-import ErrorNotification from '../components/ErrorNotification';
 import s from './Register.scss';
 import { register, validateInviteId, login } from '../state/actions';
 import {
@@ -29,9 +27,6 @@ const Register = () => {
     dispatch(validateInviteId(inviteId));
   }, [inviteId, dispatch]);
 
-  const showNotificationSuccess = registerStatus === REGISTER_SUCCEEDED;
-  const showNotificationError = registerStatus === REGISTER_FAILED;
-
   // eslint-disable-next-line no-shadow
   const registerUser = ({ inviteId, password }) => {
     setPassword(password);
@@ -40,13 +35,12 @@ const Register = () => {
 
   const onSuccess = () => {
     const { email } = invitedUser;
-    console.log(`email: ${email}, password: ${password}`);
     dispatch(login({ email, password }));
   };
 
   useToast({
     successText: 'Registration successful',
-    errorText: 'Registration failed',
+    errorText: 'Failed to register',
     shouldShowSuccessWhen: registerStatus === REGISTER_SUCCEEDED,
     shouldShowErrorWhen: registerStatus === REGISTER_FAILED,
     onSuccess,
