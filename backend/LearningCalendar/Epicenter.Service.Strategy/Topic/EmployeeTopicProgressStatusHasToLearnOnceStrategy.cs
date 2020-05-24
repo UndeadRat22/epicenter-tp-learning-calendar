@@ -11,8 +11,11 @@ namespace Epicenter.Service.Strategy.Topic
             bool IsTopicLearned(LearningDayTopic dayTopic)
                 => dayTopic.TopicId == topic.Id && dayTopic.ProgressStatus == ProgressStatus.Done;
 
-            bool allGoalsComplete = employee.PersonalGoals
-                .All(goal => goal.TopicId == topic.Id && goal.CompletionDate.HasValue);
+            bool allGoalsComplete = 
+                employee.PersonalGoals.Any() &&
+                employee.PersonalGoals
+                .Where(goal => goal.TopicId == topic.Id)
+                .All(goal => goal.CompletionDate.HasValue);
 
             bool isGoalPlanned = employee.PersonalGoals
                 .Any(goal => goal.Topic.Id == topic.Id);
