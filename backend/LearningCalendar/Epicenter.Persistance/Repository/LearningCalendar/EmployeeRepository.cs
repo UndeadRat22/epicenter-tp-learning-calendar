@@ -64,6 +64,7 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
             return await DbContext.Employees
                 .Include(employee => employee.Identity)
                 .Include(employee => employee.Image)
+                .Include(employee => employee.PersonalGoals)
                 .Include(employee => employee.Team)
                     .ThenInclude(team => team.Employees)
                 .Include(employee => employee.ManagedTeam)

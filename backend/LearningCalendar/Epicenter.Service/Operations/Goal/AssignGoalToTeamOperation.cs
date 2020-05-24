@@ -16,16 +16,16 @@ namespace Epicenter.Service.Operations.Goal
             _assignGoalToEmployeeOperation = assignGoalToEmployeeOperation;
         }
 
-        public async Task<AssignGoalToTeamOperationResponse> Execute(AssignGoalToTeamOperationRequest request)
+        public async Task Execute(AssignGoalToTeamOperationRequest request)
         {
             var team = await _teamRepository.GetByManagerIdAsync(request.ManagerId);
 
             foreach (var employee in team.Employees)
             {
-                var assignToEmployeeRequest = new AssignGoalToEmployeeOperationRequest
+                var assignToEmployeeRequest = new AssignGoalsToEmployeeOperationRequest
                 {
                     EmployeeId = employee.Id,
-                    TopicId = request.TopicId
+                    TopicIds = request.TopicIds
                 };
                 try
                 {
@@ -36,7 +36,6 @@ namespace Epicenter.Service.Operations.Goal
                     //swallow
                 }
             }
-            return new AssignGoalToTeamOperationResponse();
         }
     }
 }

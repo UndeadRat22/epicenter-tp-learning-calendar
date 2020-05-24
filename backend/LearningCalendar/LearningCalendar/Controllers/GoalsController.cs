@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
+using Epicenter.Api.Model;
 using Epicenter.Api.Model.Goal;
 using Epicenter.Service.Interface.Exceptions.Authentication;
 using Epicenter.Service.Interface.Operations.Goal;
@@ -19,19 +20,22 @@ namespace Epicenter.Api.Controllers
         private readonly IGetEmployeeGoalsOperation _getEmployeeGoalsOperation;
         private readonly IAssignGoalToEmployeeOperation _assignGoalToEmployeeOperation;
         private readonly IAssignGoalToTeamOperation _assignGoalToTeamOperation;
-        private readonly IAssignGoalToSelfOperation _assignGoalToSelfOperation;
+        private readonly IAssignGoalsToSelfOperation _assignGoalsToSelfOperation;
+        private readonly IDeleteGoalsOperation _deleteGoalsOperation;
 
         public GoalsController(IGetPersonalGoalsOperation getPersonalGoalsOperation,
             IAssignGoalToEmployeeOperation assignGoalToEmployeeOperation,
             IAssignGoalToTeamOperation assignGoalToTeamOperation, 
-            IAssignGoalToSelfOperation assignGoalToSelfOperation, 
-            IGetEmployeeGoalsOperation getEmployeeGoalsOperation)
+            IAssignGoalsToSelfOperation assignGoalsToSelfOperation, 
+            IGetEmployeeGoalsOperation getEmployeeGoalsOperation, 
+            IDeleteGoalsOperation deleteGoalsOperation)
         {
             _getPersonalGoalsOperation = getPersonalGoalsOperation;
             _assignGoalToEmployeeOperation = assignGoalToEmployeeOperation;
             _assignGoalToTeamOperation = assignGoalToTeamOperation;
-            _assignGoalToSelfOperation = assignGoalToSelfOperation;
+            _assignGoalsToSelfOperation = assignGoalsToSelfOperation;
             _getEmployeeGoalsOperation = getEmployeeGoalsOperation;
+            _deleteGoalsOperation = deleteGoalsOperation;
         }
 
         [HttpGet]
@@ -56,20 +60,22 @@ namespace Epicenter.Api.Controllers
 
         [HttpPost]
         [Route("employee")]
-        public async Task<IActionResult> CreateEmployeeGoal(CreateEmployeeGoalModel model)
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> CreateEmployeeGoal(CreateEmployeeGoalsModel model)
         {
-            var request = new AssignGoalToEmployeeOperationRequest
+            var request = new AssignGoalsToEmployeeOperationRequest
             {
                 EmployeeId = model.EmployeeId,
-                TopicId = model.TopicId
+                TopicIds = model.TopicIds
             };
             try
             {
-                var response = await _assignGoalToEmployeeOperation.Execute(request);
+               await _assignGoalToEmployeeOperation.Execute(request);
             }
             catch (GoalAlreadyAssignedException e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(new ErrorModel(e.Message));
             }
 
             return Ok();
@@ -78,24 +84,48 @@ namespace Epicenter.Api.Controllers
         [HttpPost]
         [Route("employee/self")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CreateEmployeeGoalSelf(CreateEmployeeGoalSelfModel model)
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> CreateEmployeeGoalSelf(CreateEmployeeGoalsSelfModel model)
         {
-            var request = new AssignGoalToSelfOperationRequest
+            var request = new AssignGoalsAssignGoalToSelfOperationRequest
             {
-                TopicId = model.TopicId
-            }; 
-            await _assignGoalToSelfOperation.Execute(request);
+                TopicIds = model.TopicIds
+            };
+            try
+            {
+                await _assignGoalsToSelfOperation.Execute(request);
+            }
+            catch (GoalAlreadyAssignedException e)
+            {
+                return BadRequest(new ErrorModel(e.Message));
+            }
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("employee/self")]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        public async Task<IActionResult> DeleteGoals(DeleteGoalsModel model)
+        {
+            var request = new DeleteGoalsOperationRequest
+            {
+                TopicIds = model.TopicIds
+            };
+
+            await _deleteGoalsOperation.Execute(request);
+
             return Ok();
         }
 
         [HttpPost]
         [Route("team")]
-        public async Task<IActionResult> CreateTeamGoal(CreateTeamGoalModel model)
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> CreateTeamGoal(CreateTeamGoalsModel model)
         {
             var request = new AssignGoalToTeamOperationRequest
             {
                 ManagerId = model.ManagerId,
-                TopicId = model.TopicId
+                TopicIds = model.TopicIds
             };
             await _assignGoalToTeamOperation.Execute(request);
             

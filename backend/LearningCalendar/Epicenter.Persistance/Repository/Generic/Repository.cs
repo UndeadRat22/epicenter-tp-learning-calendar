@@ -28,6 +28,12 @@ namespace Epicenter.Persistence.Repository.Generic
             await DbContext.SaveChangesAsync();
         }
 
+        public async Task CreateAsync(IEnumerable<TEntity> entities)
+        {
+            await DbContext.Set<TEntity>().AddRangeAsync(entities);
+            await DbContext.SaveChangesAsync();
+        }
+
         public async Task DeleteAsync(TEntity entity)
         {
             DbContext.Remove(entity);

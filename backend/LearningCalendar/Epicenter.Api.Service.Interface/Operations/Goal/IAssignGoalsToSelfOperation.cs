@@ -4,14 +4,13 @@ using System.Threading.Tasks;
 
 namespace Epicenter.Service.Interface.Operations.Goal
 {
-    public interface IAssignGoalToTeamOperation
+    public interface IAssignGoalsToSelfOperation
     {
-        Task Execute(AssignGoalToTeamOperationRequest request);
+        Task Execute(AssignGoalsAssignGoalToSelfOperationRequest request);
     }
 
-    public class AssignGoalToTeamOperationRequest
+    public class AssignGoalsAssignGoalToSelfOperationRequest
     {
-        public Guid ManagerId { get; set; }
         public List<Guid> TopicIds { get; set; }
     }
 }
