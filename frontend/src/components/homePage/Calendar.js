@@ -3,7 +3,7 @@ import { Calendar as BigCalendar, momentLocalizer, Views } from 'react-big-calen
 import moment from 'moment';
 import './Calendar.global.scss';
 import {
-  CounterBadge, TextButton, Badge, IconButton, SectionHelper, FloatingNotification, Tooltip,
+  TextButton, Badge, IconButton, Tooltip,
 } from 'wix-style-react';
 import Minus from 'wix-ui-icons-common/Minus';
 import { useSelector, useDispatch } from 'react-redux';
@@ -39,8 +39,6 @@ const Calendar = ({
   const status = useSelector(state => state.learningDays.cancelStatus);
   const dispatch = useDispatch();
 
-  const learningDayCancelled = status === CANCEL_LEARNING_DAY_SUCCEEDED;
-  const cancelLearningDayFailed = status === CANCEL_LEARNING_DAY_FAILED;
   const isLoading = status === LOADING_CANCEL_LEARNING_DAY;
 
   const onSuccess = () => {
@@ -55,8 +53,8 @@ const Calendar = ({
   useToast({
     successText: 'Successfull Cancel',
     errorText: 'Failure cancelling',
-    shouldShowSuccessWhen: learningDayCancelled,
-    shouldShowErrorWhen: cancelLearningDayFailed,
+    shouldShowSuccessWhen: status === CANCEL_LEARNING_DAY_SUCCEEDED,
+    shouldShowErrorWhen: status === CANCEL_LEARNING_DAY_FAILED,
     onSuccess,
     onError,
   });
@@ -113,14 +111,16 @@ const Calendar = ({
       )}
         {isTeamLearningDay(date, teamLearningDays) && (
         <span className="team-badge">
-          <Tooltip content="Someone from your team has started this learning day!">
-            <Badge
+          <Tooltip content="Someone from your team added this as a learning day!">
+            <div>
+              <Badge
             // don't remove empty onClick, cursor will not be shown
-              onClick={() => {}}
-              size="small"
-            >
-              TEAM
-            </Badge>
+                onClick={() => {}}
+                size="small"
+              >
+                TEAM
+              </Badge>
+            </div>
           </Tooltip>
         </span>
         )}
@@ -128,6 +128,7 @@ const Calendar = ({
       </span>
     );
   };
+
   return (
     <>
       <ModalWrapper
