@@ -45,7 +45,7 @@ namespace Epicenter.Service.Context.Authorization
             return await _userRepository.QuerySingleOrDefaultAsync(user => user.Email == email);
         }
 
-        public async Task<Team> GetTeamTreeIfAuthorizedForEmployee(Guid employeeId)
+        public async Task<Team> GetSubordinateTeamTreeIfAuthorized(Guid employeeId)
         {
             var team = await GetTeamTree();
 
@@ -59,6 +59,15 @@ namespace Epicenter.Service.Context.Authorization
             }
 
             return selectedTeam;
+        }
+
+        public async Task<bool> IsAuthorizedForEmployee(Guid employeeId)
+        {
+            return (await GetTeamTree())
+                .Flatten(team => team.Employees.Select(employee => employee.ManagedTeam))
+                .SelectMany(team => team?.Employees)
+                .Where(employee => employee != null)
+                .Any(employee => employee.Id == employeeId);
         }
 
         public async Task<Team> GetTeamTree()

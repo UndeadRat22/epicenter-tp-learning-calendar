@@ -10,5 +10,6 @@ namespace Epicenter.Persistence.Interface.Repository.LearningCalendar
         Task<Limit> GetGlobalAsync();
         Task<Limit> CreateDefaultGlobalLimitAsync();
         Task<Limit> GetByEmployeeIdAsync(Guid employeeId);
+        Task<Limit> GetById(Guid id);
     }
 }

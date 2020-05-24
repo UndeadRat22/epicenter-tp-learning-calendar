@@ -4,25 +4,25 @@ using Epicenter.Service.Interface.Operations.Goal;
 
 namespace Epicenter.Service.Operations.Goal
 {
-    public class AssignGoalToSelfOperation : Operation, IAssignGoalToSelfOperation
+    public class AssignGoalsToSelfOperation : Operation, IAssignGoalsToSelfOperation
     {
         private readonly IAuthorizationContext _authorizationContext;
         private readonly IAssignGoalToEmployeeOperation _assignGoalToEmployeeOperation;
 
-        public AssignGoalToSelfOperation(
+        public AssignGoalsToSelfOperation(
             IAuthorizationContext authorizationContext, 
             IAssignGoalToEmployeeOperation assignGoalToEmployeeOperation)
         {
             _authorizationContext = authorizationContext;
             _assignGoalToEmployeeOperation = assignGoalToEmployeeOperation;
         }
-        public async Task Execute(AssignGoalToSelfOperationRequest request)
+        public async Task Execute(AssignGoalsAssignGoalToSelfOperationRequest request)
         {
             var employee = await _authorizationContext.CurrentEmployee();
-            var assignGoalRequest = new AssignGoalToEmployeeOperationRequest
+            var assignGoalRequest = new AssignGoalsToEmployeeOperationRequest
             {
                 EmployeeId = employee.Id,
-                TopicId = request.TopicId
+                TopicIds = request.TopicIds
             };
             await _assignGoalToEmployeeOperation.Execute(assignGoalRequest);
         }

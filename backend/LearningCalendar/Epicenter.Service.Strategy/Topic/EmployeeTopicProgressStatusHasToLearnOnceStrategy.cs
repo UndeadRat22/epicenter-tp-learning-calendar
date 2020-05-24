@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Service.Strategy.Interface.Topic;
 
@@ -9,27 +8,33 @@ namespace Epicenter.Service.Strategy.Topic
     {
         public Status GetStatus(Employee employee, Domain.Entity.LearningCalendar.Topic topic)
         {
-            bool IsTopicLearned(LearningDayTopic dayTopic) 
+            bool IsTopicLearned(LearningDayTopic dayTopic)
                 => dayTopic.TopicId == topic.Id && dayTopic.ProgressStatus == ProgressStatus.Done;
 
-            bool isPlanned =  employee.PersonalGoals.Any(goal => goal.Topic.Id == topic.Id);
+            var relevantGoals = employee.PersonalGoals
+                .Where(goal => goal.TopicId == topic.Id)
+                .ToList();
 
-            bool isTopicLearned = employee.LearningDays.Any(day => day.LearningDayTopics.Any(IsTopicLearned));
+            bool isTopicPlanned = relevantGoals.Any(goal => !goal.CompletionDate.HasValue);
 
-            Status status;
+            bool allGoalsComplete = relevantGoals.Any() && !isTopicPlanned;
 
-            if (isTopicLearned)
+            bool isAnyLearningDayComplete = employee.LearningDays
+                .Any(day => day.LearningDayTopics
+                    .Any(IsTopicLearned));
+
+            bool hasPlannedLearningDay = employee.LearningDays
+                .Any(day => day.LearningDayTopics
+                    .Any(dayTopic => dayTopic.TopicId == topic.Id));
+
+            Status status = (allGoalsComplete, isTopicPlanned, isAnyLearningDayComplete, hasPlannedLearningDay) switch
             {
-                status = Status.Learned;
-            }
-            else if (isPlanned)
-            {
-                status = Status.Planned;
-            }
-            else
-            {
-                status = Status.NotPlanned;
-            }
+                (true, _, _, _) => Status.Learned,
+                (false, false, true, _) => Status.Learned,
+                (false, true, _, _) => Status.Planned,
+                (false, false, false, true) => Status.Planned,
+                (false, false, false, false) => Status.NotPlanned
+            };
 
             return status;
         }

@@ -46,7 +46,7 @@ namespace Epicenter.Service.Operations.Topic
 
             var mappedEmployees = employees
                 .Select(employee => MapEmployee(employee, topic))
-                .Where(employee => employee.ProgressStatus != GetTopicDetailsOperationResponse.ProgressStatus.NotPlanned)
+                .Where(employee => employee.ProgressStatus != ProgressStatus.NotPlanned)
                 .ToList();
 
             var mappedTeams = employees
@@ -54,7 +54,7 @@ namespace Epicenter.Service.Operations.Topic
                 .Where(team => team != null)
                 .DistinctBy(team => team.Id)
                 .Select(team => MapTeam(team, topic))
-                .Where(team => team.ProgressStatus != GetTopicDetailsOperationResponse.ProgressStatus.NotPlanned)
+                .Where(team => team.ProgressStatus != ProgressStatus.NotPlanned)
                 .ToList();
 
             return new GetTopicDetailsOperationResponse
@@ -77,7 +77,7 @@ namespace Epicenter.Service.Operations.Topic
             {
                 Id = employee.Id,
                 FullName = employee.FullName,
-                ProgressStatus = MapStatus(status)
+                ProgressStatus = ProgressStatusMapper.MapStatus(status)
             };
         }
 
@@ -91,21 +91,10 @@ namespace Epicenter.Service.Operations.Topic
                 ManagerId = team.Manager.Id,
                 ManagerFullName = team.Manager.FullName,
                 EmployeeCount = status.TotalCount,
-                EmployeeWhoLearnedCount = status.LearnedCount,
-                ProgressStatus = MapStatus(status.Status)
+                LearnedCount = status.LearnedCount,
+                PlannedCount = status.PlannedCount,
+                ProgressStatus = ProgressStatusMapper.MapStatus(status.Status)
             };
-        }
-
-        private GetTopicDetailsOperationResponse.ProgressStatus MapStatus(Status status)
-        {
-            GetTopicDetailsOperationResponse.ProgressStatus result = status switch
-            {
-                Status.Planned => GetTopicDetailsOperationResponse.ProgressStatus.Planned,
-                Status.Learned => GetTopicDetailsOperationResponse.ProgressStatus.Learned,
-                Status.NotPlanned => GetTopicDetailsOperationResponse.ProgressStatus.NotPlanned,
-                _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
-            };
-            return result;
         }
     }
 }

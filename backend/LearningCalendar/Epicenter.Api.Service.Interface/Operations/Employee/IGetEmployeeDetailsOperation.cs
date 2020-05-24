@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Epicenter.Service.Interface.Operations.Employee
 {
@@ -9,6 +10,7 @@ namespace Epicenter.Service.Interface.Operations.Employee
 
     public class GetEmployeeDetailsOperationResponse
     {
+        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string ImageData { get; set; }

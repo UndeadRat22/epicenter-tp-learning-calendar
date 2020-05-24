@@ -38,14 +38,8 @@ namespace Epicenter.Service.Interface.Operations.Topic
             public string ManagerFullName { get; set; }
             public ProgressStatus ProgressStatus { get; set; }
             public int EmployeeCount { get; set; }
-            public int EmployeeWhoLearnedCount { get; set; }
-        }
-
-        public enum ProgressStatus
-        {
-            NotPlanned,
-            Planned,
-            Learned,
+            public int LearnedCount { get; set; }
+            public int PlannedCount { get; set; }
         }
     }
 }

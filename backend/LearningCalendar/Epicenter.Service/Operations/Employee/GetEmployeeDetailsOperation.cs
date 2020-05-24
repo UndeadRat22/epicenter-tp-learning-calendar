@@ -19,6 +19,7 @@ namespace Epicenter.Service.Operations.Employee
 
             return new GetEmployeeDetailsOperationResponse
             {
+                Id = employee.Id,
                 Email = employee.Identity.Email,
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,

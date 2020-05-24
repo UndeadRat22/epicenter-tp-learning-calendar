@@ -39,7 +39,11 @@ namespace Epicenter.Service.Operations.LearningDay
                 responseLearningDays.Add(new GetSubordinateLearningDaysOperationResponse.LearningDay
                 {
                     Id = learningDay.Id,
-                    EmployeeId = learningDay.EmployeeId,
+                    Employee = new GetSubordinateLearningDaysOperationResponse.Employee
+                    {
+                        Id = learningDay.Employee.Id,
+                        Name = learningDay.Employee.FullName
+                    },
                     Date = learningDay.Date,
                     Comments = learningDay.Comments,
                     Topics = topics

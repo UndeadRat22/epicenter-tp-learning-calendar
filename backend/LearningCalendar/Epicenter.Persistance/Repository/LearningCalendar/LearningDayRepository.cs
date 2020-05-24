@@ -31,8 +31,8 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
             return (await DbContext.Teams
                     .Include(team => team.Employees)
                     .ThenInclude(employee => employee.LearningDays)
-                    .ThenInclude(learningDay => learningDay.LearningDayTopics)
-                    .ThenInclude(learningDayTopic => learningDayTopic.Topic)
+                        .ThenInclude(learningDay => learningDay.LearningDayTopics)
+                            .ThenInclude(learningDayTopic => learningDayTopic.Topic)
                     .Include(team => team.Manager)
                     .SingleOrDefaultAsync(team => team.Manager.Id == managerId))
                 ?.Employees.SelectMany(employee => employee.LearningDays)
@@ -47,6 +47,15 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                     .SingleOrDefaultAsync(employee => employee.Id == employeeId))
                 .LearningDays.Where(learningDay => learningDay.Date.GetQuarter() == quarter)
                 .ToList();
+        }
+
+        public async Task<LearningDay> GetByIdAsync(Guid id)
+        {
+            return await DbContext.LearningDays
+                .Include(day => day.Employee)
+                .Include(day => day.LearningDayTopics)
+                .ThenInclude(dayTopic => dayTopic.Topic)
+                .SingleOrDefaultAsync(day => day.Id == id);
         }
     }
 }

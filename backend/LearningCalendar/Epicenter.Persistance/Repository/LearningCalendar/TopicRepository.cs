@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Epicenter.Domain.Entity.LearningCalendar;
@@ -22,6 +23,18 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 .Where(topic => topic.Id == id)
                 .SingleOrDefaultAsync();
             return result;
+        }
+
+        public async Task<List<Topic>> GetRootTopics()
+        {
+            var result = await DbContext.Topics
+                .Include(topic => topic.ParentTopic)
+                .Include(topic => topic.SubTopics)
+                .ToListAsync();
+
+            return result
+                .Where(topic => !topic.HasParent)
+                .ToList();
         }
     }
 }

@@ -5,6 +5,6 @@ export * from './allTopics';
 export * from './changePassword';
 export * from './topic';
 export * from './topicsTree';
-export * from './myTeam';
 export * from './personalGoals';
+export * from './myTeam';
 export * from './assignGoals';

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Epicenter.Api.Model.Goal
+namespace Epicenter.Api.Model.Limit
 {
-    public class CreateEmployeeGoalModel
+    public class CreateLimitModel
     {
         [Required]
         public Guid EmployeeId { get; set; }
         [Required]
-        public Guid TopicId { get; set; }
+        public int DaysPerQuarter { get; set; }
     }
 }

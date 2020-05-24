@@ -3,7 +3,7 @@ import {
 } from '../../constants/PersonalGoalsStatus';
 import {
   FETCH_PERSONAL_GOALS_START, FETCH_PERSONAL_GOALS_SUCCESS, FETCH_PERSONAL_GOALS_FAIL,
-} from '../actions/types';
+} from '../actions/types/personalGoals';
 
 const initialState = {
   status: '',

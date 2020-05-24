@@ -20,11 +20,14 @@ namespace Epicenter.Service.Strategy.Topic
                 .Select(employee => _employeeTopicProgressStatusStrategy.GetStatus(employee, topic))
                 .ToList();
 
+            employeeStatuses.Add(_employeeTopicProgressStatusStrategy.GetStatus(team.Manager, topic));
+
             int employeesWhoLearnedCount = employeeStatuses.Count(status => status == Status.Learned);
+            int plannedCount = employeeStatuses.Count(status => status == Status.Planned);
 
 
             Status teamStatus = Status.Learned;
-            bool isTopicLearned = employeesWhoLearnedCount == team.Employees.Count;
+            bool isTopicLearned = employeesWhoLearnedCount == employeeStatuses.Count;
             if (!isTopicLearned)
             {
                 teamStatus = employeeStatuses.Any(status => status == Status.NotPlanned) 
@@ -35,7 +38,8 @@ namespace Epicenter.Service.Strategy.Topic
             return new TeamProgressStatus
             {
                 LearnedCount = employeesWhoLearnedCount,
-                TotalCount = team.Employees.Count,
+                PlannedCount = plannedCount,
+                TotalCount = employeeStatuses.Count,
                 Status = teamStatus
             };
         }

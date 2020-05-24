@@ -22,8 +22,15 @@ namespace Epicenter.Service.Interface.Operations.Goal
         {
             public Guid Id { get; set; }
             public DateTime? CompletionDate { get; set; }
-            public Guid TopicId { get; set; }
+            public Topic Topic { get; set; }
             public bool IsCompleted => CompletionDate.HasValue;
+        }
+
+        public class Topic
+        {
+            public Guid Id { get; set; }
+            public string Subject { get; set; }
+            public string Description { get; set; }
         }
     }
 }

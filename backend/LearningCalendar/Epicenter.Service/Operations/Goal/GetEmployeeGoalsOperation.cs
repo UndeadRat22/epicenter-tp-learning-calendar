@@ -23,7 +23,12 @@ namespace Epicenter.Service.Operations.Goal
                 {
                     Id = personalGoal.Id,
                     CompletionDate = personalGoal.CompletionDate,
-                    TopicId = personalGoal.TopicId
+                    Topic = new GetEmployeeGoalsOperationResponse.Topic
+                    {
+                        Id = personalGoal.Topic.Id,
+                        Subject = personalGoal.Topic.Subject,
+                        Description = personalGoal.Topic.Description,
+                    }
                 }).ToList()
             };
         }
