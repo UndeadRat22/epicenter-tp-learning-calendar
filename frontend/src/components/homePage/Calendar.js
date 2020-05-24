@@ -11,7 +11,9 @@ import CalendarToolbar from './CalendarToolbar';
 import LearningDay from './LearningDay';
 import { isSelfLearningDay, isTeamLearningDay, getSelfLearningDayFromDate } from '../../utils/learningDay';
 import { CANCEL_LEARNING_DAY_SUCCEEDED, CANCEL_LEARNING_DAY_FAILED, LOADING_CANCEL_LEARNING_DAY } from '../../constants/LearningDaysStatus';
-import { cancelLearningDay, suspendCancelLearningDay } from '../../state/actions';
+import {
+  cancelLearningDay, suspendCancelLearningDay, getLimits, getPersonalGoals, getLearningDays,
+} from '../../state/actions';
 import ModalWrapper from '../modals/ModalWrapper';
 import { useToast } from '../../ToastContainer';
 
@@ -44,6 +46,9 @@ const Calendar = ({
   const onSuccess = () => {
     setIsCancelModalOpen(false);
     dispatch(suspendCancelLearningDay());
+    dispatch(getLimits());
+    dispatch(getPersonalGoals());
+    dispatch(getLearningDays());
   };
 
   const onError = () => {

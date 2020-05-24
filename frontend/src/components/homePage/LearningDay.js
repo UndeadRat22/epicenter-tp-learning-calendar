@@ -3,11 +3,12 @@ import * as dates from 'date-arithmetic';
 import { Button } from 'wix-style-react';
 import Add from 'wix-ui-icons-common/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import { startLearningDay, suspendStartLearningDay } from '../../state/actions/learningDays';
+import { startLearningDay, suspendStartLearningDay, getLearningDays } from '../../state/actions/learningDays';
 import { getOnlyLocalDate } from '../../utils/dateParser';
 import { START_LEARNING_DAY_SUCCEEDED, START_LEARNING_DAY_FAILED, LOADING_START_LEARNING_DAY } from '../../constants/LearningDaysStatus';
 import ModalWrapper from '../modals/ModalWrapper';
 import { useToast } from '../../ToastContainer';
+import { getLimits } from '../../state/actions';
 
 const LearningDay = ({
   date, accessors, allDayAccessors, dayPropGetter, drillDownView, getNow, onView, onSelectSlot, onNavigate, events,
@@ -22,6 +23,8 @@ const LearningDay = ({
   const onSuccess = () => {
     setIsStartLearningDayModalOpen(false);
     dispatch(suspendStartLearningDay());
+    dispatch(getLearningDays());
+    dispatch(getLimits());
   };
 
   const onError = () => {
