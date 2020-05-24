@@ -5,7 +5,7 @@ import {
 } from 'wix-style-react';
 import { Check, X } from 'wix-ui-icons-common';
 import {
-  getAllTopics, getMyTeam, saveGoals, resetGoals,
+  getAllTopics, getMyTeam, saveGoals, resetGoals, getPersonalGoals,
 } from '../state/actions';
 import { SAVING_GOALS, SAVE_GOALS_SUCCEEDED, SAVE_GOALS_FAILED } from '../constants/AssignGoalsStatus';
 import GoalsAssignComponent from '../components/myTeam/GoalsAssignComponent';
@@ -16,6 +16,7 @@ const MyTeam = () => {
   useEffect(() => {
     dispatch(getAllTopics());
     dispatch(getMyTeam());
+    dispatch(getPersonalGoals());
   }, [dispatch]);
 
   const reset = () => {
