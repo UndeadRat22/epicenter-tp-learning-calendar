@@ -11,14 +11,13 @@ namespace Epicenter.Service.Strategy.Topic
             bool IsTopicLearned(LearningDayTopic dayTopic)
                 => dayTopic.TopicId == topic.Id && dayTopic.ProgressStatus == ProgressStatus.Done;
 
-            bool allGoalsComplete = 
-                employee.PersonalGoals.Any() &&
-                employee.PersonalGoals
+            var relevantGoals = employee.PersonalGoals
                 .Where(goal => goal.TopicId == topic.Id)
-                .All(goal => goal.CompletionDate.HasValue);
+                .ToList();
 
-            bool isGoalPlanned = employee.PersonalGoals
-                .Any(goal => goal.Topic.Id == topic.Id);
+            bool isTopicPlanned = relevantGoals.Any(goal => !goal.CompletionDate.HasValue);
+
+            bool allGoalsComplete = relevantGoals.Any() && !isTopicPlanned;
 
             bool isAnyLearningDayComplete = employee.LearningDays
                 .Any(day => day.LearningDayTopics
@@ -28,7 +27,7 @@ namespace Epicenter.Service.Strategy.Topic
                 .Any(day => day.LearningDayTopics
                     .Any(dayTopic => dayTopic.TopicId == topic.Id));
 
-            Status status = (allGoalsComplete, isGoalPlanned, isAnyLearningDayComplete, hasPlannedLearningDay) switch
+            Status status = (allGoalsComplete, isTopicPlanned, isAnyLearningDayComplete, hasPlannedLearningDay) switch
             {
                 (true, _, _, _) => Status.Learned,
                 (false, false, true, _) => Status.Learned,
