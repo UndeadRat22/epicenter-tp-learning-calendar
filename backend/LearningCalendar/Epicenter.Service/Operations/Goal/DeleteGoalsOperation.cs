@@ -22,7 +22,7 @@ namespace Epicenter.Service.Operations.Goal
             var currentEmployeeGoals = (await _authorizationContext.CurrentEmployee()).PersonalGoals;
 
             var goalsToDelete = currentEmployeeGoals
-                .Where(goal => request.TopicIds.Contains(goal.TopicId));
+                .Where(goal => request.TopicIds.Contains(goal.TopicId) && !goal.CompletionDate.HasValue);
 
             await _personalGoalRepository.DeleteAsync(goalsToDelete);
         }
