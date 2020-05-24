@@ -42,7 +42,7 @@ const ChangePasswordModal = ({ isModalOpened, onCloseModal }) => {
       <Modal
         isOpen={isModalOpened}
         shouldCloseOnOverlayClick
-        onRequestClose={onSuccess}
+        onRequestClose={onCloseModal}
       >
         <MessageBoxFunctionalLayout
           title="Change password"
