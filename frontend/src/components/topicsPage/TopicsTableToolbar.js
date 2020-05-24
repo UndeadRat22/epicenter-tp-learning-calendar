@@ -7,27 +7,24 @@ import Add from 'wix-ui-icons-common/Add';
 const TopicsTableToolbar = ({ activeSearch, onActiveSearch, onOpenModal }) => {
   return (
     <TableToolbar>
-      <TableToolbar.ItemGroup position="start">
-        <TableToolbar.Item>
-          <TableToolbar.Title>All topics</TableToolbar.Title>
-        </TableToolbar.Item>
-      </TableToolbar.ItemGroup>
       <TableToolbar.ItemGroup position="end">
         <TableToolbar.Item>
-          <div style={{ width: 200 }}>
+          <div style={{ width: 400 }}>
             <Search
               value={activeSearch}
               onChange={e => onActiveSearch(e.target.value)}
             />
           </div>
         </TableToolbar.Item>
+      </TableToolbar.ItemGroup>
+      <TableToolbar.ItemGroup position="start">
         <TableToolbar.Item>
           <div style={{ width: 200 }}>
             <Button
               size="medium"
               prefixIcon={<Add />}
-              skin="premium"
-              onClick={() => onOpenModal()}
+              onClick={onOpenModal}
+              priority="secondary"
             >
               Create new topic
             </Button>
