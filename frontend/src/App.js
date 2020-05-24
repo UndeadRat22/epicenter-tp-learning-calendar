@@ -7,6 +7,7 @@ import FeatureToggles from './utils/FeatureToggles';
 import store from './state';
 import { FEATURES_URL } from './constants/URL';
 import LoadingIndicator from './components/LoadingIndicator';
+import ToastContainer from './ToastContainer';
 
 const App = () => {
   const [featuresLoaded, setFeaturesLoaded] = useState(false);
@@ -29,6 +30,7 @@ const App = () => {
   if (featuresLoaded) {
     return (
       <Provider store={store}>
+        <ToastContainer />
         <Routing />
       </Provider>
     );
