@@ -124,7 +124,6 @@ namespace Epicenter.Api.Controllers
         {
             var request = new AssignGoalToTeamOperationRequest
             {
-                ManagerId = model.ManagerId,
                 TopicIds = model.TopicIds
             };
             await _assignGoalToTeamOperation.Execute(request);

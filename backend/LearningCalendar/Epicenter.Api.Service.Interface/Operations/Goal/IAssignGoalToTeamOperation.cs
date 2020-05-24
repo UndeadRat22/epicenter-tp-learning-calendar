@@ -11,7 +11,6 @@ namespace Epicenter.Service.Interface.Operations.Goal
 
     public class AssignGoalToTeamOperationRequest
     {
-        public Guid ManagerId { get; set; }
         public List<Guid> TopicIds { get; set; }
     }
 }

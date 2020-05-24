@@ -7,8 +7,6 @@ namespace Epicenter.Api.Model.Goal
 {
     public class CreateTeamGoalsModel
     {
-        [Required]
-        public Guid ManagerId { get; set; }
         [Required, MinimumElementsRequired(1)]
         public List<Guid> TopicIds { get; set; }
     }
