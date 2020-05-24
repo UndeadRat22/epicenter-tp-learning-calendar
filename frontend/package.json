@@ -2,7 +2,7 @@
   "name": "epicenter-learning-calendar",
   "version": "1.0.0",
   "scripts": {
-    "postinstall": "sed -i unhacked 's/max-width: 540px/max-width: 1000px/g' node_modules/wix-style-react/dist/es/src/EmptyState/EmptyState.scss && sed -i unhacked 's/max-width: 540px/max-width: 1000px/g' node_modules/wix-style-react/dist/src/EmptyState/EmptyState.scss",
+    "postinstall": "sed -i -e 's/max-width: 540px/max-width: 1000px/g' node_modules/wix-style-react/dist/es/src/EmptyState/EmptyState.scss && sed -i -e 's/max-width: 540px/max-width: 1000px/g' node_modules/wix-style-react/dist/src/EmptyState/EmptyState.scss",
     "start": "env PORT=8080 yoshi start",
     "build": "yoshi build",
     "test": "yoshi test",
