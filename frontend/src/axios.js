@@ -21,7 +21,8 @@ const setupAxios = () => {
   Axios.interceptors.response.use(response => {
     const { config: { baseURL }, config: { url } } = response;
 
-    if (baseURL !== BASE_URL || url === 'auth/refresh' || url === 'employees/self' || url === 'auth/login')
+    if (baseURL !== BASE_URL || url === 'auth/refresh' || url === 'employees/self' || url === 'auth/login'
+      || url === 'auth/password' || url === 'auth/register')
       return response;
 
     Axios.get('auth/refresh').then(refreshResponse => {
