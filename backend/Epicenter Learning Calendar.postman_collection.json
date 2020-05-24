@@ -6,6 +6,153 @@
 	},
 	"item": [
 		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1f267bba-cd83-4192-a503-f49af6e9fafa",
+								"exec": [
+									"var token = pm.response.json().token;",
+									"pm.globals.set(\"bearer\", token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Email\": \"1@e.com\",\n    \"Password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{api-url}}/api/auth/login",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"inviteId\": \"a80c905c-5ed5-4348-adce-590248f19095\",\n    \"password\": \"omg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/auth/register",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RefreshToken",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/auth/refresh",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"newPassword\": \"password\",\n\t\"oldPassword\": \"test123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/auth/password",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"password"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "Topic",
 			"item": [
 				{
@@ -112,7 +259,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"parentTopic\": \"8db1dc7b-eb86-4174-7da9-08d7fe4316f2\",\n\t\"subject\": \"ASP net coreee\",\n\t\"description\": \"learn the technology\"\n}",
+							"raw": "{\n\t\"parentTopic\": null,\n\t\"subject\": \".NET2\",\n\t\"description\": \"learn the technology\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -399,153 +546,6 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Auth",
-			"item": [
-				{
-					"name": "Login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "1f267bba-cd83-4192-a503-f49af6e9fafa",
-								"exec": [
-									"var token = pm.response.json().token;",
-									"pm.globals.set(\"bearer\", token);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"Email\": \"test@test.com\",\n    \"Password\": \"password\"\n}"
-						},
-						"url": {
-							"raw": "{{api-url}}/api/auth/login",
-							"host": [
-								"{{api-url}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Register",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"inviteId\": \"a80c905c-5ed5-4348-adce-590248f19095\",\n    \"password\": \"omg\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api-url}}/api/auth/register",
-							"host": [
-								"{{api-url}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "RefreshToken",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{bearer}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api-url}}/api/auth/refresh",
-							"host": [
-								"{{api-url}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"refresh"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Password",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{bearer}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"newPassword\": \"password\",\n\t\"oldPassword\": \"test123\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api-url}}/api/auth/password",
-							"host": [
-								"{{api-url}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"password"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
 			"name": "Invite",
 			"item": [
 				{
@@ -628,7 +628,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{api-url}}/api/teams/team/7e9ab320-cbe0-4bce-f57b-08d7f8c2d3e9",
+							"raw": "{{api-url}}/api/teams/team/b60636f9-593b-48f9-6150-08d7ff600689",
 							"host": [
 								"{{api-url}}"
 							],
@@ -636,7 +636,7 @@
 								"api",
 								"teams",
 								"team",
-								"7e9ab320-cbe0-4bce-f57b-08d7f8c2d3e9"
+								"b60636f9-593b-48f9-6150-08d7ff600689"
 							]
 						}
 					},
@@ -695,7 +695,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"employeeId\": \"af91cf85-d66b-4dfd-92be-08d7fbedddef\",\r\n  \"topicId\": \"63c3a1ff-07c4-4036-7da5-08d7fe4316f2\"\r\n}",
+							"raw": "{\r\n  \"employeeId\": \"1bdac42d-f918-4db5-6154-08d7ff600689\",\r\n  \"topicIds\": [ \"7db7a090-b1ee-4eb0-2d27-08d7ffba2c75\", \"9039e3da-a7b9-4a12-2d25-08d7ffba2c75\" ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -733,7 +733,46 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"topicId\": \"e9807c6c-af23-47e6-7b12-08d7fbee8d68\"\r\n}",
+							"raw": "{\r\n  \"topicId\": \"466e1c84-ca0b-412e-acc9-08d7fd5087e5\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/personal-goals/employee/self",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"personal-goals",
+								"employee",
+								"self"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Self Goals",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"topicIds\": [ \"7db7a090-b1ee-4eb0-2d27-08d7ffba2c75\", \"9039e3da-a7b9-4a12-2d25-08d7ffba2c75\" ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -772,7 +811,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"managerId\": \"da772a8c-7f67-414c-ee00-08d7e4b5d996\",\n\t\"topicId\": \"a672d7d2-5631-409c-9a45-08d7e52d3ddb\"\n}",
+							"raw": "{\n\t\"managerId\": \"b60636f9-593b-48f9-6150-08d7ff600689\",\n\t\"topicIds\": [ \"7db7a090-b1ee-4eb0-2d27-08d7ffba2c75\", \"9039e3da-a7b9-4a12-2d25-08d7ffba2c75\" ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -780,13 +819,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{api-url}}/api/Goal/team",
+							"raw": "{{api-url}}/api/personal-goals/team",
 							"host": [
 								"{{api-url}}"
 							],
 							"path": [
 								"api",
-								"Goal",
+								"personal-goals",
 								"team"
 							]
 						}
@@ -887,6 +926,75 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Delete Employee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/employees/employee/id",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"employee",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reassign Employee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"employeeId\": \"d20a7111-cf2d-41a3-6153-08d7ff600689\",\r\n  \"managerId\": \"1bdac42d-f918-4db5-6154-08d7ff600689\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/employees/employee/team",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"employee",
+								"team"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -896,6 +1004,18 @@
 			"item": [
 				{
 					"name": "CreateTestEmployee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e4176ad5-f042-4e21-8daa-0bd8a808d921",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -911,7 +1031,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"sub9@employee.net\",\r\n  \"password\": \"password\",\r\n  \"managerEmail\": \"sub7@employee.net\"\r\n}",
+							"raw": "{\r\n  \"email\": \"1@e.com\",\r\n  \"password\": \"password\",\r\n  \"managerEmail\": \"test@test.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
