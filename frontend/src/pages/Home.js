@@ -1,13 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Page,
   Breadcrumbs,
 } from 'wix-style-react';
+import { useSelector, useDispatch } from 'react-redux';
 import Calendar from '../components/homePage/Calendar';
+import GoalsCard from '../components/homePage/GoalsCard';
+import { getPersonalGoals } from '../state/actions/personalGoals';
+import { FETCH_PERSONAL_GOALS_SUCCEEDED } from '../constants/PersonalGoalsStatus';
+import { getLimits } from '../state/actions/limits';
+import LimitsCard from '../components/homePage/LimitsCard';
+import { FETCH_LIMITS_SUCCEEDED } from '../constants/LimitsStatus';
+import { getLearningDays } from '../state/actions/learningDays';
 
 const Home = () => {
   const [isMonthlyView, setIsMonthlyView] = useState(true);
   const [breadcrumbs, setBreadcrumbs] = useState(getBreadcrumbs(true));
+
+  const { goals, status: goalsStatus } = useSelector(state => state.personalGoals);
+  const { assignedLimit, remainingLimit, status: limitsStatus } = useSelector(state => state.limits);
+  const { selfLearningDays, teamLearningDays, status: learningDaysStatus } = useSelector(state => state.learningDays);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPersonalGoals());
+    dispatch(getLimits());
+    dispatch(getLearningDays());
+  }, [dispatch]);
+
+  const filteredGoals = goals.filter(goal => !goal.isCompleted);
 
   const onBreadcrumbClick = ({ id }) => {
     if (id === 0) {
@@ -27,7 +49,7 @@ const Home = () => {
   };
 
   return (
-    <Page height="1000px">
+    <Page height="1140px">
       <Page.Header
         showBackButton={!isMonthlyView}
         onBackClicked={onBackClick}
@@ -42,9 +64,18 @@ const Home = () => {
           />
       )}
       />
-      <Page.FixedContent>
-        <Calendar onLearningDayClick={onLearningDayClick} isMonthlyView={isMonthlyView} />
-      </Page.FixedContent>
+      <Page.Content>
+        {isMonthlyView
+          && <LimitsCard assignedLimit={assignedLimit} remainingLimit={remainingLimit} isLoading={limitsStatus !== FETCH_LIMITS_SUCCEEDED} />}
+        {isMonthlyView
+          && (
+          <div style={{ marginBottom: 20 }}>
+            <GoalsCard goals={filteredGoals} isLoading={goalsStatus !== FETCH_PERSONAL_GOALS_SUCCEEDED} />
+          </div>
+          )}
+        <Calendar onLearningDayClick={onLearningDayClick} isMonthlyView={isMonthlyView} selfLearningDays={selfLearningDays} teamLearningDays={teamLearningDays} />
+      </Page.Content>
+
     </Page>
   );
 };
@@ -52,7 +83,7 @@ const Home = () => {
 const getBreadcrumbs = isMonthlyView => {
   const monthlyViewBreadcrumb = {
     id: 0,
-    value: 'Monthly',
+    value: 'Month',
   };
 
   const learningDayViewBreadcrumb = {

@@ -7,32 +7,42 @@ import { invite, suspendInvite } from '../../state/actions';
 import InviteForm from '../auth/InviteForm';
 import { MODAL_MAX_HEIGHT } from '../../constants/Styling';
 import { INVITE_FAILED, INVITE_SUCCEEDED, LOADING_INVITE } from '../../constants/InviteStatus';
-import SuccessNotification from '../SuccessNotification';
-import ErrorNotification from '../ErrorNotification';
+import { useToast } from '../../ToastContainer';
 
 const InviteModal = ({ isModalOpened, onCloseModal }) => {
   const dispatch = useDispatch();
   const inviteStatus = useSelector(state => state.invite.status);
 
-  const showNotificationSuccess = inviteStatus === INVITE_SUCCEEDED;
-  const showNotificationError = inviteStatus === INVITE_FAILED;
   const isLoading = inviteStatus === LOADING_INVITE;
 
   const inviteUser = user => {
     dispatch(invite(user));
   };
 
-  const onCloseModalWrapper = () => {
+  const onSuccess = () => {
     dispatch(suspendInvite());
     onCloseModal();
   };
+
+  const onError = () => {
+    dispatch(suspendInvite());
+  };
+
+  useToast({
+    successText: 'Invitation sent',
+    errorText: 'Failed to send invite',
+    shouldShowSuccessWhen: inviteStatus === INVITE_SUCCEEDED,
+    shouldShowErrorWhen: inviteStatus === INVITE_FAILED,
+    onSuccess,
+    onError,
+  });
 
   return (
     <Layout cols={1}>
       <Modal
         isOpen={isModalOpened}
         shouldCloseOnOverlayClick
-        onRequestClose={onCloseModalWrapper}
+        onRequestClose={onCloseModal}
       >
         <MessageBoxFunctionalLayout
           title="Invite new employee"
@@ -42,12 +52,6 @@ const InviteModal = ({ isModalOpened, onCloseModal }) => {
           {isLoading && <Loader size="tiny" />}
           <InviteForm onInvite={user => inviteUser(user)} />
         </MessageBoxFunctionalLayout>
-        {showNotificationSuccess && (
-        <SuccessNotification text="Invitation sent" />
-        )}
-        {showNotificationError && (
-        <ErrorNotification text="Invitation failed" />
-        )}
       </Modal>
     </Layout>
   );

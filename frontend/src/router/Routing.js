@@ -8,7 +8,6 @@ import Register from '../pages/Register';
 import Home from '../pages/Home';
 import Topics from '../pages/Topics';
 import MyTeam from '../pages/MyTeam';
-import Profile from '../pages/Profile';
 import ProtectedRoute from './ProtectedRoute';
 import TopNavBar from '../components/TopNavBar';
 import { LOGGED_IN, LOADING_FETCH_SELF } from '../constants/AuthStatus';
@@ -52,7 +51,6 @@ const Routing = () => {
           <ProtectedRoute path="/topics" component={Topics} />
           <ProtectedRoute path="/myteam" component={MyTeam} />
           <ProtectedRoute path="/subordinates" component={Subordinates} />
-          <ProtectedRoute path="/profile" component={Profile} />
           <Route path="*" component={() => '404 NOT FOUND'} />
         </Switch>
       </div>
