@@ -10,6 +10,7 @@ namespace Epicenter.Service.Strategy.Interface.Topic
     public class TeamProgressStatus
     {
         public int LearnedCount { get; set; }
+        public int PlannedCount { get; set; }
         public int TotalCount { get; set; }
         public Status Status { get; set; }
     }

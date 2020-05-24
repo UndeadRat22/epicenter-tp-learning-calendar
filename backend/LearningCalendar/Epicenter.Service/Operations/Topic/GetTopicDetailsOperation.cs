@@ -91,7 +91,8 @@ namespace Epicenter.Service.Operations.Topic
                 ManagerId = team.Manager.Id,
                 ManagerFullName = team.Manager.FullName,
                 EmployeeCount = status.TotalCount,
-                EmployeeWhoLearnedCount = status.LearnedCount,
+                LearnedCount = status.LearnedCount,
+                PlannedCount = status.PlannedCount,
                 ProgressStatus = ProgressStatusMapper.MapStatus(status.Status)
             };
         }

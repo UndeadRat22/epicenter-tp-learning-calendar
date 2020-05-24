@@ -23,6 +23,7 @@ namespace Epicenter.Service.Strategy.Topic
             employeeStatuses.Add(_employeeTopicProgressStatusStrategy.GetStatus(team.Manager, topic));
 
             int employeesWhoLearnedCount = employeeStatuses.Count(status => status == Status.Learned);
+            int plannedCount = employeeStatuses.Count(status => status == Status.Planned);
 
 
             Status teamStatus = Status.Learned;
@@ -37,6 +38,7 @@ namespace Epicenter.Service.Strategy.Topic
             return new TeamProgressStatus
             {
                 LearnedCount = employeesWhoLearnedCount,
+                PlannedCount = plannedCount,
                 TotalCount = employeeStatuses.Count,
                 Status = teamStatus
             };
