@@ -3,7 +3,7 @@ import { Calendar as BigCalendar, momentLocalizer, Views } from 'react-big-calen
 import moment from 'moment';
 import './Calendar.global.scss';
 import {
-  CounterBadge, TextButton, Badge, IconButton,
+  CounterBadge, TextButton, Badge, IconButton, SectionHelper, FloatingNotification,
 } from 'wix-style-react';
 import Minus from 'wix-ui-icons-common/Minus';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,8 +14,7 @@ import { isSelfLearningDay, isTeamLearningDay, getSelfLearningDayFromDate } from
 import { CANCEL_LEARNING_DAY_SUCCEEDED, CANCEL_LEARNING_DAY_FAILED, LOADING_CANCEL_LEARNING_DAY } from '../../constants/LearningDaysStatus';
 import { cancelLearningDay, suspendCancelLearningDay } from '../../state/actions';
 import ModalWrapper from '../modals/ModalWrapper';
-import ErrorNotification from '../ErrorNotification';
-import SuccessNotification from '../SuccessNotification';
+import { useToast } from '../../ToastContainer';
 
 const localizer = momentLocalizer(moment);
 
@@ -45,17 +44,26 @@ const Calendar = ({
   const cancelLearningDayFailed = status === CANCEL_LEARNING_DAY_FAILED;
   const isLoading = status === LOADING_CANCEL_LEARNING_DAY;
 
-  const onCancelLearningDay = () => {
-    dispatch(cancelLearningDay(getSelfLearningDayFromDate(cancellableDate, selfLearningDays).id));
-  };
-
-  const onSuccessNotificationEnd = () => {
+  const onSuccess = () => {
     setIsCancelModalOpen(false);
     dispatch(suspendCancelLearningDay());
   };
 
-  const onErrorNotificationEnd = () => {
+  const onError = () => {
     dispatch(suspendCancelLearningDay());
+  };
+
+  useToast({
+    successText: 'Successfull Cancel',
+    errorText: 'Failure cancelling',
+    shouldShowSuccessWhen: learningDayCancelled,
+    shouldShowErrorWhen: cancelLearningDayFailed,
+    onSuccess,
+    onError,
+  });
+
+  const onCancelLearningDay = () => {
+    dispatch(cancelLearningDay(getSelfLearningDayFromDate(cancellableDate, selfLearningDays).id));
   };
 
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -101,23 +109,16 @@ const Calendar = ({
   };
   return (
     <>
-      {learningDayCancelled && (
-      <SuccessNotification text="Success" onClose={onSuccessNotificationEnd} />
-      )}
       <ModalWrapper
         onOk={onCancelLearningDay}
-        isOpen={isCancelModalOpen && !learningDayCancelled}
+        isOpen={isCancelModalOpen}
         onClose={() => setIsCancelModalOpen(false)}
         isLoading={isLoading}
         title="Cancel Learning Day"
         footerText="Once cancelled, cannot be undone"
         text="Do you really want to cancel learning day together with all topics?"
         alert
-      >
-        {cancelLearningDayFailed && (
-        <ErrorNotification text="Failed" onClose={onErrorNotificationEnd} />
-        )}
-      </ModalWrapper>
+      />
       <BigCalendar
         events={[]}
         dayPropGetter={date => getDayProps(date, selfLearningDays, teamLearningDays, user.id)}

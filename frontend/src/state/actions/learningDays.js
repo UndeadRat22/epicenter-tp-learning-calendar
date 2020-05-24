@@ -29,6 +29,7 @@ const cancelLearningDay = id => async dispatch => {
     dispatch(cancelLearningDayStart());
 
     await new Promise((resolve, reject) => setTimeout(() => resolve(''), 2000));
+    // TODO: uncomment backend
     // await Axios.delete(`learning-days/learning-day/${id}`);
 
     dispatch(cancelLearningDaySuccess());
