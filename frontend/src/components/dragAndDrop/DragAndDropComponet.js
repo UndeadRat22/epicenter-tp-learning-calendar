@@ -18,6 +18,7 @@ import {
 } from '../../constants/PersonalGoalsStatus';
 import LoadingIndicator from '../LoadingIndicator';
 import Employee from './Employee';
+import SelfEmployee from './SelfEmployee';
 import Topic from './Topic';
 import TeamPlaceholder from './TeamPlaceholder';
 import s from './styles.scss';
@@ -50,16 +51,17 @@ const DragAndDropComponent = () => {
   if (fetchPersonalGoalsSucceeded)
     personalGoalTopics = personalGoals.goals.filter(goal => !goal.isCompleted).map(goal => { return { topicId: goal.topic.id, topic: goal.topic.subject }; });
 
+  const { newGoals, newPersonalGoals } = useSelector(state => state.assignGoals);
+
   const self = useSelector(state => state.auth.user);
-  const selfEmployee = { id: 'self-employee', name: `${self.firstName} ${self.lastName}`, goalTopics: personalGoalTopics };
+  const selfEmployee = { id: self.id, name: `${self.firstName} ${self.lastName}`, goalTopics: [...personalGoalTopics, ...newPersonalGoals.map(newGoal => { return { topicId: newGoal.topic.topicId, topic: newGoal.topic.topic, isRemovable: true }; })] };
 
   const myTeam = useSelector(state => state.myTeam);
   const fetchMyTeamSucceeded = myTeam.status === FETCH_MY_TEAM_SUCCEEDED;
   const fetchMyTeamFailed = myTeam.status === FETCH_MY_TEAM_FAILED;
   const { employees } = myTeam.myTeam;
 
-  const newGoals = useSelector(state => state.assignGoals.newGoals);
-  const allEmployees = [selfEmployee];
+  const allEmployees = [];
   if (fetchMyTeamSucceeded) {
     const teamMembers = employees.map(employee => {
       const newEmployeeGoals = newGoals.filter(newGoal => newGoal.employeeId === employee.id).map(newGoal => { return { topicId: newGoal.topic.topicId, topic: newGoal.topic.topic, isRemovable: true }; });
@@ -67,8 +69,6 @@ const DragAndDropComponent = () => {
     });
     allEmployees.push(...teamMembers);
   }
-
-  console.log(allEmployees);
 
   const fetchEmployeesSucceeded = fetchPersonalGoalsSucceeded && fetchMyTeamSucceeded;
   const fetchEmployeesFailed = fetchPersonalGoalsFailed || fetchMyTeamFailed;
@@ -116,6 +116,7 @@ const DragAndDropComponent = () => {
               <Card.Content>
                 <Box height={cardContentHeight} direction="vertical" overflowY="auto">
                   {loadingEmployees && <LoadingIndicator text="Loading employees..." />}
+                  {fetchEmployeesSucceeded && <SelfEmployee employee={selfEmployee} />}
                   {fetchEmployeesSucceeded && allEmployees.map(employee => <Employee key={employee.id} employee={employee} />)}
                   {fetchEmployeesFailed && <Text>Failed to load employees</Text>}
                 </Box>

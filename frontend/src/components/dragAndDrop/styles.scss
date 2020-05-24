@@ -14,6 +14,16 @@
   background-color: rgb(240, 240, 240);
 }
 
+.selfEmployee {
+  @extend .employee;
+  border: 2px solid #7a92a5;
+}
+
+.selectedSelfEmployee {
+  @extend .selfEmployee;
+  background-color: rgb(240, 240, 240);
+}
+
 .tagContainer {
   display: flex;
   flex-wrap: wrap;

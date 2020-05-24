@@ -4,14 +4,14 @@ import {
   Avatar, Cell, Divider, Layout, Tag, Text,
 } from 'wix-style-react';
 import { useDispatch } from 'react-redux';
-import { assignGoal, removeGoal } from '../../state/actions/assignGoals';
+import { assignPersonalGoal, removePersonalGoal } from '../../state/actions/assignGoals';
 import s from './styles.scss';
 import { TOPIC } from '../../constants/DraggableTypes';
 
-const Employee = ({ employee }) => {
+const SelfEmployee = ({ employee }) => {
   const dispatch = useDispatch();
-  const handleAssignGoal = topic => dispatch(assignGoal({ employeeId: employee.id, topic }));
-  const handleRemoveGoal = topicId => dispatch(removeGoal({ employeeId: employee.id, topicId }));
+  const handleAssignGoal = topic => dispatch(assignPersonalGoal({ employeeId: employee.id, topic }));
+  const handleRemoveGoal = topicId => dispatch(removePersonalGoal({ employeeId: employee.id, topicId }));
 
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: TOPIC,
@@ -27,7 +27,7 @@ const Employee = ({ employee }) => {
   const hasGoals = Array.isArray(employee.goalTopics) && employee.goalTopics.length > 0;
 
   return (
-    <div className={isActive ? s.selectedEmployee : s.employee} ref={drop}>
+    <div className={isActive ? s.selectedSelfEmployee : s.selfEmployee} ref={drop}>
       <Layout gap={8}>
         <Cell span={12}>
           <Layout>
@@ -39,7 +39,7 @@ const Employee = ({ employee }) => {
               />
             </Cell>
             <Cell span={11}>
-              <Text>
+              <Text weight="bold">
                 {employee.name}
               </Text>
             </Cell>
@@ -66,4 +66,4 @@ const Employee = ({ employee }) => {
   );
 };
 
-export default Employee;
+export default SelfEmployee;

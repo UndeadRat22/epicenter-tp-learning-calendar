@@ -3,11 +3,11 @@ import {
 } from '../../constants/MyTeamStatus';
 import {
   FETCH_MY_TEAM_START, FETCH_MY_TEAM_SUCCESS, FETCH_MY_TEAM_FAIL,
-} from '../actions/types/myTeam';
+} from '../actions/types';
 
 const initialState = {
   status: '',
-  myTeam: [],
+  myTeam: {},
 };
 
 const myTeam = (state = initialState, action) => {
@@ -15,7 +15,7 @@ const myTeam = (state = initialState, action) => {
     case FETCH_MY_TEAM_START:
       return {
         status: LOADING_MY_TEAM,
-        myTeam: [],
+        myTeam: {},
       };
     case FETCH_MY_TEAM_SUCCESS:
       return {
@@ -25,7 +25,7 @@ const myTeam = (state = initialState, action) => {
     case FETCH_MY_TEAM_FAIL:
       return {
         status: FETCH_MY_TEAM_FAILED,
-        myTeam: [],
+        myTeam: {},
       };
     default:
       return state;
