@@ -43,7 +43,7 @@ namespace Epicenter.Service.Operations.Team
                     {
                         Id = request.ManagerId,
                         Name = manager.FullName,
-                        GoalTopics = MapGoals(manager)
+                        GoalTopics = null
                     },
                     Employees = employees
                 }
