@@ -16,26 +16,13 @@ const saveGoalsStart = makeSyncActionCreator(SAVE_GOALS_START);
 const saveGoalsSuccess = makeSyncActionCreator(SAVE_GOALS_SUCCESS);
 const saveGoalsFail = makeSyncActionCreator(SAVE_GOALS_FAIL);
 
-const groupGoals = (array, key) => {
-  return array.reduce((groupedArray, goal) => {
-    const employeeId = key instanceof Function ? key(goal) : goal[key];
-    const groupedEmployee = groupedArray.find(employee => employee && employee.employeeId === employeeId);
-    if (groupedEmployee)
-      groupedEmployee.topicIds.push(goal.topic.topicId);
-    else
-      groupedArray.push({ employeeId, topicIds: [goal.topic.topicId] });
-    return groupedArray;
-  }, []);
-};
-
 const saveGoals = ({ newGoals, newPersonalGoals }) => async dispatch => {
   try {
     dispatch(saveGoalsStart());
 
     const promises = [];
-    const newGoalTopicIds = groupGoals(newGoals, goal => goal.employeeId);
-    if (newGoalTopicIds.length > 0)
-      promises.push(...newGoalTopicIds.map(employeeGoals => Axios.post('personal-goals/employee', employeeGoals)));
+    if (newGoals.length > 0)
+      promises.push(...newGoals.map(employeeGoals => Axios.post('personal-goals/employee', employeeGoals)));
 
     const newPersonalGoalTopicIds = newPersonalGoals.map(goal => goal.topic.topicId);
     if (newPersonalGoalTopicIds.length > 0)

@@ -5,7 +5,7 @@ import {
 } from 'wix-style-react';
 import { Check, X } from 'wix-ui-icons-common';
 import {
-  getAllTopics, getMyTeam, getPersonalGoals, saveGoals, resetGoals,
+  getAllTopics, getMyTeam, saveGoals, resetGoals,
 } from '../state/actions';
 import { SAVING_GOALS, SAVE_GOALS_SUCCEEDED, SAVE_GOALS_FAILED } from '../constants/AssignGoalsStatus';
 import GoalsAssignComponent from '../components/myTeam/GoalsAssignComponent';
@@ -16,7 +16,6 @@ const MyTeam = () => {
   useEffect(() => {
     dispatch(getAllTopics());
     dispatch(getMyTeam());
-    dispatch(getPersonalGoals());
   }, [dispatch]);
 
   const reset = () => {
@@ -24,7 +23,19 @@ const MyTeam = () => {
   };
 
   const save = () => {
-    dispatch(saveGoals({ newGoals, newPersonalGoals }));
+    dispatch(saveGoals({ newGoals: groupGoals(newGoals, goal => goal.employeeId), newPersonalGoals }));
+  };
+
+  const groupGoals = (array, key) => {
+    return array.reduce((groupedArray, goal) => {
+      const employeeId = key instanceof Function ? key(goal) : goal[key];
+      const groupedEmployee = groupedArray.find(employee => employee && employee.employeeId === employeeId);
+      if (groupedEmployee)
+        groupedEmployee.topicIds.push(goal.topic.topicId);
+      else
+        groupedArray.push({ employeeId, topicIds: [goal.topic.topicId] });
+      return groupedArray;
+    }, []);
   };
 
   const { saveGoalsStatus, newGoals, newPersonalGoals } = useSelector(state => state.assignGoals);
@@ -33,7 +44,7 @@ const MyTeam = () => {
   const savingSucceeded = saveGoalsStatus === SAVE_GOALS_SUCCEEDED;
   const savingFailed = saveGoalsStatus === SAVE_GOALS_FAILED;
 
-  const getSaveButtonRepresentation = () => {
+  const getSaveButtonAppearance = () => {
     if (savingInProgress) {
       return {
         saveButtonIcon: (
@@ -53,7 +64,7 @@ const MyTeam = () => {
     return { saveButtonText: 'Save' };
   };
 
-  const { saveButtonIcon, saveButtonText } = getSaveButtonRepresentation();
+  const { saveButtonIcon, saveButtonText } = getSaveButtonAppearance();
 
   const ActionsBar = () => (
     <Box>

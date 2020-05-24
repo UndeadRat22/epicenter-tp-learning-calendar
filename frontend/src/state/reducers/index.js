@@ -14,5 +14,5 @@ import myTeam from './myTeam';
 import assignGoals from './assignGoals';
 
 export default combineReducers({
-  auth, invite, register, changePassword, topicsTree, topic, allTopics, personalGoals, limits, learningDays, toast,
+  auth, invite, register, changePassword, topicsTree, topic, allTopics, personalGoals, limits, learningDays, toast, myTeam, assignGoals,
 });
