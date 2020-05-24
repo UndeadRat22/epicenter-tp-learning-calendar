@@ -24,10 +24,17 @@ const SelfEmployee = ({ employee }) => {
   });
 
   const isActive = canDrop && isOver;
+
+  let employeeClass = s.selfEmployee;
+  if (isActive)
+    employeeClass = s.activeSelfEmployee;
+  else if (canDrop)
+    employeeClass = s.availableSelfEmployee;
+
   const hasGoals = Array.isArray(employee.goalTopics) && employee.goalTopics.length > 0;
 
   return (
-    <div className={isActive ? s.selectedSelfEmployee : s.selfEmployee} ref={drop}>
+    <div className={employeeClass} ref={drop}>
       <Layout gap={8}>
         <Cell span={12}>
           <Layout>

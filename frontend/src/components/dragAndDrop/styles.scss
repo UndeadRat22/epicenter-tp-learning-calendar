@@ -9,9 +9,14 @@
   flex-direction: column;
 }
 
-.selectedEmployee {
+.availableEmployee {
   @extend .employee;
   background-color: rgb(240, 240, 240);
+}
+
+.activeEmployee {
+  @extend .employee;
+  background-color: rgb(230, 230, 230);
 }
 
 .selfEmployee {
@@ -19,9 +24,14 @@
   border: 2px solid #7a92a5;
 }
 
-.selectedSelfEmployee {
+.availableSelfEmployee {
   @extend .selfEmployee;
   background-color: rgb(240, 240, 240);
+}
+
+.activeSelfEmployee {
+  @extend .selfEmployee;
+  background-color: rgb(230, 230, 230);
 }
 
 .tagContainer {
