@@ -4,14 +4,28 @@ import {
   Avatar, Cell, Divider, Layout, Tag, Text,
 } from 'wix-style-react';
 import { useDispatch } from 'react-redux';
-import { assignPersonalGoal, removePersonalGoal } from '../../state/actions/assignGoals';
+import {
+  assignGoal, assignPersonalGoal, removeGoal, removePersonalGoal,
+} from '../../state/actions/assignGoals';
 import s from './styles.scss';
 import { TOPIC } from '../../constants/DraggableTypes';
 
-const SelfEmployee = ({ employee }) => {
+const Employee = ({ employee }) => {
   const dispatch = useDispatch();
-  const handleAssignGoal = topic => dispatch(assignPersonalGoal({ employeeId: employee.id, topic }));
-  const handleRemoveGoal = topicId => dispatch(removePersonalGoal({ employeeId: employee.id, topicId }));
+
+  const { isSelf } = employee;
+  const handleAssignGoal = topic => {
+    if (isSelf)
+      dispatch(assignPersonalGoal({ topic }));
+    else
+      dispatch(assignGoal({ employeeId: employee.id, topic }));
+  };
+  const handleRemoveGoal = topicId => {
+    if (isSelf)
+      dispatch(removePersonalGoal({ topicId }));
+    else
+      dispatch(removeGoal({ employeeId: employee.id, topicId }));
+  };
 
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: TOPIC,
@@ -25,11 +39,14 @@ const SelfEmployee = ({ employee }) => {
 
   const isActive = canDrop && isOver;
 
-  let employeeClass = s.selfEmployee;
+  let employeeClass = s.employee;
   if (isActive)
-    employeeClass = s.activeSelfEmployee;
+    employeeClass = s.activeEmployee;
   else if (canDrop)
-    employeeClass = s.availableSelfEmployee;
+    employeeClass = s.availableEmployee;
+
+  if (isSelf)
+    employeeClass = `${employeeClass} ${s.selfEmployee}`;
 
   const hasGoals = Array.isArray(employee.goalTopics) && employee.goalTopics.length > 0;
 
@@ -46,7 +63,7 @@ const SelfEmployee = ({ employee }) => {
               />
             </Cell>
             <Cell span={11}>
-              <Text weight="bold">
+              <Text weight={isSelf ? 'bold' : 'normal'}>
                 {employee.name}
               </Text>
             </Cell>
@@ -61,7 +78,14 @@ const SelfEmployee = ({ employee }) => {
           <Cell span={12}>
             <div className={s.tagContainer}>
               {employee.goalTopics.map(goalTopic => (
-                <Tag id={goalTopic.topicId} key={goalTopic.topicId} theme="dark" removable={!!goalTopic.isRemovable} onRemove={() => handleRemoveGoal(goalTopic.topicId)}>
+                <Tag
+                  id={goalTopic.topicId}
+                  key={goalTopic.topicId}
+                  className={s.topicTag}
+                  theme="dark"
+                  removable={!!goalTopic.isRemovable}
+                  onRemove={() => handleRemoveGoal(goalTopic.topicId)}
+                >
                   {goalTopic.topic}
                 </Tag>
               ))}
@@ -73,4 +97,4 @@ const SelfEmployee = ({ employee }) => {
   );
 };
 
-export default SelfEmployee;
+export default Employee;

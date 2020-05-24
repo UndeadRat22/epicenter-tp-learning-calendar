@@ -9,28 +9,17 @@
   flex-direction: column;
 }
 
+.selfEmployee {
+  border: 2px solid #7a92a5 !important;
+}
+
 .availableEmployee {
   @extend .employee;
-  background-color: rgb(240, 240, 240);
+  background-color: rgb(245, 245, 245);
 }
 
 .activeEmployee {
   @extend .employee;
-  background-color: rgb(230, 230, 230);
-}
-
-.selfEmployee {
-  @extend .employee;
-  border: 2px solid #7a92a5;
-}
-
-.availableSelfEmployee {
-  @extend .selfEmployee;
-  background-color: rgb(240, 240, 240);
-}
-
-.activeSelfEmployee {
-  @extend .selfEmployee;
   background-color: rgb(230, 230, 230);
 }
 
@@ -39,7 +28,7 @@
   flex-wrap: wrap;
 }
 
-.tagContainer > * {
+.topicTag {
   margin-right: 2px;
   margin-bottom: 2px;
 }
