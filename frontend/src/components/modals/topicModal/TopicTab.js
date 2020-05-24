@@ -3,7 +3,6 @@ import {
   Layout, Text, Divider,
 } from 'wix-style-react';
 
-
 const TopicTab = ({ topic }) => {
   return (
     <Layout cols={1}>

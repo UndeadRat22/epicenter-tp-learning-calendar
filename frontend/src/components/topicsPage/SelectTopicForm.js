@@ -6,8 +6,8 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllTopics } from '../../state/actions/allTopics';
 
-const SelectTopicForm = ({ onSelectTopic }) => {
-  const [value, setValue] = useState('');
+const SelectTopicForm = ({ onSelectTopic, parentTopic = '' }) => {
+  const [value, setValue] = useState(parentTopic);
 
   const topics = useSelector(state => state.allTopics.topics);
 

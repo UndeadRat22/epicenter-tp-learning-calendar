@@ -5,3 +5,4 @@ export * from './changePassword';
 export * from './topicsTree';
 export * from './allTopics';
 export * from './topic';
+export * from './editTopic';

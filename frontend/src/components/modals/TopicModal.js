@@ -7,7 +7,7 @@ import { getTopic } from '../../state/actions';
 import { MODAL_MAX_HEIGHT } from '../../constants/Styling';
 import { LOADING_FETCH_TOPIC } from '../../constants/TopicStatus';
 import TopicTab from './topicModal/TopicTab';
-import SubordinatesTab from './topicModal/SubordinatesTab';
+import EmployeesTab from './topicModal/EmployeesTab';
 import TeamsTab from './topicModal/TeamsTab';
 
 const TopicModal = ({ isModalOpened, onCloseModal, topic }) => {
@@ -24,10 +24,6 @@ const TopicModal = ({ isModalOpened, onCloseModal, topic }) => {
     dispatch(getTopic(topic.id));
   }, []);
 
-  const onCloseModalWrapper = () => {
-    onCloseModal();
-  };
-
   const changeTab = value => {
     setActiveTabId(value.id);
   };
@@ -37,7 +33,7 @@ const TopicModal = ({ isModalOpened, onCloseModal, topic }) => {
     if (activeTabId === 1)
       tab = <TopicTab topic={topicInfo} />;
     else if (activeTabId === 2)
-      tab = <SubordinatesTab topic={topicInfo} />;
+      tab = <EmployeesTab topic={topicInfo} />;
     else if (activeTabId === 3)
       tab = <TeamsTab topic={topicInfo} />;
     return tab;
@@ -48,7 +44,7 @@ const TopicModal = ({ isModalOpened, onCloseModal, topic }) => {
       <Modal
         isOpen={isModalOpened}
         shouldCloseOnOverlayClick
-        onRequestClose={onCloseModalWrapper}
+        onRequestClose={onCloseModal}
       >
         <MessageBoxFunctionalLayout
           title={topic.subject}
@@ -64,7 +60,7 @@ const TopicModal = ({ isModalOpened, onCloseModal, topic }) => {
                   onClick={changeTab}
                   items={[
                     { id: 1, title: 'About' },
-                    { id: 2, title: 'Subordinates' },
+                    { id: 2, title: 'Employees' },
                     { id: 3, title: 'Teams' },
                   ]}
                 />

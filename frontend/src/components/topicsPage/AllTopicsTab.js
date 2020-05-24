@@ -9,17 +9,16 @@ import { getAllTopics } from '../../state/actions/allTopics';
 import { LOADING_ALL_TOPICS } from '../../constants/AllTopicsStatus';
 import CreateTopicModal from '../modals/CreateTopicModal';
 import TopicModal from '../modals/TopicModal';
+import EditTopicModal from '../modals/EditTopic';
 import TopicsTableToolbar from './TopicsTableToolbar';
 
 const AllTopicsTab = () => {
   const [activeSearch, setActiveSearch] = useState('');
   const [isOpenedCreateTopicModal, setIsOpenedCreateTopicModal] = useState(false);
   const [isOpenedTopicModal, setIsOpenedTopicModal] = useState(false);
+  const [isOpenedEditTopicModal, setIsOpenedEditTopicModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
 
-  // TODO: NICE TO HAVE
-  // modal is not implemented yet
-  const [isOpenedEditTopicModal, setIsOpenedEditTopicModal] = useState(false);
 
   const topics = useSelector(state => state.allTopics.topics);
   const topicsStatus = useSelector(state => state.allTopics.status);
@@ -70,7 +69,6 @@ const AllTopicsTab = () => {
                       {
                         text: 'Edit',
                         icon: <Edit />,
-                        // If we decide do not to implement edit topic, secondaryActions should be deleted
                         onClick: () => handleEditTopicModal(rowData),
                       },
                       {
@@ -108,6 +106,8 @@ const AllTopicsTab = () => {
         </Col>
       </Row>
       <CreateTopicModal isModalOpened={isOpenedCreateTopicModal} onCloseModal={() => setIsOpenedCreateTopicModal(false)} />
+      {isOpenedEditTopicModal
+      && <EditTopicModal isModalOpened={isOpenedEditTopicModal} onCloseModal={() => setIsOpenedEditTopicModal(false)} topic={selectedRow} />}
       {isOpenedTopicModal
       && <TopicModal isModalOpened={isOpenedTopicModal} onCloseModal={() => setIsOpenedTopicModal(false)} topic={selectedRow} />}
     </Container>
