@@ -1,6 +1,8 @@
 import Axios from 'axios';
 import makeSyncActionCreator from '../syncActionCreator';
-import { FETCH_PERSONAL_GOALS_START, FETCH_PERSONAL_GOALS_SUCCESS, FETCH_PERSONAL_GOALS_FAIL } from './types/personalGoals';
+import {
+  FETCH_PERSONAL_GOALS_START, FETCH_PERSONAL_GOALS_SUCCESS, FETCH_PERSONAL_GOALS_FAIL,
+} from './types/personalGoals';
 
 const fetchPersonalGoalsStart = makeSyncActionCreator(FETCH_PERSONAL_GOALS_START);
 const fetchPersonalGoalsSuccess = makeSyncActionCreator(FETCH_PERSONAL_GOALS_SUCCESS);

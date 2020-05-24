@@ -3,16 +3,14 @@ import { useDrop } from 'react-dnd';
 import {
   Box, Text,
 } from 'wix-style-react';
-import { useDispatch } from 'react-redux';
-import { assignGoal } from '../../../state/actions/goals';
-import DraggableTypes from './DraggableTypes';
+import { TOPIC } from '../../constants/DraggableTypes';
 
 const Employee = () => {
   // const dispatch = useDispatch();
   // const handleAssignGoal = topic => dispatch(assignGoal({ employeeId: employee.id, topic }));
 
   const [{ canDrop, isOver }, drop] = useDrop({
-    accept: DraggableTypes.TOPIC,
+    accept: TOPIC,
     // drop: item => {
     // if (!employee.goalTopics.some(goalTopic => goalTopic.topicId === item.topic.id))
     // handleAssignGoal({ topicId: item.topic.id, topic: item.topic.subject });

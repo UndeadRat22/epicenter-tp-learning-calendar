@@ -6,20 +6,22 @@ import {
 } from 'wix-style-react';
 import { Add } from 'wix-ui-icons-common';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllTopics, getMyTeam, getPersonalGoals } from '../../../state/actions';
+import { getAllTopics, getMyTeam, getPersonalGoals } from '../../state/actions';
 import {
   LOADING_ALL_TOPICS, FETCH_ALL_TOPICS_SUCCEEDED, FETCH_ALL_TOPICS_FAILED,
-} from '../../../constants/AllTopicsStatus';
+} from '../../constants/AllTopicsStatus';
 import {
   FETCH_MY_TEAM_SUCCEEDED, FETCH_MY_TEAM_FAILED,
-} from '../../../constants/MyTeamStatus';
+} from '../../constants/MyTeamStatus';
 import {
   FETCH_PERSONAL_GOALS_SUCCEEDED, FETCH_PERSONAL_GOALS_FAILED,
-} from '../../../constants/PersonalGoalsStatus';
-import LoadingIndicator from '../../../components/LoadingIndicator';
+} from '../../constants/PersonalGoalsStatus';
+import LoadingIndicator from '../LoadingIndicator';
 import Employee from './Employee';
 import Topic from './Topic';
 import TeamPlaceholder from './TeamPlaceholder';
+import s from './styles.scss';
+import CreateTopicModal from '../modals/CreateTopicModal';
 
 const DragAndDropComponent = () => {
   const dispatch = useDispatch();
@@ -29,6 +31,8 @@ const DragAndDropComponent = () => {
     dispatch(getMyTeam());
     dispatch(getPersonalGoals());
   }, [dispatch]);
+
+  const [isOpenedCreateTopicModal, setIsOpenedCreateTopicModal] = useState(false);
 
   const [topicsFilter, setTopicsFilter] = useState('');
 
@@ -44,7 +48,7 @@ const DragAndDropComponent = () => {
 
   let personalGoalTopics = [];
   if (fetchPersonalGoalsSucceeded)
-    personalGoalTopics = personalGoals.goals.filter(goal => !goal.isCompleted).map(goal => { return { topicId: goal.topicId, topic: 'TODO: add to response' }; });
+    personalGoalTopics = personalGoals.goals.filter(goal => !goal.isCompleted).map(goal => { return { topicId: goal.topic.id, topic: goal.topic.subject }; });
 
   const self = useSelector(state => state.auth.user);
   const selfEmployee = { id: 'self-employee', name: `${self.firstName} ${self.lastName}`, goalTopics: personalGoalTopics };
@@ -54,9 +58,17 @@ const DragAndDropComponent = () => {
   const fetchMyTeamFailed = myTeam.status === FETCH_MY_TEAM_FAILED;
   const { employees } = myTeam.myTeam;
 
+  const newGoals = useSelector(state => state.assignGoals.newGoals);
   const allEmployees = [selfEmployee];
-  if (fetchMyTeamSucceeded)
-    allEmployees.push(...employees);
+  if (fetchMyTeamSucceeded) {
+    const teamMembers = employees.map(employee => {
+      const newEmployeeGoals = newGoals.filter(newGoal => newGoal.employeeId === employee.id).map(newGoal => { return { topicId: newGoal.topic.topicId, topic: newGoal.topic.topic, isRemovable: true }; });
+      return { id: employee.id, name: employee.name, goalTopics: [...employee.goalTopics, ...newEmployeeGoals] };
+    });
+    allEmployees.push(...teamMembers);
+  }
+
+  console.log(allEmployees);
 
   const fetchEmployeesSucceeded = fetchPersonalGoalsSucceeded && fetchMyTeamSucceeded;
   const fetchEmployeesFailed = fetchPersonalGoalsFailed || fetchMyTeamFailed;
@@ -86,10 +98,11 @@ const DragAndDropComponent = () => {
                   {loadingTopics && <LoadingIndicator text="Loading topics..." />}
                   {fetchTopicsSucceeded && filteredTopics.map(topic => <Topic key={topic.id} topic={topic} />)}
                   {fetchTopicsFailed && <Text>Failed to load topics</Text>}
-                  <IconButton as="button" size="medium">
+                  <IconButton className={s.floatingButton} as="button" size="medium" onClick={() => setIsOpenedCreateTopicModal(true)}>
                     <Add />
                   </IconButton>
                 </Box>
+                <CreateTopicModal isModalOpened={isOpenedCreateTopicModal} onCloseModal={() => setIsOpenedCreateTopicModal(false)} />
               </Card.Content>
             </Card>
           </Col>
@@ -97,7 +110,7 @@ const DragAndDropComponent = () => {
             <Card stretchVertically>
               <Card.Header
                 title="Employees"
-                suffix={<TeamPlaceholder />}
+                // suffix={<TeamPlaceholder />}
               />
               <Card.Divider />
               <Card.Content>

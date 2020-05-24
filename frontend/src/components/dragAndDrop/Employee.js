@@ -4,16 +4,17 @@ import {
   Avatar, Cell, Divider, Layout, Tag, Text,
 } from 'wix-style-react';
 import { useDispatch } from 'react-redux';
-import { assignGoal } from '../../../state/actions/goals';
-import s from './styles/Employee.scss';
-import DraggableTypes from './DraggableTypes';
+import { assignGoal, removeGoal } from '../../state/actions/assignGoals';
+import s from './styles.scss';
+import { TOPIC } from '../../constants/DraggableTypes';
 
 const Employee = ({ employee }) => {
   const dispatch = useDispatch();
   const handleAssignGoal = topic => dispatch(assignGoal({ employeeId: employee.id, topic }));
+  const handleRemoveGoal = topicId => dispatch(removeGoal({ employeeId: employee.id, topicId }));
 
   const [{ canDrop, isOver }, drop] = useDrop({
-    accept: DraggableTypes.TOPIC,
+    accept: TOPIC,
     drop: item => {
       if (!employee.goalTopics.some(goalTopic => goalTopic.topicId === item.topic.id))
         handleAssignGoal({ topicId: item.topic.id, topic: item.topic.subject });
@@ -55,7 +56,7 @@ const Employee = ({ employee }) => {
           <Cell span={12}>
             <div className={s.tagContainer}>
               {employee.goalTopics.map(goalTopic => (
-                <Tag id={goalTopic.topicId} key={goalTopic.topicId} removable={false}>
+                <Tag id={goalTopic.topicId} key={goalTopic.topicId} theme="dark" removable={!!goalTopic.isRemovable} onRemove={() => handleRemoveGoal(goalTopic.topicId)}>
                   {goalTopic.topic}
                 </Tag>
               ))}

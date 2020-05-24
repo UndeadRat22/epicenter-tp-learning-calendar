@@ -8,7 +8,8 @@ import topic from './topic';
 import allTopics from './allTopics';
 import myTeam from './myTeam';
 import personalGoals from './personalGoals';
+import assignGoals from './assignGoals';
 
 export default combineReducers({
-  auth, invite, register, changePassword, topicsTree, topic, allTopics, myTeam, personalGoals,
+  auth, invite, register, changePassword, topicsTree, topic, allTopics, myTeam, personalGoals, assignGoals,
 });
