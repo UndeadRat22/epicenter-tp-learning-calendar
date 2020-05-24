@@ -1,0 +1,55 @@
+.employee {
+  border: 1px solid #7a92a5;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 12px;
+  background-color: white;
+  transition: background-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.selfEmployee {
+  border: 2px solid #7a92a5 !important;
+}
+
+.availableEmployee {
+  @extend .employee;
+  background-color: rgb(245, 245, 245);
+}
+
+.activeEmployee {
+  @extend .employee;
+  background-color: rgb(230, 230, 230);
+}
+
+.tagContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.topicTag {
+  margin-right: 2px;
+  margin-bottom: 2px;
+}
+
+.topic {
+  border: 1px solid #7a92a5;
+  border-radius: 8px;
+  background-color: white;
+  padding: 15px;
+  margin-bottom: 12px;
+  transition: opacity 0.2s ease;
+  cursor: move;
+}
+
+.draggedTopic {
+  @extend .topic;
+  opacity: 0.4;
+}
+
+.floatingButton {
+  position: absolute;
+  bottom: 40px;
+	right: 40px;
+}

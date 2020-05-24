@@ -8,3 +8,5 @@ export * from './allTopics';
 export * from './personalGoals';
 export * from './limits';
 export * from './learningDays';
+export * from './myTeam';
+export * from './assignGoals';
