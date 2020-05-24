@@ -12,6 +12,7 @@ const TopicsTableToolbar = ({ activeSearch, onActiveSearch, onOpenModal }) => {
           <div style={{ width: 400 }}>
             <Search
               value={activeSearch}
+              clearButton={false}
               onChange={e => onActiveSearch(e.target.value)}
             />
           </div>

@@ -92,7 +92,7 @@ const EditTopicForm = ({ onEdit, topic }) => {
               as="button"
               onClick={() => handleEditBtn()}
             >
-              Edit
+              Confirm
             </Button>
           </Box>
         </Col>

@@ -12,20 +12,18 @@ const EmployeesTab = ({ topic }) => {
   return (
     <Layout cols={1}>
       <Text skin="premium" size="medium" weight="normal">
-        Employees have already learned this topic:
+        Employees that have already learned this topic:
       </Text>
       <Divider />
-      {getEmployees().length === 0
-        ? <Text>There is no employees</Text>
-        : getEmployees().map(item => (
-          <Box align="left" verticalAlign="middle">
-            <Avatar name={item.fullName} />
-            <Text size="medium">
-              {' '}
-              {item.fullName}
-            </Text>
-          </Box>
-        ))}
+      {getEmployees().map(item => (
+        <Box align="left" verticalAlign="middle">
+          <Avatar name={item.fullName} />
+          <Text size="medium">
+            {' '}
+            {item.fullName}
+          </Text>
+        </Box>
+      ))}
     </Layout>
   );
 };
