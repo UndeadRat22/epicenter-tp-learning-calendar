@@ -3,6 +3,10 @@ import makeSyncActionCreator from '../syncActionCreator';
 import {
   FETCH_LEARNING_DAYS_START, FETCH_LEARNING_DAYS_SUCCESS, FETCH_LEARNING_DAYS_FAIL, START_LEARNING_DAY_START, START_LEARNING_DAY_SUCCESS, START_LEARNING_DAY_FAIL,
   START_LEARNING_DAY_SUSPEND,
+  CANCEL_LEARNING_DAY_START,
+  CANCEL_LEARNING_DAY_SUCCESS,
+  CANCEL_LEARNING_DAY_FAIL,
+  CANCEL_LEARNING_DAY_SUSPEND,
 } from './types/learningDays';
 import { getLocalIsoString } from '../../utils/dateParser';
 
@@ -14,6 +18,24 @@ const startLearningDayStart = makeSyncActionCreator(START_LEARNING_DAY_START);
 const startLearningDaySuccess = makeSyncActionCreator(START_LEARNING_DAY_SUCCESS);
 const startLearningDayFail = makeSyncActionCreator(START_LEARNING_DAY_FAIL);
 const suspendStartLearningDay = makeSyncActionCreator(START_LEARNING_DAY_SUSPEND);
+
+const cancelLearningDayStart = makeSyncActionCreator(CANCEL_LEARNING_DAY_START);
+const cancelLearningDaySuccess = makeSyncActionCreator(CANCEL_LEARNING_DAY_SUCCESS);
+const cancelLearningDayFail = makeSyncActionCreator(CANCEL_LEARNING_DAY_FAIL);
+const suspendCancelLearningDay = makeSyncActionCreator(CANCEL_LEARNING_DAY_SUSPEND);
+
+const cancelLearningDay = id => async dispatch => {
+  try {
+    dispatch(cancelLearningDayStart());
+
+    await new Promise((resolve, reject) => setTimeout(() => resolve(''), 2000));
+    // await Axios.delete(`learning-days/learning-day/${id}`);
+
+    dispatch(cancelLearningDaySuccess());
+  } catch (err) {
+    dispatch(cancelLearningDayFail());
+  }
+};
 
 const getLearningDays = () => async dispatch => {
   try {
@@ -45,6 +67,7 @@ const startLearningDay = date => async dispatch => {
       topicIds: [],
     };
 
+    // TODO: uncomment backend
     // const response = await Axios.post('learning-days/learning-day', learningDay);
     // const { id } = response.data;
     const response = await new Promise((resolve, reject) => setTimeout(() => resolve(''), 2000));
@@ -52,8 +75,11 @@ const startLearningDay = date => async dispatch => {
 
     dispatch(startLearningDaySuccess(id));
   } catch (err) {
+    console.log(err);
     dispatch(startLearningDayFail());
   }
 };
 
-export { getLearningDays, startLearningDay, suspendStartLearningDay };
+export {
+  getLearningDays, startLearningDay, suspendStartLearningDay, suspendCancelLearningDay, cancelLearningDay,
+};

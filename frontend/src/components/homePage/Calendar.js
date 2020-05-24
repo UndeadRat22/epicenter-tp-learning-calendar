@@ -6,11 +6,16 @@ import {
   CounterBadge, TextButton, Badge, IconButton,
 } from 'wix-style-react';
 import Minus from 'wix-ui-icons-common/Minus';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import CalendarToolbar from './CalendarToolbar';
 import CancelLearningDayModal from '../modals/CancelLearningDayModal';
 import LearningDay from './LearningDay';
-import { isSelfLearningDay, isTeamLearningDay } from '../../utils/learningDay';
+import { isSelfLearningDay, isTeamLearningDay, getSelfLearningDayFromDate } from '../../utils/learningDay';
+import { CANCEL_LEARNING_DAY_SUCCEEDED, CANCEL_LEARNING_DAY_FAILED, LOADING_CANCEL_LEARNING_DAY } from '../../constants/LearningDaysStatus';
+import { cancelLearningDay, suspendCancelLearningDay } from '../../state/actions';
+import ModalWrapper from '../modals/ModalWrapper';
+import ErrorNotification from '../ErrorNotification';
+import SuccessNotification from '../SuccessNotification';
 
 const localizer = momentLocalizer(moment);
 
@@ -33,10 +38,36 @@ const getDayProps = (date, selfLearningDays, teamLearningDays, userId) => {
 const Calendar = ({
   onLearningDayClick, isMonthlyView, selfLearningDays, teamLearningDays,
 }) => {
+  const status = useSelector(state => state.learningDays.cancelStatus);
+  const dispatch = useDispatch();
+
+  const learningDayCancelled = status === CANCEL_LEARNING_DAY_SUCCEEDED;
+  const cancelLearningDayFailed = status === CANCEL_LEARNING_DAY_FAILED;
+  const isLoading = status === LOADING_CANCEL_LEARNING_DAY;
+
+  const onCancelLearningDay = () => {
+    dispatch(cancelLearningDay(getSelfLearningDayFromDate(cancellableDate, selfLearningDays).id));
+  };
+
+  const onSuccessNotificationEnd = () => {
+    setIsCancelModalOpen(false);
+    dispatch(suspendCancelLearningDay());
+  };
+
+  const onErrorNotificationEnd = () => {
+    dispatch(suspendCancelLearningDay());
+  };
+
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [cancellableDate, setCancellableDate] = useState(null);
 
   const user = useSelector(state => state.auth.user);
+
+  const onMinusIconClick = date => {
+    setCancellableDate(date);
+    setIsCancelModalOpen(true);
+  };
 
   const switchToLearningDayView = ({ start }) => {
     if (isCancelModalOpen)
@@ -55,7 +86,7 @@ const Calendar = ({
       && (
       <IconButton
         as="button"
-        onClick={() => setIsCancelModalOpen(true)}
+        onClick={() => onMinusIconClick(date)}
         size="tiny"
         priority="secondary"
         skin="premium"
@@ -70,7 +101,23 @@ const Calendar = ({
   };
   return (
     <>
-      <CancelLearningDayModal isOpen={isCancelModalOpen} onClose={() => setIsCancelModalOpen(false)} />
+      {learningDayCancelled && (
+      <SuccessNotification text="Success" onClose={onSuccessNotificationEnd} />
+      )}
+      <ModalWrapper
+        onOk={onCancelLearningDay}
+        isOpen={isCancelModalOpen && !learningDayCancelled}
+        onClose={() => setIsCancelModalOpen(false)}
+        isLoading={isLoading}
+        title="Cancel Learning Day"
+        footerText="Once cancelled, cannot be undone"
+        text="Do you really want to cancel learning day together with all topics?"
+        alert
+      >
+        {cancelLearningDayFailed && (
+        <ErrorNotification text="Failed" onClose={onErrorNotificationEnd} />
+        )}
+      </ModalWrapper>
       <BigCalendar
         events={[]}
         dayPropGetter={date => getDayProps(date, selfLearningDays, teamLearningDays, user.id)}
