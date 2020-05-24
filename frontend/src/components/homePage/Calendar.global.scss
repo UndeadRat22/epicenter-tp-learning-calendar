@@ -5,6 +5,11 @@
     height: 18px !important;
 }
 
+.team-badge {
+    float: left;
+    margin-left: 4px;
+}
+
 .cursor:hover {
     cursor: pointer;
 }
@@ -14,15 +19,16 @@
 }
 
 .self-learning-day {
-    background-color: #c9d4ff;
+    background-color: #C9EEBC;
 }
 
 .team-learning-day {
-
+    background-color: #C9D4FF;
 }
 
 .self-and-team-learning-day {
-
+    background: linear-gradient(to bottom, #C9EEBC 50%, #C9D4FF 50%);
+    // background-color: #C9EEBC;
 }
 
 .icon-position {

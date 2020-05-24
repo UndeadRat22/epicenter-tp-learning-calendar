@@ -4,8 +4,8 @@ const isSelfLearningDay = (date, selfLearningDays) => {
   return selfLearningDays.some(day => areDatesEqual(date, fromISOStringToDate(day.date)));
 };
 
-const isTeamLearningDay = (date, teamLearningDays, userId) => {
-  return teamLearningDays.some(day => areDatesEqual(date, fromISOStringToDate(day.date)) && day.employeeId === userId);
+const isTeamLearningDay = (date, teamLearningDays) => {
+  return teamLearningDays.some(day => areDatesEqual(date, fromISOStringToDate(day.date)));
 };
 
 const getSelfLearningDayFromDate = (date, selfLearningDays) => {

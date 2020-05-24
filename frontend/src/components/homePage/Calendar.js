@@ -3,12 +3,11 @@ import { Calendar as BigCalendar, momentLocalizer, Views } from 'react-big-calen
 import moment from 'moment';
 import './Calendar.global.scss';
 import {
-  CounterBadge, TextButton, Badge, IconButton, SectionHelper, FloatingNotification,
+  CounterBadge, TextButton, Badge, IconButton, SectionHelper, FloatingNotification, Tooltip,
 } from 'wix-style-react';
 import Minus from 'wix-ui-icons-common/Minus';
 import { useSelector, useDispatch } from 'react-redux';
 import CalendarToolbar from './CalendarToolbar';
-import CancelLearningDayModal from '../modals/CancelLearningDayModal';
 import LearningDay from './LearningDay';
 import { isSelfLearningDay, isTeamLearningDay, getSelfLearningDayFromDate } from '../../utils/learningDay';
 import { CANCEL_LEARNING_DAY_SUCCEEDED, CANCEL_LEARNING_DAY_FAILED, LOADING_CANCEL_LEARNING_DAY } from '../../constants/LearningDaysStatus';
@@ -23,12 +22,12 @@ const VIEWS = {
   day: LearningDay,
 };
 
-const getDayProps = (date, selfLearningDays, teamLearningDays, userId) => {
+const getDayProps = (date, selfLearningDays, teamLearningDays) => {
   const selfLearningDay = isSelfLearningDay(date, selfLearningDays);
-  const teamLearningDay = isTeamLearningDay(date, teamLearningDays, userId);
+  const teamLearningDay = isTeamLearningDay(date, teamLearningDays);
 
   if (selfLearningDay && teamLearningDay)
-    return 'cursor self-and-team-learning-day';
+    return { className: 'cursor self-and-team-learning-day' };
 
   const className = `cursor ${selfLearningDay ? 'self-learning-day' : ''} ${teamLearningDay ? 'team-learning-day' : ''}`;
   return { className };
@@ -70,8 +69,6 @@ const Calendar = ({
   const [currentDate, setCurrentDate] = useState(new Date());
   const [cancellableDate, setCancellableDate] = useState(null);
 
-  const user = useSelector(state => state.auth.user);
-
   const onMinusIconClick = date => {
     setCancellableDate(date);
     setIsCancelModalOpen(true);
@@ -92,17 +89,41 @@ const Calendar = ({
       <span className="cursor">
         {isSelfLearningDay(date, selfLearningDays)
       && (
-      <IconButton
-        as="button"
-        onClick={() => onMinusIconClick(date)}
-        size="tiny"
-        priority="secondary"
-        skin="premium"
-        className="minus-icon icon-position"
-      >
-        <Minus className="minus-icon" />
-      </IconButton>
+      <>
+        <IconButton
+          as="button"
+          onClick={() => onMinusIconClick(date)}
+          size="tiny"
+          priority="secondary"
+          skin="premium"
+          className="minus-icon icon-position"
+        >
+          <Minus className="minus-icon" />
+        </IconButton>
+        <span className="team-badge">
+          <Badge
+            // don't remove empty onClick, cursor will not be shown
+            onClick={() => {}}
+            size="small"
+          >
+            PERSONAL
+          </Badge>
+        </span>
+      </>
       )}
+        {isTeamLearningDay(date, teamLearningDays) && (
+        <span className="team-badge">
+          <Tooltip content="Someone from your team has started this learning day!">
+            <Badge
+            // don't remove empty onClick, cursor will not be shown
+              onClick={() => {}}
+              size="small"
+            >
+              TEAM
+            </Badge>
+          </Tooltip>
+        </span>
+        )}
         <TextButton skin="dark" as="button" onClick={onDrillDown}>{label}</TextButton>
       </span>
     );
@@ -121,7 +142,7 @@ const Calendar = ({
       />
       <BigCalendar
         events={[]}
-        dayPropGetter={date => getDayProps(date, selfLearningDays, teamLearningDays, user.id)}
+        dayPropGetter={date => getDayProps(date, selfLearningDays, teamLearningDays)}
         selectable
         localizer={localizer}
         startAccessor="start"

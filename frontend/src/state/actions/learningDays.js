@@ -28,9 +28,7 @@ const cancelLearningDay = id => async dispatch => {
   try {
     dispatch(cancelLearningDayStart());
 
-    await new Promise((resolve, reject) => setTimeout(() => resolve(''), 2000));
-    // TODO: uncomment backend
-    // await Axios.delete(`learning-days/learning-day/${id}`);
+    await Axios.delete(`learning-days/learning-day/${id}`);
 
     dispatch(cancelLearningDaySuccess());
   } catch (err) {
@@ -68,11 +66,8 @@ const startLearningDay = date => async dispatch => {
       topicIds: [],
     };
 
-    // TODO: uncomment backend
-    // const response = await Axios.post('learning-days/learning-day', learningDay);
-    // const { id } = response.data;
-    const response = await new Promise((resolve, reject) => setTimeout(() => resolve(''), 2000));
-    const id = 'fake-id';
+    const response = await Axios.post('learning-days/learning-day', learningDay);
+    const { id } = response.data;
 
     dispatch(startLearningDaySuccess(id));
   } catch (err) {

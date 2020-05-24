@@ -46,9 +46,9 @@ const LearningDay = ({
         isOpen={isStartLearningDayModalOpen && !learningDayStarted}
         onClose={() => setIsStartLearningDayModalOpen(false)}
         isLoading={isLoading}
-        title="Start Learning Day"
+        title="Add Learning Day"
         footerText="You can cancel it at any point in the future"
-        text="Are you sure you want to start a learning day?"
+        text="Are you sure you want to add a learning day?"
       >
         {learningDayFailed && (
         <ErrorNotification text="Failed" onClose={onErrorNotificationEnd} />
@@ -61,7 +61,7 @@ const LearningDay = ({
         skin="standard"
         onClick={() => setIsStartLearningDayModalOpen(true)}
       >
-        Start Learning Day
+        Add Learning Day
       </Button>
     </div>
   );
