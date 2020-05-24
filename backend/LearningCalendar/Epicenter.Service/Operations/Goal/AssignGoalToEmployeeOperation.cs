@@ -21,10 +21,13 @@ namespace Epicenter.Service.Operations.Goal
             var existingGoals = await _personalGoalRepository
                 .QueryAsync(goal =>
                     goal.EmployeeId == request.EmployeeId && request.TopicIds.Contains(goal.TopicId));
+            
+            var nonCompletedGoal = existingGoals
+                .FirstOrDefault(goal => !goal.CompletionDate.HasValue);
 
-            if (existingGoals != null && existingGoals.Any())
+            if (nonCompletedGoal != null)
             {
-                throw new GoalAlreadyAssignedException(request.EmployeeId, existingGoals.First().TopicId);
+                throw new GoalAlreadyAssignedException(request.EmployeeId, nonCompletedGoal.TopicId);
             }
 
             var goals = request.TopicIds
