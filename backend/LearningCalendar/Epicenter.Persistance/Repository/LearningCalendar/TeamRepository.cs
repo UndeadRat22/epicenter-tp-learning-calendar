@@ -19,11 +19,19 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
             return await DbContext.Teams
                 .Include(team => team.Manager)
                     .ThenInclude(employee => employee.PersonalGoals)
+                .Include(team => team.Manager)
+                    .ThenInclude(employee => employee.LearningDays)
+                        .ThenInclude(day => day.LearningDayTopics)
+                            .ThenInclude(dayTopic => dayTopic.Topic)
                 .Include(team => team.Employees)
                     .ThenInclude(employee => employee.Identity)
                 .Include(team => team.Employees)
                     .ThenInclude(employee => employee.PersonalGoals)
                         .ThenInclude(goal => goal.Topic)
+                .Include(team => team.Employees)
+                    .ThenInclude(employee => employee.LearningDays)
+                        .ThenInclude(day => day.LearningDayTopics)
+                            .ThenInclude(dayTopic => dayTopic.Topic)
                 .SingleOrDefaultAsync(team => team.Manager.Id == id);
         }
 

@@ -2,7 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
+using Epicenter.Api.Model;
 using Epicenter.Api.Model.Team;
+using Epicenter.Service.Interface.Exceptions.Team;
 using Epicenter.Service.Interface.Operations.Team;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,12 +18,15 @@ namespace Epicenter.Api.Controllers
     {
         private readonly IGetTeamDetailsOperation _getTeamDetailsOperation;
         private readonly IGetSelfTeamsOperation _getSelfTeamOperation;
+        private readonly IGetSelfTeamTopicTreeOperation _getSelfTeamTopicTreeOperation;
 
         public TeamsController(IGetTeamDetailsOperation teamDetailsOperation,
-            IGetSelfTeamsOperation getSelfTeamOperation)
+            IGetSelfTeamsOperation getSelfTeamOperation, 
+            IGetSelfTeamTopicTreeOperation getSelfTeamTopicTreeOperation)
         {
             _getTeamDetailsOperation = teamDetailsOperation;
             _getSelfTeamOperation = getSelfTeamOperation;
+            _getSelfTeamTopicTreeOperation = getSelfTeamTopicTreeOperation;
         }
 
         [HttpGet]
@@ -44,6 +49,27 @@ namespace Epicenter.Api.Controllers
             var response = await _getSelfTeamOperation.Execute();
             var model = new TeamModel(response);
             
+            return Ok(model);
+        }
+
+        [HttpGet]
+        [Route("team/topics/tree/self")]
+        [ProducesResponseType(typeof(TeamTopicsTreeModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetSelfTeamTopicTree()
+        {
+            GetSelfTeamTopicTreeOperationResponse response;
+            try
+            {
+                response = await _getSelfTeamTopicTreeOperation.Execute();
+            }
+            catch (EmployeeDoesNotManageAnyTeamException ex)
+            {
+                return NotFound(new ErrorModel(ex.Message));
+            }
+
+            var model = new TeamTopicsTreeModel(response);
+
             return Ok(model);
         }
     }
