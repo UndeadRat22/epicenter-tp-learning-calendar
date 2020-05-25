@@ -19,7 +19,6 @@ const AllTopicsTab = () => {
   const [isOpenedEditTopicModal, setIsOpenedEditTopicModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
 
-
   const topics = useSelector(state => state.allTopics.topics);
   const topicsStatus = useSelector(state => state.allTopics.status);
 
@@ -107,7 +106,13 @@ const AllTopicsTab = () => {
       </Row>
       <CreateTopicModal isModalOpened={isOpenedCreateTopicModal} onCloseModal={() => setIsOpenedCreateTopicModal(false)} />
       {isOpenedEditTopicModal
-      && <EditTopicModal isModalOpened={isOpenedEditTopicModal} onCloseModal={() => setIsOpenedEditTopicModal(false)} topic={selectedRow} />}
+      && (
+      <EditTopicModal
+        isModalOpened={isOpenedEditTopicModal}
+        onCloseModal={() => setIsOpenedEditTopicModal(false)}
+        topic={selectedRow}
+      />
+      )}
       {isOpenedTopicModal
       && <TopicModal isModalOpened={isOpenedTopicModal} onCloseModal={() => setIsOpenedTopicModal(false)} topic={selectedRow} />}
     </Container>
