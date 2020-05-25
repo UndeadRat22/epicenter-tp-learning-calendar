@@ -15,6 +15,8 @@ namespace Epicenter.Domain.Entity.LearningCalendar
         public List<Topic> SubTopics { get; set; }
         public List<Goal> Goals { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
 
         public bool HasParent => ParentTopicId.HasValue;
     }

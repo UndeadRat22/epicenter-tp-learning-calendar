@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Epicenter.Persistence.Interface.Repository.LearningCalendar;
 using Epicenter.Service.Interface.Exceptions.Topic;
 using Epicenter.Service.Interface.Operations.Topic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Epicenter.Service.Operations.Topic
 {
@@ -47,7 +48,24 @@ namespace Epicenter.Service.Operations.Topic
             topic.Description = request.NewTopic.Description;
             topic.Subject = request.NewTopic.Subject;
 
-            await _topicRepository.UpdateAsync(topic);
+            try
+            {
+                await _topicRepository.UpdateAsync(topic);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                //optimistic locking
+                return new UpdateTopicOperationResponse
+                {
+                    UpdatedTopic = new UpdateTopicOperationResponse.Topic
+                    {
+                        Id = topic.Id,
+                        ParentTopicId = topic.ParentTopicId,
+                        Subject = topic.Subject,
+                        Description = topic.Description
+                    }
+                };
+            }
 
             return new UpdateTopicOperationResponse();
         }
