@@ -3,6 +3,16 @@ import { Text, StatusIndicator } from 'wix-style-react';
 import s from './LimitsCard.scss';
 
 const LimitsCard = ({ assignedLimit, remainingLimit, isLoading }) => {
+  let remainingDaysPerQuarterClassName;
+  if (!isLoading) {
+    if (remainingLimit.daysPerQuarter === 0)
+      remainingDaysPerQuarterClassName = s.rightRedText;
+    else if (remainingLimit.daysPerQuarter === 1)
+      remainingDaysPerQuarterClassName = s.rightYellowText;
+    else
+      remainingDaysPerQuarterClassName = s.rightLimitText;
+  }
+
   return (
     <div>
       <div style={{ marginBottom: 6, textAlign: 'left' }}>
@@ -25,7 +35,7 @@ const LimitsCard = ({ assignedLimit, remainingLimit, isLoading }) => {
         {isLoading ? <StatusIndicator className={s.rightText} status="loading" message="Loading limits" />
           : (
             <>
-              <span className={remainingLimit.daysPerQuarter === 0 ? s.rightRedText : s.rightLimitText}>
+              <span className={remainingDaysPerQuarterClassName}>
                 {remainingLimit.daysPerQuarter}
               </span>
               <span className={s.rightText}>

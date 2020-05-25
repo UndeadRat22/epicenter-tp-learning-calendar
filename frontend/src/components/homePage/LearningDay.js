@@ -1,68 +1,22 @@
 import React, { useState } from 'react';
 import * as dates from 'date-arithmetic';
-import { Button } from 'wix-style-react';
-import Add from 'wix-ui-icons-common/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import { startLearningDay, suspendStartLearningDay } from '../../state/actions/learningDays';
 import { getOnlyLocalDate } from '../../utils/dateParser';
-import { START_LEARNING_DAY_SUCCEEDED, START_LEARNING_DAY_FAILED, LOADING_START_LEARNING_DAY } from '../../constants/LearningDaysStatus';
-import ModalWrapper from '../modals/ModalWrapper';
-import { useToast } from '../../ToastContainer';
+import AddLearningDayButton from './AddLearningDayButton';
+import { isSelfLearningDay } from '../../utils/learningDay';
+import { suspendStartLearningDay, getLearningDays, getLimits } from '../../state/actions';
 
 const LearningDay = ({
   date, accessors, allDayAccessors, dayPropGetter, drillDownView, getNow, onView, onSelectSlot, onNavigate, events,
 }) => {
-  const status = useSelector(state => state.learningDays.startStatus);
   const dispatch = useDispatch();
+  const { selfLearningDays, teamLearningDays, status: learningDaysStatus } = useSelector(state => state.learningDays);
+  const { assignedLimit, remainingLimit, status: limitsStatus } = useSelector(state => state.limits);
 
-  const isLoading = status === LOADING_START_LEARNING_DAY;
+  if (!isSelfLearningDay(date, selfLearningDays))
+    return <AddLearningDayButton date={date} disabled={remainingLimit.daysPerQuarter === 0} />;
 
-  const [isStartLearningDayModalOpen, setIsStartLearningDayModalOpen] = useState(false);
-
-  const onSuccess = () => {
-    setIsStartLearningDayModalOpen(false);
-    dispatch(suspendStartLearningDay());
-  };
-
-  const onError = () => {
-    dispatch(suspendStartLearningDay());
-  };
-
-  useToast({
-    successText: 'Created Learning Day',
-    errorText: 'Failed to Create Learning Day',
-    shouldShowSuccessWhen: status === START_LEARNING_DAY_SUCCEEDED,
-    shouldShowErrorWhen: status === START_LEARNING_DAY_FAILED,
-    onSuccess,
-    onError,
-  });
-
-  const onStartLearningDay = () => {
-    dispatch(startLearningDay(date));
-  };
-
-  return (
-    <div style={{ margin: '0 auto' }}>
-      <ModalWrapper
-        onOk={onStartLearningDay}
-        isOpen={isStartLearningDayModalOpen}
-        onClose={() => setIsStartLearningDayModalOpen(false)}
-        isLoading={isLoading}
-        title="Add Learning Day"
-        footerText="You can cancel it at any point in the future"
-        text="Are you sure you want to add a learning day?"
-      />
-      <Button
-        size="small"
-        priority="secondary"
-        prefixIcon={<Add />}
-        skin="standard"
-        onClick={() => setIsStartLearningDayModalOpen(true)}
-      >
-        Add Learning Day
-      </Button>
-    </div>
-  );
+  return null;
 };
 
 LearningDay.navigate = (date, action) => {

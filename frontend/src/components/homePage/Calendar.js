@@ -11,9 +11,10 @@ import CalendarToolbar from './CalendarToolbar';
 import LearningDay from './LearningDay';
 import { isSelfLearningDay, isTeamLearningDay, getSelfLearningDayFromDate } from '../../utils/learningDay';
 import { CANCEL_LEARNING_DAY_SUCCEEDED, CANCEL_LEARNING_DAY_FAILED, LOADING_CANCEL_LEARNING_DAY } from '../../constants/LearningDaysStatus';
-import { cancelLearningDay, suspendCancelLearningDay } from '../../state/actions';
+import {
+  cancelLearningDay, suspendCancelLearningDay, getLimits, getPersonalGoals, getLearningDays,
+} from '../../state/actions';
 import ModalWrapper from '../modals/ModalWrapper';
-import { useToast } from '../../ToastContainer';
 
 const localizer = momentLocalizer(moment);
 
@@ -41,24 +42,6 @@ const Calendar = ({
 
   const isLoading = status === LOADING_CANCEL_LEARNING_DAY;
 
-  const onSuccess = () => {
-    setIsCancelModalOpen(false);
-    dispatch(suspendCancelLearningDay());
-  };
-
-  const onError = () => {
-    dispatch(suspendCancelLearningDay());
-  };
-
-  useToast({
-    successText: 'Successfully cancelled Learning Day',
-    errorText: 'Failed to Cancel Learning Day',
-    shouldShowSuccessWhen: status === CANCEL_LEARNING_DAY_SUCCEEDED,
-    shouldShowErrorWhen: status === CANCEL_LEARNING_DAY_FAILED,
-    onSuccess,
-    onError,
-  });
-
   const onCancelLearningDay = () => {
     dispatch(cancelLearningDay(getSelfLearningDayFromDate(cancellableDate, selfLearningDays).id));
   };
@@ -66,6 +49,11 @@ const Calendar = ({
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [cancellableDate, setCancellableDate] = useState(null);
+
+  if (status === CANCEL_LEARNING_DAY_SUCCEEDED) {
+    dispatch(suspendCancelLearningDay());
+    setIsCancelModalOpen(false);
+  }
 
   const onMinusIconClick = date => {
     setCancellableDate(date);

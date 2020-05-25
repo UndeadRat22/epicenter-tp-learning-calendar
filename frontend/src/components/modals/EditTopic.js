@@ -28,7 +28,7 @@ const EditTopicModal = ({ isModalOpened, onCloseModal, topic }) => {
   }, [dispatch]);
 
   const onEditTopic = editedTopic => {
-    dispatch(editTopic(editedTopic));
+    dispatch(editTopic(topic, editedTopic));
   };
 
   if (editTopicStatus === EDIT_TOPIC_SUCCEEDED)

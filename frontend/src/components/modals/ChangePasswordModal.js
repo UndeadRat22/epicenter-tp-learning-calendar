@@ -7,7 +7,6 @@ import { changePassword, suspendChangePassword, logout } from '../../state/actio
 import ChangePasswordForm from '../auth/ChangePasswordForm';
 import { MODAL_MAX_HEIGHT } from '../../constants/Styling';
 import { LOADING_CHANGE_PASSWORD, CHANGE_PASSWORD_FAILED, CHANGE_PASSWORD_SUCCEEDED } from '../../constants/ChangePasswordStatus';
-import { useToast } from '../../ToastContainer';
 
 const ChangePasswordModal = ({ isModalOpened, onCloseModal }) => {
   const dispatch = useDispatch();
@@ -18,24 +17,6 @@ const ChangePasswordModal = ({ isModalOpened, onCloseModal }) => {
   const changeCurrentPassword = passwords => {
     dispatch(changePassword(passwords));
   };
-
-  const onSuccess = () => {
-    dispatch(suspendChangePassword());
-    dispatch(logout());
-  };
-
-  const onError = () => {
-    dispatch(suspendChangePassword());
-  };
-
-  useToast({
-    successText: 'Password changed',
-    errorText: 'Failed to change password',
-    shouldShowSuccessWhen: changePasswordStatus === CHANGE_PASSWORD_SUCCEEDED,
-    shouldShowErrorWhen: changePasswordStatus === CHANGE_PASSWORD_FAILED,
-    onSuccess,
-    onError,
-  });
 
   return (
     <Layout cols={1}>

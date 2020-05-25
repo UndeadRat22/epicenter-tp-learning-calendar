@@ -9,6 +9,9 @@ import {
   CANCEL_LEARNING_DAY_SUSPEND,
 } from './types/learningDays';
 import { getLocalIsoString } from '../../utils/dateParser';
+import { showSuccessToast, showErrorToast } from './toast';
+import { getLimits } from './limits';
+import { getPersonalGoals } from './personalGoals';
 
 const fetchLearningDaysStart = makeSyncActionCreator(FETCH_LEARNING_DAYS_START);
 const fetchLearningDaysSuccess = makeSyncActionCreator(FETCH_LEARNING_DAYS_SUCCESS);
@@ -31,8 +34,15 @@ const cancelLearningDay = id => async dispatch => {
     await Axios.delete(`learning-days/learning-day/${id}`);
 
     dispatch(cancelLearningDaySuccess());
+    dispatch(showSuccessToast('Successfully cancelled learning lay'));
+    dispatch(getLimits());
+    dispatch(getPersonalGoals());
+    dispatch(getLearningDays());
   } catch (err) {
+    dispatch(showErrorToast('Failed to cancel learning day'));
     dispatch(cancelLearningDayFail());
+  } finally {
+    dispatch(suspendCancelLearningDay());
   }
 };
 
@@ -70,9 +80,15 @@ const startLearningDay = date => async dispatch => {
     const { id } = response.data;
 
     dispatch(startLearningDaySuccess(id));
+    dispatch(showSuccessToast('Added Learning Day'));
+    dispatch(getLearningDays());
+    dispatch(getLimits());
   } catch (err) {
+    dispatch(showErrorToast('Failed to add learning day'));
     console.log(err);
     dispatch(startLearningDayFail());
+  } finally {
+    dispatch(suspendStartLearningDay());
   }
 };
 
