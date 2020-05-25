@@ -21,6 +21,10 @@ const editTopic = ({
     dispatch(editTopicSuccess());
     dispatch(showSuccessToast('Topic edited'));
   } catch (err) {
+    // TODO: optimistic locking
+    // if (err.response.status === 409) {
+
+    // }
     dispatch(showErrorToast('Failed to edit topic'));
     console.log(err);
     dispatch(editTopicFail());
