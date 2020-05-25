@@ -1,15 +1,14 @@
-/* eslint-disable no-return-assign */
-/* eslint-disable react/require-default-props */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/static-property-placement */
+/* eslint-disable */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import X from 'wix-ui-icons-common/X';
 import Check from 'wix-ui-icons-common/Check';
 
-import { Input, Tooltip, IconButton } from 'wix-style-react';
+import {
+  Input, Tooltip, IconButton, Dropdown,
+} from 'wix-style-react';
 import styles from './EditableSelector.scss';
+import SelectTopicForm from '../topicsPage/SelectTopicForm';
 
 class EditableRow extends Component {
   static propTypes = {
@@ -26,7 +25,7 @@ class EditableRow extends Component {
   }
 
   componentDidMount() {
-    this.input.focus();
+    // this.input.focus();
   }
 
   onApprove = () => {
@@ -42,19 +41,7 @@ class EditableRow extends Component {
     return (
       <div data-hook={dataHook} className={styles.editableRowContainer}>
         <div className={styles.editableRowInputWrap}>
-          <Input
-            ref={input => (this.input = input)}
-            className={styles.editableRowInput}
-            dataHook="edit-row-input"
-            value={this.state.newOption}
-            onChange={event => this.setState({ newOption: event.target.value })}
-            onEnterPressed={() => this.onApprove()}
-            onEscapePressed={() => this.onCancel()}
-            size="normal"
-            textOverflow="clip"
-            theme="normal"
-            width="initial"
-          />
+        <SelectTopicForm />
         </div>
 
         <div className={styles.editableRowButtons}>

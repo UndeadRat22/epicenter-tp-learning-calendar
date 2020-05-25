@@ -7,7 +7,7 @@ import {
 import { useSelector } from 'react-redux';
 
 const SelectTopicForm = ({
-  onSelectTopic, parentTopic = '', onParentTopicSubjectChange, onSearchAndDropDownMissmatch,
+  onSelectTopic, parentTopic = '', onParentTopicSubjectChange, onSearchAndDropDownMissmatch, title = '',
 }) => {
   const [value, setValue] = useState(parentTopic);
 
@@ -34,7 +34,7 @@ const SelectTopicForm = ({
   };
 
   return (
-    <FormField label="Select parent topic">
+    <FormField label={title}>
       <AutoComplete
         options={getOptions()}
         value={value}

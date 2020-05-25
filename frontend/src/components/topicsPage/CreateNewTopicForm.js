@@ -57,7 +57,7 @@ const CreateNewTopicForm = ({ onCreate }) => {
               <Row>
                 <Col>
                   <Cell>
-                    <SelectTopicForm onSelectTopic={selectedTopic => setParentTopic(selectedTopic)} onParentTopicSubjectChange={topic => setParentTopicSubject(topic)} onSearchAndDropDownMissmatch={x => setIsSearchAndDropDownMissmatched(x)} />
+                    <SelectTopicForm title="Select parent topic" onSelectTopic={selectedTopic => setParentTopic(selectedTopic)} onParentTopicSubjectChange={topic => setParentTopicSubject(topic)} onSearchAndDropDownMissmatch={x => setIsSearchAndDropDownMissmatched(x)} />
                   </Cell>
                 </Col>
               </Row>
