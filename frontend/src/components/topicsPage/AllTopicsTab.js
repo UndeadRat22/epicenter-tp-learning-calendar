@@ -93,7 +93,7 @@ const AllTopicsTab = () => {
             {!getFilteredData().length && (
             <Table.EmptyState
               subtitle={(
-                isLoading ? <Loader size="tiny" /> : (
+                isLoading ? <div style={{ textAlign: 'center' }}><Loader size="large" /></div> : (
                   <Text>
                     {'There are no search results matching '}
                     <Text weight="normal">{`"${activeSearch}"`}</Text>
