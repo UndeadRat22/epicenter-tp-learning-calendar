@@ -13,7 +13,8 @@ namespace Epicenter.Api.Model.Topic
                 .Select(topic => new Topic
                 {
                     Id = topic.Id,
-                    Subject = topic.Subject
+                    Subject = topic.Subject,
+                    Description = topic.Description
                 }).ToList();
         }
         public List<Topic> Topics { get; set; }
@@ -21,6 +22,7 @@ namespace Epicenter.Api.Model.Topic
         {
             public Guid Id { get; set; }
             public string Subject { get; set; }
+            public string Description { get; set; }
         }
     }
 }
