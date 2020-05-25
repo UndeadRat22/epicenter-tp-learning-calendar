@@ -19,7 +19,7 @@ namespace Epicenter.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Epicenter.Domain.Entity.Authentication.Invite", b =>
+            modelBuilder.Entity("Epicenter.Domain.Entity.Infrastructure.Authentication.Invite", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -55,6 +55,33 @@ namespace Epicenter.Persistence.Migrations
                     b.ToTable("Invites");
                 });
 
+            modelBuilder.Entity("Epicenter.Domain.Entity.Infrastructure.Logging.Log", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Event")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Logs");
+                });
+
             modelBuilder.Entity("Epicenter.Domain.Entity.LearningCalendar.Employee", b =>
                 {
                     b.Property<Guid>("Id")
@@ -81,6 +108,9 @@ namespace Epicenter.Persistence.Migrations
                     b.Property<Guid>("LimitId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ManagedTeamId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
@@ -94,6 +124,10 @@ namespace Epicenter.Persistence.Migrations
                     b.HasIndex("ImageId");
 
                     b.HasIndex("LimitId");
+
+                    b.HasIndex("ManagedTeamId")
+                        .IsUnique()
+                        .HasFilter("[ManagedTeamId] IS NOT NULL");
 
                     b.HasIndex("RoleId");
 
@@ -218,12 +252,7 @@ namespace Epicenter.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ManagerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ManagerId");
 
                     b.ToTable("Teams");
                 });
@@ -480,13 +509,20 @@ namespace Epicenter.Persistence.Migrations
                     b.HasDiscriminator().HasValue("PersonalGoal");
                 });
 
-            modelBuilder.Entity("Epicenter.Domain.Entity.Authentication.Invite", b =>
+            modelBuilder.Entity("Epicenter.Domain.Entity.Infrastructure.Authentication.Invite", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "InvitationFrom")
                         .WithMany()
                         .HasForeignKey("InvitationFromId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Epicenter.Domain.Entity.Infrastructure.Logging.Log", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Epicenter.Domain.Entity.LearningCalendar.Employee", b =>
@@ -508,6 +544,10 @@ namespace Epicenter.Persistence.Migrations
                         .HasForeignKey("LimitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Epicenter.Domain.Entity.LearningCalendar.Team", "ManagedTeam")
+                        .WithOne("Manager")
+                        .HasForeignKey("Epicenter.Domain.Entity.LearningCalendar.Employee", "ManagedTeamId");
 
                     b.HasOne("Epicenter.Domain.Entity.LearningCalendar.Role", "Role")
                         .WithMany()
@@ -549,15 +589,6 @@ namespace Epicenter.Persistence.Migrations
                     b.HasOne("Epicenter.Domain.Entity.LearningCalendar.Topic", "Topic")
                         .WithMany()
                         .HasForeignKey("TopicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Epicenter.Domain.Entity.LearningCalendar.Team", b =>
-                {
-                    b.HasOne("Epicenter.Domain.Entity.LearningCalendar.Employee", "Manager")
-                        .WithMany()
-                        .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -3,7 +3,7 @@ using Epicenter.Persistence.Repository.Generic;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Epicenter.IoC
+namespace Epicenter.Infrastructure.IoC
 {
     public static class ServiceCollectionExtensions
     {
@@ -11,11 +11,6 @@ namespace Epicenter.IoC
             where T : class
         {
             return services.AddTransient<IRepository<T>, Repository<T>>();
-        }
-
-        public static IServiceCollection RegisterComponents(this IServiceCollection services)
-        {
-            return IoCRegistry.RegisterComponents(services);
         }
 
         public static IServiceCollection RegisterDbContext(this IServiceCollection services, IConfiguration configuration)

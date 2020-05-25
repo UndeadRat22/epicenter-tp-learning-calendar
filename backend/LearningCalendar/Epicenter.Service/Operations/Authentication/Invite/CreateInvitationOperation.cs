@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Persistence.Interface.Repository.Authentication;
 using Epicenter.Persistence.Interface.Repository.Generic;
-using Epicenter.Persistence.Interface.Repository.LearningCalendar;
 using Epicenter.Service.Context.Interface.Authorization;
 using Epicenter.Service.Interface.Exceptions.Authentication;
 using Epicenter.Service.Interface.Operations.Authentication.Invite;
@@ -12,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Epicenter.Service.Operations.Authentication.Invite
 {
-    public class CreateInvitationOperation : ICreateInvitationOperation
+    public class CreateInvitationOperation : Operation, ICreateInvitationOperation
     {
         private readonly IRepository<IdentityUser> _userRepository;
         private readonly IEmailService _emailService;
@@ -37,7 +36,7 @@ namespace Epicenter.Service.Operations.Authentication.Invite
                 throw new EmailAlreadyUseException();
             }
 
-            var invite = new Domain.Entity.Authentication.Invite
+            var invite = new Domain.Entity.Infrastructure.Authentication.Invite
             {
                 Id = Guid.NewGuid(),
                 InvitationTo = request.Email,

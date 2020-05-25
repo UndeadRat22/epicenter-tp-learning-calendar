@@ -5,7 +5,7 @@ using Epicenter.Service.Interface.Operations.Goal;
 
 namespace Epicenter.Service.Operations.Goal
 {
-    public class GetEmployeeGoalsOperation : IGetEmployeeGoalsOperation
+    public class GetEmployeeGoalsOperation : Operation, IGetEmployeeGoalsOperation
     {
         private readonly IPersonalGoalRepository _personalGoalRepository;
 
@@ -23,7 +23,12 @@ namespace Epicenter.Service.Operations.Goal
                 {
                     Id = personalGoal.Id,
                     CompletionDate = personalGoal.CompletionDate,
-                    TopicId = personalGoal.TopicId
+                    Topic = new GetEmployeeGoalsOperationResponse.Topic
+                    {
+                        Id = personalGoal.Topic.Id,
+                        Subject = personalGoal.Topic.Subject,
+                        Description = personalGoal.Topic.Description,
+                    }
                 }).ToList()
             };
         }

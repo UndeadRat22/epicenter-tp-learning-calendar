@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Persistence.Context;
@@ -36,6 +38,13 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                     .Include(employee => employee.Limit)
                     .SingleOrDefaultAsync(employee => employee.Id == employeeId))
                 .Limit;
+        }
+
+        public async Task<Limit> GetById(Guid id)
+        {
+            return await DbContext.Limits
+                .Include(limit => limit.Employees)
+                .SingleOrDefaultAsync(limit => limit.Id == id);
         }
     }
 }

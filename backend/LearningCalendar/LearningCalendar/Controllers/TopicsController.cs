@@ -6,6 +6,7 @@ using Epicenter.Api.Model;
 using Epicenter.Api.Model.Topic;
 using Epicenter.Service.Interface.Exceptions.Topic;
 using Epicenter.Service.Interface.Operations.Topic;
+using Epicenter.Service.Interface.Operations.Topic.Employee;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,21 +19,30 @@ namespace Epicenter.Api.Controllers
     {
         private readonly IGetAllTopicsOperation _getAllTopicsOperation;
         private readonly ICreateTopicOperation _createTopicOperation;
+        private readonly IUpdateTopicOperation _updateTopicOperation;
         private readonly ILearnTopicOperation _learnTopicOperation;
         private readonly IGetTopicTreeOperation _getTopicTreeOperation;
         private readonly IGetTopicDetailsOperation _getTopicDetailsOperation;
+        private readonly IGetEmployeeTopicTreeOperation _getEmployeeTopicTreeOperation;
+        private readonly IGetPersonalTopicTreeOperation _getPersonalTopicTreeOperation;
 
         public TopicsController(IGetAllTopicsOperation allTopicsOperation, 
             ICreateTopicOperation topicOperation, 
             ILearnTopicOperation learnTopicOperation, 
             IGetTopicTreeOperation topicTreeOperation, 
-            IGetTopicDetailsOperation getTopicDetailsOperation)
+            IGetTopicDetailsOperation getTopicDetailsOperation, 
+            IGetEmployeeTopicTreeOperation getEmployeeTopicTreeOperation, 
+            IGetPersonalTopicTreeOperation getPersonalTopicTreeOperation,
+            IUpdateTopicOperation updateTopicOperation)
         {
             _getAllTopicsOperation = allTopicsOperation;
             _createTopicOperation = topicOperation;
             _learnTopicOperation = learnTopicOperation;
             _getTopicTreeOperation = topicTreeOperation;
             _getTopicDetailsOperation = getTopicDetailsOperation;
+            _getEmployeeTopicTreeOperation = getEmployeeTopicTreeOperation;
+            _getPersonalTopicTreeOperation = getPersonalTopicTreeOperation;
+            _updateTopicOperation = updateTopicOperation;
         }
 
         [HttpGet]
@@ -46,16 +56,46 @@ namespace Epicenter.Api.Controllers
 
         [HttpGet, Route("topic/{id}")]
         [ProducesResponseType(typeof(TopicModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Topic([Required]Guid id)
         {
             var request = new GetTopicDetailsOperationRequest
             {
                 TopicId = id
             };
-
-            var response = await _getTopicDetailsOperation.Execute(request);
-
+            GetTopicDetailsOperationResponse response;
+            try
+            {
+                response = await _getTopicDetailsOperation.Execute(request);
+            }
+            catch
+            {
+                return NotFound(new ErrorModel($"No topic '{id}' exists"));
+            }
             return Ok(new TopicModel(response));
+        }
+
+        [HttpGet, Route("employee/self")]
+        [ProducesResponseType(typeof(EmployeeTopicTree), (int) HttpStatusCode.OK)]
+        public async Task<IActionResult> PersonalTopicTree()
+        {
+            var response = await _getPersonalTopicTreeOperation.Execute();
+            
+            return Ok(new EmployeeTopicTree(response));
+        }
+
+        [HttpGet, Route("employee/{id}")]
+        [ProducesResponseType(typeof(EmployeeTopicTree), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> PersonalTopicTree([Required]Guid id)
+        {
+            var request = new GetEmployeeTopicTreeOperationRequest
+            {
+                EmployeeId = id
+            };
+
+            var response = await _getEmployeeTopicTreeOperation.Execute(request);
+
+            return Ok(new EmployeeTopicTree(response));
         }
 
         [HttpGet, Route("tree")]
@@ -80,7 +120,6 @@ namespace Epicenter.Api.Controllers
                 Description = model.Description,
                 Subject = model.Subject
             };
-
             try
             {
                  await _createTopicOperation.Execute(request);
@@ -93,6 +132,29 @@ namespace Epicenter.Api.Controllers
             return Ok();
         }
 
+        [HttpPut, Route("topic")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> CreateTopic(UpdateTopicModel model)
+        {
+            var updateRequest = new UpdateTopicOperationRequest
+            {
+                Id = model.TopicId,
+                ParentTopicId = model.ParentTopicId,
+                Description = model.Description,
+                Subject = model.Subject
+            };
+            try
+            {
+                await _updateTopicOperation.Execute(updateRequest);
+            }
+            catch (TopicAlreadyExistsException ex)
+            {
+                return BadRequest(new ErrorModel(ex.Message));
+            }
+
+            return Ok();
+        }
         [HttpPost]
         [Route("learn")]
         [ProducesResponseType((int)HttpStatusCode.OK)]

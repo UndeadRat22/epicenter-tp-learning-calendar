@@ -33,7 +33,7 @@ const CreateNewTopicForm = ({ onCreate }) => {
   });
 
   const handleCreateBtn = () => {
-    if (parentTopic !== '' && subject !== '' && description !== '') {
+    if (subject !== '') {
       const newTopic = {
         parentTopic,
         subject,
@@ -99,7 +99,7 @@ const CreateNewTopicForm = ({ onCreate }) => {
       </Row>
       {showErrorNotification && (
         <ErrorNotification
-          text="All fields must be filled!"
+          text="Subject cannot be empty!"
           onClose={() => setShowErrorNotification(false)}
         />
       )}

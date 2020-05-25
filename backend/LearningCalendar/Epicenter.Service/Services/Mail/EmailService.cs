@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Epicenter.Infrastructure.AOP.Attributes;
 using Epicenter.Infrastructure.Settings;
 using Epicenter.Service.Interface.Services.Mail;
 using Microsoft.Extensions.Options;
@@ -8,6 +9,7 @@ using SendGrid.Helpers.Mail;
 
 namespace Epicenter.Service.Services.Mail
 {
+    [AutoLog]
     public class EmailService : IEmailService
     {
         private const string NoReplyEmail = @"noreply@epicenter.com";

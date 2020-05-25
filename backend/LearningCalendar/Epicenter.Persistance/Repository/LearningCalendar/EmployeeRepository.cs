@@ -48,8 +48,13 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 .Include(employee => employee.Identity)
                 .Include(employee => employee.Limit)
                 .Include(employee => employee.LearningDays)
+                    .ThenInclude(day => day.LearningDayTopics)
+                        .ThenInclude(dayTopic => dayTopic.Topic)
                 .Include(employee => employee.PersonalGoals)
+                    .ThenInclude(goal => goal.Topic)
                 .Include(employee => employee.Team)
+                .Include(employee => employee.ManagedTeam)
+                    .ThenInclude(team => team.Employees)
                 .Where(employee => employee.Id == id)
                 .SingleOrDefaultAsync();
         }
@@ -59,7 +64,12 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
             return await DbContext.Employees
                 .Include(employee => employee.Identity)
                 .Include(employee => employee.Image)
+                .Include(employee => employee.PersonalGoals)
                 .Include(employee => employee.Team)
+                    .ThenInclude(team => team.Employees)
+                .Include(employee => employee.ManagedTeam)
+                    .ThenInclude(team => team.Employees)
+                .Include(employee => employee.LearningDays)
                 .Where(employee => employee.Identity.Email == email)
                 .SingleOrDefaultAsync();
         }

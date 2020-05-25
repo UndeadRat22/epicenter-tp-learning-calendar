@@ -3,40 +3,46 @@ import {
   Modal, MessageBoxFunctionalLayout, Layout, Loader,
 } from 'wix-style-react';
 import { useSelector, useDispatch } from 'react-redux';
-import { changePassword, suspendChangePassword } from '../../state/actions';
+import { changePassword, suspendChangePassword, logout } from '../../state/actions';
 import ChangePasswordForm from '../auth/ChangePasswordForm';
 import { MODAL_MAX_HEIGHT } from '../../constants/Styling';
 import { LOADING_CHANGE_PASSWORD, CHANGE_PASSWORD_FAILED, CHANGE_PASSWORD_SUCCEEDED } from '../../constants/ChangePasswordStatus';
-import { NOTIFICATION_AUTO_HIDE_TIMEOUT } from '../../constants/General';
-import SuccessNotification from '../SuccessNotification';
-import ErrorNotification from '../ErrorNotification';
+import { useToast } from '../../ToastContainer';
 
 const ChangePasswordModal = ({ isModalOpened, onCloseModal }) => {
   const dispatch = useDispatch();
   const changePasswordStatus = useSelector(state => state.changePassword.status);
 
-  const showNotificationSuccess = changePasswordStatus === CHANGE_PASSWORD_SUCCEEDED;
-  const showNotificationError = changePasswordStatus === CHANGE_PASSWORD_FAILED;
   const isLoading = changePasswordStatus === LOADING_CHANGE_PASSWORD;
-
-  if (changePasswordStatus === CHANGE_PASSWORD_SUCCEEDED)
-    setTimeout(() => { onCloseModalWrapper(); }, NOTIFICATION_AUTO_HIDE_TIMEOUT);
 
   const changeCurrentPassword = passwords => {
     dispatch(changePassword(passwords));
   };
 
-  const onCloseModalWrapper = () => {
+  const onSuccess = () => {
     dispatch(suspendChangePassword());
-    onCloseModal();
+    dispatch(logout());
   };
+
+  const onError = () => {
+    dispatch(suspendChangePassword());
+  };
+
+  useToast({
+    successText: 'Password changed',
+    errorText: 'Failed to change password',
+    shouldShowSuccessWhen: changePasswordStatus === CHANGE_PASSWORD_SUCCEEDED,
+    shouldShowErrorWhen: changePasswordStatus === CHANGE_PASSWORD_FAILED,
+    onSuccess,
+    onError,
+  });
 
   return (
     <Layout cols={1}>
       <Modal
         isOpen={isModalOpened}
         shouldCloseOnOverlayClick
-        onRequestClose={onCloseModalWrapper}
+        onRequestClose={onCloseModal}
       >
         <MessageBoxFunctionalLayout
           title="Change password"
@@ -46,12 +52,6 @@ const ChangePasswordModal = ({ isModalOpened, onCloseModal }) => {
           {isLoading && <Loader size="tiny" />}
           <ChangePasswordForm onChange={passwords => changeCurrentPassword(passwords)} />
         </MessageBoxFunctionalLayout>
-        {showNotificationSuccess && (
-        <SuccessNotification text="Password changed" />
-        )}
-        {showNotificationError && (
-        <ErrorNotification text="Old password is incorrect" />
-        )}
       </Modal>
     </Layout>
   );

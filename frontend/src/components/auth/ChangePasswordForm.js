@@ -10,13 +10,15 @@ import {
   Card,
   FormField,
 } from 'wix-style-react';
-import ErrorNotification from '../ErrorNotification';
+import { useDispatch } from 'react-redux';
+import { showErrorToast } from '../../state/actions/toast';
 
 const ChangePasswordForm = ({ onChange }) => {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmedPassword, setConfirmedPassword] = useState('');
-  const [showNotification, setShowNotification] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const listener = event => {
@@ -31,15 +33,18 @@ const ChangePasswordForm = ({ onChange }) => {
 
   const handleChangePasswordBtn = () => {
     if (oldPassword !== '' && newPassword !== '' && confirmedPassword !== '') {
-      if (confirmedPassword === newPassword) {
+      if (confirmedPassword === newPassword && confirmedPassword !== oldPassword) {
         const passwords = {
           oldPassword,
           newPassword,
         };
         onChange(passwords);
-      } else
-        setShowNotification(true);
-    }
+      } else if (confirmedPassword !== newPassword)
+        dispatch(showErrorToast('Passwords do not match'));
+      else if (confirmedPassword === newPassword && confirmedPassword === oldPassword)
+        dispatch(showErrorToast('Choose a new password'));
+    } else
+      dispatch(showErrorToast('Write something! :)'));
   };
 
   return (
@@ -103,12 +108,6 @@ const ChangePasswordForm = ({ onChange }) => {
           </Box>
         </Col>
       </Row>
-      {showNotification && (
-        <ErrorNotification
-          text="Passwords do not match!"
-          onClose={() => setShowNotification(false)}
-        />
-      )}
     </Container>
   );
 };

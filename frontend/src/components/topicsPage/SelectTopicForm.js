@@ -3,19 +3,12 @@ import {
   FormField,
   AutoComplete,
 } from 'wix-style-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllTopics } from '../../state/actions/allTopics';
+import { useSelector } from 'react-redux';
 
 const SelectTopicForm = ({ onSelectTopic, parentTopic = '' }) => {
   const [value, setValue] = useState(parentTopic);
 
   const topics = useSelector(state => state.allTopics.topics);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAllTopics());
-  }, []);
 
   const getOptions = () => {
     let reformattedArray = [];

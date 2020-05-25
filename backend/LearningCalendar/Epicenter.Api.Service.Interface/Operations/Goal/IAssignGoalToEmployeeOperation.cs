@@ -1,21 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Epicenter.Service.Interface.Operations.Goal
 {
     public interface IAssignGoalToEmployeeOperation
     {
-        Task<AssignGoalToEmployeeOperationResponse> Execute(AssignGoalToEmployeeOperationRequest request);
+        Task Execute(AssignGoalsToEmployeeOperationRequest request);
     }
 
-    public class AssignGoalToEmployeeOperationRequest
+    public class AssignGoalsToEmployeeOperationRequest
     {
         public Guid EmployeeId { get; set; }
-        public Guid TopicId { get; set; }
-    }
-
-    public class AssignGoalToEmployeeOperationResponse
-    {
-
+        public List<Guid> TopicIds { get; set; }
     }
 }

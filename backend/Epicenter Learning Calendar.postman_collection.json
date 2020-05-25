@@ -6,137 +6,6 @@
 	},
 	"item": [
 		{
-			"name": "Topic",
-			"item": [
-				{
-					"name": "GetTopic",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{bearer}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api-url}}/api/topics/topic/af3f4f6d-d8e9-48ba-d95c-08d7f5beea1f",
-							"host": [
-								"{{api-url}}"
-							],
-							"path": [
-								"api",
-								"topics",
-								"topic",
-								"af3f4f6d-d8e9-48ba-d95c-08d7f5beea1f"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GetTopicTree",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{bearer}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api-url}}/api/topics/tree",
-							"host": [
-								"{{api-url}}"
-							],
-							"path": [
-								"api",
-								"topics",
-								"tree"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GetAllTopics",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{bearer}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api-url}}/api/topics",
-							"host": [
-								"{{api-url}}"
-							],
-							"path": [
-								"api",
-								"topics"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "CreateTopic",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{bearer}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"parentTopic\": \"01de7400-5651-42b8-d95f-08d7f5beea1f\",\n\t\"subject\": \"urlib3\",\n\t\"description\": \"learn the technology\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api-url}}/api/topics/topic",
-							"host": [
-								"{{api-url}}"
-							],
-							"path": [
-								"api",
-								"topics",
-								"topic"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
 			"name": "Auth",
 			"item": [
 				{
@@ -163,13 +32,13 @@
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Email\": \"test@test.com\",\n    \"Password\": \"password\"\n}"
+							"raw": "{\n    \"Email\": \"1@e.com\",\n    \"Password\": \"password\"\n}"
 						},
 						"url": {
 							"raw": "{{api-url}}/api/auth/login",
@@ -284,6 +153,399 @@
 			"protocolProfileBehavior": {}
 		},
 		{
+			"name": "Topic",
+			"item": [
+				{
+					"name": "GetTopic",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/topics/topic/af3f4f6d-d8e9-48ba-d95c-08d7f5beea1f",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"topics",
+								"topic",
+								"af3f4f6d-d8e9-48ba-d95c-08d7f5beea1f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTopicTree",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/topics/tree",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"topics",
+								"tree"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllTopics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/topics",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"topics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateTopic",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"parentTopic\": null,\n\t\"subject\": \".NET2\",\n\t\"description\": \"learn the technology\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/topics/topic",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"topics",
+								"topic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Topic",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"parentTopicId\": \"55384beb-d016-43df-7b10-08d7fbee8d68\",\n\t\"topicId\": \"c94cb77c-09c6-48c0-7daa-08d7fe4316f2\",\n\t\"subject\": \"ASP net coreee\",\n\t\"description\": \"learn the technology\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/topics/topic",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"topics",
+								"topic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPersonalTopics",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/topics/employee/self",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"topics",
+								"employee",
+								"self"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetEmployeeTopics",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/topics/employee/af91cf85-d66b-4dfd-92be-08d7fbedddef",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"topics",
+								"employee",
+								"af91cf85-d66b-4dfd-92be-08d7fbedddef"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "LearningDay",
+			"item": [
+				{
+					"name": "Create Learning Day",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"date\": \"2020-05-23T11:02:51.499Z\",\r\n  \"comments\": \"string\",\r\n  \"topicIds\": [\r\n    \"63c3a1ff-07c4-4036-7da5-08d7fe4316f2\",\r\n    \"be3e2e3a-030e-4053-7da6-08d7fe4316f2\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/learning-days/learning-day",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"learning-days",
+								"learning-day"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Learning Days",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/learning-days",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"learning-days"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Learning Day",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"learningDayId\": \"3eeb2900-cdc2-49ec-90a8-08d7ff0912d0\",\r\n  \"comments\": \"string\",\r\n  \"date\": \"2020-05-23T11:01:44.393Z\",\r\n  \"learningDayTopics\": [\r\n    {\r\n      \"topicId\": \"63c3a1ff-07c4-4036-7da5-08d7fe4316f2\",\r\n      \"progressStatus\": 1\r\n    },\r\n    {\r\n      \"topicId\": \"be3e2e3a-030e-4053-7da6-08d7fe4316f2\",\r\n      \"progressStatus\": 0\r\n    },\r\n        {\r\n      \"topicId\": \"be3e2e3a-030e-4053-7da6-08d7fe4316f2\",\r\n      \"progressStatus\": 0\r\n    },\r\n        {\r\n      \"topicId\": \"be3e2e3a-030e-4053-7da6-08d7fe4316f2\",\r\n      \"progressStatus\": 0\r\n    },\r\n        {\r\n      \"topicId\": \"be3e2e3a-030e-4053-7da6-08d7fe4316f2\",\r\n      \"progressStatus\": 0\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/learning-days/learning-day",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"learning-days",
+								"learning-day"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Learning Day",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/learning-days/learning-day/3eeb2900-cdc2-49ec-90a8-08d7ff0912d0",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"learning-days",
+								"learning-day",
+								"3eeb2900-cdc2-49ec-90a8-08d7ff0912d0"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "Invite",
 			"item": [
 				{
@@ -323,7 +585,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"Email\": \"eepicentras@gmail.com\",\n\t\"FirstName\": \"Valdas\",\n\t\"LastName\": \"Rakutis\",\n\t\"Role\": \"Software Engineer\"\n}",
+							"raw": "{\n\t\"Email\": \"tomas@zaicevas.wtf\",\n\t\"FirstName\": \"Tomas\",\n\t\"LastName\": \"Zaicevas\",\n\t\"Role\": \"Software Engineer\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -366,7 +628,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{api-url}}/api/teams/team/7e9ab320-cbe0-4bce-f57b-08d7f8c2d3e9",
+							"raw": "{{api-url}}/api/teams/team/b60636f9-593b-48f9-6150-08d7ff600689",
 							"host": [
 								"{{api-url}}"
 							],
@@ -374,7 +636,7 @@
 								"api",
 								"teams",
 								"team",
-								"7e9ab320-cbe0-4bce-f57b-08d7f8c2d3e9"
+								"b60636f9-593b-48f9-6150-08d7ff600689"
 							]
 						}
 					},
@@ -433,7 +695,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"employeeId\": \"b024b4e1-b9d0-4103-b728-08d7e5391b29\",\r\n  \"topicId\": \"57521455-1729-4403-f52b-08d7f8c2ae13\"\r\n}",
+							"raw": "{\r\n  \"employeeId\": \"1bdac42d-f918-4db5-6154-08d7ff600689\",\r\n  \"topicIds\": [ \"7db7a090-b1ee-4eb0-2d27-08d7ffba2c75\", \"9039e3da-a7b9-4a12-2d25-08d7ffba2c75\" ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -441,14 +703,92 @@
 							}
 						},
 						"url": {
-							"raw": "{{api-url}}/api/Goal/employee",
+							"raw": "{{api-url}}/api/personal-goals/employee",
 							"host": [
 								"{{api-url}}"
 							],
 							"path": [
 								"api",
-								"Goal",
+								"personal-goals",
 								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AssignGoalToSelf",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"topicId\": \"466e1c84-ca0b-412e-acc9-08d7fd5087e5\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/personal-goals/employee/self",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"personal-goals",
+								"employee",
+								"self"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Self Goals",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"topicIds\": [ \"7db7a090-b1ee-4eb0-2d27-08d7ffba2c75\", \"9039e3da-a7b9-4a12-2d25-08d7ffba2c75\" ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/personal-goals/employee/self",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"personal-goals",
+								"employee",
+								"self"
 							]
 						}
 					},
@@ -471,7 +811,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"managerId\": \"da772a8c-7f67-414c-ee00-08d7e4b5d996\",\n\t\"topicId\": \"a672d7d2-5631-409c-9a45-08d7e52d3ddb\"\n}",
+							"raw": "{\n\t\"managerId\": \"b60636f9-593b-48f9-6150-08d7ff600689\",\n\t\"topicIds\": [ \"7db7a090-b1ee-4eb0-2d27-08d7ffba2c75\", \"9039e3da-a7b9-4a12-2d25-08d7ffba2c75\" ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -479,13 +819,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{api-url}}/api/Goal/team",
+							"raw": "{{api-url}}/api/personal-goals/team",
 							"host": [
 								"{{api-url}}"
 							],
 							"path": [
 								"api",
-								"Goal",
+								"personal-goals",
 								"team"
 							]
 						}
@@ -586,6 +926,75 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Delete Employee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/employees/employee/id",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"employee",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reassign Employee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"employeeId\": \"d20a7111-cf2d-41a3-6153-08d7ff600689\",\r\n  \"managerId\": \"1bdac42d-f918-4db5-6154-08d7ff600689\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/employees/employee/team",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"employee",
+								"team"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -595,6 +1004,18 @@
 			"item": [
 				{
 					"name": "CreateTestEmployee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e4176ad5-f042-4e21-8daa-0bd8a808d921",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -610,7 +1031,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"1a@employee.net\",\r\n  \"password\": \"string\",\r\n  \"managerEmail\": \"test@test.com\"\r\n}",
+							"raw": "{\r\n  \"email\": \"1@e.com\",\r\n  \"password\": \"password\",\r\n  \"managerEmail\": \"test@test.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -654,6 +1075,117 @@
 								"api",
 								"auth",
 								"admin"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Limit",
+			"item": [
+				{
+					"name": "GetLimits",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/limits",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"limits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateLimit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"employeeId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n  \"daysPerQuarter\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/limits/limit",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"limits",
+								"limit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateLimit (GLOBAL)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"daysPerQuarter\": 15\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/api/limits/limit/global",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"limits",
+								"limit",
+								"global"
 							]
 						}
 					},

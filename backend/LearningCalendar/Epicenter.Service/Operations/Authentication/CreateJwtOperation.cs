@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Epicenter.Service.Operations.Authentication
 {
-    public class CreateJwtOperation : ICreateJwtOperation
+    public class CreateJwtOperation : Operation, ICreateJwtOperation
     {
         private readonly JwtSettings _jwtSettings;
 

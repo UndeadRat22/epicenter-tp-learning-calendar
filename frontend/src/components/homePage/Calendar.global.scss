@@ -1,0 +1,38 @@
+@import 'react-big-calendar/lib/sass/styles';
+
+.minus-icon {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.team-badge {
+    float: left;
+    margin-left: 4px;
+}
+
+.cursor:hover {
+    cursor: pointer;
+}
+
+.rbc-date-cell:hover {
+    cursor: pointer;
+}
+
+.self-learning-day {
+    background-color: #C9EEBC;
+}
+
+.team-learning-day {
+    background-color: #C9D4FF;
+}
+
+.self-and-team-learning-day {
+    background: linear-gradient(to bottom, #C9EEBC 50%, #C9D4FF 50%);
+    // background-color: #C9EEBC;
+}
+
+.icon-position {
+    float: left;
+    margin-left: 2px;
+    margin-top: 2px;
+}

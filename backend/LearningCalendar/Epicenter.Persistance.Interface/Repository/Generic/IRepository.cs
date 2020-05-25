@@ -8,6 +8,7 @@ namespace Epicenter.Persistence.Interface.Repository.Generic
     public interface IRepository<TEntity>
     {
         Task CreateAsync(TEntity entity);
+        Task CreateAsync(IEnumerable<TEntity> entities);
         Task DeleteAsync(TEntity entity);
         Task DeleteAsync(IEnumerable<TEntity> entities);
         Task UpdateAsync(TEntity entity);

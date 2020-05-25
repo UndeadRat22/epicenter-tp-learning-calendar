@@ -5,7 +5,7 @@ using Epicenter.Service.Interface.Operations.Authentication.Invite;
 
 namespace Epicenter.Service.Operations.Authentication.Invite
 {
-    public class GetInvitationDetailsOperation : IGetInvitationDetailsOperation
+    public class GetInvitationDetailsOperation : Operation, IGetInvitationDetailsOperation
     {
         private readonly IInvitationRepository _invitationRepository;
         private readonly IEmployeeRepository _employeeRepository;

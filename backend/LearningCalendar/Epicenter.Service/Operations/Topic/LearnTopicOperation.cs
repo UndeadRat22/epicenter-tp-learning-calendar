@@ -6,10 +6,11 @@ using Epicenter.Persistence.Interface.Exceptions;
 using Epicenter.Service.Interface.Exceptions.Goal;
 using Epicenter.Service.Interface.Exceptions.Topic;
 using Epicenter.Service.Interface.Operations.Goal;
+using ProgressStatus = Epicenter.Domain.Entity.LearningCalendar.ProgressStatus;
 
 namespace Epicenter.Service.Operations.Topic
 {
-    public class LearnTopicOperation : ILearnTopicOperation
+    public class LearnTopicOperation : Operation, ILearnTopicOperation
     {
         private readonly ILearningDayTopicRepository _learningDayTopicRepository;
         private readonly IFulfillPersonalGoalOperation _fulfillPersonalGoalOperation;

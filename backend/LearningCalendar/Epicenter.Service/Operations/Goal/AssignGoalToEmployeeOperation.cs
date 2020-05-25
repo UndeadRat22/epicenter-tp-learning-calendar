@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Persistence.Interface.Repository.LearningCalendar;
 using Epicenter.Service.Interface.Exceptions.Authentication;
@@ -6,7 +7,7 @@ using Epicenter.Service.Interface.Operations.Goal;
 
 namespace Epicenter.Service.Operations.Goal
 {
-    public class AssignGoalToEmployeeOperation : IAssignGoalToEmployeeOperation
+    public class AssignGoalToEmployeeOperation : Operation, IAssignGoalToEmployeeOperation
     {
         private readonly IPersonalGoalRepository _personalGoalRepository;
 
@@ -15,29 +16,28 @@ namespace Epicenter.Service.Operations.Goal
             _personalGoalRepository = personalGoalRepository;
         }
 
-        public async Task<AssignGoalToEmployeeOperationResponse> Execute(AssignGoalToEmployeeOperationRequest request)
+        public async Task Execute(AssignGoalsToEmployeeOperationRequest request)
         {
-            var existingGoal = await _personalGoalRepository
-                .QuerySingleOrDefaultAsync(goal =>
-                    goal.EmployeeId == request.EmployeeId && goal.TopicId == request.TopicId);
+            var existingGoals = await _personalGoalRepository
+                .QueryAsync(goal =>
+                    goal.EmployeeId == request.EmployeeId && request.TopicIds.Contains(goal.TopicId));
+            
+            var nonCompletedGoal = existingGoals
+                .FirstOrDefault(goal => !goal.CompletionDate.HasValue);
 
-            if (existingGoal != null)
+            if (nonCompletedGoal != null)
             {
-                throw new GoalAlreadyAssignedException(request.EmployeeId, request.TopicId);
+                throw new GoalAlreadyAssignedException(request.EmployeeId, nonCompletedGoal.TopicId);
             }
 
-            var goal = new PersonalGoal
-            {
-                EmployeeId = request.EmployeeId,
-                TopicId = request.TopicId
-            };
+            var goals = request.TopicIds
+                .Select(topicId => new PersonalGoal
+                {
+                    EmployeeId = request.EmployeeId,
+                    TopicId = topicId
+                }).ToList();
 
-            await _personalGoalRepository.CreateAsync(goal);
-
-            return new AssignGoalToEmployeeOperationResponse
-            {
-
-            };
+            await _personalGoalRepository.CreateAsync(goals);
         }
     }
 }

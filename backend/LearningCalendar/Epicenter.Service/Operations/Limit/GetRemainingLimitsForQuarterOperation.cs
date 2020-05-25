@@ -6,7 +6,7 @@ using Epicenter.Service.Interface.Operations.Limit;
 
 namespace Epicenter.Service.Operations.Limit
 {
-    public class GetRemainingLimitsForQuarterOperation : IGetRemainingLimitsForQuarterOperation
+    public class GetRemainingLimitsForQuarterOperation : Operation, IGetRemainingLimitsForQuarterOperation
     {
         private readonly IAuthorizationContext _authorizationContext;
         private readonly ILimitRepository _limitRepository;

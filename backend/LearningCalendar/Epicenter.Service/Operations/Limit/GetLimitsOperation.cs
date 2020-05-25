@@ -7,7 +7,7 @@ using Epicenter.Service.Context.Interface.Authorization;
 
 namespace Epicenter.Service.Operations.Limit
 {
-    public class GetLimitsOperation : IGetLimitsOperation
+    public class GetLimitsOperation : Operation, IGetLimitsOperation
     {
         private readonly IAuthorizationContext _authorizationContext;
         private readonly ILimitRepository _limitRepository;

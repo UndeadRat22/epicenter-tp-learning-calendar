@@ -1,9 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Threading.Tasks;
+using Epicenter.Api.Model;
 using Epicenter.Api.Model.Authentication;
 using Epicenter.Api.Model.Team;
 using Epicenter.Api.Model.Team.Employee;
 using Epicenter.Service.Interface.Exceptions.Authentication;
+using Epicenter.Service.Interface.Exceptions.Employee;
 using Epicenter.Service.Interface.Operations.Employee;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +21,19 @@ namespace Epicenter.Api.Controllers
     {
         private readonly ICreateEmployeeOperation _createEmployeeOperation;
         private readonly IGetEmployeeDetailsOperation _getEmployeeDetailsOperation;
+        private readonly IDeleteEmployeeOperation _deleteEmployeeOperation;
+        private readonly IReassignEmployeeOperation _reassignEmployeeOperation;
 
-        public EmployeesController(ICreateEmployeeOperation employeeOperation, 
-            IGetEmployeeDetailsOperation employeeDetailsOperation)
+        public EmployeesController(
+            ICreateEmployeeOperation employeeOperation, 
+            IGetEmployeeDetailsOperation employeeDetailsOperation, 
+            IDeleteEmployeeOperation deleteEmployeeOperation, 
+            IReassignEmployeeOperation reassignEmployeeOperation)
         {
             _createEmployeeOperation = employeeOperation;
             _getEmployeeDetailsOperation = employeeDetailsOperation;
+            _deleteEmployeeOperation = deleteEmployeeOperation;
+            _reassignEmployeeOperation = reassignEmployeeOperation;
         }
 
 
@@ -60,6 +71,7 @@ namespace Epicenter.Api.Controllers
             var details = await _getEmployeeDetailsOperation.Execute();
             var model = new EmployeeModel
             {
+                Id = details.Id,
                 Email = details.Email,
                 FirstName = details.FirstName,
                 LastName = details.LastName,
@@ -67,6 +79,41 @@ namespace Epicenter.Api.Controllers
                 IsTopLevelManager = details.IsTopLevelManager
             };
             return Ok(model);
+        }
+
+        [HttpDelete, Route("employee/{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.Conflict)]
+        public async Task<IActionResult> DeleteEmployee([Required]Guid id)
+        {
+            var request = new DeleteEmployeeOperationRequest
+            {
+                EmployeeId = id
+            };
+            try
+            {
+                await _deleteEmployeeOperation.Execute(request);
+            }
+            catch (EmployeeHasSubordinatesException ex)
+            {
+                return Conflict(ex.Message);
+            }
+
+            return Ok();
+        }
+
+        [HttpPut, Route("employee/team")]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        public async Task<IActionResult> UpdateEmployee(ReassignEmployeeModel model)
+        {
+            var request = new ReassignEmployeeOperationRequest
+            {
+                EmployeeId = model.EmployeeId,
+                ManagerId = model.ManagerId
+            };
+            await _reassignEmployeeOperation.Execute(request);
+
+            return Ok();
         }
 
 

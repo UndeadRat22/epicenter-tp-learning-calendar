@@ -7,7 +7,7 @@ using Epicenter.Service.Interface.Operations.Employee;
 
 namespace Epicenter.Service.Operations.Authentication
 {
-    public class RegisterUserOperation : IRegisterUserOperation
+    public class RegisterUserOperation : Operation, IRegisterUserOperation
     {
         private readonly IInvitationRepository _invitationRepository;
         private readonly ICreateEmployeeOperation _createEmployeeOperation;

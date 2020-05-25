@@ -4,7 +4,7 @@ using Epicenter.Service.Interface.Operations.Employee;
 
 namespace Epicenter.Service.Operations.Employee
 {
-    public class GetEmployeeDetailsOperation : IGetEmployeeDetailsOperation
+    public class GetEmployeeDetailsOperation : Operation, IGetEmployeeDetailsOperation
     {
         private readonly IAuthorizationContext _authorizationContext;
 
@@ -19,6 +19,7 @@ namespace Epicenter.Service.Operations.Employee
 
             return new GetEmployeeDetailsOperationResponse
             {
+                Id = employee.Id,
                 Email = employee.Identity.Email,
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
