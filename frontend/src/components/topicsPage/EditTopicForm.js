@@ -51,7 +51,7 @@ const EditTopicForm = ({ onEdit, topic }) => {
               <Row>
                 <Col>
                   <Cell>
-                    <SelectTopicForm onSelectTopic={selectedTopic => setParentTopicId(selectedTopic)} parentTopic={topic.parentSubject} />
+                    <SelectTopicForm onSelectTopic={selectedTopic => setParentTopicId(selectedTopic)} parentTopic={topic.parentSubject || ''} />
                   </Cell>
                 </Col>
               </Row>
