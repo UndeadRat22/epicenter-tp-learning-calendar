@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
 import {
   FormField,
@@ -23,14 +24,13 @@ const SelectTopicForm = ({
   const onSelect = option => {
     setValue(option.value);
     onSelectTopic(option.id);
-    onSearchAndDropDownMissmatch(false);
+    onSearchAndDropDownMissmatch && onSearchAndDropDownMissmatch(false);
   };
 
   const onChange = event => {
-    // eslint-disable-next-line no-unused-expressions
     onParentTopicSubjectChange && onParentTopicSubjectChange(event.target.value);
     setValue(event.target.value);
-    onSearchAndDropDownMissmatch(true);
+    onSearchAndDropDownMissmatch && onSearchAndDropDownMissmatch(true);
   };
 
   return (
