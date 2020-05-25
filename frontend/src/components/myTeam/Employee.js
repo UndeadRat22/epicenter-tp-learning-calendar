@@ -58,7 +58,7 @@ const Employee = ({ employee }) => {
             <Cell span={1}>
               <Avatar
                 name={employee.name}
-                color="A1"
+                color={isSelf ? 'A1' : 'A2'}
                 size="size36"
               />
             </Cell>
