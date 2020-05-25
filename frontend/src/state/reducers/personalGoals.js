@@ -14,8 +14,8 @@ const personalGoals = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_PERSONAL_GOALS_START:
       return {
+        ...state,
         status: LOADING_PERSONAL_GOALS,
-        goals: [],
       };
     case FETCH_PERSONAL_GOALS_SUCCESS:
       return {
@@ -24,8 +24,8 @@ const personalGoals = (state = initialState, action) => {
       };
     case FETCH_PERSONAL_GOALS_FAIL:
       return {
+        ...state,
         status: FETCH_PERSONAL_GOALS_FAILED,
-        goals: [],
       };
     default:
       return state;

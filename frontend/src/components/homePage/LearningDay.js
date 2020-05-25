@@ -4,15 +4,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getOnlyLocalDate } from '../../utils/dateParser';
 import AddLearningDayButton from './AddLearningDayButton';
 import { isSelfLearningDay } from '../../utils/learningDay';
+import { suspendStartLearningDay, getLearningDays, getLimits } from '../../state/actions';
 
 const LearningDay = ({
   date, accessors, allDayAccessors, dayPropGetter, drillDownView, getNow, onView, onSelectSlot, onNavigate, events,
 }) => {
+  const dispatch = useDispatch();
   const { selfLearningDays, teamLearningDays, status: learningDaysStatus } = useSelector(state => state.learningDays);
   const { assignedLimit, remainingLimit, status: limitsStatus } = useSelector(state => state.limits);
 
+  const onAddLearningDaySuccess = () => {
+    dispatch(suspendStartLearningDay());
+    dispatch(getLearningDays());
+    dispatch(getLimits());
+  };
+
   if (!isSelfLearningDay(date, selfLearningDays))
-    return <AddLearningDayButton date={date} disabled={remainingLimit.daysPerQuarter === 0} />;
+    return <AddLearningDayButton date={date} disabled={remainingLimit.daysPerQuarter === 0} onAddedDay={onAddLearningDaySuccess} />;
 
   return null;
 };

@@ -9,7 +9,7 @@ import {
 import { useToast } from '../../ToastContainer';
 import ModalWrapper from '../modals/ModalWrapper';
 
-const AddLearningDayButton = ({ date, disabled }) => {
+const AddLearningDayButton = ({ date, disabled, onAddedDay }) => {
   const status = useSelector(state => state.learningDays.startStatus);
   const dispatch = useDispatch();
 
@@ -19,9 +19,7 @@ const AddLearningDayButton = ({ date, disabled }) => {
 
   const onSuccess = () => {
     setIsStartLearningDayModalOpen(false);
-    dispatch(suspendStartLearningDay());
-    dispatch(getLearningDays());
-    dispatch(getLimits());
+    onAddedDay();
   };
 
   const onError = () => {

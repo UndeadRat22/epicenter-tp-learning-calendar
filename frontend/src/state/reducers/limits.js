@@ -13,15 +13,13 @@ const limits = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_LIMITS_START:
       return {
+        ...state,
         status: LOADING_FETCH_LIMITS,
-        assignedLimit: null,
-        remainingLimit: null,
       };
     case FETCH_LIMITS_FAIL:
       return {
+        ...state,
         status: FETCH_LIMITS_FAILED,
-        assignedLimit: null,
-        remainingLimit: null,
       };
     case FETCH_LIMITS_SUCCESS:
       return {
