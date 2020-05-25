@@ -38,6 +38,8 @@ const Register = () => {
     dispatch(login({ email, password }));
   };
 
+  // useToast can be used here, because there are no modals
+  // however, would be better to get rid of useToast
   useToast({
     successText: 'Registration successful',
     errorText: 'Failed to register',

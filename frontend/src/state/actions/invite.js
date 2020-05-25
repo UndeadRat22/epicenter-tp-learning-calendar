@@ -3,6 +3,7 @@ import makeSyncActionCreator from '../syncActionCreator';
 import {
   INVITE_START, INVITE_SUCCESS, INVITE_FAIL, INVITE_SUSPEND,
 } from './types';
+import { showSuccessToast, showErrorToast } from './toast';
 
 const inviteStart = makeSyncActionCreator(INVITE_START);
 const inviteSuccess = makeSyncActionCreator(INVITE_SUCCESS);
@@ -18,9 +19,13 @@ const invite = ({
       email, firstName, lastName, role,
     });
     dispatch(inviteSuccess());
+    dispatch(showSuccessToast('Invite sent'));
   } catch (err) {
+    dispatch(showErrorToast('Failed to send invite'));
     console.log(err);
     dispatch(inviteFail());
+  } finally {
+    dispatch(suspendInvite());
   }
 };
 
