@@ -6,10 +6,9 @@ import { LOADING_START_LEARNING_DAY, START_LEARNING_DAY_SUCCEEDED, START_LEARNIN
 import {
   suspendStartLearningDay, getLearningDays, getLimits, startLearningDay,
 } from '../../state/actions';
-import { useToast } from '../../ToastContainer';
 import ModalWrapper from '../modals/ModalWrapper';
 
-const AddLearningDayButton = ({ date, disabled, onAddedDay }) => {
+const AddLearningDayButton = ({ date, disabled }) => {
   const status = useSelector(state => state.learningDays.startStatus);
   const dispatch = useDispatch();
 
@@ -17,23 +16,10 @@ const AddLearningDayButton = ({ date, disabled, onAddedDay }) => {
 
   const [isStartLearningDayModalOpen, setIsStartLearningDayModalOpen] = useState(false);
 
-  const onSuccess = () => {
+  if (status === START_LEARNING_DAY_SUCCEEDED) {
     setIsStartLearningDayModalOpen(false);
-    onAddedDay();
-  };
-
-  const onError = () => {
     dispatch(suspendStartLearningDay());
-  };
-
-  useToast({
-    successText: 'Created Learning Day',
-    errorText: 'Failed to Create Learning Day',
-    shouldShowSuccessWhen: status === START_LEARNING_DAY_SUCCEEDED,
-    shouldShowErrorWhen: status === START_LEARNING_DAY_FAILED,
-    onSuccess,
-    onError,
-  });
+  }
 
   const onStartLearningDay = () => {
     dispatch(startLearningDay(date));

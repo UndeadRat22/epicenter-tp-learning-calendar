@@ -9,6 +9,8 @@ import {
   CANCEL_LEARNING_DAY_SUSPEND,
 } from './types/learningDays';
 import { getLocalIsoString } from '../../utils/dateParser';
+import { showSuccessToast, showErrorToast } from './toast';
+import { getLimits } from './limits';
 
 const fetchLearningDaysStart = makeSyncActionCreator(FETCH_LEARNING_DAYS_START);
 const fetchLearningDaysSuccess = makeSyncActionCreator(FETCH_LEARNING_DAYS_SUCCESS);
@@ -70,9 +72,15 @@ const startLearningDay = date => async dispatch => {
     const { id } = response.data;
 
     dispatch(startLearningDaySuccess(id));
+    dispatch(showSuccessToast('Added Learning Day'));
+    dispatch(getLearningDays());
+    dispatch(getLimits());
   } catch (err) {
+    dispatch(showErrorToast('Failed to add learning day'));
     console.log(err);
     dispatch(startLearningDayFail());
+  } finally {
+    dispatch(suspendStartLearningDay());
   }
 };
 

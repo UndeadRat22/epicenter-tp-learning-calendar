@@ -13,14 +13,8 @@ const LearningDay = ({
   const { selfLearningDays, teamLearningDays, status: learningDaysStatus } = useSelector(state => state.learningDays);
   const { assignedLimit, remainingLimit, status: limitsStatus } = useSelector(state => state.limits);
 
-  const onAddLearningDaySuccess = () => {
-    dispatch(suspendStartLearningDay());
-    dispatch(getLearningDays());
-    dispatch(getLimits());
-  };
-
   if (!isSelfLearningDay(date, selfLearningDays))
-    return <AddLearningDayButton date={date} disabled={remainingLimit.daysPerQuarter === 0} onAddedDay={onAddLearningDaySuccess} />;
+    return <AddLearningDayButton date={date} disabled={remainingLimit.daysPerQuarter === 0} />;
 
   return null;
 };
