@@ -18,7 +18,7 @@ const LearningDay = ({
     return <AddLearningDayButton date={date} disabled={remainingLimit.daysPerQuarter === 0} />;
 
   return (
-    <TopicsSelectorCard />
+    <TopicsSelectorCard employee={{ name: 'Donald DRUMP' }} />
   );
 };
 
