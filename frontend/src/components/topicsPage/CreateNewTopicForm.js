@@ -11,7 +11,7 @@ import {
   FormField,
   InputArea,
 } from 'wix-style-react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { INPUTAREA_MIN_HEIGHT } from '../../constants/Styling';
 import SelectTopicForm from './SelectTopicForm';
 import { showErrorToast } from '../../state/actions/toast';
@@ -20,6 +20,8 @@ const CreateNewTopicForm = ({ onCreate }) => {
   const [parentTopic, setParentTopic] = useState('');
   const [subject, setSubject] = useState('');
   const [description, setDescription] = useState('');
+  const [isSearchAndDropDownMissmatched, setIsSearchAndDropDownMissmatched] = useState(false);
+  const [parentTopicSubject, setParentTopicSubject] = useState('');
 
   const dispatch = useDispatch();
 
@@ -36,12 +38,12 @@ const CreateNewTopicForm = ({ onCreate }) => {
 
   const handleCreateBtn = () => {
     if (subject !== '') {
-      const newTopic = {
-        parentTopic,
-        subject,
-        description,
-      };
-      onCreate(newTopic);
+      if (parentTopicSubject === '')
+        onCreate({ subject, description, parentTopic: '' });
+      else if (!isSearchAndDropDownMissmatched)
+        onCreate({ subject, description, parentTopic });
+      else if (isSearchAndDropDownMissmatched)
+        dispatch(showErrorToast('Choose a parent topic or leave it empty!'));
     } else
       dispatch(showErrorToast('Subject cannot be empty!'));
   };
@@ -55,7 +57,7 @@ const CreateNewTopicForm = ({ onCreate }) => {
               <Row>
                 <Col>
                   <Cell>
-                    <SelectTopicForm onSelectTopic={selectedTopic => setParentTopic(selectedTopic)} />
+                    <SelectTopicForm onSelectTopic={selectedTopic => setParentTopic(selectedTopic)} onParentTopicSubjectChange={topic => setParentTopicSubject(topic)} onSearchAndDropDownMissmatch={x => setIsSearchAndDropDownMissmatched(x)} />
                   </Cell>
                 </Col>
               </Row>
