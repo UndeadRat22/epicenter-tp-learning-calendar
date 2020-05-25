@@ -7,7 +7,6 @@ import { changePassword, suspendChangePassword, logout } from '../../state/actio
 import ChangePasswordForm from '../auth/ChangePasswordForm';
 import { MODAL_MAX_HEIGHT } from '../../constants/Styling';
 import { LOADING_CHANGE_PASSWORD, CHANGE_PASSWORD_FAILED, CHANGE_PASSWORD_SUCCEEDED } from '../../constants/ChangePasswordStatus';
-import { useToast } from '../../ToastContainer';
 
 const ChangePasswordModal = ({ isModalOpened, onCloseModal }) => {
   const dispatch = useDispatch();
