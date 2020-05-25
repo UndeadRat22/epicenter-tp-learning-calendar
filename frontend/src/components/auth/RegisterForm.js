@@ -11,12 +11,15 @@ import {
   FormField,
 } from 'wix-style-react';
 import { Route, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import ErrorNotification from '../ErrorNotification';
+import { showErrorToast } from '../../state/actions/toast';
 
 const RegisterForm = ({ onRegister }) => {
   const [password, setPassword] = useState('');
   const [confirmedPassword, setConfirmedPassword] = useState('');
-  const [showNotification, setShowNotification] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const listener = event => {
@@ -40,7 +43,7 @@ const RegisterForm = ({ onRegister }) => {
         };
         onRegister(user);
       } else
-        setShowNotification(true);
+        dispatch(showErrorToast('Passwords do not match!'));
     }
   };
 
@@ -97,12 +100,6 @@ const RegisterForm = ({ onRegister }) => {
           </Card>
         </Col>
       </Row>
-      {showNotification && (
-        <ErrorNotification
-          text="Passwords do not match!"
-          onClose={() => setShowNotification(false)}
-        />
-      )}
     </Container>
   );
 };
