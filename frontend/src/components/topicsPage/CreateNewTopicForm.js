@@ -11,15 +11,17 @@ import {
   FormField,
   InputArea,
 } from 'wix-style-react';
+import { useDispatch } from 'react-redux';
 import { INPUTAREA_MIN_HEIGHT } from '../../constants/Styling';
-import ErrorNotification from '../ErrorNotification';
 import SelectTopicForm from './SelectTopicForm';
+import { showErrorToast } from '../../state/actions/toast';
 
 const CreateNewTopicForm = ({ onCreate }) => {
-  const [showErrorNotification, setShowErrorNotification] = useState(false);
   const [parentTopic, setParentTopic] = useState('');
   const [subject, setSubject] = useState('');
   const [description, setDescription] = useState('');
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const listener = event => {
@@ -41,7 +43,7 @@ const CreateNewTopicForm = ({ onCreate }) => {
       };
       onCreate(newTopic);
     } else
-      setShowErrorNotification(true);
+      dispatch(showErrorToast('Subject cannot be empty!'));
   };
 
   return (
@@ -97,12 +99,6 @@ const CreateNewTopicForm = ({ onCreate }) => {
           </Box>
         </Col>
       </Row>
-      {showErrorNotification && (
-        <ErrorNotification
-          text="Subject cannot be empty!"
-          onClose={() => setShowErrorNotification(false)}
-        />
-      )}
     </Container>
   );
 };
