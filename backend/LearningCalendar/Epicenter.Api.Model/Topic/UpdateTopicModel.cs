@@ -5,12 +5,17 @@ namespace Epicenter.Api.Model.Topic
 {
     public class UpdateTopicModel
     {
-        public Guid? ParentTopicId { get; set; }
-        [Required]
-        public Guid TopicId { get; set; }
-        [Required]
-        public string Subject { get; set; }
-        [Required]
-        public string Description { get; set; }
+        public Topic OldTopic { get; set; }
+        public Topic NewTopic { get; set; }
+        public class Topic
+        {
+            public Guid? ParentTopicId { get; set; }
+            [Required]
+            public Guid TopicId { get; set; }
+            [Required]
+            public string Subject { get; set; }
+            [Required]
+            public string Description { get; set; }
+        }
     }
 }

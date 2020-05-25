@@ -22,7 +22,8 @@ namespace Epicenter.Service.Operations.Topic
                 Topics = topics.Select(topic => new GetAllTopicsOperationResponse.Topic
                 {
                     Id = topic.Id,
-                    Subject = topic.Subject
+                    Subject = topic.Subject,
+                    Description = topic.Description
                 }).ToList()
             };
         }

@@ -38,7 +38,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Email\": \"1@e.com\",\n    \"Password\": \"password\"\n}"
+							"raw": "{\n    \"Email\": \"test@test.com\",\n    \"Password\": \"password\"\n}"
 						},
 						"url": {
 							"raw": "{{api-url}}/api/auth/login",
@@ -259,7 +259,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"parentTopic\": null,\n\t\"subject\": \".NET2\",\n\t\"description\": \"learn the technology\"\n}",
+							"raw": "{\r\n    \"parentTopic\": null,\r\n    \"subject\": \"Reading2\",\r\n    \"description\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -297,7 +297,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"parentTopicId\": \"55384beb-d016-43df-7b10-08d7fbee8d68\",\n\t\"topicId\": \"c94cb77c-09c6-48c0-7daa-08d7fe4316f2\",\n\t\"subject\": \"ASP net coreee\",\n\t\"description\": \"learn the technology\"\n}",
+							"raw": "{\n\t\"oldTopic\":{\n\t    \"parentTopicId\": null,\n\t    \"topicId\": \"9039e3da-a7b9-4a12-2d25-08d7ffba2c75\",\n\t    \"subject\": \"ASP net coreee\",\n\t    \"description\": \"learn the technology\"\n\t},\n\t\"newTopic\":{\n\t    \"parentTopicId\": null,\n\t    \"topicId\": \"9039e3da-a7b9-4a12-2d25-08d7ffba2c75\",\n\t    \"subject\": \"ASP net coree\",\n\t    \"description\": \"learn the technology\"\n\t}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -425,7 +425,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"date\": \"2020-05-23T11:02:51.499Z\",\r\n  \"comments\": \"string\",\r\n  \"topicIds\": [\r\n    \"63c3a1ff-07c4-4036-7da5-08d7fe4316f2\",\r\n    \"be3e2e3a-030e-4053-7da6-08d7fe4316f2\"\r\n  ]\r\n}",
+							"raw": "{\r\n  \"date\": \"2020-05-27T11:02:51.499Z\",\r\n  \"comments\": \"string\",\r\n  \"topicIds\": \"d424aa09-4732-41d1-2d26-08d7ffba2c75\", \"9039e3da-a7b9-4a12-2d25-08d7ffba2c75\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -643,6 +643,38 @@
 					"response": []
 				},
 				{
+					"name": "Get Team Topic Tree",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/teams/team/topics/tree/self",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"teams",
+								"team",
+								"topics",
+								"tree",
+								"self"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GetSelfTeams",
 					"request": {
 						"auth": {
@@ -733,7 +765,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"topicId\": \"466e1c84-ca0b-412e-acc9-08d7fd5087e5\"\r\n}",
+							"raw": "{\r\n  \"topicIds\": [\"d424aa09-4732-41d1-2d26-08d7ffba2c75\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1031,7 +1063,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"1@e.com\",\r\n  \"password\": \"password\",\r\n  \"managerEmail\": \"test@test.com\"\r\n}",
+							"raw": "{\r\n  \"email\": \"3@e.com\",\r\n  \"password\": \"password\",\r\n  \"managerEmail\": \"stongvilas.zygimantas@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

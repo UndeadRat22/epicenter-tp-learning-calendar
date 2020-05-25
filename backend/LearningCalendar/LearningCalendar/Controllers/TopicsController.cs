@@ -135,22 +135,39 @@ namespace Epicenter.Api.Controllers
         [HttpPut, Route("topic")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CreateTopic(UpdateTopicModel model)
+        [ProducesResponseType(typeof(UpdateTopicResponseModel), (int)HttpStatusCode.Conflict)]
+        public async Task<IActionResult> UpdateTopic(UpdateTopicModel model)
         {
             var updateRequest = new UpdateTopicOperationRequest
             {
-                Id = model.TopicId,
-                ParentTopicId = model.ParentTopicId,
-                Description = model.Description,
-                Subject = model.Subject
+                NewTopic = new UpdateTopicOperationRequest.Topic
+                {
+                    Id = model.NewTopic.TopicId,
+                    ParentTopicId = model.NewTopic.ParentTopicId,
+                    Description = model.NewTopic.Description,
+                    Subject = model.NewTopic.Subject
+                },
+                OldTopic = new UpdateTopicOperationRequest.Topic
+                {
+                    Id = model.OldTopic.TopicId,
+                    ParentTopicId = model.OldTopic.ParentTopicId,
+                    Description = model.OldTopic.Description,
+                    Subject = model.OldTopic.Subject
+                },
             };
+            UpdateTopicOperationResponse response;
             try
             {
-                await _updateTopicOperation.Execute(updateRequest);
+                response = await _updateTopicOperation.Execute(updateRequest);
             }
-            catch (TopicAlreadyExistsException ex)
+            catch (ApplicationException ex)
             {
                 return BadRequest(new ErrorModel(ex.Message));
+            }
+
+            if (response.UpdatedTopic != null)
+            {
+                return Conflict(new UpdateTopicResponseModel(response.UpdatedTopic));
             }
 
             return Ok();

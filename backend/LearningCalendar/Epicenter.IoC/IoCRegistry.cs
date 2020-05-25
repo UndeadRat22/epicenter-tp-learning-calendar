@@ -16,6 +16,7 @@ using Epicenter.Persistence.Repository.Generic;
 using Epicenter.Persistence.Repository.LearningCalendar;
 using Epicenter.Service.Context.Authorization;
 using Epicenter.Service.Operations;
+using Epicenter.Service.Strategy.Interface.Topic;
 using Epicenter.Service.Strategy.Topic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -71,9 +72,12 @@ namespace Epicenter.Infrastructure.IoC
 
         private static void RegisterStrategies(ContainerBuilder builder)
         {
-            //TODO config for strategy
-            builder.RegisterAssemblyTypes(typeof(EmployeeTopicProgressStatusHasToLearnOnceStrategy).Assembly)
-                .AsImplementedInterfaces()
+            builder.RegisterType<EmployeeTopicProgressStatusHasToLearnOnceStrategy>()
+                .As<IEmployeeTopicProgressStatusStrategy>()
+                .InstancePerDependency(); 
+            
+            builder.RegisterType<TeamTopicProgressStatusEmployeesHaveToLearnStrategy>()
+                .As<ITeamTopicProgressStatusStrategy>()
                 .InstancePerDependency();
         }
 

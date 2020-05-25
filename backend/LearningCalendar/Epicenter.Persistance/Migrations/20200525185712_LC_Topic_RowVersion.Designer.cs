@@ -4,14 +4,16 @@ using Epicenter.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Epicenter.Persistence.Migrations
 {
     [DbContext(typeof(EpicenterDbContext))]
-    partial class EpicenterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200525185712_LC_Topic_RowVersion")]
+    partial class LC_Topic_RowVersion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -4,6 +4,30 @@ import { Text, Tooltip } from 'wix-style-react';
 import s from './styles.scss';
 import { TOPIC } from '../../constants/DraggableTypes';
 
+const renderTopic = (isDragging, topic) => {
+  if (isDragging) {
+    return (
+      <Text>
+        {topic.subject}
+      </Text>
+    );
+  }
+  if (topic.description === '') {
+    return (
+      <Text>
+        {topic.subject}
+      </Text>
+    );
+  }
+  return (
+    <Tooltip content={topic.description} placement="left-end">
+      <Text>
+        {topic.subject}
+      </Text>
+    </Tooltip>
+  );
+};
+
 const Topic = ({ topic }) => {
   const [{ isDragging }, drag] = useDrag({
     item: { topic, type: TOPIC },
@@ -14,19 +38,7 @@ const Topic = ({ topic }) => {
 
   return (
     <div className={isDragging ? s.draggedTopic : s.topic} ref={drag}>
-      {isDragging
-        ? (
-          <Text>
-            {topic.subject}
-          </Text>
-        )
-        : (
-          <Tooltip content="very very looong long description, we need to get this from backend :)" placement="left-end">
-            <Text>
-              {topic.subject}
-            </Text>
-          </Tooltip>
-        )}
+      {renderTopic(isDragging, topic)}
     </div>
   );
 };

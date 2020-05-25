@@ -11,24 +11,20 @@ import {
   FormField,
   InputArea,
 } from 'wix-style-react';
-import { useDispatch, useSelector } from 'react-redux';
 import { INPUTAREA_MIN_HEIGHT } from '../../constants/Styling';
 import SelectTopicForm from './SelectTopicForm';
-import { showErrorToast } from '../../state/actions/toast';
 
-const CreateNewTopicForm = ({ onCreate }) => {
-  const [parentTopic, setParentTopic] = useState('');
-  const [subject, setSubject] = useState('');
-  const [description, setDescription] = useState('');
-  const [isSearchAndDropDownMissmatched, setIsSearchAndDropDownMissmatched] = useState(false);
-  const [parentTopicSubject, setParentTopicSubject] = useState('');
+const EditTopicForm = ({ onEdit, topic }) => {
+  const [parentTopicId, setParentTopicId] = useState(topic.parentId);
+  const [subject, setSubject] = useState(topic.subject);
+  const [description, setDescription] = useState(topic.description);
 
-  const dispatch = useDispatch();
+  const topicId = topic.id;
 
   useEffect(() => {
     const listener = event => {
       if (event.code === 'Enter' || event.code === 'NumpadEnter')
-        handleCreateBtn();
+        handleEditBtn();
     };
     document.addEventListener('keydown', listener);
     return () => {
@@ -36,16 +32,14 @@ const CreateNewTopicForm = ({ onCreate }) => {
     };
   });
 
-  const handleCreateBtn = () => {
-    if (subject !== '') {
-      if (parentTopicSubject === '')
-        onCreate({ subject, description, parentTopic: '' });
-      else if (!isSearchAndDropDownMissmatched)
-        onCreate({ subject, description, parentTopic });
-      else if (isSearchAndDropDownMissmatched)
-        dispatch(showErrorToast('Choose a parent topic or leave it empty!'));
-    } else
-      dispatch(showErrorToast('Subject cannot be empty!'));
+  const handleEditBtn = () => {
+    const editedTopic = {
+      parentTopicId,
+      topicId,
+      subject,
+      description,
+    };
+    onEdit(editedTopic);
   };
 
   return (
@@ -57,7 +51,7 @@ const CreateNewTopicForm = ({ onCreate }) => {
               <Row>
                 <Col>
                   <Cell>
-                    <SelectTopicForm onSelectTopic={selectedTopic => setParentTopic(selectedTopic)} onParentTopicSubjectChange={topic => setParentTopicSubject(topic)} onSearchAndDropDownMissmatch={x => setIsSearchAndDropDownMissmatched(x)} />
+                    <SelectTopicForm onSelectTopic={selectedTopic => setParentTopicId(selectedTopic)} parentTopic={topic.parentSubject || ''} />
                   </Cell>
                 </Col>
               </Row>
@@ -66,6 +60,7 @@ const CreateNewTopicForm = ({ onCreate }) => {
                   <Cell>
                     <FormField label="Subject">
                       <Input
+                        value={subject}
                         onChange={event => setSubject(event.target.value)}
                       />
                     </FormField>
@@ -79,6 +74,7 @@ const CreateNewTopicForm = ({ onCreate }) => {
                       <InputArea
                         resizable
                         minHeight={INPUTAREA_MIN_HEIGHT}
+                        value={description}
                         onChange={event => setDescription(event.target.value)}
                       />
                     </FormField>
@@ -94,9 +90,9 @@ const CreateNewTopicForm = ({ onCreate }) => {
           <Box align="right">
             <Button
               as="button"
-              onClick={() => handleCreateBtn()}
+              onClick={() => handleEditBtn()}
             >
-              Create
+              Confirm
             </Button>
           </Box>
         </Col>
@@ -105,4 +101,4 @@ const CreateNewTopicForm = ({ onCreate }) => {
   );
 };
 
-export default CreateNewTopicForm;
+export default EditTopicForm;

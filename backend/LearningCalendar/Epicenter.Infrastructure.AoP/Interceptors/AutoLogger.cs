@@ -13,13 +13,13 @@ namespace Epicenter.Infrastructure.AOP.Interceptors
     {
         private readonly ILogRepository _logRepository;
         private readonly IAuthorizationContext _authorizationContext;
-        private readonly LoggingSettings _loggingSettings;
 
-        public AutoLogger(ILogRepository logRepository, IAuthorizationContext authorizationContext, IOptions<LoggingSettings> options)
+        public AutoLogger(
+            ILogRepository logRepository, 
+            IAuthorizationContext authorizationContext)
         {
             _logRepository = logRepository;
             _authorizationContext = authorizationContext;
-            _loggingSettings = options.Value;
         }
 
         public void Intercept(IInvocation invocation)
