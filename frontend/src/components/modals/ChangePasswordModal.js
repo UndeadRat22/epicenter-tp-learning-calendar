@@ -19,24 +19,6 @@ const ChangePasswordModal = ({ isModalOpened, onCloseModal }) => {
     dispatch(changePassword(passwords));
   };
 
-  const onSuccess = () => {
-    dispatch(suspendChangePassword());
-    dispatch(logout());
-  };
-
-  const onError = () => {
-    dispatch(suspendChangePassword());
-  };
-
-  useToast({
-    successText: 'Password changed',
-    errorText: 'Failed to change password',
-    shouldShowSuccessWhen: changePasswordStatus === CHANGE_PASSWORD_SUCCEEDED,
-    shouldShowErrorWhen: changePasswordStatus === CHANGE_PASSWORD_FAILED,
-    onSuccess,
-    onError,
-  });
-
   return (
     <Layout cols={1}>
       <Modal
