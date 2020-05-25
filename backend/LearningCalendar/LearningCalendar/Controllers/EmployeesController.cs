@@ -104,6 +104,7 @@ namespace Epicenter.Api.Controllers
 
         [HttpPut, Route("employee/team")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel),(int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> UpdateEmployee(ReassignEmployeeModel model)
         {
             var request = new ReassignEmployeeOperationRequest
@@ -111,7 +112,14 @@ namespace Epicenter.Api.Controllers
                 EmployeeId = model.EmployeeId,
                 ManagerId = model.ManagerId
             };
-            await _reassignEmployeeOperation.Execute(request);
+            try
+            {
+                await _reassignEmployeeOperation.Execute(request);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(new ErrorModel(ex.Message));
+            }
 
             return Ok();
         }

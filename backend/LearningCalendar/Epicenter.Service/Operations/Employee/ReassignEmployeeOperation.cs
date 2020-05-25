@@ -24,6 +24,11 @@ namespace Epicenter.Service.Operations.Employee
 
         public async Task Execute(ReassignEmployeeOperationRequest request)
         {
+            if (request.EmployeeId == request.ManagerId)
+            {
+                throw new ApplicationException("An employee can't manage himself.");
+            }
+
             bool isAuthorizedToReassign = await _authorizationContext.IsAuthorizedForEmployee(request.EmployeeId) &&
                                           await _authorizationContext.IsAuthorizedForEmployee(request.ManagerId);
             if (!isAuthorizedToReassign)
