@@ -5,8 +5,10 @@ import {
 } from 'wix-style-react';
 import { useSelector } from 'react-redux';
 
-const SelectTopicForm = ({ onSelectTopic }) => {
-  const [value, setValue] = useState('');
+const SelectTopicForm = ({
+  onSelectTopic, parentTopic = '', onParentTopicSubjectChange, onSearchAndDropDownMissmatch,
+}) => {
+  const [value, setValue] = useState(parentTopic);
 
   const topics = useSelector(state => state.allTopics.topics);
 
@@ -21,10 +23,14 @@ const SelectTopicForm = ({ onSelectTopic }) => {
   const onSelect = option => {
     setValue(option.value);
     onSelectTopic(option.id);
+    onSearchAndDropDownMissmatch(false);
   };
 
   const onChange = event => {
+    // eslint-disable-next-line no-unused-expressions
+    onParentTopicSubjectChange && onParentTopicSubjectChange(event.target.value);
     setValue(event.target.value);
+    onSearchAndDropDownMissmatch(true);
   };
 
   return (
