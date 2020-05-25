@@ -5,6 +5,7 @@ import { getOnlyLocalDate } from '../../utils/dateParser';
 import AddLearningDayButton from './AddLearningDayButton';
 import { isSelfLearningDay } from '../../utils/learningDay';
 import { suspendStartLearningDay, getLearningDays, getLimits } from '../../state/actions';
+import TopicsSelectorCard from './TopicsSelectorCard';
 
 const LearningDay = ({
   date, accessors, allDayAccessors, dayPropGetter, drillDownView, getNow, onView, onSelectSlot, onNavigate, events,
@@ -16,7 +17,9 @@ const LearningDay = ({
   if (!isSelfLearningDay(date, selfLearningDays))
     return <AddLearningDayButton date={date} disabled={remainingLimit.daysPerQuarter === 0} />;
 
-  return null;
+  return (
+    <TopicsSelectorCard />
+  );
 };
 
 LearningDay.navigate = (date, action) => {
