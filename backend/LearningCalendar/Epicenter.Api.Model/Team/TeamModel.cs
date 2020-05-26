@@ -12,17 +12,8 @@ namespace Epicenter.Api.Model.Team
             ManagerId = response.Team.Manager.Id;
             ManagerName = response.Team.Manager.Name;
             Employees = response.Team.Employees
-                .Select(employee => new Employee
-                {
-                    Id = employee.Id,
-                    Name = employee.Name,
-                    GoalTopics = employee.GoalTopics
-                        .Select(goal => new Goal
-                        {
-                            Topic = goal.Topic,
-                            TopicId = goal.TopicId
-                        }).ToList()
-                }).ToList();
+                .Select(employee => new Employee(employee))
+                .ToList();
         }
 
         public Guid ManagerId { get; set; }
@@ -30,11 +21,33 @@ namespace Epicenter.Api.Model.Team
         public List<Employee> Employees { get; set; }
         public class Employee
         {
+            public Employee(GetTeamDetailsOperationResponse.Employee employee)
+            {
+                Id = employee.Id;
+                Name = employee.Name;
+                GoalTopics = employee.GoalTopics
+                    .Select(goal => new Goal
+                    {
+                        Topic = goal.Topic,
+                        TopicId = goal.TopicId
+                    }).ToList();
+                Limit = new Limit
+                {
+                    LearningDaysPerQuarter = employee.Limit.LearningDaysPerQuarter,
+                    TopicsPerDay = employee.Limit.TopicsPerDay
+                };
+            }
             public Guid Id { get; set; }
             public string Name { get; set; }
             public List<Goal> GoalTopics { get; set; }
+            public Limit Limit { get; set; }
         }
 
+        public class Limit
+        {
+            public int TopicsPerDay { get; set; }
+            public int LearningDaysPerQuarter { get; set; }
+        }
         public class Goal
         {
             public Guid TopicId { get; set; }

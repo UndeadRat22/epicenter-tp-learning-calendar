@@ -28,6 +28,13 @@ namespace Epicenter.Service.Interface.Operations.Team
             public Guid Id { get; set; }
             public string Name { get; set; }
             public List<Goal> GoalTopics { get; set; }
+            public Limit Limit { get; set; }
+        }
+
+        public class Limit
+        {
+            public int TopicsPerDay { get; set; }
+            public int LearningDaysPerQuarter { get; set; }
         }
 
         public class Goal

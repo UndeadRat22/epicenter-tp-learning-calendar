@@ -31,7 +31,12 @@ namespace Epicenter.Service.Operations.Team
                 {
                     Id = employee.Id,
                     Name = employee.FullName,
-                    GoalTopics = MapGoals(employee)
+                    GoalTopics = MapGoals(employee),
+                    Limit = new GetTeamDetailsOperationResponse.Limit
+                    {
+                        LearningDaysPerQuarter = employee.Limit.DaysPerQuarter,
+                        TopicsPerDay = employee.Limit.TopicsPerDay
+                    }
                 })
                 .ToList() ?? new List<GetTeamDetailsOperationResponse.Employee>();
 
