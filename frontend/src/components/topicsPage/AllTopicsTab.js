@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Edit from 'wix-ui-icons-common/Edit';
 import OpenModal from 'wix-ui-icons-common/OpenModal';
 import { getAllTopics } from '../../state/actions/allTopics';
-import { LOADING_ALL_TOPICS } from '../../constants/AllTopicsStatus';
+import { LOADING_ALL_TOPICS, FETCH_ALL_TOPICS_FAILED } from '../../constants/AllTopicsStatus';
 import CreateTopicModal from '../modals/CreateTopicModal';
 import TopicModal from '../modals/TopicModal';
 import EditTopicModal from '../modals/EditTopic';
@@ -92,13 +92,16 @@ const AllTopicsTab = () => {
             {!getFilteredData().length && (
             <Table.EmptyState
               subtitle={(
-                isLoading ? <div style={{ textAlign: 'center' }}><Loader size="large" /></div> : (
+                // eslint-disable-next-line no-nested-ternary
+                isLoading ? <div style={{ textAlign: 'center' }}><Loader size="large" /></div> : (topicsStatus === FETCH_ALL_TOPICS_FAILED ? (
+                  <Text>Failed to load topics</Text>
+                ) : (
                   <Text>
                     {'There are no search results matching '}
                     <Text weight="normal">{`"${activeSearch}"`}</Text>
                   </Text>
                 )
-              )}
+                ))}
             />
             )}
           </Table>
