@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDrop } from 'react-dnd';
 import {
   Avatar, Badge, Box, Cell, Divider, Layout, Tag, Text, Tooltip,
@@ -9,22 +9,26 @@ import {
 } from '../../state/actions/assignGoals';
 import s from './styles.scss';
 import { TOPIC } from '../../constants/DraggableTypes';
+import EditLimitModal from '../modals/EditLimitModal';
 
-const renderLimit = limit => {
+const renderLimit = (limit, onClick) => {
   const remainingDays = limit.learningDaysPerQuarter - limit.createdLearningDaysThisQuarter;
   const badgeText = `${remainingDays}/${limit.learningDaysPerQuarter}`;
   const tooltipText = `${remainingDays} out of ${limit.learningDaysPerQuarter} days left`;
   return (
     <Tooltip content={tooltipText}>
-      <Badge onClick={() => alert('Badge Clicked')}>
-        {badgeText}
-      </Badge>
+      <div>
+        <Badge onClick={onClick}>
+          {badgeText}
+        </Badge>
+      </div>
     </Tooltip>
   );
 };
 
 const Employee = ({ employee }) => {
   const dispatch = useDispatch();
+  const [isOpenedEditLimitModal, setIsOpenedEditLimitModal] = useState(false);
 
   const { isSelf } = employee;
   const handleAssignGoal = topic => {
@@ -82,7 +86,7 @@ const Employee = ({ employee }) => {
                 </Text>
               </Box>
             </Box>
-            {!isSelf && renderLimit(employee.limit)}
+            {!isSelf && renderLimit(employee.limit, () => setIsOpenedEditLimitModal(true))}
           </Box>
         </Cell>
         {hasGoals && (
@@ -107,6 +111,15 @@ const Employee = ({ employee }) => {
               ))}
             </div>
           </Cell>
+        )}
+        {isOpenedEditLimitModal
+        && (
+          <EditLimitModal
+            isModalOpened={isOpenedEditLimitModal}
+            onCloseModal={() => setIsOpenedEditLimitModal(false)}
+            limit={employee.limit}
+            employeeName={employee.name}
+          />
         )}
       </Layout>
     </div>

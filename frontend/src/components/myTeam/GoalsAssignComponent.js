@@ -103,7 +103,7 @@ const GoalsAssignComponent = () => {
                     <Add />
                   </IconButton>
                 </Box>
-                <CreateTopicModal isModalOpened={isOpenedCreateTopicModal} onCloseModal={() => setIsOpenedCreateTopicModal(false)} />
+                {isOpenedCreateTopicModal && <CreateTopicModal isModalOpened={isOpenedCreateTopicModal} onCloseModal={() => setIsOpenedCreateTopicModal(false)} />}
               </Card.Content>
             </Card>
           </Col>
