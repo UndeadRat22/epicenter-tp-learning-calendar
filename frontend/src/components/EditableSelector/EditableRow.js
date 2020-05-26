@@ -25,6 +25,8 @@ const EditableRow = ({
     onCancel && onCancel();
   };
 
+  const isApproveDisabled = isSearchAndDropDownMissmatched || !topicId;
+
   return (
     <div className={styles.editableRowContainer}>
       <div className={styles.editableRowInputWrap}>
@@ -48,15 +50,17 @@ const EditableRow = ({
           </IconButton>
         </Tooltip>
 
-        <Tooltip content="Confirm" timeout={0}>
-          <IconButton
-            onClick={onApproveWrap}
-            size="medium"
-            disabled={isSearchAndDropDownMissmatched || !topicId}
-            dataHook="edit-row-approve-button"
-          >
-            <Check />
-          </IconButton>
+        <Tooltip content={isApproveDisabled ? 'Please choose topic' : 'Confirm'} timeout={0}>
+          <div>
+            <IconButton
+              onClick={onApproveWrap}
+              size="medium"
+              disabled={isApproveDisabled}
+              dataHook="edit-row-approve-button"
+            >
+              <Check />
+            </IconButton>
+          </div>
         </Tooltip>
       </div>
     </div>
