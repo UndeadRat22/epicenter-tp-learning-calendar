@@ -84,7 +84,7 @@ const MyTeam = () => {
 
   return (
     <Page height="1000px">
-      <Page.Header title="My Team" subtitle="Here you can assign goals to your team members" actionsBar={<ActionsBar />} />
+      <Page.Header title="My Team" subtitle="Here you can assign goals to your team members and adjust their learning day limits" actionsBar={<ActionsBar />} />
       <Page.Content>
         <GoalsAssignComponent />
       </Page.Content>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 import {
-  Avatar, Cell, Divider, Layout, Tag, Text,
+  Avatar, Badge, Cell, Divider, Layout, Tag, Text, Tooltip,
 } from 'wix-style-react';
 import { useDispatch } from 'react-redux';
 import {
@@ -54,7 +54,7 @@ const Employee = ({ employee }) => {
     <div className={employeeClass} ref={drop}>
       <Layout gap={8}>
         <Cell span={12}>
-          <Layout>
+          <Layout alignItems="center" gap={0}>
             <Cell span={1}>
               <Avatar
                 name={employee.name}
@@ -62,10 +62,19 @@ const Employee = ({ employee }) => {
                 size="size36"
               />
             </Cell>
-            <Cell span={11}>
+            <Cell span={10}>
               <Text weight={isSelf ? 'bold' : 'normal'}>
                 {employee.name}
               </Text>
+            </Cell>
+            <Cell span={1} vertical>
+              {!isSelf && (
+                <Tooltip content="3 out of 3 days left" placement="right-end">
+                  <Badge onClick={() => alert('Badge Clicked')}>
+                    3/3
+                  </Badge>
+                </Tooltip>
+              )}
             </Cell>
           </Layout>
         </Cell>
