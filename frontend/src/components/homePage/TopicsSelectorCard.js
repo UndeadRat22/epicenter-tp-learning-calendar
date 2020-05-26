@@ -5,23 +5,23 @@ import {
 import { useSelector } from 'react-redux';
 import EditableSelector from '../EditableSelector/EditableSelector';
 import s from './TopicsSelectorCard.scss';
-import { PLANNED, LEARNED, NOTPLANNED } from '../../constants/ProgressStatus';
+import { IN_PROGRESS, DONE } from '../../constants/LearningDayTopicProgressStatus';
 
 const mockTopics = [
   {
     id: '8fc627b9-b78e-4e34-acc8-08d7fd5087e5',
     subject: '.Net',
-    progressStatus: PLANNED,
+    progressStatus: IN_PROGRESS,
   },
   {
     id: '466e1c84-ca0b-412e-acc9-08d7fd5087e5',
     subject: 'ASP.NET',
-    progressStatus: LEARNED,
+    progressStatus: DONE,
   },
   {
     id: '1e9cdf75-cb8e-4a0b-2482-08d7fe97417b',
     subject: 'Java',
-    progressStatus: PLANNED,
+    progressStatus: IN_PROGRESS,
   },
 ];
 
@@ -29,7 +29,7 @@ const TopicsSelectorCard = ({
   employee, topics, isSelf, isLoading, maxTopics,
 }) => {
   // TODO: topics instead of mockTopics
-  const [selectedTopics, setSelectedTopics] = useState(mockTopics.map(topic => ({ ...topic, isChecked: topic.progressStatus === LEARNED })));
+  const [selectedTopics, setSelectedTopics] = useState(mockTopics.map(topic => ({ ...topic, isChecked: topic.progressStatus === DONE })));
 
   // const [options, setOptions] = useState([{ title: 'Pumpkin Seeds' }, { title: 'Sunflower Seeds' }]);
 

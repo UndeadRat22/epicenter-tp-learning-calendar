@@ -13,7 +13,6 @@ import {
 import EditableRow from './EditableRow';
 import WixComponent from './WixComponent';
 import styles from './EditableSelector.scss';
-import { LEARNED } from '../../constants/ProgressStatus';
 
 class EditableSelector extends WixComponent {
   static propTypes = {
