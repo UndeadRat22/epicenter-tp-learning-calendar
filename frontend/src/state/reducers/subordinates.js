@@ -15,17 +15,17 @@ const subordinates = (state = initialState, action) => {
     case FETCH_SUBORDINATES_START:
       return {
         status: LOADING_SUBORDINATES,
-        myTeam: [],
+        subordinates: [],
       };
     case FETCH_SUBORDINATES_SUCCESS:
       return {
         status: FETCH_SUBORDINATES_SUCCEEDED,
-        myTeam: action.payload,
+        subordinates: action.payload,
       };
     case FETCH_SUBORDINATES_FAIL:
       return {
         status: FETCH_SUBORDINATES_FAILED,
-        myTeam: [],
+        subordinates: [],
       };
     default:
       return state;
