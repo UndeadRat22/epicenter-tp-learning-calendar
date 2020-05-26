@@ -24,7 +24,8 @@ const MyTeam = () => {
   };
 
   const save = () => {
-    dispatch(saveGoals({ newGoals: groupGoals(newGoals, goal => goal.employeeId), newPersonalGoals }));
+    if (newGoals.length > 0 || newPersonalGoals.length > 0)
+      dispatch(saveGoals({ newGoals: groupGoals(newGoals, goal => goal.employeeId), newPersonalGoals }));
   };
 
   const groupGoals = (array, key) => {
