@@ -8,7 +8,7 @@ import Add from 'wix-ui-icons-common/Add';
 import Delete from 'wix-ui-icons-common/Delete';
 
 import {
-  Selector, Text, Button, IconButton, TextButton,
+  Selector, Text, Button, IconButton, TextButton, Badge, Tooltip,
 } from 'wix-style-react';
 import EditableRow from './EditableRow';
 import WixComponent from './WixComponent';
@@ -96,7 +96,16 @@ class EditableSelector extends WixComponent {
       <div>
         {title && (
           <div className={styles.title} data-hook="editable-selector-title">
-            <Text weight="normal">{title}</Text>
+            <Text weight="normal" style={{ marginRight: 12 }}>{title}</Text>
+            <Badge
+              size="small"
+            >
+
+              {topics.length}
+              /
+              {maxTopics}
+
+            </Badge>
           </div>
         )}
         <div>
