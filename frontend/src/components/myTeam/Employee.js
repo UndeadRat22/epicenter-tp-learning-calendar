@@ -117,8 +117,7 @@ const Employee = ({ employee }) => {
           <EditLimitModal
             isModalOpened={isOpenedEditLimitModal}
             onCloseModal={() => setIsOpenedEditLimitModal(false)}
-            limit={employee.limit}
-            employeeName={employee.name}
+            employee={employee}
           />
         )}
       </Layout>

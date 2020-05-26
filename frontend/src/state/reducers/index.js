@@ -13,7 +13,8 @@ import learningDays from './learningDays';
 import toast from './toast';
 import myTeam from './myTeam';
 import assignGoals from './assignGoals';
+import editLimit from './editLimit';
 
 export default combineReducers({
-  auth, invite, register, changePassword, topicsTree, topic, allTopics, personalGoals, limits, learningDays, toast, myTeam, assignGoals, editTopic,
+  auth, invite, register, changePassword, topicsTree, topic, allTopics, personalGoals, limits, learningDays, toast, myTeam, assignGoals, editTopic, editLimit,
 });
