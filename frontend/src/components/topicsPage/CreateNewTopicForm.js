@@ -10,13 +10,14 @@ import {
   Card,
   FormField,
   InputArea,
+  Loader,
 } from 'wix-style-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { INPUTAREA_MIN_HEIGHT } from '../../constants/Styling';
 import SelectTopicForm from './SelectTopicForm';
 import { showErrorToast } from '../../state/actions/toast';
 
-const CreateNewTopicForm = ({ onCreate }) => {
+const CreateNewTopicForm = ({ onCreate, isLoading }) => {
   const [parentTopic, setParentTopic] = useState('');
   const [subject, setSubject] = useState('');
   const [description, setDescription] = useState('');
@@ -53,11 +54,12 @@ const CreateNewTopicForm = ({ onCreate }) => {
       <Row>
         <Card>
           <Card.Content>
+            {isLoading && <div style={{ textAlign: 'center' }}><Loader size="small" /></div> }
             <Container fluid>
               <Row>
                 <Col>
                   <Cell>
-                    <SelectTopicForm onSelectTopic={selectedTopic => setParentTopic(selectedTopic)} onParentTopicSubjectChange={topic => setParentTopicSubject(topic)} onSearchAndDropDownMissmatch={x => setIsSearchAndDropDownMissmatched(x)} />
+                    <SelectTopicForm title="Select parent topic" onSelectTopic={selectedTopic => setParentTopic(selectedTopic)} onParentTopicSubjectChange={topic => setParentTopicSubject(topic)} onSearchAndDropDownMissmatch={x => setIsSearchAndDropDownMissmatched(x)} />
                   </Cell>
                 </Col>
               </Row>

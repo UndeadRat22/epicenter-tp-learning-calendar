@@ -23,7 +23,7 @@ const getTopic = topicId => async dispatch => {
     const topic = response.data;
     dispatch(getTopicSuccess(topic));
   } catch (err) {
-    console.log(err);
+    console.log(err.response.data);
     dispatch(getTopicFail());
   }
 };
@@ -32,6 +32,7 @@ const createNewTopic = ({ parentTopic, subject, description }) => async dispatch
   try {
     dispatch(createTopicStart());
 
+    console.log({ parentTopic, subject, description });
     const nullableParentTopic = parentTopic === '' ? null : parentTopic;
     await Axios.post('topics/topic', { parentTopic: nullableParentTopic, subject, description });
 
@@ -40,7 +41,7 @@ const createNewTopic = ({ parentTopic, subject, description }) => async dispatch
     dispatch(getAllTopics());
   } catch (err) {
     dispatch(showErrorToast('Failed creating a topic'));
-    console.log(err);
+    console.log(err.response.data);
     dispatch(createTopicFail());
   } finally {
     dispatch(suspendCreateTopic());

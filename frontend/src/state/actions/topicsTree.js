@@ -13,7 +13,7 @@ const getTopicsTree = () => async dispatch => {
     const topics = response.data;
     dispatch(fetchTopicsTreeSuccess(topics));
   } catch (err) {
-    console.log(err);
+    console.log(err.response.data);
     dispatch(fetchTopicsTreeFail());
   }
 };

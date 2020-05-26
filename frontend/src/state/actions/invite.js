@@ -22,7 +22,7 @@ const invite = ({
     dispatch(showSuccessToast('Invite sent'));
   } catch (err) {
     dispatch(showErrorToast('Failed to send invite'));
-    console.log(err);
+    console.log(err.response.data);
     dispatch(inviteFail());
   } finally {
     dispatch(suspendInvite());

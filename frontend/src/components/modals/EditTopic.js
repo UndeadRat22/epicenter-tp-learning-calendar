@@ -10,6 +10,7 @@ import {
   LOADING_EDIT_TOPIC, EDIT_TOPIC_SUCCEEDED,
 } from '../../constants/EditTopicStatus';
 import { FETCH_TOPIC_SUCCEEDED } from '../../constants/TopicStatus';
+import { showErrorToast } from '../../state/actions/toast';
 
 const EditTopicModal = ({ isModalOpened, onCloseModal, topic }) => {
   const dispatch = useDispatch();
@@ -28,7 +29,16 @@ const EditTopicModal = ({ isModalOpened, onCloseModal, topic }) => {
   }, [dispatch]);
 
   const onEditTopic = editedTopic => {
-    dispatch(editTopic(topic, editedTopic));
+    const oldTopic = {
+      parentTopicId: topicInfo.parentId,
+      topicId: topicInfo.id,
+      subject: topicInfo.subject,
+      description: topicInfo.description,
+    };
+    if (oldTopic.parentTopicId === editedTopic.parentTopicId && oldTopic.subject === editedTopic.subject && oldTopic.description === editedTopic.description)
+      dispatch(showErrorToast('Change something! :)'));
+    else
+      dispatch(editTopic(oldTopic, editedTopic));
   };
 
   if (editTopicStatus === EDIT_TOPIC_SUCCEEDED)
@@ -49,7 +59,7 @@ const EditTopicModal = ({ isModalOpened, onCloseModal, topic }) => {
           {isLoading && <div style={{ textAlign: 'center' }}><Loader size="small" /></div> }
           {isTopicFetched
             ? <EditTopicForm onEdit={editedTopic => onEditTopic(editedTopic)} topic={topicInfo} />
-            : <Loader size="tiny" />}
+            : <div style={{ textAlign: 'center' }}><Loader size="large" /></div>}
         </MessageBoxFunctionalLayout>
       </Modal>
     </Layout>

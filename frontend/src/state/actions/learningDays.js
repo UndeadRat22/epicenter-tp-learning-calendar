@@ -85,7 +85,7 @@ const startLearningDay = date => async dispatch => {
     dispatch(getLimits());
   } catch (err) {
     dispatch(showErrorToast('Failed to add learning day'));
-    console.log(err);
+    console.log(err.response.data);
     dispatch(startLearningDayFail());
   } finally {
     dispatch(suspendStartLearningDay());

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
 import {
   FormField,
@@ -6,7 +7,7 @@ import {
 import { useSelector } from 'react-redux';
 
 const SelectTopicForm = ({
-  onSelectTopic, parentTopic = '', onParentTopicSubjectChange, onSearchAndDropDownMissmatch,
+  onSelectTopic, parentTopic = '', onParentTopicSubjectChange, onSearchAndDropDownMissmatch, title = '',
 }) => {
   const [value, setValue] = useState(parentTopic);
 
@@ -23,18 +24,18 @@ const SelectTopicForm = ({
   const onSelect = option => {
     setValue(option.value);
     onSelectTopic(option.id);
-    onSearchAndDropDownMissmatch(false);
+    onParentTopicSubjectChange(option.value);
+    onSearchAndDropDownMissmatch && onSearchAndDropDownMissmatch(false);
   };
 
   const onChange = event => {
-    // eslint-disable-next-line no-unused-expressions
-    onParentTopicSubjectChange && onParentTopicSubjectChange(event.target.value);
     setValue(event.target.value);
-    onSearchAndDropDownMissmatch(true);
+    onParentTopicSubjectChange && onParentTopicSubjectChange(event.target.value);
+    onSearchAndDropDownMissmatch && onSearchAndDropDownMissmatch(true);
   };
 
   return (
-    <FormField label="Select parent topic">
+    <FormField label={title}>
       <AutoComplete
         options={getOptions()}
         value={value}

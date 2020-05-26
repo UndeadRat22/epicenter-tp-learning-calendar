@@ -1,0 +1,83 @@
+@import './typography-helpers.scss';
+
+$rows-margin: 6px;
+.row {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  margin-top: $rows-margin;
+
+  .selector:hover {
+    background-color: transparent;
+  }
+
+  &:hover .optionMenu {
+    visibility: visible;
+  }
+
+  [data-hook='editable-selector-item'] {
+    padding: 0;
+    height: initial;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}
+
+.title {
+  height: 34px;
+  line-height: 34px;
+}
+
+.optionMenu {
+  margin-left: auto;
+  visibility: hidden;
+  display: flex;
+
+  button {
+    transition: none;
+  }
+}
+
+.newRowButton {
+  margin-top: 12px;
+  .textLinkWithPrefix {
+    display: flex;
+    .icon {
+      margin-right: 6px;
+    }
+    .text {
+      @include TextSizeAndFontFamily($size: medium, $weight: normal);
+    }
+  }
+}
+
+// EditableRow //
+.editableRowContainer {
+  display: flex;
+  margin-top: $rows-margin;
+}
+
+.editableRowInput {
+  flex: 1;
+}
+
+.editableRowInputWrap {
+  flex: 1;
+  margin-right: 18px;
+}
+
+.editRow {
+  margin-left: 12px;
+}
+
+.editableRowButtons {
+  display: flex;
+  & > * {
+    margin-right: 12px;
+  }
+  & > :last-child {
+    margin-right: 0;
+  }
+}
