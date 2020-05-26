@@ -5,7 +5,7 @@ import {
 import { useSelector } from 'react-redux';
 import EditableSelector from '../EditableSelector/EditableSelector';
 import s from './TopicsSelectorCard.scss';
-import { PLANNED, LEARNED } from '../../constants/ProgressStatus';
+import { PLANNED, LEARNED, NOTPLANNED } from '../../constants/ProgressStatus';
 
 const mockTopics = [
   {
@@ -46,6 +46,10 @@ const TopicsSelectorCard = ({
     setSelectedTopics(selectedTopics.filter((topic, i) => i !== index));
   };
 
+  const onTopicAdd = () => {
+    setSelectedTopics([...selectedTopics, {}]);
+  };
+
   return (
     <Card className={s.card}>
       <Card.Content size="medium">
@@ -75,6 +79,7 @@ const TopicsSelectorCard = ({
           isSelf={isSelf}
           onOptionEdit={onTopicChange}
           onOptionDelete={onTopicDelete}
+          onOptionAdded={onTopicAdd}
         />
         )}
       </Card.Content>

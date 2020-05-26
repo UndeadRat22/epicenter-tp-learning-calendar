@@ -12,8 +12,11 @@ import SelectTopicForm from '../topicsPage/SelectTopicForm';
 const EditableRow = ({
   onApprove, onCancel, topic, notIncludedTopicIds = [],
 }) => {
-  const [topicId, setTopicId] = useState(topic.id || null);
-  const [newTopicSubject, setNewTopicSubject] = useState(topic.subject || '');
+  const [topicId, setTopicId] = useState(topic ? topic.id : null);
+  const [newTopicSubject, setNewTopicSubject] = useState(topic ? topic.subject : '');
+
+  console.log('notIncldudedTopics');
+  console.log(notIncludedTopicIds);
 
   const [isSearchAndDropDownMissmatched, setIsSearchAndDropDownMissmatched] = useState(false);
 

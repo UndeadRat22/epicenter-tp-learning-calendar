@@ -30,7 +30,7 @@ class EditableSelector extends WixComponent {
 
   static defaultProps = {
     toggleType: 'checkbox',
-    newRowLabel: 'New Row',
+    newRowLabel: 'New Topic',
     editButtonText: 'Edit',
   };
 
@@ -77,7 +77,7 @@ class EditableSelector extends WixComponent {
   renderInput = (topic, index) => {
     return (
       <EditableRow
-        notIncludedTopicIds={this.props.topics.filter(x => x.id !== topic.id)}
+        notIncludedTopicIds={topic ? this.props.topics.filter(x => x.id !== topic.id) : this.props.topics}
         key={index}
         topic={topic}
         dataHook="edit-row-wrapper"
