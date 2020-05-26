@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Container, Row, Col, Card, Selector, Checkbox, Box, Layout, Cell, Avatar, Text, Loader, RichTextInputArea, Heading,
+  Container, Row, Col, Card, Selector, Checkbox, Box, Layout, Cell, Avatar, Text, Loader, RichTextInputArea, Heading, Button,
 } from 'wix-style-react';
 import { useSelector } from 'react-redux';
 import EditableSelector from '../EditableSelector/EditableSelector';
@@ -58,17 +58,31 @@ const TopicsSelectorCard = ({
       <Card.Content size="medium">
         {isLoading ? <div style={{ textAlign: 'center' }}><Loader size="medium" /></div>
           : (
-            <Box>
-              <span className={s.avatar}>
-                <Avatar
-                  name={employee.name}
-                  color="A1"
-                  size="size36"
-                />
-              </span>
-              <Text>
-                {employee.name}
-              </Text>
+            <Box align="space-between">
+              <Box>
+                <span className={s.avatar}>
+                  <Avatar
+                    name={employee.name}
+                    color="A1"
+                    size="size36"
+                  />
+                </span>
+                <Text>
+                  {employee.name}
+                </Text>
+              </Box>
+              <Box>
+                <Box marginRight="small">
+                  <Button skin="light">
+                    Reset
+                  </Button>
+                </Box>
+                <Box>
+                  <Button>
+                    Save
+                  </Button>
+                </Box>
+              </Box>
             </Box>
           )}
       </Card.Content>
