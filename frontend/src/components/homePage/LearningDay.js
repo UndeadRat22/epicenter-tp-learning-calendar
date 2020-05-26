@@ -12,7 +12,7 @@ const LearningDay = ({
 }) => {
   const dispatch = useDispatch();
   const { selfLearningDays, teamLearningDays, status: learningDaysStatus } = useSelector(state => state.learningDays);
-  const { assignedLimit, remainingLimit, status: limitsStatus } = useSelector(state => state.limits);
+  const { assignedLimit, remainingLimit } = useSelector(state => state.limits);
 
   if (!isSelfLearningDay(date, selfLearningDays))
     return <AddLearningDayButton date={date} disabled={remainingLimit.daysPerQuarter === 0} />;
@@ -23,7 +23,7 @@ const LearningDay = ({
   console.log(selfLearningDay);
 
   return (
-    <TopicsSelectorCard topics={selfLearningDay.topics} employee={selfLearningDay.employee} isSelf />
+    <TopicsSelectorCard topics={selfLearningDay.topics} employee={selfLearningDay.employee} isSelf maxTopics={assignedLimit.topicsPerDay} />
   );
 };
 

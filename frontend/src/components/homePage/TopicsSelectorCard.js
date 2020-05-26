@@ -26,7 +26,7 @@ const mockTopics = [
 ];
 
 const TopicsSelectorCard = ({
-  employee, topics, isSelf, isLoading,
+  employee, topics, isSelf, isLoading, maxTopics,
 }) => {
   // TODO: topics instead of mockTopics
   const [selectedTopics, setSelectedTopics] = useState(mockTopics.map(topic => ({ ...topic, isChecked: topic.progressStatus === LEARNED })));
@@ -44,8 +44,8 @@ const TopicsSelectorCard = ({
     setSelectedTopics(selectedTopics.filter((topic, i) => i !== index));
   };
 
-  const onTopicAdd = () => {
-    setSelectedTopics([...selectedTopics, {}]);
+  const onTopicAdd = ({ newTopicId, newTopicSubject }) => {
+    setSelectedTopics([...selectedTopics, { id: newTopicId, subject: newTopicSubject, isChecked: false }]);
   };
 
   const onTopicCheck = index => {
@@ -75,6 +75,7 @@ const TopicsSelectorCard = ({
       <Card.Content>
         {!isLoading && (
         <EditableSelector
+          maxTopics={maxTopics}
           toggleType="checkbox"
           title="Topics"
           topics={selectedTopics}

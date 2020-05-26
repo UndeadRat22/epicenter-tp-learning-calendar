@@ -89,7 +89,7 @@ class EditableSelector extends WixComponent {
 
   render() {
     const {
-      title, newRowLabel, editButtonText, toggleType,
+      title, newRowLabel, editButtonText, toggleType, maxTopics,
     } = this.props;
     let { topics } = this.props;
     topics = topics || [];
@@ -143,6 +143,8 @@ class EditableSelector extends WixComponent {
           )))}
         </div>
         {this.state.addingNewRow && this.renderInput()}
+        {topics.length < maxTopics
+        && (
         <div className={styles.newRowButton}>
           <TextButton
             as="a"
@@ -154,6 +156,7 @@ class EditableSelector extends WixComponent {
             {newRowLabel}
           </TextButton>
         </div>
+        )}
       </div>
     );
   }
