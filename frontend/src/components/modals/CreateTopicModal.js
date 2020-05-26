@@ -33,7 +33,7 @@ const CreateTopicModal = ({ isModalOpened, onCloseModal }) => {
           maxHeight={MODAL_MAX_HEIGHT}
           onClose={onCloseModal}
         >
-          <CreateNewTopicForm onCreate={topic => createTopic(topic)} />
+          <CreateNewTopicForm isLoading={topicStatus === LOADING_CREATE_TOPIC} onCreate={topic => createTopic(topic)} />
         </MessageBoxFunctionalLayout>
       </Modal>
     </Layout>
