@@ -113,7 +113,7 @@ class EditableSelector extends WixComponent {
                 dataHook="editable-selector-item"
                 id={index}
                 title={topic.subject}
-                isSelected={topic.progressStatus === LEARNED}
+                isSelected={!!topic.isChecked}
                 toggleType={toggleType}
                 onToggle={id => this.onOptionToggle(id)}
               />

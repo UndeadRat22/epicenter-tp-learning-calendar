@@ -28,10 +28,8 @@ const mockTopics = [
 const TopicsSelectorCard = ({
   employee, topics, isSelf, isLoading,
 }) => {
-  const [selectedTopics, setSelectedTopics] = useState(mockTopics);
-
-  // TODO: uncomment to connect real topics
-  // const [selectedTopics, setSelectedTopics] = useState(topics);
+  // TODO: topics instead of mockTopics
+  const [selectedTopics, setSelectedTopics] = useState(mockTopics.map(topic => ({ ...topic, isChecked: topic.progressStatus === LEARNED })));
 
   // const [options, setOptions] = useState([{ title: 'Pumpkin Seeds' }, { title: 'Sunflower Seeds' }]);
 
@@ -39,7 +37,7 @@ const TopicsSelectorCard = ({
 
   const onTopicChange = ({ newTopicId, newTopicSubject, index }) => {
     // progressStatus is PLANNED, because you can only add topics today and in the future
-    setSelectedTopics(selectedTopics.map((topic, i) => (i === index ? ({ id: newTopicId, subject: newTopicSubject, progressStatus: PLANNED }) : topic)));
+    setSelectedTopics(selectedTopics.map((topic, i) => (i === index ? ({ id: newTopicId, subject: newTopicSubject, isChecked: true }) : topic)));
   };
 
   const onTopicDelete = ({ index }) => {
@@ -48,6 +46,10 @@ const TopicsSelectorCard = ({
 
   const onTopicAdd = () => {
     setSelectedTopics([...selectedTopics, {}]);
+  };
+
+  const onTopicCheck = index => {
+    setSelectedTopics(selectedTopics.map((topic, i) => (i === index ? { ...topic, isChecked: !topic.isChecked } : topic)));
   };
 
   return (
@@ -80,6 +82,7 @@ const TopicsSelectorCard = ({
           onOptionEdit={onTopicChange}
           onOptionDelete={onTopicDelete}
           onOptionAdded={onTopicAdd}
+          onOptionToggle={onTopicCheck}
         />
         )}
       </Card.Content>
