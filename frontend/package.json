@@ -36,8 +36,13 @@
     "yoshi-style-dependencies": "^4.71.0"
   },
   "dependencies": {
+    "@vx/gradient": "0.0.153",
+    "@vx/group": "0.0.153",
+    "@vx/hierarchy": "0.0.153",
+    "@vx/shape": "0.0.158",
     "axios": "^0.19.2",
-    "d3-hierarchy": "^1.1.9",
+    "classnames": "^2.2.5",
+    "d3-hierarchy": "^1.1.5",
     "date-arithmetic": "^4.1.0",
     "moment": "^2.26.0",
     "prop-types": "^15.7.2",
