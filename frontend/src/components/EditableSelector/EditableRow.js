@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-expressions */
 import React, { Component, useState } from 'react';
-import PropTypes from 'prop-types';
 import X from 'wix-ui-icons-common/X';
 import Check from 'wix-ui-icons-common/Check';
 
@@ -10,17 +9,16 @@ import {
 import styles from './EditableSelector.scss';
 import SelectTopicForm from '../topicsPage/SelectTopicForm';
 
-const EditableRow = ({ newOption, onApprove, onCancel }) => {
-  const [parentTopic, setParentTopic] = useState('');
-  const [subject, setSubject] = useState('');
-  const [description, setDescription] = useState('');
-  const [isSearchAndDropDownMissmatched, setIsSearchAndDropDownMissmatched] = useState(false);
-  const [parentTopicSubject, setParentTopicSubject] = useState('');
+const EditableRow = ({
+  onApprove, onCancel, topic,
+}) => {
+  const [topicId, setTopicId] = useState(topic.id || null);
+  const [newTopicSubject, setNewTopicSubject] = useState(topic.subject || '');
 
-  const [newestOption, setNewestOption] = useState(newOption || '');
+  const [isSearchAndDropDownMissmatched, setIsSearchAndDropDownMissmatched] = useState(false);
 
   const onApproveWrap = () => {
-    onApprove && onApprove(newestOption);
+    onApprove && onApprove(topicId);
   };
 
   const onCancelWrap = () => {
@@ -30,7 +28,12 @@ const EditableRow = ({ newOption, onApprove, onCancel }) => {
   return (
     <div className={styles.editableRowContainer}>
       <div className={styles.editableRowInputWrap}>
-        <SelectTopicForm />
+        <SelectTopicForm
+          onSelectTopic={selectedTopicId => setTopicId(selectedTopicId)}
+          parentTopic={newTopicSubject}
+          onParentTopicSubjectChange={topicSubject => setNewTopicSubject(topicSubject)}
+          onSearchAndDropDownMissmatch={x => setIsSearchAndDropDownMissmatched(x)}
+        />
       </div>
 
       <div className={styles.editableRowButtons}>
@@ -49,7 +52,7 @@ const EditableRow = ({ newOption, onApprove, onCancel }) => {
           <IconButton
             onClick={onApproveWrap}
             size="medium"
-            disabled={newestOption.length === 0}
+            disabled={isSearchAndDropDownMissmatched || !topicId}
             dataHook="edit-row-approve-button"
           >
             <Check />

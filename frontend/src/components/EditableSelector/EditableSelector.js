@@ -24,7 +24,7 @@ class EditableSelector extends WixComponent {
     onOptionEdit: PropTypes.func,
     onOptionDelete: PropTypes.func,
     onOptionToggle: PropTypes.func,
-    options: PropTypes.array,
+    topics: PropTypes.array,
   };
 
   static defaultProps = {
@@ -73,14 +73,14 @@ class EditableSelector extends WixComponent {
     this.props.onOptionToggle && this.props.onOptionToggle(id);
   };
 
-  renderInput = (title, index) => {
+  renderInput = (topic, index) => {
     return (
       <EditableRow
         key={index}
+        topic={topic}
         dataHook="edit-row-wrapper"
         onApprove={newTitle => this.onNewOptionApprove({ newTitle, index })}
         onCancel={() => this.onNewOptionCancel()}
-        newOption={title}
       />
     );
   };
@@ -89,8 +89,8 @@ class EditableSelector extends WixComponent {
     const {
       title, newRowLabel, editButtonText, toggleType,
     } = this.props;
-    let { options } = this.props;
-    options = options || [];
+    let { topics } = this.props;
+    topics = topics || [];
     return (
       <div>
         {title && (
@@ -99,8 +99,8 @@ class EditableSelector extends WixComponent {
           </div>
         )}
         <div>
-          {options.map((option, index) => (this.state.editingRow === index ? (
-            this.renderInput(option.title, index)
+          {topics.map((topic, index) => (this.state.editingRow === index ? (
+            this.renderInput(topic, index)
           ) : (
             <div
               data-hook="editable-selector-row"
@@ -110,8 +110,8 @@ class EditableSelector extends WixComponent {
               <Selector
                 dataHook="editable-selector-item"
                 id={index}
-                title={option.title}
-                isSelected={option.isSelected}
+                title={topic.subject}
+                isSelected={topic.isSelected}
                 toggleType={toggleType}
                 onToggle={id => this.onOptionToggle(id)}
               />

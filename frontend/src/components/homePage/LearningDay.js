@@ -3,7 +3,7 @@ import * as dates from 'date-arithmetic';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOnlyLocalDate } from '../../utils/dateParser';
 import AddLearningDayButton from './AddLearningDayButton';
-import { isSelfLearningDay } from '../../utils/learningDay';
+import { isSelfLearningDay, getSelfLearningDayFromDate } from '../../utils/learningDay';
 import { suspendStartLearningDay, getLearningDays, getLimits } from '../../state/actions';
 import TopicsSelectorCard from './TopicsSelectorCard';
 
@@ -17,8 +17,13 @@ const LearningDay = ({
   if (!isSelfLearningDay(date, selfLearningDays))
     return <AddLearningDayButton date={date} disabled={remainingLimit.daysPerQuarter === 0} />;
 
+  const selfLearningDay = getSelfLearningDayFromDate(date, selfLearningDays);
+
+  console.log('selfLearningDay in <LearningDay />');
+  console.log(selfLearningDay);
+
   return (
-    <TopicsSelectorCard employee={{ name: 'Donald DRUMP' }} />
+    <TopicsSelectorCard topics={selfLearningDay.topics} employee={selfLearningDay.employee} isSelf />
   );
 };
 
