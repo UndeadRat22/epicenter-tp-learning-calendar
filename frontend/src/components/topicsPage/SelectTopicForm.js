@@ -24,12 +24,13 @@ const SelectTopicForm = ({
   const onSelect = option => {
     setValue(option.value);
     onSelectTopic(option.id);
+    onParentTopicSubjectChange(option.value);
     onSearchAndDropDownMissmatch && onSearchAndDropDownMissmatch(false);
   };
 
   const onChange = event => {
-    onParentTopicSubjectChange && onParentTopicSubjectChange(event.target.value);
     setValue(event.target.value);
+    onParentTopicSubjectChange && onParentTopicSubjectChange(event.target.value);
     onSearchAndDropDownMissmatch && onSearchAndDropDownMissmatch(true);
   };
 
