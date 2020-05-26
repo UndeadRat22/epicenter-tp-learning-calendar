@@ -128,7 +128,7 @@ namespace Epicenter.Api.Controllers
         }
 
         [HttpGet, Route("subordinates")]
-        [ProducesResponseType((int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(EmployeeListModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetSubordinateList()
         {
             var response = await _getAllSubordinateEmployeesOperation.Execute();

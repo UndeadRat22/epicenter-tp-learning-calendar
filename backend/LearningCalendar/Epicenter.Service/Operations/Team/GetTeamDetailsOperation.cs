@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Epicenter.Infrastructure.Extensions;
 using Epicenter.Persistence.Interface.Repository.LearningCalendar;
 using Epicenter.Service.Interface.Operations.Team;
 
@@ -12,7 +13,9 @@ namespace Epicenter.Service.Operations.Team
         private readonly ITeamRepository _teamRepository;
         private readonly IEmployeeRepository _employeeRepository;
 
-        public GetTeamDetailsOperation(ITeamRepository teamRepository, IEmployeeRepository employeeRepository)
+        public GetTeamDetailsOperation(
+            ITeamRepository teamRepository, 
+            IEmployeeRepository employeeRepository)
         {
             _teamRepository = teamRepository;
             _employeeRepository = employeeRepository;
@@ -24,7 +27,7 @@ namespace Epicenter.Service.Operations.Team
 
             var manager = 
                 team?.Manager ??
-                (await _employeeRepository.GetByIdAsync(request.ManagerId));
+                await _employeeRepository.GetByIdAsync(request.ManagerId);
 
             var employees = team?.Employees
                 .Select(employee => new GetTeamDetailsOperationResponse.Employee
@@ -35,7 +38,10 @@ namespace Epicenter.Service.Operations.Team
                     Limit = new GetTeamDetailsOperationResponse.Limit
                     {
                         LearningDaysPerQuarter = employee.Limit.DaysPerQuarter,
-                        TopicsPerDay = employee.Limit.TopicsPerDay
+                        TopicsPerDay = employee.Limit.TopicsPerDay,
+                        CreatedLearningDaysThisQuarter = employee
+                            .GetLearningDaysForQuarter(DateTime.Today.GetQuarter())
+                            .Count()
                     }
                 })
                 .ToList() ?? new List<GetTeamDetailsOperationResponse.Employee>();

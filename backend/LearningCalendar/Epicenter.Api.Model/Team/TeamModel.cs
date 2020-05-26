@@ -34,7 +34,7 @@ namespace Epicenter.Api.Model.Team
                 Limit = new Limit
                 {
                     LearningDaysPerQuarter = employee.Limit.LearningDaysPerQuarter,
-                    TopicsPerDay = employee.Limit.TopicsPerDay
+                    CreatedLearningDaysThisQuarter = employee.Limit.CreatedLearningDaysThisQuarter
                 };
             }
             public Guid Id { get; set; }
@@ -45,8 +45,8 @@ namespace Epicenter.Api.Model.Team
 
         public class Limit
         {
-            public int TopicsPerDay { get; set; }
             public int LearningDaysPerQuarter { get; set; }
+            public int CreatedLearningDaysThisQuarter { get; set; }
         }
         public class Goal
         {

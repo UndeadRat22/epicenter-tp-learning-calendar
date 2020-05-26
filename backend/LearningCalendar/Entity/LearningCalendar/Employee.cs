@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Epicenter.Domain.Entity.LearningCalendar.ValueObject;
+using Epicenter.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 
 namespace Epicenter.Domain.Entity.LearningCalendar
@@ -41,5 +43,11 @@ namespace Epicenter.Domain.Entity.LearningCalendar
         public string FullName => $"{FirstName} {LastName}";
 
         #endregion
+
+        public IEnumerable<LearningDay> GetLearningDaysForQuarter(int quarter)
+        {
+            return LearningDays
+                .Where(day => day.Date.GetQuarter() == quarter);
+        }
     }
 }

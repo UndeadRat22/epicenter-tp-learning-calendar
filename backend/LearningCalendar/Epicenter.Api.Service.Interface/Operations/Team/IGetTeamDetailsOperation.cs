@@ -35,6 +35,7 @@ namespace Epicenter.Service.Interface.Operations.Team
         {
             public int TopicsPerDay { get; set; }
             public int LearningDaysPerQuarter { get; set; }
+            public int CreatedLearningDaysThisQuarter { get; set; }
         }
 
         public class Goal
