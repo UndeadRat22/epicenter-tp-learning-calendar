@@ -23,17 +23,20 @@ namespace Epicenter.Api.Controllers
         private readonly IGetEmployeeDetailsOperation _getEmployeeDetailsOperation;
         private readonly IDeleteEmployeeOperation _deleteEmployeeOperation;
         private readonly IReassignEmployeeOperation _reassignEmployeeOperation;
+        private readonly IGetAllSubordinateEmployeesOperation _getAllSubordinateEmployeesOperation;
 
         public EmployeesController(
             ICreateEmployeeOperation employeeOperation, 
             IGetEmployeeDetailsOperation employeeDetailsOperation, 
             IDeleteEmployeeOperation deleteEmployeeOperation, 
-            IReassignEmployeeOperation reassignEmployeeOperation)
+            IReassignEmployeeOperation reassignEmployeeOperation, 
+            IGetAllSubordinateEmployeesOperation getAllSubordinateEmployeesOperation)
         {
             _createEmployeeOperation = employeeOperation;
             _getEmployeeDetailsOperation = employeeDetailsOperation;
             _deleteEmployeeOperation = deleteEmployeeOperation;
             _reassignEmployeeOperation = reassignEmployeeOperation;
+            _getAllSubordinateEmployeesOperation = getAllSubordinateEmployeesOperation;
         }
 
 
@@ -122,6 +125,14 @@ namespace Epicenter.Api.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet, Route("subordinates")]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        public async Task<IActionResult> GetSubordinateList()
+        {
+            var response = await _getAllSubordinateEmployeesOperation.Execute();
+            return Ok(new EmployeeListModel(response));
         }
 
 
