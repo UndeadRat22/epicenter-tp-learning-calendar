@@ -34,13 +34,7 @@ namespace Epicenter.Service.Operations.Topic
             {
                 return new UpdateTopicOperationResponse
                 {
-                    UpdatedTopic = new UpdateTopicOperationResponse.Topic
-                    {
-                        Id = topic.Id,
-                        ParentTopicId = topic.ParentTopicId,
-                        Subject = topic.Subject,
-                        Description = topic.Description
-                    }
+                    UpdatedTopic = MapTopic(topic)
                 };
             }
 
@@ -57,17 +51,22 @@ namespace Epicenter.Service.Operations.Topic
                 //optimistic locking
                 return new UpdateTopicOperationResponse
                 {
-                    UpdatedTopic = new UpdateTopicOperationResponse.Topic
-                    {
-                        Id = topic.Id,
-                        ParentTopicId = topic.ParentTopicId,
-                        Subject = topic.Subject,
-                        Description = topic.Description
-                    }
+                    UpdatedTopic = MapTopic(topic)
                 };
             }
 
             return new UpdateTopicOperationResponse();
+        }
+
+        private UpdateTopicOperationResponse.Topic MapTopic(Domain.Entity.LearningCalendar.Topic topic)
+        {
+            return new UpdateTopicOperationResponse.Topic
+            {
+                Id = topic.Id,
+                ParentTopicId = topic.ParentTopicId,
+                Subject = topic.Subject,
+                Description = topic.Description
+            };
         }
     }
 }

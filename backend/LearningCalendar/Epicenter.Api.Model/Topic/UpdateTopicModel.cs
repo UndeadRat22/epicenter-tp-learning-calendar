@@ -14,7 +14,6 @@ namespace Epicenter.Api.Model.Topic
             public Guid TopicId { get; set; }
             [Required]
             public string Subject { get; set; }
-            [Required]
             public string Description { get; set; }
         }
     }
