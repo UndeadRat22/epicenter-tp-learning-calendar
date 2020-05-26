@@ -4,6 +4,7 @@ import {
 } from 'wix-style-react';
 import Tree from './tree/Tree';
 import data from './tree/data';
+import SelectTreeForm from './SelectTreeForm';
 
 const TreeTab = () => {
   return (
@@ -12,6 +13,7 @@ const TreeTab = () => {
         <Col>
           TreeTab
           <Tree data={data} width={600} height={500} />
+          <SelectTreeForm />
         </Col>
       </Row>
     </Container>

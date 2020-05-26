@@ -12,7 +12,7 @@ import {
   InputArea,
   Loader,
 } from 'wix-style-react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { INPUTAREA_MIN_HEIGHT } from '../../constants/Styling';
 import SelectTopicForm from './SelectTopicForm';
 import { showErrorToast } from '../../state/actions/toast';
