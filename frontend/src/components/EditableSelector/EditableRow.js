@@ -10,7 +10,7 @@ import styles from './EditableSelector.scss';
 import SelectTopicForm from '../topicsPage/SelectTopicForm';
 
 const EditableRow = ({
-  onApprove, onCancel, topic,
+  onApprove, onCancel, topic, notIncludedTopicIds = [],
 }) => {
   const [topicId, setTopicId] = useState(topic.id || null);
   const [newTopicSubject, setNewTopicSubject] = useState(topic.subject || '');
@@ -18,7 +18,7 @@ const EditableRow = ({
   const [isSearchAndDropDownMissmatched, setIsSearchAndDropDownMissmatched] = useState(false);
 
   const onApproveWrap = () => {
-    onApprove && onApprove(topicId);
+    onApprove && onApprove(topicId, newTopicSubject);
   };
 
   const onCancelWrap = () => {
@@ -31,6 +31,7 @@ const EditableRow = ({
     <div className={styles.editableRowContainer}>
       <div className={styles.editableRowInputWrap}>
         <SelectTopicForm
+          notIncludedTopicIds={notIncludedTopicIds}
           onSelectTopic={selectedTopicId => setTopicId(selectedTopicId)}
           parentTopic={newTopicSubject}
           onParentTopicSubjectChange={topicSubject => setNewTopicSubject(topicSubject)}

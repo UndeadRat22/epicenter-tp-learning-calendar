@@ -13,6 +13,7 @@ import {
 import EditableRow from './EditableRow';
 import WixComponent from './WixComponent';
 import styles from './EditableSelector.scss';
+import { LEARNED } from '../../constants/ProgressStatus';
 
 class EditableSelector extends WixComponent {
   static propTypes = {
@@ -50,11 +51,11 @@ class EditableSelector extends WixComponent {
     this.props.onOptionDelete && this.props.onOptionDelete({ index });
   };
 
-  onNewOptionApprove = ({ newTitle, index }) => {
+  onNewOptionApprove = ({ newTopicSubject, newTopicId, index }) => {
     if (this.state.addingNewRow)
-      this.props.onOptionAdded && this.props.onOptionAdded({ newTitle });
+      this.props.onOptionAdded && this.props.onOptionAdded({ newTopicSubject, newTopicId });
     else
-      this.props.onOptionEdit && this.props.onOptionEdit({ newTitle, index });
+      this.props.onOptionEdit && this.props.onOptionEdit({ newTopicId, newTopicSubject, index });
 
     this.setState({
       addingNewRow: false,
@@ -76,10 +77,11 @@ class EditableSelector extends WixComponent {
   renderInput = (topic, index) => {
     return (
       <EditableRow
+        notIncludedTopicIds={this.props.topics.filter(x => x.id !== topic.id)}
         key={index}
         topic={topic}
         dataHook="edit-row-wrapper"
-        onApprove={newTitle => this.onNewOptionApprove({ newTitle, index })}
+        onApprove={(newTopicId, newTopicSubject) => this.onNewOptionApprove({ newTopicId, newTopicSubject, index })}
         onCancel={() => this.onNewOptionCancel()}
       />
     );
@@ -111,7 +113,7 @@ class EditableSelector extends WixComponent {
                 dataHook="editable-selector-item"
                 id={index}
                 title={topic.subject}
-                isSelected={topic.isSelected}
+                isSelected={topic.progressStatus === LEARNED}
                 toggleType={toggleType}
                 onToggle={id => this.onOptionToggle(id)}
               />
