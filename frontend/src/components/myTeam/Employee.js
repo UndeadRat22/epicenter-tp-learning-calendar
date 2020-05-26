@@ -15,10 +15,17 @@ const renderLimit = (limit, onClick) => {
   const remainingDays = limit.learningDaysPerQuarter - limit.createdLearningDaysThisQuarter;
   const badgeText = `${remainingDays}/${limit.learningDaysPerQuarter}`;
   const tooltipText = `${remainingDays} out of ${limit.learningDaysPerQuarter} days left`;
+
+  let badgeSkin = 'general';
+  if (remainingDays === 1)
+    badgeSkin = 'warning';
+  else if (remainingDays <= 0)
+    badgeSkin = 'danger';
+
   return (
     <Tooltip content={tooltipText}>
       <div>
-        <Badge onClick={onClick}>
+        <Badge onClick={onClick} skin={badgeSkin}>
           {badgeText}
         </Badge>
       </div>
