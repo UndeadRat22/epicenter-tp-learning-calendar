@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Container, Row, Col, Card, Selector, Checkbox, Box, Layout, Cell, Avatar, Text, Loader,
+  Container, Row, Col, Card, Selector, Checkbox, Box, Layout, Cell, Avatar, Text, Loader, RichTextInputArea, Heading,
 } from 'wix-style-react';
 import { useSelector } from 'react-redux';
 import EditableSelector from '../EditableSelector/EditableSelector';
@@ -26,14 +26,15 @@ const mockTopics = [
 ];
 
 const TopicsSelectorCard = ({
-  employee, topics, isSelf, isLoading, maxTopics,
+  employee, topics, isSelf, isLoading, maxTopics, initialComments,
 }) => {
   // TODO: topics instead of mockTopics
   const [selectedTopics, setSelectedTopics] = useState(mockTopics.map(topic => ({ ...topic, isChecked: topic.progressStatus === DONE })));
+  const [comments, setComments] = useState(initialComments || '');
 
-  // const [options, setOptions] = useState([{ title: 'Pumpkin Seeds' }, { title: 'Sunflower Seeds' }]);
-
-  // const allTopics = useSelector(state => state.allTopics);
+  const onCommentsChange = newComments => {
+    setComments(newComments);
+  };
 
   const onTopicChange = ({ newTopicId, newTopicSubject, index }) => {
     // progressStatus is PLANNED, because you can only add topics today and in the future
@@ -86,6 +87,17 @@ const TopicsSelectorCard = ({
           onOptionToggle={onTopicCheck}
         />
         )}
+      </Card.Content>
+      <Card.Divider />
+      <Card.Content>
+        <Text weight="normal">Comments</Text>
+        <div style={{ marginTop: 16 }}>
+          <RichTextInputArea
+            initialValue=""
+            onChange={onCommentsChange}
+            placeholder="Default text goes here"
+          />
+        </div>
       </Card.Content>
     </Card>
   );
