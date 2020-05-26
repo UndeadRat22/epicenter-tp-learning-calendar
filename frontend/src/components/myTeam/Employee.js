@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 import {
-  Avatar, Badge, Cell, Divider, Layout, Tag, Text, Tooltip,
+  Avatar, Badge, Box, Cell, Divider, Layout, Tag, Text, Tooltip,
 } from 'wix-style-react';
 import { useDispatch } from 'react-redux';
 import {
@@ -67,23 +67,23 @@ const Employee = ({ employee }) => {
     <div className={employeeClass} ref={drop}>
       <Layout gap={8}>
         <Cell span={12}>
-          <Layout alignItems="center" gap={0}>
-            <Cell span={1}>
-              <Avatar
-                name={employee.name}
-                color={isSelf ? 'A1' : 'A2'}
-                size="size36"
-              />
-            </Cell>
-            <Cell span={10}>
-              <Text weight={isSelf ? 'bold' : 'normal'}>
-                {employee.name}
-              </Text>
-            </Cell>
-            <Cell span={1} vertical>
-              {!isSelf && renderLimit(employee.limit)}
-            </Cell>
-          </Layout>
+          <Box align="space-between" verticalAlign="middle">
+            <Box verticalAlign="middle">
+              <Box marginRight="20px">
+                <Avatar
+                  name={employee.name}
+                  color={isSelf ? 'A1' : 'A2'}
+                  size="size36"
+                />
+              </Box>
+              <Box>
+                <Text weight={isSelf ? 'bold' : 'normal'}>
+                  {employee.name}
+                </Text>
+              </Box>
+            </Box>
+            {!isSelf && renderLimit(employee.limit)}
+          </Box>
         </Cell>
         {hasGoals && (
           <Cell span={12}>
