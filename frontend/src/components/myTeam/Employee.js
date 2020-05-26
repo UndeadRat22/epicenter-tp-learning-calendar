@@ -10,6 +10,19 @@ import {
 import s from './styles.scss';
 import { TOPIC } from '../../constants/DraggableTypes';
 
+const renderLimit = limit => {
+  const remainingDays = limit.learningDaysPerQuarter - limit.createdLearningDaysThisQuarter;
+  const badgeText = `${remainingDays}/${limit.learningDaysPerQuarter}`;
+  const tooltipText = `${remainingDays} out of ${limit.learningDaysPerQuarter} days left`;
+  return (
+    <Tooltip content={tooltipText}>
+      <Badge onClick={() => alert('Badge Clicked')}>
+        {badgeText}
+      </Badge>
+    </Tooltip>
+  );
+};
+
 const Employee = ({ employee }) => {
   const dispatch = useDispatch();
 
@@ -68,13 +81,7 @@ const Employee = ({ employee }) => {
               </Text>
             </Cell>
             <Cell span={1} vertical>
-              {!isSelf && (
-                <Tooltip content="3 out of 3 days left" placement="right-end">
-                  <Badge onClick={() => alert('Badge Clicked')}>
-                    3/3
-                  </Badge>
-                </Tooltip>
-              )}
+              {!isSelf && renderLimit(employee.limit)}
             </Cell>
           </Layout>
         </Cell>

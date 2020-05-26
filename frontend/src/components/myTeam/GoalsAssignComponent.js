@@ -21,7 +21,7 @@ import Topic from './Topic';
 import s from './styles.scss';
 import CreateTopicModal from '../modals/CreateTopicModal';
 
-const DragAndDropComponent = () => {
+const GoalsAssignComponent = () => {
   const [topicsFilter, setTopicsFilter] = useState('');
   const [isOpenedCreateTopicModal, setIsOpenedCreateTopicModal] = useState(false);
 
@@ -67,7 +67,12 @@ const DragAndDropComponent = () => {
       const newEmployeeGoals = newGoals.filter(newGoal => newGoal.employeeId === employee.id).map(newGoal => {
         return { topicId: newGoal.topic.topicId, topic: newGoal.topic.topic, isRemovable: true };
       });
-      return { id: employee.id, name: employee.name, goalTopics: [...employee.goalTopics, ...newEmployeeGoals] };
+      return {
+        id: employee.id,
+        name: employee.name,
+        goalTopics: [...employee.goalTopics, ...newEmployeeGoals],
+        limit: employee.limit,
+      };
     });
     allEmployees.push(...teamMembers);
   }
@@ -121,4 +126,4 @@ const DragAndDropComponent = () => {
   );
 };
 
-export default DragAndDropComponent;
+export default GoalsAssignComponent;
