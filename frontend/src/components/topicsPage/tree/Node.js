@@ -8,6 +8,8 @@ const Node = ({ node, onClick }) => {
   const width = 100;
   const height = 20;
 
+  // console.log("NODE", node);
+
   return (
     <>
       {node.depth === 0 && (

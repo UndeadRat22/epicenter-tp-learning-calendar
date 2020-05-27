@@ -3,7 +3,7 @@
 /* eslint-disable eqeqeq */
 import React, { useState, useCallback } from 'react';
 import {
-  Container, Dropdown, Box, FormField,
+  Container, Dropdown, Box, FormField, ToggleSwitch,
 } from 'wix-style-react';
 import { Group } from '@vx/group';
 import { Tree } from '@vx/hierarchy';
@@ -11,6 +11,8 @@ import { LinearGradient } from '@vx/gradient';
 import { hierarchy } from 'd3-hierarchy';
 import LinksMove from './LinksMove';
 import NodesMove from './NodesMove';
+import Links from './Links';
+import Nodes from './Nodes';
 import {
   LAYOUT_CARTESIAN,
   LAYOUT_POLAR,
@@ -27,9 +29,24 @@ const TreeContainer = ({ data, width, height }) => {
   const [layout, setLayout] = useState(LAYOUT_CARTESIAN);
   const [orientation, setOrientation] = useState(ORIENTATION_HORIZONTAL);
   const [linkType, setLinkType] = useState(LINK_DIAGONAL);
+  const [toggleSwitchChecked, setToggleSwitchChecked] = useState(false);
 
   const [, updateState] = useState();
   const forceUpdate = useCallback(() => updateState({}), []);
+
+  let LinksType = LinksMove;
+  let NodesType = NodesMove;
+
+  const handleToggleSwitch = checked => {
+    setToggleSwitchChecked(checked);
+    if (checked) {
+      LinksType = Links;
+      NodesType = Nodes;
+    } else {
+      LinksType = LinksMove;
+      NodesType = NodesMove;
+    }
+  };
 
   const stepPercent = 0.5;
 
@@ -72,50 +89,58 @@ const TreeContainer = ({ data, width, height }) => {
 
   return (
     <Container>
-      <Box align="left" padding="small" marginBottom={0.5}>
-        <FormField label="Layout">
-          <Dropdown
-            size="small"
-            placeholder={layout}
-            value={layout}
-            options={[
-              { id: 0, value: LAYOUT_CARTESIAN },
-              { id: 1, value: LAYOUT_POLAR },
-            ]}
-            onSelect={event => setLayout(event.value)}
-          />
-        </FormField>
+      <Box align="space-between" padding="small" marginBottom={0.5} verticalAlign="bottom">
+        <Box align="left">
+          <FormField label="Layout">
+            <Dropdown
+              size="small"
+              placeholder={layout}
+              value={layout}
+              options={[
+                { id: 0, value: LAYOUT_CARTESIAN },
+                { id: 1, value: LAYOUT_POLAR },
+              ]}
+              onSelect={event => setLayout(event.value)}
+            />
+          </FormField>
 
-        <FormField label="Orientation">
-          <Dropdown
-            size="small"
-            placeholder={orientation}
-            value={orientation}
-            disabled={layout === LAYOUT_POLAR}
-            options={[
-              { id: 0, value: ORIENTATION_VERTICAL },
-              { id: 1, value: ORIENTATION_HORIZONTAL },
-            ]}
-            onSelect={event => setOrientation(event.value)}
-          />
-        </FormField>
+          <FormField label="Orientation">
+            <Dropdown
+              size="small"
+              placeholder={orientation}
+              value={orientation}
+              disabled={layout === LAYOUT_POLAR}
+              options={[
+                { id: 0, value: ORIENTATION_VERTICAL },
+                { id: 1, value: ORIENTATION_HORIZONTAL },
+              ]}
+              onSelect={event => setOrientation(event.value)}
+            />
+          </FormField>
 
-        <FormField label="Link">
-          <Dropdown
-            size="small"
-            placeholder={linkType}
-            value={linkType}
-            options={[
-              { id: 0, value: LINK_DIAGONAL },
-              { id: 1, value: LINK_STEP },
-              { id: 2, value: LINK_CURVE },
-              { id: 3, value: LINK_LINE },
-            ]}
-            onSelect={event => setLinkType(event.value)}
+          <FormField label="Link">
+            <Dropdown
+              size="small"
+              placeholder={linkType}
+              value={linkType}
+              options={[
+                { id: 0, value: LINK_DIAGONAL },
+                { id: 1, value: LINK_STEP },
+                { id: 2, value: LINK_CURVE },
+                { id: 3, value: LINK_LINE },
+              ]}
+              onSelect={event => setLinkType(event.value)}
+            />
+          </FormField>
+        </Box>
+        <Box align="right">
+          <ToggleSwitch
+            size="large"
+            checked={toggleSwitchChecked}
+            onChange={e => handleToggleSwitch(e.target.checked)}
           />
-        </FormField>
+        </Box>
       </Box>
-
       <svg width={width} height={height}>
         <LinearGradient id="lg" from="#fd9b93" to="#fe6e9e" />
         <rect width={width} height={height} rx={14} fill={TREE_CONTAINER_FILL} />
@@ -134,7 +159,7 @@ const TreeContainer = ({ data, width, height }) => {
               top={origin.y}
               left={origin.x}
             >
-              <LinksMove
+              <LinksType
                 links={data.links()}
                 linkType={linkType}
                 layout={layout}
@@ -142,7 +167,7 @@ const TreeContainer = ({ data, width, height }) => {
                 stepPercent={stepPercent}
               />
 
-              <NodesMove
+              <NodesType
                 nodes={data.descendants()}
                 layout={layout}
                 orientation={orientation}

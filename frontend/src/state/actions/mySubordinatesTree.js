@@ -9,7 +9,7 @@ const fetchMySubordinatesTreeFail = makeSyncActionCreator(FETCH_MY_SUBORDINATES_
 const getMySubordinatesTree = () => async dispatch => {
   try {
     dispatch(fetchMySubordinatesTreeStart());
-    const response = await Axios.get('');
+    const response = await Axios.get('teams/topics/tree/self');
     const mySubordinatesTree = response.data;
     dispatch(fetchMySubordinatesTreeSuccess(mySubordinatesTree));
   } catch (err) {

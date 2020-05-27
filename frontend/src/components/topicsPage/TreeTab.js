@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Box,
   Heading,
+  Loader,
 } from 'wix-style-react';
 import { useSelector, useDispatch } from 'react-redux';
 import TreeContainer from './tree/TreeContainer';
@@ -14,16 +15,22 @@ import {
 import {
   getPersonalTree, getMyTeamTree, getMySubordinatesTree, getSingleSubordinateTree, getSingleTeamTree,
 } from '../../state/actions';
+import { LOADING_PERSONAL_TREE, FETCH_PERSONAL_TREE_SUCCEEDED } from '../../constants/PersonalTreeStatus';
+import { LOADING_MY_TEAM_TREE, FETCH_MY_TEAM_TREE_SUCCEEDED } from '../../constants/MyTeamTreeStatus';
+import { LOADING_MY_SUBORDINATES_TREE, FETCH_MY_SUBORDINATES_TREE_SUCCEEDED } from '../../constants/MySubordinatesTreeStatus';
+import { LOADING_SINGLE_SUBORDINATE_TREE, FETCH_SINGLE_SUBORDINATE_TREE_SUCCEEDED } from '../../constants/SingleSubordinateTreeStatus';
+import { LOADING_SINGLE_TEAM_TREE, FETCH_SINGLE_TEAM_TREE_SUCCEEDED } from '../../constants/SingleTeamTreeStatus';
 
 const TreeTab = () => {
   const initialTree = {
     name: 'Topics',
+    status: 0,
     children: [],
   };
 
-  const [id, setId] = useState('');
   const [tree, setTree] = useState(initialTree);
   const [treeName, setTreeName] = useState('');
+  let isLoading = false;
 
   const dispatch = useDispatch();
 
@@ -41,30 +48,55 @@ const TreeTab = () => {
     setTree(newTree);
   };
 
-  const handleTree = async ({ value, additionalParametersId }) => {
-    setTreeName(value);
-    setId(additionalParametersId);
+  useEffect(() => {
+    switch (treeName) {
+      case PERSONAL:
+        isLoading = personalTreeStatus === LOADING_PERSONAL_TREE;
+        if (personalTreeStatus === FETCH_PERSONAL_TREE_SUCCEEDED)
+          reformatDataToTree(personalTree);
+        break;
+      case MY_TEAM:
+        isLoading = myTeamTreeStatus === LOADING_MY_TEAM_TREE;
+        if (myTeamTreeStatus === FETCH_MY_TEAM_TREE_SUCCEEDED)
+          reformatDataToTree(myTeamTree);
+        break;
+      case MY_SUBORDINATES:
+        isLoading = mySubordinatesTreeStatus === LOADING_MY_SUBORDINATES_TREE;
+        if (mySubordinatesTreeStatus === FETCH_MY_SUBORDINATES_TREE_SUCCEEDED)
+          reformatDataToTree(mySubordinatesTree);
+        break;
+      case SINGLE_SUBORDINATE:
+        isLoading = singleSubordinateTreeStatus === LOADING_SINGLE_SUBORDINATE_TREE;
+        if (singleSubordinateTreeStatus === FETCH_SINGLE_SUBORDINATE_TREE_SUCCEEDED)
+          reformatDataToTree(singleSubordinateTree);
+        break;
+      case SINGLE_TEAM:
+        isLoading = singleTeamTreeStatus === LOADING_SINGLE_TEAM_TREE;
+        if (singleTeamTreeStatus === FETCH_SINGLE_TEAM_TREE_SUCCEEDED)
+          reformatDataToTree(singleTeamTree);
+        break;
+      default:
+        isLoading = false;
+    }
+  }, [personalTreeStatus, myTeamTreeStatus, mySubordinatesTreeStatus, singleSubordinateTreeStatus, singleTeamTreeStatus]);
 
+  const handleTree = ({ value, additionalParametersId }) => {
+    setTreeName(value);
     switch (value) {
       case PERSONAL:
         dispatch(getPersonalTree());
-        reformatDataToTree(personalTree);
         break;
       case MY_TEAM:
         dispatch(getMyTeamTree());
-        reformatDataToTree(myTeamTree);
         break;
       case MY_SUBORDINATES:
         dispatch(getMySubordinatesTree());
-        reformatDataToTree(mySubordinatesTree);
         break;
       case SINGLE_SUBORDINATE:
         dispatch(getSingleSubordinateTree(additionalParametersId));
-        reformatDataToTree(singleSubordinateTree);
         break;
       case SINGLE_TEAM:
         dispatch(getSingleTeamTree(additionalParametersId));
-        reformatDataToTree(singleTeamTree);
         break;
       default:
     }
@@ -83,7 +115,8 @@ const TreeTab = () => {
         </Heading>
       </Box>
       <Box align="center">
-        <TreeContainer data={tree} width={TOPICS_TREE_WIDTH} height={TOPICS_TREE_HEIGHT} />
+        {isLoading ? <Loader size="small" />
+          : <TreeContainer data={tree} width={TOPICS_TREE_WIDTH} height={TOPICS_TREE_HEIGHT} />}
       </Box>
     </Container>
   );
