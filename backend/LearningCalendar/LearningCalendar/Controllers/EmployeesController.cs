@@ -6,9 +6,12 @@ using Epicenter.Api.Model;
 using Epicenter.Api.Model.Authentication;
 using Epicenter.Api.Model.Team;
 using Epicenter.Api.Model.Team.Employee;
+using Epicenter.Api.Model.Tree;
 using Epicenter.Service.Interface.Exceptions.Authentication;
 using Epicenter.Service.Interface.Exceptions.Employee;
+using Epicenter.Service.Interface.Exceptions.Team;
 using Epicenter.Service.Interface.Operations.Employee;
+using Epicenter.Service.Interface.Operations.Topic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,19 +27,22 @@ namespace Epicenter.Api.Controllers
         private readonly IDeleteEmployeeOperation _deleteEmployeeOperation;
         private readonly IReassignEmployeeOperation _reassignEmployeeOperation;
         private readonly IGetAllSubordinateEmployeesOperation _getAllSubordinateEmployeesOperation;
+        private readonly IGetFullSubordinateTopicTreeOperation _getFullSubordinateTopicTreeOperation;
 
         public EmployeesController(
             ICreateEmployeeOperation employeeOperation, 
             IGetEmployeeDetailsOperation employeeDetailsOperation, 
             IDeleteEmployeeOperation deleteEmployeeOperation, 
             IReassignEmployeeOperation reassignEmployeeOperation, 
-            IGetAllSubordinateEmployeesOperation getAllSubordinateEmployeesOperation)
+            IGetAllSubordinateEmployeesOperation getAllSubordinateEmployeesOperation, 
+            IGetFullSubordinateTopicTreeOperation getFullSubordinateTopicTreeOperation)
         {
             _createEmployeeOperation = employeeOperation;
             _getEmployeeDetailsOperation = employeeDetailsOperation;
             _deleteEmployeeOperation = deleteEmployeeOperation;
             _reassignEmployeeOperation = reassignEmployeeOperation;
             _getAllSubordinateEmployeesOperation = getAllSubordinateEmployeesOperation;
+            _getFullSubordinateTopicTreeOperation = getFullSubordinateTopicTreeOperation;
         }
 
 
@@ -133,6 +139,25 @@ namespace Epicenter.Api.Controllers
         {
             var response = await _getAllSubordinateEmployeesOperation.Execute();
             return Ok(new EmployeeListModel(response));
+        }
+
+        [HttpGet, Route("subordinates/topics/tree")]
+        [ProducesResponseType(typeof(TeamTopicTreeModel), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int) HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetSubordinateTopicTree()
+        {
+            GetFullSubordinateTopicTreeOperationResponse response;
+            
+            try
+            {
+                response = await _getFullSubordinateTopicTreeOperation.Execute();
+            }
+            catch (EmployeeDoesNotManageAnyTeamException e)
+            {
+                return NotFound(e.Message);
+            }
+
+            return Ok(new TeamTopicTreeModel(response));
         }
 
 

@@ -13,7 +13,8 @@ namespace Epicenter.Domain.Entity.LearningCalendar
         public string Subject { get; set; }
         public string Description { get; set; }
         public List<Topic> SubTopics { get; set; }
-        public List<Goal> Goals { get; set; }
+        public List<PersonalGoal> Goals { get; set; }
+        public List<LearningDayTopic> LearningDayTopics { get; set; }
 
         [Timestamp]
         public byte[] RowVersion { get; set; }

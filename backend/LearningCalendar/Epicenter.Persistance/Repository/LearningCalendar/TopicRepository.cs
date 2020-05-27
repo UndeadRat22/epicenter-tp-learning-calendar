@@ -36,5 +36,22 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 .Where(topic => !topic.HasParent)
                 .ToList();
         }
+
+        public async Task<List<Topic>> GetRootTopicsWithEmployees()
+        {
+            var result = await DbContext.Topics
+                .Include(topic => topic.ParentTopic)
+                .Include(topic => topic.SubTopics)
+                .Include(topic => topic.Goals)
+                    .ThenInclude(goal => goal.Employee)
+                .Include(topic => topic.LearningDayTopics)
+                    .ThenInclude(learningDayTopic => learningDayTopic.LearningDay)
+                        .ThenInclude(learningDay => learningDay.Employee)
+                .ToListAsync();
+
+            return result
+                .Where(topic => !topic.HasParent)
+                .ToList();
+        }
     }
 }
