@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Epicenter.Persistence.Interface.Repository.LearningCalendar;
@@ -45,6 +46,8 @@ namespace Epicenter.Service.Operations.Limit
             await _employeeRepository.UpdateAsync(targetEmployee);
             if (isOldLimitToBeDeleted)
             {
+                oldLimit.Employees = new List<Domain.Entity.LearningCalendar.Employee>();
+                await _limitRepository.UpdateAsync(oldLimit);
                 await _limitRepository.DeleteAsync(oldLimit);
             }
         }
