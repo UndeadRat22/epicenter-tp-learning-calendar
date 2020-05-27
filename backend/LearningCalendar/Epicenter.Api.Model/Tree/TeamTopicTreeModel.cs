@@ -11,10 +11,10 @@ namespace Epicenter.Api.Model.Tree
     {
         public TeamTopicTreeModel(GetSubordinateTopicTreeOperationResponse response)
         {
-            Roots = response.Roots.Select(topic => new Topic(topic)).ToList();
+            TopicRoots = response.Roots.Select(topic => new Topic(topic)).ToList();
         }
 
-        public List<Topic> Roots { get; set; }
+        public List<Topic> TopicRoots { get; set; }
         public class Topic
         {
             public Topic(GetSubordinateTopicTreeOperationResponse.Topic topic)
