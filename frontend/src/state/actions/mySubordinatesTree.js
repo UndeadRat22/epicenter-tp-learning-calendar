@@ -11,7 +11,7 @@ const getMySubordinatesTree = () => async dispatch => {
     dispatch(fetchMySubordinatesTreeStart());
     const response = await Axios.get('teams/topics/tree/self');
     const mySubordinatesTree = response.data;
-    dispatch(fetchMySubordinatesTreeSuccess(mySubordinatesTree));
+    dispatch(fetchMySubordinatesTreeSuccess(mySubordinatesTree.topicRoots));
   } catch (err) {
     dispatch(fetchMySubordinatesTreeFail());
   }
