@@ -42,6 +42,9 @@ const ResetSaveButtonsBox = ({
   useEffect(() => {
     if (anyChangesMade && succeeded)
       setSucceded(false);
+    else if (!anyChangesMade && failed)
+      setFailed(false);
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [anyChangesMade]);
 
@@ -65,7 +68,7 @@ const ResetSaveButtonsBox = ({
         </Button>
       </Box>
       <Box>
-        <Button onClick={onSaveWrapper} disabled={bothButtonsDisabled} prefixIcon={saveButtonIcon}>
+        <Button onClick={onSaveWrapper} skin={!bothButtonsDisabled && failed ? 'destructive' : 'standard'} disabled={bothButtonsDisabled} prefixIcon={saveButtonIcon}>
           {saveButtonText}
         </Button>
       </Box>

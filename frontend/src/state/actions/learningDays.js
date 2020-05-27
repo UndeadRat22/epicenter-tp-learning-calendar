@@ -109,6 +109,7 @@ const updateLearningDay = ({
 
     console.log('updateLearningDay:');
     console.log({ learningDayId, comments, learningDayTopics });
+    // await new Promise((resolve, reject) => setTimeout(() => reject(), 1000));
     await Axios.put('learning-days/learning-day', {
       learningDayId, comments, learningDayTopics, date,
     });
@@ -117,7 +118,7 @@ const updateLearningDay = ({
     // dispatch(getLearningDays());
     // dispatch(getLimits());
   } catch (err) {
-    console.log(err.response.data);
+    // console.log(err.response.data);
     dispatch(updateLearningDayFail());
   } finally {
     dispatch(suspendUpdateLearningDay());
