@@ -1,6 +1,8 @@
 /* eslint-disable no-nested-ternary */
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import {
+  Badge,
+} from 'wix-style-react';
 import {
   TREE_NODE_OUTLINE_COLOR,
   FONT_FAMILY,
@@ -13,17 +15,29 @@ import {
   TREE_NODE_HEIGHT,
   TREE_NODE_WIDTH,
 } from '../../../constants/Styling';
+import {
+  PERSONAL, MY_TEAM, MY_SUBORDINATES, SINGLE_SUBORDINATE, SINGLE_TEAM,
+} from '../../../constants/TreeTypes';
 import { LEARNED, PLANNED } from '../../../constants/ProgressStatus';
-import { getTopic } from '../../../state/actions';
+import TopicModal from '../../modals/TopicModal';
 
-const Node = ({ node, onClick }) => {
+const Node = ({
+  node, onClick, expand, type,
+}) => {
   const width = TREE_NODE_WIDTH;
   const height = TREE_NODE_HEIGHT;
   const { status } = node.data;
   const { id } = node.data;
+  const topic = { id, subject: node.data.name };
 
-  const dispatch = useDispatch();
-  const { topic, status: topicStatus } = useSelector(state => state.topic);
+  const [isOpenedTopicModal, setIsOpenedTopicModal] = useState(false);
+  const [learnedCount, setLearnedCount] = useState(0);
+  const [plannedCount, setPlannedCount] = useState(0);
+
+  useEffect(() => {
+    if (expand)
+      onClick();
+  }, []);
 
   const getNodeColor = () => {
     let color;
@@ -36,9 +50,19 @@ const Node = ({ node, onClick }) => {
     return color;
   };
 
-  // TODO:
-  const displayAdditionalInfo = () => {
-    // dispatch(getTopic(id));
+  const handleDoubleClick = () => {
+    setIsOpenedTopicModal(true);
+  };
+
+  const getBadgeData = () => {
+    // TODO (if PERSONAL, then ...)
+    return '3 | 5';
+  };
+
+  const shouldBadgeDisplay = () => {
+    if (type === PERSONAL || type === SINGLE_SUBORDINATE)
+      return false;
+    return true;
   };
 
   return (
@@ -51,20 +75,20 @@ const Node = ({ node, onClick }) => {
         />
       )}
       {node.depth !== 0 && (
-        <rect
-          height={height}
-          width={width}
-          y={-height / 2}
-          x={-width / 2}
-          fill={getNodeColor()}
-          stroke={TREE_NODE_OUTLINE_COLOR}
-          strokeWidth={1}
-          strokeDasharray={!node.data.children ? '2,2' : '0'}
-          strokeOpacity={!node.data.children ? 0.6 : 1}
-          rx={!node.data.children ? 10 : 0}
-          onClick={onClick}
-          onDoubleClick={() => displayAdditionalInfo()}
-        />
+      <rect
+        height={height}
+        width={width}
+        y={-height / 2}
+        x={-width / 2}
+        fill={getNodeColor()}
+        stroke={TREE_NODE_OUTLINE_COLOR}
+        strokeWidth={1}
+        strokeDasharray={!node.data.children ? '2,2' : '0'}
+        strokeOpacity={!node.data.children ? 0.6 : 1}
+        rx={!node.data.children ? 10 : 0}
+        onClick={onClick}
+        onDoubleClick={() => handleDoubleClick()}
+      />
       )}
       <text
         dy=".33em"
@@ -76,6 +100,14 @@ const Node = ({ node, onClick }) => {
       >
         {node.data.name}
       </text>
+      {isOpenedTopicModal
+      && (
+      <TopicModal
+        isModalOpened={isOpenedTopicModal}
+        onCloseModal={() => setIsOpenedTopicModal(false)}
+        topic={topic}
+      />
+      )}
     </>
   );
 };

@@ -11,8 +11,6 @@ import { LinearGradient } from '@vx/gradient';
 import { hierarchy } from 'd3-hierarchy';
 import LinksMove from './LinksMove';
 import NodesMove from './NodesMove';
-import Links from './Links';
-import Nodes from './Nodes';
 import {
   LAYOUT_CARTESIAN,
   LAYOUT_POLAR,
@@ -25,27 +23,20 @@ import {
 } from '../../../constants/TreeContainerTypes';
 import { TREE_CONTAINER_FILL } from '../../../constants/Styling';
 
-const TreeContainer = ({ data, width, height }) => {
+const TreeContainer = ({
+  data, width, height, type,
+}) => {
   const [layout, setLayout] = useState(LAYOUT_CARTESIAN);
   const [orientation, setOrientation] = useState(ORIENTATION_HORIZONTAL);
   const [linkType, setLinkType] = useState(LINK_DIAGONAL);
-  const [toggleSwitchChecked, setToggleSwitchChecked] = useState(false);
+  const [toggleSwitchChecked, setToggleSwitchChecked] = useState(true);
 
   const [, updateState] = useState();
   const forceUpdate = useCallback(() => updateState({}), []);
 
-  let LinksType = LinksMove;
-  let NodesType = NodesMove;
 
   const handleToggleSwitch = checked => {
     setToggleSwitchChecked(checked);
-    if (checked) {
-      LinksType = Links;
-      NodesType = Nodes;
-    } else {
-      LinksType = LinksMove;
-      NodesType = NodesMove;
-    }
   };
 
   const stepPercent = 0.5;
@@ -159,7 +150,7 @@ const TreeContainer = ({ data, width, height }) => {
               top={origin.y}
               left={origin.x}
             >
-              <LinksType
+              <LinksMove
                 links={data.links()}
                 linkType={linkType}
                 layout={layout}
@@ -167,10 +158,12 @@ const TreeContainer = ({ data, width, height }) => {
                 stepPercent={stepPercent}
               />
 
-              <NodesType
+              <NodesMove
                 nodes={data.descendants()}
+                type={type}
                 layout={layout}
                 orientation={orientation}
+                expand={toggleSwitchChecked}
                 onNodeClick={node => {
                   if (!node.data.isExpanded) {
                     node.data.x0 = node.x;

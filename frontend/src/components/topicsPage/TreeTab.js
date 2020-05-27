@@ -15,7 +15,7 @@ import {
 import {
   getPersonalTree, getMyTeamTree, getMySubordinatesTree, getSingleSubordinateTree, getSingleTeamTree,
 } from '../../state/actions';
-// import example from './tree/data';
+import example from './tree/data';
 import { LOADING_PERSONAL_TREE, FETCH_PERSONAL_TREE_SUCCEEDED } from '../../constants/PersonalTreeStatus';
 import { LOADING_MY_TEAM_TREE, FETCH_MY_TEAM_TREE_SUCCEEDED } from '../../constants/MyTeamTreeStatus';
 import { LOADING_MY_SUBORDINATES_TREE, FETCH_MY_SUBORDINATES_TREE_SUCCEEDED } from '../../constants/MySubordinatesTreeStatus';
@@ -28,7 +28,7 @@ const TreeTab = () => {
     children: [],
   };
 
-  const [tree, setTree] = useState(initialTree);
+  const [tree, setTree] = useState(example);
   const [treeName, setTreeName] = useState('');
   let isLoading = false;
 
@@ -116,7 +116,7 @@ const TreeTab = () => {
       </Box>
       <Box align="center">
         {isLoading ? <Loader size="small" />
-          : <TreeContainer data={tree} width={TOPICS_TREE_WIDTH} height={TOPICS_TREE_HEIGHT} />}
+          : <TreeContainer data={tree} width={TOPICS_TREE_WIDTH} height={TOPICS_TREE_HEIGHT} type={treeName} />}
       </Box>
     </Container>
   );

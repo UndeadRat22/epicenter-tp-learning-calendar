@@ -6,7 +6,7 @@ export default {
       status: 0,
       id: 1,
       children: [
-        { name: 'A1', status: 2, id: 1 },
+        { name: 'A1', status: 2, id: '774bc503-578b-438e-1c51-08d8021f7130' },
         { name: 'A2', status: 1, id: 1 },
         { name: 'A3', status: 0, id: 1 },
         {
