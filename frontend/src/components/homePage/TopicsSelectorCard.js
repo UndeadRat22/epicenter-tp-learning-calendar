@@ -9,13 +9,15 @@ import { IN_PROGRESS, DONE } from '../../constants/LearningDayTopicProgressStatu
 import { updateLearningDay } from '../../state/actions';
 import { getSelfLearningDayFromDate } from '../../utils/learningDay';
 
+const getInitialSelectedTopics = topics => topics.map(topic => ({ ...topic, isChecked: topic.progressStatus === DONE }));
+
 // TODO: learningDay should be enough for most of these props
 const TopicsSelectorCard = ({
   employee, topics, isSelf, isLoading, maxTopics, initialComments, onSave,
 }) => {
   // TODO: topics instead of mockTopics
   // const [selectedTopics, setSelectedTopics] = useState(mockTopics.map(topic => ({ ...topic, isChecked: topic.progressStatus === DONE })));
-  const [selectedTopics, setSelectedTopics] = useState(topics.map(topic => ({ ...topic, isChecked: topic.progressStatus === DONE })));
+  const [selectedTopics, setSelectedTopics] = useState(getInitialSelectedTopics(topics));
   const [comments, setComments] = useState(initialComments || '');
 
   const onCommentsChange = newComments => {
@@ -42,6 +44,10 @@ const TopicsSelectorCard = ({
     onSave({ comments, newTopics: selectedTopics.map(topic => ({ topicId: topic.id, progressStatus: topic.isChecked ? DONE : IN_PROGRESS })) });
   };
 
+  const onResetClick = () => {
+    setSelectedTopics(getInitialSelectedTopics(topics));
+  };
+
   return (
     <Card className={s.card}>
       <Card.Content size="medium">
@@ -62,7 +68,7 @@ const TopicsSelectorCard = ({
               </Box>
               <Box>
                 <Box marginRight="small">
-                  <Button skin="light">
+                  <Button skin="light" onClick={onResetClick}>
                     Reset
                   </Button>
                 </Box>

@@ -51,9 +51,7 @@ const LearningDay = ({
       employee={selfLearningDay.employee}
       isSelf
       maxTopics={assignedLimit.topicsPerDay}
-      initialComments={
-        selfLearningDay.comments
-      }
+      initialComments={selfLearningDay.comments}
     />
   );
 };
