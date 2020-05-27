@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import {
   Container, Row, Col, Card, Selector, Checkbox, Box, Layout, Cell, Avatar, Text, Loader, RichTextInputArea, Heading, Button,
 } from 'wix-style-react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import EditableSelector from '../EditableSelector/EditableSelector';
 import s from './TopicsSelectorCard.scss';
 import { IN_PROGRESS, DONE } from '../../constants/LearningDayTopicProgressStatus';
+import { updateLearningDay } from '../../state/actions';
+import { getSelfLearningDayFromDate } from '../../utils/learningDay';
 
 const mockTopics = [
   {
@@ -25,8 +27,9 @@ const mockTopics = [
   },
 ];
 
+// TODO: learningDay should be enough for most of these props
 const TopicsSelectorCard = ({
-  employee, topics, isSelf, isLoading, maxTopics, initialComments,
+  employee, topics, isSelf, isLoading, maxTopics, initialComments, onSave,
 }) => {
   // TODO: topics instead of mockTopics
   const [selectedTopics, setSelectedTopics] = useState(mockTopics.map(topic => ({ ...topic, isChecked: topic.progressStatus === DONE })));
@@ -51,6 +54,10 @@ const TopicsSelectorCard = ({
 
   const onTopicCheck = index => {
     setSelectedTopics(selectedTopics.map((topic, i) => (i === index ? { ...topic, isChecked: !topic.isChecked } : topic)));
+  };
+
+  const onSaveClick = () => {
+    onSave({ comments, newTopics: selectedTopics.map(topic => ({ topicId: topic.id, progressStatus: topic.isChecked ? DONE : IN_PROGRESS })) });
   };
 
   return (
@@ -78,7 +85,7 @@ const TopicsSelectorCard = ({
                   </Button>
                 </Box>
                 <Box>
-                  <Button>
+                  <Button onClick={onSaveClick}>
                     Save
                   </Button>
                 </Box>
@@ -107,7 +114,7 @@ const TopicsSelectorCard = ({
         <Text weight="normal">Comments</Text>
         <div style={{ marginTop: 16 }}>
           <RichTextInputArea
-            initialValue=""
+            initialValue={initialComments || ''}
             onChange={onCommentsChange}
             placeholder="Default text goes here"
           />
