@@ -36,9 +36,9 @@ const LearningDay = ({
     return null;
   }
 
-  const onLearningDayUpdate = learningDayId => {
+  const onLearningDayUpdate = (learningDayId, employee) => {
     return ({ comments, newTopics }) => dispatch(updateLearningDay({
-      learningDayId, comments, date: getLocalIsoString(date), learningDayTopics: newTopics,
+      learningDayId, comments, date, learningDayTopics: newTopics, employee,
     }));
   };
 
@@ -46,7 +46,7 @@ const LearningDay = ({
 
   return (
     <TopicsSelectorCard
-      onSave={onLearningDayUpdate(selfLearningDay.id)}
+      onSave={onLearningDayUpdate(selfLearningDay.id, selfLearningDay.employee)}
       topics={selfLearningDay.topics}
       employee={selfLearningDay.employee}
       isSelf

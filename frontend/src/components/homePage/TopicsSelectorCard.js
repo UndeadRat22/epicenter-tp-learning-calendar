@@ -59,7 +59,7 @@ const TopicsSelectorCard = ({
 
   const onSaveClick = () => {
     setUpdateLoading(true);
-    onSave({ comments, newTopics: selectedTopics.map(topic => ({ topicId: topic.id, progressStatus: topic.isChecked ? DONE : IN_PROGRESS })) });
+    onSave({ comments, newTopics: selectedTopics.map(topic => ({ subject: topic.subject, topicId: topic.id, progressStatus: topic.isChecked ? DONE : IN_PROGRESS })) });
   };
 
   const onResetClick = () => {

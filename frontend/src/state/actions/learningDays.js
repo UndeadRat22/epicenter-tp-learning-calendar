@@ -94,7 +94,7 @@ const startLearningDay = date => async dispatch => {
     dispatch(getLimits());
   } catch (err) {
     dispatch(showErrorToast('Failed to add learning day'));
-    console.log(err.response.data);
+    console.log(err.response);
     dispatch(startLearningDayFail());
   } finally {
     dispatch(suspendStartLearningDay());
@@ -102,18 +102,39 @@ const startLearningDay = date => async dispatch => {
 };
 
 const updateLearningDay = ({
-  learningDayId, comments, learningDayTopics, date,
-}) => async dispatch => {
+  learningDayId, comments, learningDayTopics, date, employee,
+}) => async (dispatch, getState) => {
   try {
     dispatch(updateLearningDayStart());
 
     await Axios.put('learning-days/learning-day', {
-      learningDayId, comments, learningDayTopics, date,
+      learningDayId, comments, learningDayTopics, date: getLocalIsoString(date),
     });
 
-    dispatch(updateLearningDaySuccess());
+    // redux format (same as GET from backend)
+    const updatedTopics = learningDayTopics
+      .map(topic => ({ id: topic.topicId, subject: topic.subject, progressStatus: topic.progressStatus }));
+
+    const updatedLearningDay = {
+      id: learningDayId, comments, topics: updatedTopics, date, employee,
+    };
+
+    const isSelfLearningDay = getState().learningDays.selfLearningDays.some(day => day.id === learningDayId);
+
+    let nextSelfLearningDays = getState().learningDays.selfLearningDays;
+    let nextTeamLearningDays = getState().learningDays.teamLearningDays;
+
+    if (isSelfLearningDay) {
+      nextSelfLearningDays = getState().learningDays.selfLearningDays
+        .map(day => (day.id === learningDayId ? updatedLearningDay : day));
+    } else {
+      nextTeamLearningDays = getState().learningDays.teamLearningDays
+        .map(day => (day.id === learningDayId ? updatedLearningDay : day));
+    }
+
+    dispatch(updateLearningDaySuccess({ nextSelfLearningDays, nextTeamLearningDays }));
   } catch (err) {
-    console.log(err.response.data);
+    console.log(err.response);
     dispatch(updateLearningDayFail());
   } finally {
     dispatch(suspendUpdateLearningDay());

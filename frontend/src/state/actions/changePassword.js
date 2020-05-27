@@ -20,7 +20,7 @@ const changePassword = ({ oldPassword, newPassword }) => async dispatch => {
     dispatch(logout());
   } catch (err) {
     dispatch(showErrorToast('Failed to change password'));
-    console.log(err.response.data);
+    console.log(err.response);
     dispatch(changeFail());
   } finally {
     dispatch(suspendChangePassword());

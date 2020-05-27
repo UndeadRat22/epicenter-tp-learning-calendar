@@ -23,7 +23,7 @@ const getTopic = topicId => async dispatch => {
     const topic = response.data;
     dispatch(getTopicSuccess(topic));
   } catch (err) {
-    console.log(err.response.data);
+    console.log(err.response);
     dispatch(getTopicFail());
   }
 };
@@ -40,7 +40,7 @@ const createNewTopic = ({ parentTopic, subject, description }) => async dispatch
     dispatch(getAllTopics());
   } catch (err) {
     dispatch(showErrorToast('Failed creating a topic'));
-    console.log(err.response.data);
+    console.log(err.response);
     dispatch(createTopicFail());
   } finally {
     dispatch(suspendCreateTopic());
