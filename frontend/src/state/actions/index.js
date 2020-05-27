@@ -11,4 +11,5 @@ export * from './limits';
 export * from './learningDays';
 export * from './myTeam';
 export * from './assignGoals';
+export * from './subordinates';
 export * from './editLimit';

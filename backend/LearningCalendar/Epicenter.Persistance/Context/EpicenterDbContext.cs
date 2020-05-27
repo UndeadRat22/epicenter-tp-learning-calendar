@@ -74,6 +74,11 @@ namespace Epicenter.Persistence.Context
                 .WithMany(employee => employee.PersonalGoals)
                 .HasForeignKey(goal => goal.EmployeeId);
 
+            builder.Entity<PersonalGoal>()
+                .HasOne(goal => goal.Topic)
+                .WithMany(topic => topic.Goals)
+                .HasForeignKey(goal => goal.TopicId);
+
             builder.Entity<Employee>()
                 .HasOne(employee => employee.Limit)
                 .WithMany(limit => limit.Employees)
@@ -88,17 +93,13 @@ namespace Epicenter.Persistence.Context
                 .HasMany(team => team.Employees)
                 .WithOne(employee => employee.Team);
 
-            builder.Entity<Goal>()
-                .HasOne(goal => goal.Topic)
-                .WithMany(topic => topic.Goals)
-                .HasForeignKey(goal => goal.TopicId);
-
             builder.Entity<LearningDay>()
                 .HasMany(learningDay => learningDay.LearningDayTopics)
                 .WithOne(learningDayTopic => learningDayTopic.LearningDay);
 
             builder.Entity<LearningDayTopic>()
-                .HasOne(learningDayTopic => learningDayTopic.Topic);
+                .HasOne(learningDayTopic => learningDayTopic.Topic)
+                .WithMany(topic => topic.LearningDayTopics);
 
             builder.Entity<Topic>()
                 .HasOne(topic => topic.ParentTopic)

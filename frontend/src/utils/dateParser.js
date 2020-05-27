@@ -19,6 +19,8 @@ const areDatesEqual = (dateA, dateB) => {
 
 const fromISOStringToDate = isoString => new Date(Date.parse(isoString));
 
+const isTodayOrInFuture = date => moment().diff(date, 'days') <= 0;
+
 export {
-  getOnlyLocalDate, getLocalIsoString, areDatesEqual, fromISOStringToDate,
+  getOnlyLocalDate, getLocalIsoString, areDatesEqual, fromISOStringToDate, isTodayOrInFuture,
 };

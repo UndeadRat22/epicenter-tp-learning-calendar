@@ -32,7 +32,6 @@ const createNewTopic = ({ parentTopic, subject, description }) => async dispatch
   try {
     dispatch(createTopicStart());
 
-    console.log({ parentTopic, subject, description });
     const nullableParentTopic = parentTopic === '' ? null : parentTopic;
     await Axios.post('topics/topic', { parentTopic: nullableParentTopic, subject, description });
 

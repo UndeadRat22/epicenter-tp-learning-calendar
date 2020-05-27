@@ -9,5 +9,4 @@
     <ProjectReference Include="..\Epicenter.Infrastructure\Epicenter.Infrastructure.csproj" />
     <ProjectReference Include="..\Epicenter.Service.Strategy.Interface\Epicenter.Service.Strategy.Interface.csproj" />
   </ItemGroup>
-
 </Project>

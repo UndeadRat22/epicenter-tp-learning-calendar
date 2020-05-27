@@ -63,11 +63,33 @@ namespace Epicenter.Service.Context.Authorization
 
         public async Task<bool> IsAuthorizedForEmployee(Guid employeeId)
         {
-            return (await GetTeamTree())
-                .Flatten(team => team.Employees.Select(employee => employee.ManagedTeam))
+            var teamTree = await GetTeamTree();
+
+            if (teamTree.Manager.Id == employeeId)
+            {
+                return true;
+            }
+
+            return teamTree.Flatten(team => team.Employees.Select(employee => employee.ManagedTeam))
                 .SelectMany(team => team?.Employees)
                 .Where(employee => employee != null)
                 .Any(employee => employee.Id == employeeId);
+        }
+
+        public async Task<Employee> GetEmployeeIfAuthorizedFor(Guid employeeId)
+        {
+            var teamTree = await GetTeamTree();
+
+            if (teamTree.Manager.Id == employeeId)
+            {
+                return teamTree.Manager;
+            }
+
+            return teamTree
+                .Flatten(team => team.Employees.Select(employee => employee.ManagedTeam))
+                .SelectMany(team => team?.Employees)
+                .Where(employee => employee != null)
+                .FirstOrDefault(employee => employee.Id == employeeId);
         }
 
         public async Task<Team> GetTeamTree()

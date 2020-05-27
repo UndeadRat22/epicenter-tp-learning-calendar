@@ -9,5 +9,6 @@ namespace Epicenter.Persistence.Interface.Repository.LearningCalendar
     {
         Task<Topic> GetByIdAsync(Guid id);
         Task<List<Topic>> GetRootTopics();
+        Task<List<Topic>> GetRootTopicsWithEmployees();
     }
 }

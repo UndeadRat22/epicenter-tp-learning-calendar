@@ -8,7 +8,6 @@ namespace Epicenter.Api.Model.LearningDay
     {
         [Required]
         public Guid LearningDayId { get; set; }
-        [Required]
         public string Comments { get; set; }
         [Required]
         public DateTime Date { get; set; }
