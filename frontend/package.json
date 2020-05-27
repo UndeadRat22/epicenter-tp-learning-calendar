@@ -44,6 +44,7 @@
     "classnames": "^2.2.5",
     "d3-hierarchy": "^1.1.5",
     "date-arithmetic": "^4.1.0",
+    "lodash": "^4.17.15",
     "moment": "^2.26.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",

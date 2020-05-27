@@ -8,10 +8,12 @@ import { useSelector } from 'react-redux';
 
 const SelectTopicForm = ({
   onSelectTopic, parentTopic = '', onParentTopicSubjectChange, onSearchAndDropDownMissmatch, title = '',
+  notIncludedTopicIds = [],
 }) => {
   const [value, setValue] = useState(parentTopic);
 
-  const topics = useSelector(state => state.allTopics.topics);
+  const topics = useSelector(state => state.allTopics.topics)
+    .filter(topic => !notIncludedTopicIds.some(notIncludedTopic => notIncludedTopic.id === topic.id));
 
   const getOptions = () => {
     let reformattedArray = [];
