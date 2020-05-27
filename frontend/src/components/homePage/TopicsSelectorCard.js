@@ -15,12 +15,9 @@ const getInitialSelectedTopics = topics => topics.map(topic => ({ id: topic.id, 
 
 const removeWhiteSpaces = str => str.replace(/\s/g, '');
 
-// TODO: learningDay should be enough for most of these props
 const TopicsSelectorCard = ({
   employee, topics, isSelf, isLoading, maxTopics, initialComments, onSave,
 }) => {
-  // TODO: topics instead of mockTopics
-  // const [selectedTopics, setSelectedTopics] = useState(mockTopics.map(topic => ({ ...topic, isChecked: topic.progressStatus === DONE })));
   const [initialTopicsUpdated, setInitialTopicsUpdated] = useState(getInitialSelectedTopics(topics));
   const [initialCommentsUpdated, setInitialCommentsUpdated] = useState(initialComments);
 
