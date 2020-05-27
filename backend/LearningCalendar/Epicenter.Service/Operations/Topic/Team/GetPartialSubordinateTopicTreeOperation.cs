@@ -65,7 +65,8 @@ namespace Epicenter.Service.Operations.Topic.Team
                 Children = topic.SubTopics.Select(subTopic => MapToResponse(subTopic, employees)).ToList(),
                 PlannedEmployees = status.PlannedEmployees.Select(MapEmployee).ToList(),
                 LearnedEmployees = status.LearnedEmployees.Select(MapEmployee).ToList(),
-                NotPlannedEmployees = status.OtherEmployees.Select(MapEmployee).ToList()
+                NotPlannedEmployees = status.OtherEmployees.Select(MapEmployee).ToList(),
+                TotalStatus = MapStatus(status)
             };
         }
 
@@ -76,6 +77,24 @@ namespace Epicenter.Service.Operations.Topic.Team
                 FullName = employee.FullName,
                 Id = employee.Id
             };
+        }
+
+        private GetSubordinateTopicTreeOperationResponse.Status MapStatus(EmployeeCollectionStatus status)
+        {
+            bool planning = status.PlannedEmployees.Any();
+            bool learned = status.LearnedEmployees.Any();
+            bool notPlanning = status.OtherEmployees.Any();
+
+            GetSubordinateTopicTreeOperationResponse.Status mappedStatus = 
+                (learned, planning, notPlanning) switch
+                {
+                    (_, true, _) => GetSubordinateTopicTreeOperationResponse.Status.Planned,
+                    (false, false, _) => GetSubordinateTopicTreeOperationResponse.Status.NotPlanned,
+                    (true, false, false) => GetSubordinateTopicTreeOperationResponse.Status.Learned,
+                    (true, false, true) => GetSubordinateTopicTreeOperationResponse.Status.NotPlanned
+                };
+
+            return mappedStatus;
         }
     }
 }
