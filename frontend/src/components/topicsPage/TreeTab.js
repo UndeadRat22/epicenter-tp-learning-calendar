@@ -15,6 +15,7 @@ import {
 import {
   getPersonalTree, getMyTeamTree, getMySubordinatesTree, getSingleSubordinateTree, getSingleTeamTree,
 } from '../../state/actions';
+// import example from './tree/data';
 import { LOADING_PERSONAL_TREE, FETCH_PERSONAL_TREE_SUCCEEDED } from '../../constants/PersonalTreeStatus';
 import { LOADING_MY_TEAM_TREE, FETCH_MY_TEAM_TREE_SUCCEEDED } from '../../constants/MyTeamTreeStatus';
 import { LOADING_MY_SUBORDINATES_TREE, FETCH_MY_SUBORDINATES_TREE_SUCCEEDED } from '../../constants/MySubordinatesTreeStatus';
@@ -24,7 +25,6 @@ import { LOADING_SINGLE_TEAM_TREE, FETCH_SINGLE_TEAM_TREE_SUCCEEDED } from '../.
 const TreeTab = () => {
   const initialTree = {
     name: 'Topics',
-    status: 0,
     children: [],
   };
 
