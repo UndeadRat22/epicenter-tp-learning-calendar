@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Epicenter.Persistence.Interface.Repository.LearningCalendar;
@@ -34,19 +35,19 @@ namespace Epicenter.Service.Operations.Limit
                 throw new ApplicationException("You can only create limits for your direct subordinates");
             }
 
-            var oldLimit = await _limitRepository.GetById(targetEmployee.LimitId);
-            bool isOldLimitToBeDeleted = oldLimit.Employees.Count == 1;
-
-            targetEmployee.Limit = new Domain.Entity.LearningCalendar.Limit
+            if (targetEmployee.Limit.Employees.Count > 1)
             {
-                DaysPerQuarter = request.DaysPerQuarter
-            };
+                targetEmployee.Limit = new Domain.Entity.LearningCalendar.Limit
+                {
+                    DaysPerQuarter = request.DaysPerQuarter
+                };
+            }
+            else
+            {
+                targetEmployee.Limit.DaysPerQuarter = request.DaysPerQuarter;
+            }
 
             await _employeeRepository.UpdateAsync(targetEmployee);
-            if (isOldLimitToBeDeleted)
-            {
-                await _limitRepository.DeleteAsync(oldLimit);
-            }
         }
     }
 }

@@ -9,7 +9,7 @@ import data from './tree/data';
 import SelectTreeForm from './SelectTreeForm';
 import { TOPICS_TREE_HEIGHT, TOPICS_TREE_WIDTH } from '../../constants/Styling';
 import {
-  PERSONAL, MY_TEAM, MY_SUBORDINATES, SPECIFIC_SUBORDINATE, SPECIFIC_TEAM,
+  PERSONAL, MY_TEAM, MY_SUBORDINATES, SINGLE_SUBORDINATE, SINGLE_TEAM,
 } from '../../constants/TreeTypes';
 
 const TreeTab = () => {
@@ -17,11 +17,11 @@ const TreeTab = () => {
 
   const handleTree = selectedTree => {
     switch (selectedTree) {
-      case SPECIFIC_SUBORDINATE:
+      case SINGLE_SUBORDINATE:
         setTree(selectedTree.value);
         //
         break;
-      case SPECIFIC_TEAM:
+      case SINGLE_TEAM:
         setTree(selectedTree.value);
         //
         break;

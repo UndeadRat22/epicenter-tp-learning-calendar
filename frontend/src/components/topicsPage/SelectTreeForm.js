@@ -8,7 +8,7 @@ import {
 } from 'wix-style-react';
 import { useDispatch } from 'react-redux';
 import {
-  PERSONAL, MY_TEAM, MY_SUBORDINATES, SPECIFIC_SUBORDINATE, SPECIFIC_TEAM,
+  PERSONAL, MY_TEAM, MY_SUBORDINATES, SINGLE_SUBORDINATE, SINGLE_TEAM,
 } from '../../constants/TreeTypes';
 import { showWarningToast } from '../../state/actions/toast';
 import SelectSubordinateForm from './SelectSubordinateForm';
@@ -23,15 +23,15 @@ const SelectTreeForm = ({ onSelect }) => {
 
   const dispatch = useDispatch();
 
-  const handleDropdownSelect = e => {
-    const { value } = e;
+  const handleDropdownSelect = event => {
+    const { value } = event;
     setTree(value);
     switch (value) {
-      case SPECIFIC_SUBORDINATE:
+      case SINGLE_SUBORDINATE:
         setIsDisabledSubordinate(false);
         setIsDisabledTeam(true);
         break;
-      case SPECIFIC_TEAM:
+      case SINGLE_TEAM:
         setIsDisabledTeam(false);
         setIsDisabledSubordinate(true);
         break;
@@ -44,13 +44,13 @@ const SelectTreeForm = ({ onSelect }) => {
   const handleShowBtn = () => {
     let selectedTree;
     switch (tree) {
-      case SPECIFIC_SUBORDINATE:
+      case SINGLE_SUBORDINATE:
         if (subordinateId === '')
           dispatch(showWarningToast('Choose subordinate!'));
         else
           selectedTree = { value: tree, additionalParametersId: subordinateId };
         break;
-      case SPECIFIC_TEAM:
+      case SINGLE_TEAM:
         if (teamId === '')
           dispatch(showWarningToast('Choose team!'));
         else
@@ -72,8 +72,8 @@ const SelectTreeForm = ({ onSelect }) => {
               { id: 0, value: PERSONAL },
               { id: 1, value: MY_TEAM },
               { id: 2, value: MY_SUBORDINATES },
-              { id: 3, value: SPECIFIC_SUBORDINATE },
-              { id: 4, value: SPECIFIC_TEAM },
+              { id: 3, value: SINGLE_SUBORDINATE },
+              { id: 4, value: SINGLE_TEAM },
             ]}
             onSelect={event => handleDropdownSelect(event)}
           />
