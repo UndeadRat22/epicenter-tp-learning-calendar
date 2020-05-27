@@ -51,7 +51,7 @@ const Home = () => {
   };
 
   return (
-    <Page height="1140px">
+    <Page>
       <Page.Header
         showBackButton={!isMonthlyView}
         onBackClicked={onBackClick}
