@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Epicenter.Persistence.Interface.Repository.LearningCalendar;
@@ -42,7 +43,10 @@ namespace Epicenter.Service.Operations.Topic.Team
 
             var getPartialTreeRequest = new GetPartialSubordinateTopicTreeOperationRequest
             {
-                EmployeeIds = team.Employees.Select(employee => employee.Id).ToList()
+                EmployeeIds = team.Employees
+                    .Select(employee => employee.Id)
+                    .Concat(new []{manager.Id})
+                    .ToList()
             };
 
             return await _getPartialSubordinateTopicTreeOperation.Execute(getPartialTreeRequest);
