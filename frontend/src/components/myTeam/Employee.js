@@ -74,6 +74,11 @@ const Employee = ({ employee }) => {
 
   const hasGoals = Array.isArray(employee.goalTopics) && employee.goalTopics.length > 0;
 
+  const onLimitClicked = () => {
+    if (!isSelf)
+      setIsOpenedEditLimitModal(true);
+  };
+
   return (
     <div className={employeeClass} ref={drop}>
       <Layout gap={8}>
@@ -93,7 +98,7 @@ const Employee = ({ employee }) => {
                 </Text>
               </Box>
             </Box>
-            {!isSelf && renderLimit(employee.limit, () => setIsOpenedEditLimitModal(true))}
+            {renderLimit(employee.limit, onLimitClicked)}
           </Box>
         </Cell>
         {hasGoals && (

@@ -15,6 +15,7 @@ import {
 import {
   FETCH_PERSONAL_GOALS_SUCCEEDED, FETCH_PERSONAL_GOALS_FAILED,
 } from '../../constants/PersonalGoalsStatus';
+import { FETCH_LIMITS_SUCCEEDED, FETCH_LIMITS_FAILED } from '../../constants/LimitsStatus';
 import LoadingIndicator from '../LoadingIndicator';
 import Employee from './Employee';
 import Topic from './Topic';
@@ -42,6 +43,18 @@ const GoalsAssignComponent = () => {
     }));
   }
 
+  const { status: limitsStatus, assignedLimit, remainingLimit } = useSelector(state => state.limits);
+  const fetchLimitsSucceeded = limitsStatus === FETCH_LIMITS_SUCCEEDED;
+  const fetchLimitsFailed = limitsStatus === FETCH_LIMITS_FAILED;
+
+  let myLimit;
+  if (fetchLimitsSucceeded) {
+    const assignedDaysPerQuarter = assignedLimit.daysPerQuarter;
+    const remainingDaysPerQuarter = remainingLimit.daysPerQuarter;
+    const createdDaysThisQuarter = assignedDaysPerQuarter - remainingDaysPerQuarter;
+    myLimit = { learningDaysPerQuarter: assignedDaysPerQuarter, createdLearningDaysThisQuarter: createdDaysThisQuarter };
+  }
+
   const { newGoals, newPersonalGoals } = useSelector(state => state.assignGoals);
 
   const { user } = useSelector(state => state.auth);
@@ -52,6 +65,7 @@ const GoalsAssignComponent = () => {
       return { topicId: newGoal.topic.topicId, topic: newGoal.topic.topic, isRemovable: true };
     })],
     isSelf: true,
+    limit: myLimit,
   };
 
   const { myTeam, status: myTeamStatus } = useSelector(state => state.myTeam);
@@ -59,7 +73,7 @@ const GoalsAssignComponent = () => {
   const fetchMyTeamFailed = myTeamStatus === FETCH_MY_TEAM_FAILED;
 
   const allEmployees = [];
-  if (fetchPersonalGoalsSucceeded)
+  if (fetchPersonalGoalsSucceeded && fetchLimitsSucceeded)
     allEmployees.push(selfEmployee);
 
   if (fetchMyTeamSucceeded) {
@@ -77,8 +91,8 @@ const GoalsAssignComponent = () => {
     allEmployees.push(...teamMembers);
   }
 
-  const loadingEmployeesSucceeded = fetchPersonalGoalsSucceeded && fetchMyTeamSucceeded;
-  const loadingEmployeesFailed = fetchPersonalGoalsFailed || fetchMyTeamFailed;
+  const loadingEmployeesSucceeded = fetchPersonalGoalsSucceeded && fetchMyTeamSucceeded && fetchLimitsSucceeded;
+  const loadingEmployeesFailed = fetchPersonalGoalsFailed || fetchMyTeamFailed || fetchLimitsFailed;
   const loadingEmployees = !loadingEmployeesSucceeded && !loadingEmployeesFailed;
 
   const cardContentHeight = 650;
