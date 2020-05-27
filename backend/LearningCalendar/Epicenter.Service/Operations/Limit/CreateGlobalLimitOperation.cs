@@ -30,8 +30,8 @@ namespace Epicenter.Service.Operations.Limit
                 throw new ApplicationException("Cannot create a global limit, as you're not authorized to do so.");
             }
 
-            var oldLimitsToDelete = await _limitRepository.ListAsync();
             var allEmployees = await _employeeRepository.ListAsync();
+            var oldLimitsToDelete = await _limitRepository.ListAsync();
 
             var globalLimit = new Domain.Entity.LearningCalendar.Limit
             {

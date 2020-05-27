@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -69,6 +69,8 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                     .ThenInclude(team => team.Employees)
                 .Include(employee => employee.ManagedTeam)
                     .ThenInclude(team => team.Employees)
+                        .ThenInclude(employee => employee.Limit)
+                            .ThenInclude(limit => limit.Employees)
                 .Include(employee => employee.LearningDays)
                 .Where(employee => employee.Identity.Email == email)
                 .SingleOrDefaultAsync();
