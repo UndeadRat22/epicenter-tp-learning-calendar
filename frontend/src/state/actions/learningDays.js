@@ -114,11 +114,9 @@ const updateLearningDay = ({
     });
 
     dispatch(updateLearningDaySuccess());
-    dispatch(showSuccessToast('Updated Learning Day successfully!'));
-    dispatch(getLearningDays());
-    dispatch(getLimits());
+    // dispatch(getLearningDays());
+    // dispatch(getLimits());
   } catch (err) {
-    dispatch(showErrorToast('Updating Learning Day failed'));
     console.log(err.response.data);
     dispatch(updateLearningDayFail());
   } finally {
@@ -127,5 +125,5 @@ const updateLearningDay = ({
 };
 
 export {
-  getLearningDays, startLearningDay, suspendStartLearningDay, suspendCancelLearningDay, cancelLearningDay, updateLearningDay,
+  getLearningDays, startLearningDay, suspendStartLearningDay, suspendCancelLearningDay, cancelLearningDay, updateLearningDay, suspendUpdateLearningDay,
 };

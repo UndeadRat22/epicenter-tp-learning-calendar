@@ -22,7 +22,7 @@ const LearningDay = ({
 
   const dispatch = useDispatch();
 
-  if (updateStatus === LOADING_UPDATE_LEARNING_DAY || getLearningDaysStatus === LOADING_FETCH_LEARNING_DAYS) {
+  if (getLearningDaysStatus === LOADING_FETCH_LEARNING_DAYS) {
     return (
       <div style={{ textAlign: 'center' }}><Loader size="medium" /></div>
     );
