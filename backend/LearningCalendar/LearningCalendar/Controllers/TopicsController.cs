@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Epicenter.Api.Model;
 using Epicenter.Api.Model.Topic;
+using Epicenter.Api.Model.Tree;
 using Epicenter.Service.Interface.Exceptions.Topic;
 using Epicenter.Service.Interface.Operations.Topic;
 using Epicenter.Service.Interface.Operations.Topic.Employee;
@@ -76,16 +77,16 @@ namespace Epicenter.Api.Controllers
         }
 
         [HttpGet, Route("employee/self")]
-        [ProducesResponseType(typeof(EmployeeTopicTree), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(EmployeeTopicTreeModel), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> PersonalTopicTree()
         {
             var response = await _getPersonalTopicTreeOperation.Execute();
             
-            return Ok(new EmployeeTopicTree(response));
+            return Ok(new EmployeeTopicTreeModel(response));
         }
 
         [HttpGet, Route("employee/{id}")]
-        [ProducesResponseType(typeof(EmployeeTopicTree), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(EmployeeTopicTreeModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PersonalTopicTree([Required]Guid id)
         {
             var request = new GetEmployeeTopicTreeOperationRequest
@@ -95,7 +96,7 @@ namespace Epicenter.Api.Controllers
 
             var response = await _getEmployeeTopicTreeOperation.Execute(request);
 
-            return Ok(new EmployeeTopicTree(response));
+            return Ok(new EmployeeTopicTreeModel(response));
         }
 
         [HttpGet, Route("tree")]

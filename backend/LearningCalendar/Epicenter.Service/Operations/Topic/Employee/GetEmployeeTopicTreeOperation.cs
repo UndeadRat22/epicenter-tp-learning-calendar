@@ -33,21 +33,9 @@ namespace Epicenter.Service.Operations.Topic.Employee
 
             var employee = await _employeeRepository.GetByIdAsync(request.EmployeeId);
 
-            var goalTopicIds = employee.PersonalGoals
-                .Select(goal => goal.TopicId);
-
-            var topicIds = employee.LearningDays
-                .SelectMany(day => day.LearningDayTopics)
-                .Select(dayTopic => dayTopic.TopicId)
-                .Concat(goalTopicIds)
-                .Distinct()
-                .ToHashSet();
-
             var mappedTopics = rootTopics
-                .Select(root => MapTopic(root, topicIds, employee))
-                .Where(topic => topic != null)
+                .Select(topic => MapTopic(topic, employee))
                 .ToList();
-
 
             return new GetEmployeeTopicTreeOperationResponse
             {
@@ -57,36 +45,22 @@ namespace Epicenter.Service.Operations.Topic.Employee
 
         private GetEmployeeTopicTreeOperationResponse.Topic MapTopic(
             Domain.Entity.LearningCalendar.Topic root,
-            HashSet<Guid> inclusiveIds,
             Domain.Entity.LearningCalendar.Employee employee)
         {
-            var matchingChild = root.FindAnyOrDefault(parent => parent.SubTopics, child => inclusiveIds.Contains(child.Id));
+            var children = root.SubTopics
+                .Select(topic => MapTopic(topic, employee))
+                .ToList();
 
-            GetEmployeeTopicTreeOperationResponse.Topic result;
-            
-            if (matchingChild != null)
+            var status = _employeeTopicProgressStatusStrategy.GetStatus(employee, root);
+
+            return new GetEmployeeTopicTreeOperationResponse.Topic
             {
-                var children = root.SubTopics
-                    .Select(topic => MapTopic(topic, inclusiveIds, employee))
-                    .Where(topic => topic != null)
-                    .ToList();
-
-                var status = _employeeTopicProgressStatusStrategy.GetStatus(employee, root);
-
-                result = new GetEmployeeTopicTreeOperationResponse.Topic
-                {
-                    Id = root.Id,
-                    ParentId = root.ParentTopicId,
-                    Subject = root.Subject,
-                    Children = children,
-                    Status = ProgressStatusMapper.MapStatus(status)
-                };
-            }
-            else
-            {
-                result = null;
-            }
-            return result;
+                Id = root.Id,
+                ParentId = root.ParentTopicId,
+                Subject = root.Subject,
+                Children = children,
+                Status = ProgressStatusMapper.MapStatus(status)
+            };
         }
     }
 }

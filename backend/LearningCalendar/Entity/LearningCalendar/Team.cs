@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using Epicenter.Infrastructure.Extensions;
 
 namespace Epicenter.Domain.Entity.LearningCalendar
 {
@@ -24,6 +26,15 @@ namespace Epicenter.Domain.Entity.LearningCalendar
             }
 
             return Manager.Team.IsInEmployeesSubTree(employeeId);
+        }
+
+        public List<Employee> GetAllEmployees()
+        {
+            return this.Flatten(team => team.Employees.Select(employee => employee.ManagedTeam))
+                .Where(team => team != null)
+                .SelectMany(team => team.Employees)
+                .Concat(new List<Employee> { Manager })
+                .ToList();
         }
     }
 }

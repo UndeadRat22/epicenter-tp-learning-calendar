@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-expressions */
 import React, { Component, useState } from 'react';
-import PropTypes from 'prop-types';
 import X from 'wix-ui-icons-common/X';
 import Check from 'wix-ui-icons-common/Check';
 
@@ -10,27 +9,34 @@ import {
 import styles from './EditableSelector.scss';
 import SelectTopicForm from '../topicsPage/SelectTopicForm';
 
-const EditableRow = ({ newOption, onApprove, onCancel }) => {
-  const [parentTopic, setParentTopic] = useState('');
-  const [subject, setSubject] = useState('');
-  const [description, setDescription] = useState('');
-  const [isSearchAndDropDownMissmatched, setIsSearchAndDropDownMissmatched] = useState(false);
-  const [parentTopicSubject, setParentTopicSubject] = useState('');
+const EditableRow = ({
+  onApprove, onCancel, topic, notIncludedTopicIds = [],
+}) => {
+  const [topicId, setTopicId] = useState(topic ? topic.id : null);
+  const [newTopicSubject, setNewTopicSubject] = useState(topic ? topic.subject : '');
 
-  const [newestOption, setNewestOption] = useState(newOption || '');
+  const [isSearchAndDropDownMissmatched, setIsSearchAndDropDownMissmatched] = useState(false);
 
   const onApproveWrap = () => {
-    onApprove && onApprove(newestOption);
+    onApprove && onApprove(topicId, newTopicSubject);
   };
 
   const onCancelWrap = () => {
     onCancel && onCancel();
   };
 
+  const isApproveDisabled = isSearchAndDropDownMissmatched || !topicId;
+
   return (
     <div className={styles.editableRowContainer}>
       <div className={styles.editableRowInputWrap}>
-        <SelectTopicForm />
+        <SelectTopicForm
+          notIncludedTopicIds={notIncludedTopicIds}
+          onSelectTopic={selectedTopicId => setTopicId(selectedTopicId)}
+          parentTopic={newTopicSubject}
+          onParentTopicSubjectChange={topicSubject => setNewTopicSubject(topicSubject)}
+          onSearchAndDropDownMissmatch={x => setIsSearchAndDropDownMissmatched(x)}
+        />
       </div>
 
       <div className={styles.editableRowButtons}>
@@ -45,15 +51,17 @@ const EditableRow = ({ newOption, onApprove, onCancel }) => {
           </IconButton>
         </Tooltip>
 
-        <Tooltip content="Confirm" timeout={0}>
-          <IconButton
-            onClick={onApproveWrap}
-            size="medium"
-            disabled={newestOption.length === 0}
-            dataHook="edit-row-approve-button"
-          >
-            <Check />
-          </IconButton>
+        <Tooltip content={isApproveDisabled ? 'Please choose topic' : 'Confirm'} timeout={0}>
+          <div>
+            <IconButton
+              onClick={onApproveWrap}
+              size="medium"
+              disabled={isApproveDisabled}
+              dataHook="edit-row-approve-button"
+            >
+              <Check />
+            </IconButton>
+          </div>
         </Tooltip>
       </div>
     </div>

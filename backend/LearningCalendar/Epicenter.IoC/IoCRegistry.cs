@@ -74,10 +74,10 @@ namespace Epicenter.Infrastructure.IoC
         {
             builder.RegisterType<EmployeeTopicProgressStatusHasToLearnOnceStrategy>()
                 .As<IEmployeeTopicProgressStatusStrategy>()
-                .InstancePerDependency(); 
-            
-            builder.RegisterType<TeamTopicProgressStatusEmployeesHaveToLearnStrategy>()
-                .As<ITeamTopicProgressStatusStrategy>()
+                .InstancePerDependency();
+
+            builder.RegisterType<EmployeeCollectionTopicProgressStatusStrategy>()
+                .As<IEmployeeCollectionTopicProgressStatusStrategy>()
                 .InstancePerDependency();
         }
 
