@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-  Modal, MessageBoxFunctionalLayout, Layout, Loader,
+  Modal, MessageBoxFunctionalLayout, Layout,
 } from 'wix-style-react';
 import { useSelector, useDispatch } from 'react-redux';
-import { createNewTopic, suspendCreateTopic } from '../../state/actions';
+import { createNewTopic } from '../../state/actions';
 import CreateNewTopicForm from '../topicsPage/CreateNewTopicForm';
 import { MODAL_MAX_HEIGHT } from '../../constants/Styling';
 import {
