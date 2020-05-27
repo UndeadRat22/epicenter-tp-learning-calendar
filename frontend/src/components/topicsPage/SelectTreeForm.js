@@ -20,6 +20,7 @@ const SelectTreeForm = ({ onSelect }) => {
   const [teamId, setTeamId] = useState('');
   const [isDisabledSubordinate, setIsDisabledSubordinate] = useState(true);
   const [isDisabledTeam, setIsDisabledTeam] = useState(true);
+  const [isSearchAndDropDownMissmatched, setIsSearchAndDropDownMissmatched] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -47,14 +48,18 @@ const SelectTreeForm = ({ onSelect }) => {
       case SINGLE_SUBORDINATE:
         if (subordinateId === '')
           dispatch(showWarningToast('Choose subordinate!'));
-        else
+        else if (!isSearchAndDropDownMissmatched)
           selectedTree = { value: tree, additionalParametersId: subordinateId };
+        else if (isSearchAndDropDownMissmatched)
+          dispatch(showWarningToast('Choose subordinate!'));
         break;
       case SINGLE_TEAM:
         if (teamId === '')
           dispatch(showWarningToast('Choose team!'));
-        else
+        else if (!isSearchAndDropDownMissmatched)
           selectedTree = { value: tree, additionalParametersId: teamId };
+        else if (isSearchAndDropDownMissmatched)
+          dispatch(showWarningToast('Choose team!'));
         break;
       default:
         selectedTree = { value: tree, additionalParametersId: null };
@@ -81,10 +86,12 @@ const SelectTreeForm = ({ onSelect }) => {
         <SelectSubordinateForm
           onSelectSubordinate={selectedSubordinate => setSubordinateId(selectedSubordinate)}
           isDisabled={isDisabledSubordinate}
+          onSearchAndDropDownMissmatch={x => setIsSearchAndDropDownMissmatched(x)}
         />
         <SelectTeamForm
           onSelectTeam={selectedTeam => setTeamId(selectedTeam)}
           isDisabled={isDisabledTeam}
+          onSearchAndDropDownMissmatch={x => setIsSearchAndDropDownMissmatched(x)}
         />
         <Button
           as="button"

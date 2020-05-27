@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
 import {
   FormField,
@@ -6,7 +7,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { getSubordinates } from '../../state/actions/subordinates';
 
-const SelectSubordinateForm = ({ onSelectSubordinate, isDisabled = true }) => {
+const SelectSubordinateForm = ({ onSelectSubordinate, isDisabled = true, onSearchAndDropDownMissmatch }) => {
   const [value, setValue] = useState('');
 
   const dispatch = useDispatch();
@@ -30,10 +31,12 @@ const SelectSubordinateForm = ({ onSelectSubordinate, isDisabled = true }) => {
   const onSelect = option => {
     setValue(option.value);
     onSelectSubordinate(option.id);
+    onSearchAndDropDownMissmatch && onSearchAndDropDownMissmatch(false);
   };
 
   const onChange = event => {
     setValue(event.target.value);
+    onSearchAndDropDownMissmatch && onSearchAndDropDownMissmatch(true);
   };
 
   return (

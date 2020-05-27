@@ -4,7 +4,7 @@ import {
   Box,
   Heading,
 } from 'wix-style-react';
-import Tree from './tree/Tree';
+import TreeContainer from './tree/TreeContainer';
 import data from './tree/data';
 import SelectTreeForm from './SelectTreeForm';
 import { TOPICS_TREE_HEIGHT, TOPICS_TREE_WIDTH } from '../../constants/Styling';
@@ -19,11 +19,9 @@ const TreeTab = () => {
     switch (selectedTree) {
       case SINGLE_SUBORDINATE:
         setTree(selectedTree.value);
-        //
         break;
       case SINGLE_TEAM:
         setTree(selectedTree.value);
-        //
         break;
       default:
         setTree(selectedTree.value);
@@ -43,7 +41,7 @@ const TreeTab = () => {
         </Heading>
       </Box>
       <Box align="center">
-        <Tree data={data} width={TOPICS_TREE_WIDTH} height={TOPICS_TREE_HEIGHT} />
+        <TreeContainer data={data} width={TOPICS_TREE_WIDTH} height={TOPICS_TREE_HEIGHT} />
       </Box>
     </Container>
   );

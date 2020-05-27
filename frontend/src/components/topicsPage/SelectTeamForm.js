@@ -1,5 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
+/* eslint-disable no-unused-expressions */
 import React, { useState } from 'react';
 import {
   FormField,
@@ -7,7 +8,7 @@ import {
 } from 'wix-style-react';
 import { useSelector } from 'react-redux';
 
-const SelectTeamForm = ({ onSelectTeam, isDisabled = true }) => {
+const SelectTeamForm = ({ onSelectTeam, isDisabled = true, onSearchAndDropDownMissmatch }) => {
   const [value, setValue] = useState('');
 
   const { subordinates } = useSelector(state => state.subordinates);
@@ -31,10 +32,12 @@ const SelectTeamForm = ({ onSelectTeam, isDisabled = true }) => {
   const onSelect = option => {
     setValue(option.value);
     onSelectTeam(option.id);
+    onSearchAndDropDownMissmatch && onSearchAndDropDownMissmatch(false);
   };
 
   const onChange = event => {
     setValue(event.target.value);
+    onSearchAndDropDownMissmatch && onSearchAndDropDownMissmatch(true);
   };
 
   return (
