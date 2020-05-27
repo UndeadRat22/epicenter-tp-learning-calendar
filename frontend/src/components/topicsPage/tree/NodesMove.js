@@ -1,15 +1,13 @@
 /* eslint-disable no-shadow */
-/* eslint-disable no-unused-vars */
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Group } from '@vx/group';
 import NodeGroup from 'react-move/NodeGroup';
-
 import Node from './Node';
 import { findCollapsedParent, getTopLeft } from './utils';
 
-function Nodes({
+const NodesMove = ({
   nodes, layout, orientation, onNodeClick,
-}) {
+}) => {
   return (
     <NodeGroup
       data={nodes}
@@ -55,8 +53,6 @@ function Nodes({
       {nodes => (
         <Group>
           {nodes.map(({ key, data: node, state }) => {
-            const width = 40;
-            const height = 20;
             return (
               <Group
                 top={state.top}
@@ -78,6 +74,6 @@ function Nodes({
       )}
     </NodeGroup>
   );
-}
+};
 
-export default Nodes;
+export default NodesMove;

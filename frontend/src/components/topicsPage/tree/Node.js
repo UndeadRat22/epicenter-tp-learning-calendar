@@ -1,9 +1,10 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable no-unused-vars */
-import React, { Fragment } from 'react';
-import { Group } from '@vx/group';
+import React from 'react';
+import {
+  TREE_CHILDREN_NODE_FILL, TREE_NOT_CHILDREN_NODE_FILL, TREE_NODE_FILL, FONT_FAMILY,
+} from '../../../constants/Styling';
 
-function Node({ node, onClick }) {
+const Node = ({ node, onClick }) => {
   const width = 40;
   const height = 20;
 
@@ -22,8 +23,8 @@ function Node({ node, onClick }) {
           width={width}
           y={-height / 2}
           x={-width / 2}
-          fill="#272b4d"
-          stroke={node.data.children ? '#03c0dc' : '#26deb0'}
+          fill={TREE_NODE_FILL}
+          stroke={node.data.children ? TREE_CHILDREN_NODE_FILL : TREE_NOT_CHILDREN_NODE_FILL}
           strokeWidth={1}
           strokeDasharray={!node.data.children ? '2,2' : '0'}
           strokeOpacity={!node.data.children ? 0.6 : 1}
@@ -34,7 +35,7 @@ function Node({ node, onClick }) {
       <text
         dy=".33em"
         fontSize={9}
-        fontFamily="Arial"
+        fontFamily={FONT_FAMILY}
         textAnchor="middle"
         style={{ pointerEvents: 'none' }}
         fill={
@@ -51,6 +52,6 @@ function Node({ node, onClick }) {
       </text>
     </>
   );
-}
+};
 
 export default Node;

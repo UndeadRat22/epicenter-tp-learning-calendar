@@ -1,15 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable no-unused-vars */
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Group } from '@vx/group';
 import { NodeGroup } from 'react-move';
-
 import Link from './Link';
 import { findCollapsedParent } from './utils';
+import { TREE_STROKE_COLOR } from '../../../constants/Styling';
 
-function Links({
+const LinksMove = ({
   links, linkType, layout, orientation, stepPercent,
-}) {
+}) => {
   return (
     <NodeGroup
       data={links}
@@ -74,7 +73,7 @@ function Links({
                 layout={layout}
                 orientation={orientation}
                 stepPercent={stepPercent}
-                stroke="#374469"
+                stroke={TREE_STROKE_COLOR}
                 strokeWidth="1"
                 fill="none"
                 key={key}
@@ -85,6 +84,6 @@ function Links({
       )}
     </NodeGroup>
   );
-}
+};
 
-export default Links;
+export default LinksMove;

@@ -1,17 +1,15 @@
-/* eslint-disable no-unused-vars */
-import React, { Fragment } from 'react';
-
+import React from 'react';
 import {
   LinkHorizontal, LinkVertical, LinkRadial,
   LinkHorizontalStep, LinkVerticalStep, LinkRadialStep,
   LinkHorizontalCurve, LinkVerticalCurve, LinkRadialCurve,
   LinkHorizontalLine, LinkVerticalLine, LinkRadialLine,
 } from '@vx/shape';
-import { LinkHorizontalElbow, LinkVerticalElbow } from './elbow';
+import { TREE_STROKE_COLOR } from '../../../constants/Styling';
 
-function Link({
+const Link = ({
   data, linkType, layout, orientation, stepPercent, ...props
-}) {
+}) => {
   let LinkComponent;
 
   if (layout === 'polar') {
@@ -30,8 +28,6 @@ function Link({
       LinkComponent = LinkVerticalCurve;
     else if (linkType === 'line')
       LinkComponent = LinkVerticalLine;
-    else if (linkType === 'elbow')
-      LinkComponent = LinkVerticalElbow;
     else
       LinkComponent = LinkVertical;
   } else if (linkType === 'step')
@@ -40,8 +36,6 @@ function Link({
     LinkComponent = LinkHorizontalCurve;
   else if (linkType === 'line')
     LinkComponent = LinkHorizontalLine;
-  else if (linkType === 'elbow')
-    LinkComponent = LinkHorizontalElbow;
   else
     LinkComponent = LinkHorizontal;
 
@@ -50,12 +44,12 @@ function Link({
     <LinkComponent
       data={data}
       percent={stepPercent}
-      stroke="#374469"
+      stroke={TREE_STROKE_COLOR}
       strokeWidth="1"
       fill="none"
       {...props}
     />
   );
-}
+};
 
 export default Link;

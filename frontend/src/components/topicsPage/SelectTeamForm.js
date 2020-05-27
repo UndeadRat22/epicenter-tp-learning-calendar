@@ -1,35 +1,31 @@
-/* eslint-disable no-unused-expressions */
-import React, { useState, useEffect } from 'react';
+/* eslint-disable array-callback-return */
+/* eslint-disable consistent-return */
+import React, { useState } from 'react';
 import {
   FormField,
   AutoComplete,
 } from 'wix-style-react';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { getTeams } from '../../state/actions/teams';
+import { useSelector } from 'react-redux';
 
 const SelectTeamForm = ({ onSelectTeam, isDisabled = true }) => {
   const [value, setValue] = useState('');
 
-  // Implement when the endpoint (GET teams) will be created
-  /*
-  const dispatch = useDispatch();
+  const { subordinates } = useSelector(state => state.subordinates);
 
-  useEffect(() => {
-    dispatch(getTeams());
-  }, []);
 
-  const { teams } = useSelector(state => state.teams);
+  const getTeams = () => {
+    let teams = [];
 
-  const getOptions = () => {
-    let reformattedArray = [];
-    if (teams.length !== 0) {
-      reformattedArray = teams.map(team => {
-        return { id: team.id, value: team.fullName };
+    if (subordinates.length !== 0) {
+      teams = subordinates.employees.map(subordinate => {
+        if (subordinate.managedEmployeesCount > 0) {
+          const teamName = subordinate.fullName.concat(' Team (', subordinate.managedEmployeesCount, ' members)');
+          return { id: subordinate.id, value: teamName };
+        }
       });
     }
-    return reformattedArray;
+    return teams;
   };
-  */
 
 
   const onSelect = option => {
@@ -45,8 +41,7 @@ const SelectTeamForm = ({ onSelectTeam, isDisabled = true }) => {
     <FormField label="Select team">
       <AutoComplete
         disabled={isDisabled}
-        options={[]}
-        // options={getOptions()}
+        options={getTeams()}
         value={value}
         onChange={onChange}
         onSelect={onSelect}
