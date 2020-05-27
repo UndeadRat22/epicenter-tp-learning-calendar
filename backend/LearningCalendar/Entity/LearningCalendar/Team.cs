@@ -33,6 +33,7 @@ namespace Epicenter.Domain.Entity.LearningCalendar
             return this.Flatten(team => team.Employees.Select(employee => employee.ManagedTeam))
                 .Where(team => team != null)
                 .SelectMany(team => team.Employees)
+                .Concat(new List<Employee> { Manager })
                 .ToList();
         }
     }

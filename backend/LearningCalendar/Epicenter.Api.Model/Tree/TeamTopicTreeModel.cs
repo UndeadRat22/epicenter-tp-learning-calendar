@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Epicenter.Service.Interface.Operations.Topic;
+using Epicenter.Service.Interface.Operations.Topic.Team;
 
 namespace Epicenter.Api.Model.Tree
 {
     public class TeamTopicTreeModel
     {
-        public TeamTopicTreeModel(GetFullSubordinateTopicTreeOperationResponse response)
+        public TeamTopicTreeModel(GetSubordinateTopicTreeOperationResponse response)
         {
             Roots = response.Roots.Select(topic => new Topic(topic)).ToList();
         }
@@ -15,10 +16,11 @@ namespace Epicenter.Api.Model.Tree
         public List<Topic> Roots { get; set; }
         public class Topic
         {
-            public Topic(GetFullSubordinateTopicTreeOperationResponse.Topic topic)
+            public Topic(GetSubordinateTopicTreeOperationResponse.Topic topic)
             {
                 Id = topic.Id;
                 Name = topic.Subject;
+                Description = topic.Description;
                 Children = topic.Children.Select(child => new Topic(child)).ToList();
                 LearnedEmployees = topic.LearnedEmployees.Select(employee => new Employee(employee)).ToList();
                 PlannedEmployees = topic.PlannedEmployees.Select(employee => new Employee(employee)).ToList();
@@ -27,6 +29,7 @@ namespace Epicenter.Api.Model.Tree
             public List<Topic> Children { get; set; }
             public Guid Id { get; set; }
             public string Name { get; set; }
+            public string Description { get; set; }
             public List<Employee> LearnedEmployees { get; set; }
             public List<Employee> PlannedEmployees { get; set; }
             public List<Employee> NotPlannedEmployees { get; set; }
@@ -34,7 +37,7 @@ namespace Epicenter.Api.Model.Tree
 
         public class Employee
         {
-            public Employee(GetFullSubordinateTopicTreeOperationResponse.Employee employee)
+            public Employee(GetSubordinateTopicTreeOperationResponse.Employee employee)
             {
                 Id = employee.Id;
                 FullName = employee.FullName;

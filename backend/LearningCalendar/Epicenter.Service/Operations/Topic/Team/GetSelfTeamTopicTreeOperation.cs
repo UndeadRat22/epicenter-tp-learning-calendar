@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Epicenter.Service.Context.Interface.Authorization;
-using Epicenter.Service.Interface.Operations.Team;
+using Epicenter.Service.Interface.Operations.Topic.Team;
 
-namespace Epicenter.Service.Operations.Team
+namespace Epicenter.Service.Operations.Topic.Team
 {
     public class GetSelfTeamTopicTreeOperation : Operation, IGetSelfTeamTopicTreeOperation
     {
@@ -16,7 +16,7 @@ namespace Epicenter.Service.Operations.Team
             _authorizationContext = authorizationContext;
         }
 
-        public async Task<GetTeamTopicTreeOperationResponse> Execute()
+        public async Task<GetSubordinateTopicTreeOperationResponse> Execute()
         {
             var employee = await _authorizationContext.CurrentEmployee();
             var request = new GetSpecificTeamTopicTreeOperationRequest

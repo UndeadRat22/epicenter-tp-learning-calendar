@@ -4,8 +4,10 @@ using System.Net;
 using System.Threading.Tasks;
 using Epicenter.Api.Model;
 using Epicenter.Api.Model.Team;
+using Epicenter.Api.Model.Tree;
 using Epicenter.Service.Interface.Exceptions.Team;
 using Epicenter.Service.Interface.Operations.Team;
+using Epicenter.Service.Interface.Operations.Topic.Team;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,16 +22,19 @@ namespace Epicenter.Api.Controllers
         private readonly IGetSelfTeamsOperation _getSelfTeamOperation;
         private readonly IGetSelfTeamTopicTreeOperation _getSelfTeamTopicTreeOperation;
         private readonly IGetSpecificTeamTopicTreeOperation _getSpecificTeamTopicTreeOperation;
+        private readonly IGetFullSubordinateTopicTreeOperation _getFullSubordinateTopicTreeOperation;
 
         public TeamsController(IGetTeamDetailsOperation teamDetailsOperation,
             IGetSelfTeamsOperation getSelfTeamOperation, 
             IGetSelfTeamTopicTreeOperation getSelfTeamTopicTreeOperation, 
-            IGetSpecificTeamTopicTreeOperation getSpecificTeamTopicTreeOperation)
+            IGetSpecificTeamTopicTreeOperation getSpecificTeamTopicTreeOperation, 
+            IGetFullSubordinateTopicTreeOperation getFullSubordinateTopicTreeOperation)
         {
             _getTeamDetailsOperation = teamDetailsOperation;
             _getSelfTeamOperation = getSelfTeamOperation;
             _getSelfTeamTopicTreeOperation = getSelfTeamTopicTreeOperation;
             _getSpecificTeamTopicTreeOperation = getSpecificTeamTopicTreeOperation;
+            _getFullSubordinateTopicTreeOperation = getFullSubordinateTopicTreeOperation;
         }
 
         [HttpGet]
@@ -57,11 +62,11 @@ namespace Epicenter.Api.Controllers
 
         [HttpGet]
         [Route("team/topics/tree/self")]
-        [ProducesResponseType(typeof(TeamTopicsTreeModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TeamTopicTreeModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetSelfTeamTopicTree()
         {
-            GetTeamTopicTreeOperationResponse response;
+            GetSubordinateTopicTreeOperationResponse response;
             try
             {
                 response = await _getSelfTeamTopicTreeOperation.Execute();
@@ -71,14 +76,12 @@ namespace Epicenter.Api.Controllers
                 return NotFound(new ErrorModel(ex.Message));
             }
 
-            var model = new TeamTopicsTreeModel(response);
-
-            return Ok(model);
+            return Ok(new TeamTopicTreeModel(response));
         }
 
         [HttpGet]
         [Route("team/topics/tree/{id}")]
-        [ProducesResponseType(typeof(TeamTopicsTreeModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TeamTopicTreeModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetTeamTopicTree([Required]Guid id)
         {
@@ -86,7 +89,7 @@ namespace Epicenter.Api.Controllers
             {
                 EmployeeId = id
             };
-            GetTeamTopicTreeOperationResponse response;
+            GetSubordinateTopicTreeOperationResponse response;
             try
             {
                 response = await _getSpecificTeamTopicTreeOperation.Execute(request);
@@ -96,9 +99,26 @@ namespace Epicenter.Api.Controllers
                 return NotFound(new ErrorModel(ex.Message));
             }
 
-            var model = new TeamTopicsTreeModel(response);
+            return Ok(new TeamTopicTreeModel(response));
+        }
 
-            return Ok(model);
+        [HttpGet, Route("topics/tree/self")]
+        [ProducesResponseType(typeof(TeamTopicTreeModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetSubordinateTopicTree()
+        {
+            GetSubordinateTopicTreeOperationResponse response;
+
+            try
+            {
+                response = await _getFullSubordinateTopicTreeOperation.Execute();
+            }
+            catch (EmployeeDoesNotManageAnyTeamException e)
+            {
+                return NotFound(e.Message);
+            }
+
+            return Ok(new TeamTopicTreeModel(response));
         }
     }
 }

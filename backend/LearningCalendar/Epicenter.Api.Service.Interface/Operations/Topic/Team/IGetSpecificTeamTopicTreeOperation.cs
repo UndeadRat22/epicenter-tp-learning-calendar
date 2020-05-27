@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Epicenter.Service.Interface.Operations.Team
+namespace Epicenter.Service.Interface.Operations.Topic.Team
 {
     public interface IGetSpecificTeamTopicTreeOperation
     {
-        Task<GetTeamTopicTreeOperationResponse> Execute(GetSpecificTeamTopicTreeOperationRequest request);
+        Task<GetSubordinateTopicTreeOperationResponse> Execute(GetSpecificTeamTopicTreeOperationRequest request);
     }
 
     public class GetSpecificTeamTopicTreeOperationRequest

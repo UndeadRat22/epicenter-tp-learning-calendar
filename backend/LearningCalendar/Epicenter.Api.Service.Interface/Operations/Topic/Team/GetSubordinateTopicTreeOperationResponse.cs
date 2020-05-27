@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace Epicenter.Service.Interface.Operations.Topic
+namespace Epicenter.Service.Interface.Operations.Topic.Team
 {
-    public interface IGetFullSubordinateTopicTreeOperation
-    {
-        Task<GetFullSubordinateTopicTreeOperationResponse> Execute();
-    }
-
-    public class GetFullSubordinateTopicTreeOperationResponse
+    public class GetSubordinateTopicTreeOperationResponse
     {
         public List<Topic> Roots { get; set; }
         public class Topic
@@ -17,6 +11,7 @@ namespace Epicenter.Service.Interface.Operations.Topic
             public List<Topic> Children { get; set; }
             public Guid Id { get; set; }
             public string Subject { get; set; }
+            public string Description { get; set; }
             public List<Employee> LearnedEmployees { get; set; }
             public List<Employee> PlannedEmployees { get; set; }
             public List<Employee> NotPlannedEmployees { get; set; }
