@@ -7,10 +7,10 @@ namespace Epicenter.Service.Interface.Operations.Team
 {
     public interface IGetSelfTeamTopicTreeOperation
     {
-        Task<GetSelfTeamTopicTreeOperationResponse> Execute();
+        Task<GetTeamTopicTreeOperationResponse> Execute();
     }
 
-    public class GetSelfTeamTopicTreeOperationResponse
+    public class GetTeamTopicTreeOperationResponse
     {
         public Guid ManagerId { get; set; }
         public List<Topic> RootTopics { get; set; }

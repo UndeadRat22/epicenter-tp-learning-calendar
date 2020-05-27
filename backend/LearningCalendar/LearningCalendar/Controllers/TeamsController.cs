@@ -19,14 +19,17 @@ namespace Epicenter.Api.Controllers
         private readonly IGetTeamDetailsOperation _getTeamDetailsOperation;
         private readonly IGetSelfTeamsOperation _getSelfTeamOperation;
         private readonly IGetSelfTeamTopicTreeOperation _getSelfTeamTopicTreeOperation;
+        private readonly IGetSpecificTeamTopicTreeOperation _getSpecificTeamTopicTreeOperation;
 
         public TeamsController(IGetTeamDetailsOperation teamDetailsOperation,
             IGetSelfTeamsOperation getSelfTeamOperation, 
-            IGetSelfTeamTopicTreeOperation getSelfTeamTopicTreeOperation)
+            IGetSelfTeamTopicTreeOperation getSelfTeamTopicTreeOperation, 
+            IGetSpecificTeamTopicTreeOperation getSpecificTeamTopicTreeOperation)
         {
             _getTeamDetailsOperation = teamDetailsOperation;
             _getSelfTeamOperation = getSelfTeamOperation;
             _getSelfTeamTopicTreeOperation = getSelfTeamTopicTreeOperation;
+            _getSpecificTeamTopicTreeOperation = getSpecificTeamTopicTreeOperation;
         }
 
         [HttpGet]
@@ -58,10 +61,35 @@ namespace Epicenter.Api.Controllers
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetSelfTeamTopicTree()
         {
-            GetSelfTeamTopicTreeOperationResponse response;
+            GetTeamTopicTreeOperationResponse response;
             try
             {
                 response = await _getSelfTeamTopicTreeOperation.Execute();
+            }
+            catch (EmployeeDoesNotManageAnyTeamException ex)
+            {
+                return NotFound(new ErrorModel(ex.Message));
+            }
+
+            var model = new TeamTopicsTreeModel(response);
+
+            return Ok(model);
+        }
+
+        [HttpGet]
+        [Route("team/topics/tree/{id}")]
+        [ProducesResponseType(typeof(TeamTopicsTreeModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetTeamTopicTree([Required]Guid id)
+        {
+            var request = new GetSpecificTeamTopicTreeOperationRequest
+            {
+                EmployeeId = id
+            };
+            GetTeamTopicTreeOperationResponse response;
+            try
+            {
+                response = await _getSpecificTeamTopicTreeOperation.Execute(request);
             }
             catch (EmployeeDoesNotManageAnyTeamException ex)
             {

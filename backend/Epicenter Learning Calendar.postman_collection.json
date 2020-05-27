@@ -425,7 +425,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"date\": \"2020-05-27T11:02:51.499Z\",\r\n  \"comments\": \"string\",\r\n  \"topicIds\": \"d424aa09-4732-41d1-2d26-08d7ffba2c75\", \"9039e3da-a7b9-4a12-2d25-08d7ffba2c75\"\r\n}",
+							"raw": "{\r\n  \"date\": \"2020-05-27T11:02:51.499Z\",\r\n  \"comments\": \"string\",\r\n  \"topicIds\": [\"0597ce84-8dad-42d1-353c-08d8023cf829\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -643,7 +643,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Team Topic Tree",
+					"name": "Get Team Topic Tree (Self)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -675,7 +675,39 @@
 					"response": []
 				},
 				{
-					"name": "GetSelfTeams",
+					"name": "Get Team Topic Tree (Manager Id)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/teams/team/topics/tree/9bc43c20-341e-4d53-f085-08d8023cdb2a",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"teams",
+								"team",
+								"topics",
+								"tree",
+								"9bc43c20-341e-4d53-f085-08d8023cdb2a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Team",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -954,6 +986,35 @@
 								"api",
 								"employees",
 								"self"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employee Subordinates",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/employees/subordinates",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"subordinates"
 							]
 						}
 					},

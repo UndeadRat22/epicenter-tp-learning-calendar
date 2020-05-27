@@ -7,7 +7,7 @@ namespace Epicenter.Api.Model.Team
 {
     public class TeamTopicsTreeModel
     {
-        public TeamTopicsTreeModel(GetSelfTeamTopicTreeOperationResponse response)
+        public TeamTopicsTreeModel(GetTeamTopicTreeOperationResponse response)
         {
             ManagerId = response.ManagerId;
             RootTopics = response.RootTopics
@@ -19,7 +19,7 @@ namespace Epicenter.Api.Model.Team
         public List<Topic> RootTopics { get; set; }
         public class Topic
         {
-            public Topic(GetSelfTeamTopicTreeOperationResponse.Topic responseTopic)
+            public Topic(GetTeamTopicTreeOperationResponse.Topic responseTopic)
             {
                 ParentTopicId = responseTopic.ParentTopicId;
                 Id = responseTopic.Id;
@@ -40,7 +40,7 @@ namespace Epicenter.Api.Model.Team
 
         public class TeamTopicDetails
         {
-            public TeamTopicDetails(GetSelfTeamTopicTreeOperationResponse.TeamTopicDetails teamDetails)
+            public TeamTopicDetails(GetTeamTopicTreeOperationResponse.TeamTopicDetails teamDetails)
             {
                 Status = teamDetails.Status.ToString();
                 LearnedCount = teamDetails.LearnedCount;
