@@ -1,7 +1,7 @@
 const MODAL_MAX_HEIGHT = '800px';
 const PAGE_HEIGHT = '1140px';
-const TOPICS_TREE_HEIGHT = 500;
-const TOPICS_TREE_WIDTH = 1000;
+const TOPICS_TREE_HEIGHT = 600;
+const TOPICS_TREE_WIDTH = 1150;
 const INPUTAREA_MIN_HEIGHT = '120px';
 
 export {

@@ -69,9 +69,6 @@ export default class extends React.Component {
     }
 
     const root = hierarchy(data, d => (d.isExpanded ? d.children : null));
-    // root.each((node, i) => node.onClick = () => {
-    //   console.log('clicked');
-    // });
 
     return (
       <div>
