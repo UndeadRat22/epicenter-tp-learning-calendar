@@ -15,9 +15,6 @@ const EditableRow = ({
   const [topicId, setTopicId] = useState(topic ? topic.id : null);
   const [newTopicSubject, setNewTopicSubject] = useState(topic ? topic.subject : '');
 
-  console.log('notIncldudedTopics');
-  console.log(notIncludedTopicIds);
-
   const [isSearchAndDropDownMissmatched, setIsSearchAndDropDownMissmatched] = useState(false);
 
   const onApproveWrap = () => {

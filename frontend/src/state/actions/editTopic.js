@@ -14,7 +14,6 @@ const suspendEditTopic = makeSyncActionCreator(SUSPEND_EDIT_TOPIC);
 const editTopic = (oldTopic, newTopic) => async dispatch => {
   try {
     dispatch(editTopicStart());
-    console.log({ oldTopic, newTopic });
     await Axios.put('topics/topic', { oldTopic, newTopic });
 
     dispatch(editTopicSuccess());
