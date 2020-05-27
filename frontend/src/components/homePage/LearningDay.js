@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import * as dates from 'date-arithmetic';
 import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from 'wix-style-react';
-import { getOnlyLocalDate, getLocalIsoString } from '../../utils/dateParser';
+import { getOnlyLocalDate, getLocalIsoString, isTodayOrInFuture } from '../../utils/dateParser';
 import AddLearningDayButton from './AddLearningDayButton';
 import { isSelfLearningDay, getSelfLearningDayFromDate } from '../../utils/learningDay';
 import {
@@ -27,8 +28,13 @@ const LearningDay = ({
     );
   }
 
-  if (!isSelfLearningDay(date, selfLearningDays))
+  if (!isSelfLearningDay(date, selfLearningDays) && isTodayOrInFuture(date))
     return <AddLearningDayButton date={date} disabled={remainingLimit.daysPerQuarter === 0} />;
+
+  if (!isSelfLearningDay(date, selfLearningDays)) {
+    // should display team members learning days
+    return null;
+  }
 
   const onLearningDayUpdate = learningDayId => {
     return ({ comments, newTopics }) => dispatch(updateLearningDay({
