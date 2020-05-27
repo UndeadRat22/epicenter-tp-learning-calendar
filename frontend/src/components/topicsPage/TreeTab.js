@@ -4,27 +4,69 @@ import {
   Box,
   Heading,
 } from 'wix-style-react';
+import { useSelector, useDispatch } from 'react-redux';
 import TreeContainer from './tree/TreeContainer';
-import data from './tree/data';
 import SelectTreeForm from './SelectTreeForm';
 import { TOPICS_TREE_HEIGHT, TOPICS_TREE_WIDTH } from '../../constants/Styling';
 import {
   PERSONAL, MY_TEAM, MY_SUBORDINATES, SINGLE_SUBORDINATE, SINGLE_TEAM,
 } from '../../constants/TreeTypes';
+import {
+  getPersonalTree, getMyTeamTree, getMySubordinatesTree, getSingleSubordinateTree, getSingleTeamTree,
+} from '../../state/actions';
 
 const TreeTab = () => {
-  const [tree, setTree] = useState(PERSONAL);
+  const initialTree = {
+    name: 'Topics',
+    children: [],
+  };
 
-  const handleTree = selectedTree => {
-    switch (selectedTree) {
+  const [id, setId] = useState('');
+  const [tree, setTree] = useState(initialTree);
+  const [treeName, setTreeName] = useState('');
+
+  const dispatch = useDispatch();
+
+  const { tree: personalTree, status: personalTreeStatus } = useSelector(state => state.personalTree);
+  const { tree: myTeamTree, status: myTeamTreeStatus } = useSelector(state => state.myTeamTree);
+  const { tree: mySubordinatesTree, status: mySubordinatesTreeStatus } = useSelector(state => state.mySubordinatesTree);
+  const { tree: singleSubordinateTree, status: singleSubordinateTreeStatus } = useSelector(state => state.singleSubordinateTree);
+  const { tree: singleTeamTree, status: singleTeamTreeStatus } = useSelector(state => state.singleTeamTree);
+
+  const reformatDataToTree = data => {
+    const newTree = {
+      name: 'Topics',
+      children: data,
+    };
+    setTree(newTree);
+  };
+
+  const handleTree = async ({ value, additionalParametersId }) => {
+    setTreeName(value);
+    setId(additionalParametersId);
+
+    switch (value) {
+      case PERSONAL:
+        dispatch(getPersonalTree());
+        reformatDataToTree(personalTree);
+        break;
+      case MY_TEAM:
+        dispatch(getMyTeamTree());
+        reformatDataToTree(myTeamTree);
+        break;
+      case MY_SUBORDINATES:
+        dispatch(getMySubordinatesTree());
+        reformatDataToTree(mySubordinatesTree);
+        break;
       case SINGLE_SUBORDINATE:
-        setTree(selectedTree.value);
+        dispatch(getSingleSubordinateTree(additionalParametersId));
+        reformatDataToTree(singleSubordinateTree);
         break;
       case SINGLE_TEAM:
-        setTree(selectedTree.value);
+        dispatch(getSingleTeamTree(additionalParametersId));
+        reformatDataToTree(singleTeamTree);
         break;
       default:
-        setTree(selectedTree.value);
     }
   };
 
@@ -35,13 +77,13 @@ const TreeTab = () => {
         <Heading
           appearance="H2"
         >
-          {tree}
+          {treeName}
           {' '}
-          tree
+          Tree
         </Heading>
       </Box>
       <Box align="center">
-        <TreeContainer data={data} width={TOPICS_TREE_WIDTH} height={TOPICS_TREE_HEIGHT} />
+        <TreeContainer data={tree} width={TOPICS_TREE_WIDTH} height={TOPICS_TREE_HEIGHT} />
       </Box>
     </Container>
   );

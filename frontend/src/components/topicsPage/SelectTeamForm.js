@@ -15,13 +15,13 @@ const SelectTeamForm = ({ onSelectTeam, isDisabled = true, onSearchAndDropDownMi
 
 
   const getTeams = () => {
-    let teams = [];
-
+    const teams = [];
     if (subordinates.length !== 0) {
-      teams = subordinates.employees.map(subordinate => {
+      subordinates.employees.forEach(subordinate => {
         if (subordinate.managedEmployeesCount > 0) {
           const teamName = subordinate.fullName.concat(' Team (', subordinate.managedEmployeesCount, ' members)');
-          return { id: subordinate.id, value: teamName };
+          const team = { id: subordinate.id, value: teamName };
+          teams.push(team);
         }
       });
     }
