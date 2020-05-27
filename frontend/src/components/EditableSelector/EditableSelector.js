@@ -100,7 +100,6 @@ class EditableSelector extends WixComponent {
             <Badge
               size="small"
             >
-
               {topics.length}
               /
               {maxTopics}

@@ -9,30 +9,13 @@ import { IN_PROGRESS, DONE } from '../../constants/LearningDayTopicProgressStatu
 import { updateLearningDay } from '../../state/actions';
 import { getSelfLearningDayFromDate } from '../../utils/learningDay';
 
-const mockTopics = [
-  {
-    id: '8fc627b9-b78e-4e34-acc8-08d7fd5087e5',
-    subject: '.Net',
-    progressStatus: IN_PROGRESS,
-  },
-  {
-    id: '466e1c84-ca0b-412e-acc9-08d7fd5087e5',
-    subject: 'ASP.NET',
-    progressStatus: DONE,
-  },
-  {
-    id: '1e9cdf75-cb8e-4a0b-2482-08d7fe97417b',
-    subject: 'Java',
-    progressStatus: IN_PROGRESS,
-  },
-];
-
 // TODO: learningDay should be enough for most of these props
 const TopicsSelectorCard = ({
   employee, topics, isSelf, isLoading, maxTopics, initialComments, onSave,
 }) => {
   // TODO: topics instead of mockTopics
-  const [selectedTopics, setSelectedTopics] = useState(mockTopics.map(topic => ({ ...topic, isChecked: topic.progressStatus === DONE })));
+  // const [selectedTopics, setSelectedTopics] = useState(mockTopics.map(topic => ({ ...topic, isChecked: topic.progressStatus === DONE })));
+  const [selectedTopics, setSelectedTopics] = useState(topics.map(topic => ({ ...topic, isChecked: topic.progressStatus === DONE })));
   const [comments, setComments] = useState(initialComments || '');
 
   const onCommentsChange = newComments => {
@@ -40,8 +23,7 @@ const TopicsSelectorCard = ({
   };
 
   const onTopicChange = ({ newTopicId, newTopicSubject, index }) => {
-    // progressStatus is PLANNED, because you can only add topics today and in the future
-    setSelectedTopics(selectedTopics.map((topic, i) => (i === index ? ({ id: newTopicId, subject: newTopicSubject, isChecked: true }) : topic)));
+    setSelectedTopics(selectedTopics.map((topic, i) => (i === index ? ({ id: newTopicId, subject: newTopicSubject, isChecked: false }) : topic)));
   };
 
   const onTopicDelete = ({ index }) => {
