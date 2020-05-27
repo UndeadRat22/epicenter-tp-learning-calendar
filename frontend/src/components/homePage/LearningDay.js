@@ -11,6 +11,7 @@ import {
 } from '../../state/actions';
 import TopicsSelectorCard from './TopicsSelectorCard';
 import { LOADING_UPDATE_LEARNING_DAY, LOADING_FETCH_LEARNING_DAYS } from '../../constants/LearningDaysStatus';
+import FeatureToggles from '../../utils/FeatureToggles';
 
 const LearningDay = ({
   date, accessors, allDayAccessors, dayPropGetter, drillDownView, getNow, onView, onSelectSlot, onNavigate, events,
@@ -44,8 +45,13 @@ const LearningDay = ({
 
   const selfLearningDay = getSelfLearningDayFromDate(date, selfLearningDays);
 
+  const commentsDisabled = !isTodayOrInFuture(date) && !FeatureToggles.isOn('edit-past-day-comments');
+  const editTopicsDisabled = !isTodayOrInFuture(date) && !FeatureToggles.isOn('edit-past-day-topics');
+
   return (
     <TopicsSelectorCard
+      editTopicsDisabled={editTopicsDisabled}
+      commentsDisabled={commentsDisabled}
       onSave={onLearningDayUpdate(selfLearningDay.id, selfLearningDay.employee)}
       topics={selfLearningDay.topics}
       employee={selfLearningDay.employee}

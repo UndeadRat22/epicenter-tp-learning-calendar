@@ -10,13 +10,14 @@ import { IN_PROGRESS, DONE } from '../../constants/LearningDayTopicProgressStatu
 import ResetSaveButtonsBox from '../ResetSaveButtonsBox';
 import { UPDATE_LEARNING_DAY_SUCCEEDED, UPDATE_LEARNING_DAY_FAILED } from '../../constants/LearningDaysStatus';
 import { suspendUpdateLearningDay } from '../../state/actions';
+import FeatureToggles from '../../utils/FeatureToggles';
 
 const getInitialSelectedTopics = topics => topics.map(topic => ({ id: topic.id, subject: topic.subject, isChecked: topic.progressStatus === DONE }));
 
 const removeWhiteSpaces = str => str.replace(/\s/g, '');
 
 const TopicsSelectorCard = ({
-  employee, topics, isSelf, isLoading, maxTopics, initialComments, onSave,
+  employee, topics, isSelf, isLoading, maxTopics, initialComments, onSave, commentsDisabled, editTopicsDisabled,
 }) => {
   const [initialTopicsUpdated, setInitialTopicsUpdated] = useState(getInitialSelectedTopics(topics));
   const [initialCommentsUpdated, setInitialCommentsUpdated] = useState(initialComments);
@@ -113,6 +114,7 @@ const TopicsSelectorCard = ({
       <Card.Content>
         {isLoading ? <div style={{ textAlign: 'center' }}><Loader size="medium" /></div> : (
           <EditableSelector
+            editTopicsDisabled={editTopicsDisabled}
             maxTopics={maxTopics}
             toggleType="checkbox"
             title="Topics"
@@ -130,6 +132,7 @@ const TopicsSelectorCard = ({
         <Text weight="normal">Comments</Text>
         <div style={{ marginTop: 16 }}>
           <RichTextInputArea
+            disabled={commentsDisabled}
             initialValue={initialComments || ''}
             onChange={onCommentsChange}
             placeholder="Default text goes here"
