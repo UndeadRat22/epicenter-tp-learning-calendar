@@ -12,6 +12,7 @@ import { getLimits } from '../state/actions/limits';
 import LimitsCard from '../components/homePage/LimitsCard';
 import { FETCH_LIMITS_SUCCEEDED } from '../constants/LimitsStatus';
 import { getLearningDays } from '../state/actions/learningDays';
+import { getAllTopics } from '../state/actions';
 
 const Home = () => {
   const [isMonthlyView, setIsMonthlyView] = useState(true);
@@ -27,6 +28,7 @@ const Home = () => {
     dispatch(getPersonalGoals());
     dispatch(getLimits());
     dispatch(getLearningDays());
+    dispatch(getAllTopics());
   }, [dispatch]);
 
   const filteredGoals = goals.filter(goal => !goal.isCompleted);
@@ -49,7 +51,7 @@ const Home = () => {
   };
 
   return (
-    <Page height="1140px">
+    <Page>
       <Page.Header
         showBackButton={!isMonthlyView}
         onBackClicked={onBackClick}

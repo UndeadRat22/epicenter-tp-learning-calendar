@@ -12,4 +12,10 @@ const getSelfLearningDayFromDate = (date, selfLearningDays) => {
   return selfLearningDays.find(day => areDatesEqual(fromISOStringToDate(day.date), date));
 };
 
-export { isSelfLearningDay, isTeamLearningDay, getSelfLearningDayFromDate };
+const getTeamMemberLearningDayFromDate = ({ date, employee, teamLearningDays }) => {
+  return teamLearningDays.find(day => areDatesEqual(fromISOStringToDate(day.date), date) && day.employee.id === employee.id);
+};
+
+export {
+  isSelfLearningDay, isTeamLearningDay, getSelfLearningDayFromDate, getTeamMemberLearningDayFromDate,
+};

@@ -7,6 +7,10 @@ import {
   CANCEL_LEARNING_DAY_SUCCESS,
   CANCEL_LEARNING_DAY_FAIL,
   CANCEL_LEARNING_DAY_SUSPEND,
+  UPDATE_LEARNING_DAY_START,
+  UPDATE_LEARNING_DAY_SUCCESS,
+  UPDATE_LEARNING_DAY_FAIL,
+  UPDATE_LEARNING_DAY_SUSPEND,
 } from './types/learningDays';
 import { getLocalIsoString } from '../../utils/dateParser';
 import { showSuccessToast, showErrorToast } from './toast';
@@ -26,6 +30,11 @@ const cancelLearningDayStart = makeSyncActionCreator(CANCEL_LEARNING_DAY_START);
 const cancelLearningDaySuccess = makeSyncActionCreator(CANCEL_LEARNING_DAY_SUCCESS);
 const cancelLearningDayFail = makeSyncActionCreator(CANCEL_LEARNING_DAY_FAIL);
 const suspendCancelLearningDay = makeSyncActionCreator(CANCEL_LEARNING_DAY_SUSPEND);
+
+const updateLearningDayStart = makeSyncActionCreator(UPDATE_LEARNING_DAY_START);
+const updateLearningDaySuccess = makeSyncActionCreator(UPDATE_LEARNING_DAY_SUCCESS);
+const updateLearningDayFail = makeSyncActionCreator(UPDATE_LEARNING_DAY_FAIL);
+const suspendUpdateLearningDay = makeSyncActionCreator(UPDATE_LEARNING_DAY_SUSPEND);
 
 const cancelLearningDay = id => async dispatch => {
   try {
@@ -92,6 +101,25 @@ const startLearningDay = date => async dispatch => {
   }
 };
 
+const updateLearningDay = ({
+  learningDayId, comments, learningDayTopics, date,
+}) => async dispatch => {
+  try {
+    dispatch(updateLearningDayStart());
+
+    await Axios.put('learning-days/learning-day', {
+      learningDayId, comments, learningDayTopics, date,
+    });
+
+    dispatch(updateLearningDaySuccess());
+  } catch (err) {
+    console.log(err.response.data);
+    dispatch(updateLearningDayFail());
+  } finally {
+    dispatch(suspendUpdateLearningDay());
+  }
+};
+
 export {
-  getLearningDays, startLearningDay, suspendStartLearningDay, suspendCancelLearningDay, cancelLearningDay,
+  getLearningDays, startLearningDay, suspendStartLearningDay, suspendCancelLearningDay, cancelLearningDay, updateLearningDay, suspendUpdateLearningDay,
 };
