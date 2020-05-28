@@ -6,12 +6,18 @@ import CustomTag from '../CustomTag/CustomTag';
 import s from './GoalTag.scss';
 
 const TopicsSection = ({ isLoading, topics, title }) => {
+  const onIconClick = id => {
+    alert(id);
+  };
+
   return (
     <div>
       <Heading appearance="H5">{title}</Heading>
       {isLoading ? <StatusIndicator status="loading" message="Loading topics" />
         : topics.map(topic => (
           <CustomTag
+            key={topic.id}
+            onRemove={onIconClick}
             getIcon={() => <ArrowUp />}
             className={s.tag}
             id={topic.id}

@@ -5,6 +5,10 @@ import s from './GoalTag.scss';
 import CustomTag from '../CustomTag/CustomTag';
 
 const GoalsSection = ({ isLoading, goals, title }) => {
+  const onIconClick = id => {
+
+  };
+
   return (
     <div>
       <Heading appearance="H5">{title}</Heading>
@@ -12,6 +16,8 @@ const GoalsSection = ({ isLoading, goals, title }) => {
         : goals
           .map(goal => (
             <CustomTag
+              onRemove={onIconClick}
+              key={goal.id}
               getIcon={() => <ArrowDown />}
               className={s.tag}
               id={goal.id}
