@@ -55,7 +55,7 @@ const deleteSubordinate = ({ employeeId }) => async dispatch => {
   try {
     dispatch(deleteSubordinateStart());
 
-    await Axios.delete(`employees/employee/team/${employeeId}`);
+    await Axios.delete(`employees/employee/${employeeId}`);
 
     dispatch(deleteSubordinateSuccess());
     dispatch(showSuccessToast('Employee has been deleted'));
@@ -69,4 +69,6 @@ const deleteSubordinate = ({ employeeId }) => async dispatch => {
   }
 };
 
-export { getSubordinates, updateSubordinate, deleteSubordinate };
+export {
+  getSubordinates, updateSubordinate, updateSubordinateSuspend, deleteSubordinate, deleteSubordinateSuspend,
+};

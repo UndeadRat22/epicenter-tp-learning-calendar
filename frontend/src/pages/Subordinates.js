@@ -4,7 +4,6 @@ import {
   Page,
 } from 'wix-style-react';
 import { getSubordinates, getMyTeam, getLimits } from '../state/actions';
-import ResetSaveButtonsBox from '../components/ResetSaveButtonsBox';
 import SubordinatesAssignComponent from '../components/subordinates/SubordinatesAssignComponent';
 import GlobalLimitsCard from '../components/subordinates/GlobalLimitsCard';
 
@@ -24,7 +23,6 @@ const Subordinates = () => {
       <Page.Header
         title="Subordinates"
         subtitle="Here you can make change which will impact all of your subordinates"
-        actionsBar={<ResetSaveButtonsBox />}
       />
       <Page.Content>
         <div style={{ marginBottom: 30 }}>
