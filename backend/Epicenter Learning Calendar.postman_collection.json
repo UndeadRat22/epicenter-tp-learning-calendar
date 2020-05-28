@@ -215,6 +215,35 @@
 					"response": []
 				},
 				{
+					"name": "Get My Learned Topics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/topics/tree",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"topics",
+								"tree"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GetAllTopics",
 					"request": {
 						"auth": {
@@ -675,6 +704,38 @@
 					"response": []
 				},
 				{
+					"name": "Get Team Topic Tree (Self) (Full)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/teams/team/topics/tree/self",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"teams",
+								"team",
+								"topics",
+								"tree",
+								"self"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get Team Topic Tree (Manager Id)",
 					"request": {
 						"auth": {
@@ -797,7 +858,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"topicIds\": [\"d424aa09-4732-41d1-2d26-08d7ffba2c75\"]\r\n}",
+							"raw": "{\r\n  \"topicIds\": [\"0597ce84-8dad-42d1-353c-08d8023cf829\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1202,6 +1263,35 @@
 							"path": [
 								"api",
 								"limits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Global Limit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/api/limits/global",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"api",
+								"limits",
+								"global"
 							]
 						}
 					},
