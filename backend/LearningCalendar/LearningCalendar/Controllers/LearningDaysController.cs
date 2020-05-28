@@ -103,11 +103,9 @@ namespace Epicenter.Api.Controllers
             {
                 Comments = model.Comments,
                 LearningDayId = model.LearningDayId,
-                Date = model.Date,
                 LearningDayTopics = model.LearningDayTopics
                     .Select(learningDayTopic => new UpdateLearningDayOperationRequest.LearningDayTopic
                     {
-                        Id = learningDayTopic.Id,
                         ProgressStatus = MapProgressStatus(learningDayTopic.ProgressStatus),
                         TopicId = learningDayTopic.TopicId
                     })
