@@ -26,9 +26,9 @@ const Subordinates = () => {
       />
       <Page.Content>
         <div style={{ marginBottom: 30 }}>
-          <SubordinatesAssignComponent />
+          {isTopLevelManager && <GlobalLimitsCard />}
         </div>
-        {isTopLevelManager && <GlobalLimitsCard />}
+        <SubordinatesAssignComponent />
       </Page.Content>
     </Page>
   );

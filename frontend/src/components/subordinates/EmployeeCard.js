@@ -10,7 +10,6 @@ import { EMPLOYEE } from '../../constants/DraggableTypes';
 import s from './styles.scss';
 import { LOADING_DELETE_SUBORDINATE, DELETE_SUBORDINATE_SUCCEEDED } from '../../constants/SubordinatesStatus';
 import { deleteSubordinate, deleteSubordinateSuspend } from '../../state/actions/subordinates';
-import { showErrorToast } from '../../state/actions/toast';
 
 const EmployeeCard = ({ employee }) => {
   const dispatch = useDispatch();
@@ -25,10 +24,7 @@ const EmployeeCard = ({ employee }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const onDeleteClicked = () => {
-    if (employee.managedEmployeesCount > 0)
-      dispatch(showErrorToast('Cannot delete employees who have direct subordinates'));
-    else
-      setIsDeleteModalOpen(true);
+    setIsDeleteModalOpen(true);
   };
 
   const onDeleteSubordinate = () => {
@@ -41,6 +37,8 @@ const EmployeeCard = ({ employee }) => {
     dispatch(deleteSubordinateSuspend());
     setIsDeleteModalOpen(false);
   }
+
+  const canBeDeleted = employee.managedEmployeesCount <= 0;
 
   const isLoading = deleteStatus === LOADING_DELETE_SUBORDINATE;
   const modalTitle = `Delete ${employee.fullName}`;
@@ -73,9 +71,11 @@ const EmployeeCard = ({ employee }) => {
               {employee.fullName}
             </Text>
           </Box>
-          <IconButton size="tiny" skin="premium" onClick={onDeleteClicked}>
-            <MinusSmall />
-          </IconButton>
+          {canBeDeleted && (
+            <IconButton size="tiny" skin="premium" onClick={onDeleteClicked}>
+              <MinusSmall />
+            </IconButton>
+          )}
         </Box>
         <Box marginTop="8px" marginBottom="8px">
           <Divider />
