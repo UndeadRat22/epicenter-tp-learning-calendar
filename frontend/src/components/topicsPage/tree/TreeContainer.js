@@ -22,6 +22,7 @@ import {
   LINK_LINE,
 } from '../../../constants/TreeContainerTypes';
 import { TREE_CONTAINER_FILL } from '../../../constants/Styling';
+import ColorsContainer from '../ColorsContainer';
 
 const TreeContainer = ({
   data, width, height, type,
@@ -112,13 +113,16 @@ const TreeContainer = ({
           </FormField>
         </Box>
         <Box align="right">
-          <ToggleSwitch
-            size="large"
-            checked={toggleSwitchChecked}
-            onChange={e => handleToggleSwitch(e.target.checked)}
-          />
+          <FormField label="Animated tree" labelPlacement="left">
+            <ToggleSwitch
+              size="large"
+              checked={toggleSwitchChecked}
+              onChange={e => handleToggleSwitch(e.target.checked)}
+            />
+          </FormField>
         </Box>
       </Box>
+      <ColorsContainer />
       <svg width={width} height={height}>
         <LinearGradient id="lg" from="#fd9b93" to="#fe6e9e" />
         <rect width={width} height={height} rx={14} fill={TREE_CONTAINER_FILL} />

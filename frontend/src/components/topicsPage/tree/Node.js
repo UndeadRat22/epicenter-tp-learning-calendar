@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
 import {
@@ -123,16 +124,34 @@ const Node = ({
         <text
           x="47"
           y="-7"
+          fill="#4EB7F5"
+          fontSize={TREE_NODE_FONT_SIZE}
+          fontFamily={FONT_FAMILY}
+          onClick={() => setIsOpenedTopicModal(true)}
+          className="cursor"
+        >
+          {learnedCount}
+        </text>
+        <text
+          x="23"
+          y="-7"
           fill={TREE_NODE_TEXT_COLOR}
           fontSize={TREE_NODE_FONT_SIZE}
           fontFamily={FONT_FAMILY}
-          onClick={() => setIsOpenedTopicModal(true)}
+          onClick={() => setIsOpenedTopicModal(true)}
           className="cursor"
-        >
-          {learnedCount}
-          {' '}
-          |
-          {' '}
+        >
+          |
+        </text>
+        <text
+          x="62"
+          y="-7"
+          fill="#FAC249"
+          fontSize={TREE_NODE_FONT_SIZE}
+          fontFamily={FONT_FAMILY}
+          onClick={() => setIsOpenedTopicModal(true)}
+          className="cursor"
+        >
           {plannedCount}
         </text>
       </>

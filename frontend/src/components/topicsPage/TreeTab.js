@@ -6,18 +6,15 @@ import {
   Heading,
   Loader,
   InfoIcon,
-  Palette,
-  FormField,
 } from 'wix-style-react';
 import { useSelector, useDispatch } from 'react-redux';
 import TreeContainer from './tree/TreeContainer';
 import SelectTreeForm from './SelectTreeForm';
-import {
-  TOPICS_TREE_HEIGHT, TOPICS_TREE_WIDTH, TREE_NODE_LEARNED_COLOR, TREE_NODE_NOT_PLANNED_COLOR, TREE_NODE_PLANNED_COLOR, TREE_NODE_BADGE_COLOR,
-} from '../../constants/Styling';
+import { TOPICS_TREE_HEIGHT, TOPICS_TREE_WIDTH } from '../../constants/Styling';
 import {
   PERSONAL, MY_TEAM, MY_SUBORDINATES, SINGLE_SUBORDINATE, SINGLE_TEAM,
 } from '../../constants/TreeTypes';
+import { ROOT_NODE } from '../../constants/General';
 import {
   getPersonalTree, getMyTeamTree, getMySubordinatesTree, getSingleSubordinateTree, getSingleTeamTree,
 } from '../../state/actions';
@@ -29,7 +26,7 @@ import { LOADING_SINGLE_TEAM_TREE, FETCH_SINGLE_TEAM_TREE_SUCCEEDED } from '../.
 
 const TreeTab = () => {
   const initialTree = {
-    name: 'Topics',
+    name: ROOT_NODE,
     children: [],
   };
 
@@ -46,7 +43,7 @@ const TreeTab = () => {
 
   const reformatDataToTree = data => {
     const newTree = {
-      name: 'Topics',
+      name: ROOT_NODE,
       children: data,
     };
     setTree(newTree);
@@ -121,26 +118,6 @@ const TreeTab = () => {
         {isLoading ? <Loader size="small" />
           : <TreeContainer data={tree} width={TOPICS_TREE_WIDTH} height={TOPICS_TREE_HEIGHT} type={treeName} />}
       </Box>
-      <FormField label="Learned - Planned - Not planned">
-        <Box height="24px" width="220px">
-          <Palette
-            fill={[
-              TREE_NODE_LEARNED_COLOR,
-              TREE_NODE_PLANNED_COLOR,
-              TREE_NODE_NOT_PLANNED_COLOR,
-            ]}
-          />
-        </Box>
-      </FormField>
-      <FormField label="LEARNED | PLANNED">
-        <Box height="24px" width="160px">
-          <Palette
-            fill={[
-              TREE_NODE_BADGE_COLOR,
-            ]}
-          />
-        </Box>
-      </FormField>
     </Container>
   );
 };

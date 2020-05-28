@@ -93,12 +93,14 @@ const SelectTreeForm = ({ onSelect }) => {
           isDisabled={isDisabledTeam}
           onSearchAndDropDownMissmatch={x => setIsSearchAndDropDownMissmatched(x)}
         />
-        <Button
-          as="button"
-          onClick={() => handleShowBtn()}
-        >
-          Show tree
-        </Button>
+        <Box marginLeft="medium">
+          <Button
+            as="button"
+            onClick={() => handleShowBtn()}
+          >
+            Show
+          </Button>
+        </Box>
       </Box>
     </Container>
   );
