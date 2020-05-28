@@ -16,6 +16,7 @@ import { getLocalIsoString } from '../../utils/dateParser';
 import { showSuccessToast, showErrorToast } from './toast';
 import { getLimits } from './limits';
 import { getPersonalGoals } from './personalGoals';
+import { getLearnedTopics } from './topic';
 
 const fetchLearningDaysStart = makeSyncActionCreator(FETCH_LEARNING_DAYS_START);
 const fetchLearningDaysSuccess = makeSyncActionCreator(FETCH_LEARNING_DAYS_SUCCESS);
@@ -134,6 +135,7 @@ const updateLearningDay = ({
 
     dispatch(updateLearningDaySuccess({ nextSelfLearningDays, nextTeamLearningDays }));
     dispatch(getPersonalGoals());
+    dispatch(getLearnedTopics());
   } catch (err) {
     console.log(err.response);
     dispatch(updateLearningDayFail());
