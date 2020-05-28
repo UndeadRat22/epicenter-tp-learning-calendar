@@ -71,7 +71,7 @@ namespace Epicenter.Api.Controllers
         {
             var request = new CreateLearningDayOperationRequest
             {
-                Date = model.Date,
+                Date = model.Date.Date,
                 Comments = model.Comments,
                 TopicIds = model.TopicIds
             };
