@@ -29,7 +29,7 @@ const renderTopic = (isDragging, topic) => {
   );
 };
 
-const Topic = ({ topic }) => {
+const TopicCard = ({ topic }) => {
   const [{ isDragging }, drag] = useDrag({
     item: { topic, type: TOPIC },
     collect: monitor => ({
@@ -44,4 +44,4 @@ const Topic = ({ topic }) => {
   );
 };
 
-export default Topic;
+export default TopicCard;
