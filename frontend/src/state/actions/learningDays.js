@@ -133,6 +133,7 @@ const updateLearningDay = ({
     }
 
     dispatch(updateLearningDaySuccess({ nextSelfLearningDays, nextTeamLearningDays }));
+    dispatch(getPersonalGoals());
   } catch (err) {
     console.log(err.response);
     dispatch(updateLearningDayFail());
