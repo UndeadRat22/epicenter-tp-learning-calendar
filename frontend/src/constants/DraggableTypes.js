@@ -1,3 +1,4 @@
 const TOPIC = 'TOPIC';
+const EMPLOYEE = 'EMPLOYEE';
 
-export { TOPIC };
+export { TOPIC, EMPLOYEE };

@@ -15,13 +15,16 @@ import {
 import {
   FETCH_PERSONAL_GOALS_SUCCEEDED, FETCH_PERSONAL_GOALS_FAILED,
 } from '../../constants/PersonalGoalsStatus';
+import { FETCH_LIMITS_SUCCEEDED, FETCH_LIMITS_FAILED } from '../../constants/LimitsStatus';
+import { DND_COLUMN_HEIGHT } from '../../constants/Styling';
 import LoadingIndicator from '../LoadingIndicator';
-import Employee from './Employee';
-import Topic from './Topic';
+import TeamCard from './TeamCard';
+import EmployeeCard from './EmployeeCard';
+import TopicCard from './TopicCard';
 import s from './styles.scss';
 import CreateTopicModal from '../modals/CreateTopicModal';
 
-const DragAndDropComponent = () => {
+const GoalsAssignComponent = () => {
   const [topicsFilter, setTopicsFilter] = useState('');
   const [isOpenedCreateTopicModal, setIsOpenedCreateTopicModal] = useState(false);
 
@@ -42,6 +45,18 @@ const DragAndDropComponent = () => {
     }));
   }
 
+  const { status: limitsStatus, assignedLimit, remainingLimit } = useSelector(state => state.limits);
+  const fetchLimitsSucceeded = limitsStatus === FETCH_LIMITS_SUCCEEDED;
+  const fetchLimitsFailed = limitsStatus === FETCH_LIMITS_FAILED;
+
+  let myLimit;
+  if (fetchLimitsSucceeded) {
+    const assignedDaysPerQuarter = assignedLimit.daysPerQuarter;
+    const remainingDaysPerQuarter = remainingLimit.daysPerQuarter;
+    const createdDaysThisQuarter = assignedDaysPerQuarter - remainingDaysPerQuarter;
+    myLimit = { learningDaysPerQuarter: assignedDaysPerQuarter, createdLearningDaysThisQuarter: createdDaysThisQuarter };
+  }
+
   const { newGoals, newPersonalGoals } = useSelector(state => state.assignGoals);
 
   const { user } = useSelector(state => state.auth);
@@ -52,6 +67,7 @@ const DragAndDropComponent = () => {
       return { topicId: newGoal.topic.topicId, topic: newGoal.topic.topic, isRemovable: true };
     })],
     isSelf: true,
+    limit: myLimit,
   };
 
   const { myTeam, status: myTeamStatus } = useSelector(state => state.myTeam);
@@ -59,7 +75,7 @@ const DragAndDropComponent = () => {
   const fetchMyTeamFailed = myTeamStatus === FETCH_MY_TEAM_FAILED;
 
   const allEmployees = [];
-  if (fetchPersonalGoalsSucceeded)
+  if (fetchPersonalGoalsSucceeded && fetchLimitsSucceeded)
     allEmployees.push(selfEmployee);
 
   if (fetchMyTeamSucceeded) {
@@ -67,16 +83,21 @@ const DragAndDropComponent = () => {
       const newEmployeeGoals = newGoals.filter(newGoal => newGoal.employeeId === employee.id).map(newGoal => {
         return { topicId: newGoal.topic.topicId, topic: newGoal.topic.topic, isRemovable: true };
       });
-      return { id: employee.id, name: employee.name, goalTopics: [...employee.goalTopics, ...newEmployeeGoals] };
+      return {
+        id: employee.id,
+        name: employee.name,
+        goalTopics: [...employee.goalTopics, ...newEmployeeGoals],
+        limit: employee.limit,
+      };
     });
     allEmployees.push(...teamMembers);
   }
 
-  const loadingEmployeesSucceeded = fetchPersonalGoalsSucceeded && fetchMyTeamSucceeded;
-  const loadingEmployeesFailed = fetchPersonalGoalsFailed || fetchMyTeamFailed;
+  const loadingEmployeesSucceeded = fetchPersonalGoalsSucceeded && fetchMyTeamSucceeded && fetchLimitsSucceeded;
+  const loadingEmployeesFailed = fetchPersonalGoalsFailed || fetchMyTeamFailed || fetchLimitsFailed;
   const loadingEmployees = !loadingEmployeesSucceeded && !loadingEmployeesFailed;
 
-  const cardContentHeight = 650;
+  const shouldShowTeamCard = loadingEmployeesSucceeded && myTeam.employees.length > 0;
 
   return (
     <DndProvider backend={Backend}>
@@ -90,26 +111,27 @@ const DragAndDropComponent = () => {
               />
               <Card.Divider />
               <Card.Content>
-                <Box height={cardContentHeight} direction="vertical" overflowY="auto">
+                <Box height={DND_COLUMN_HEIGHT} direction="vertical" overflowY="auto">
                   {loadingTopics && <LoadingIndicator text="Loading topics..." />}
-                  {fetchTopicsSucceeded && filteredTopics.map(topic => <Topic key={topic.id} topic={topic} />)}
+                  {fetchTopicsSucceeded && filteredTopics.map(topic => <TopicCard key={topic.id} topic={topic} />)}
                   {fetchTopicsFailed && <Text>Failed to load topics</Text>}
                   <IconButton className={s.floatingButton} as="button" size="medium" onClick={() => setIsOpenedCreateTopicModal(true)}>
                     <Add />
                   </IconButton>
                 </Box>
-                <CreateTopicModal isModalOpened={isOpenedCreateTopicModal} onCloseModal={() => setIsOpenedCreateTopicModal(false)} />
+                {isOpenedCreateTopicModal && <CreateTopicModal isModalOpened={isOpenedCreateTopicModal} onCloseModal={() => setIsOpenedCreateTopicModal(false)} />}
               </Card.Content>
             </Card>
           </Col>
           <Col span={7}>
             <Card stretchVertically>
-              <Card.Header title="Employees" />
+              <Card.Header title="Team" />
               <Card.Divider />
               <Card.Content>
-                <Box height={cardContentHeight} direction="vertical" overflowY="auto">
+                <Box height={DND_COLUMN_HEIGHT} direction="vertical" overflowY="auto">
                   {loadingEmployees && <LoadingIndicator text="Loading employees..." />}
-                  {loadingEmployeesSucceeded && allEmployees.map(employee => <Employee key={employee.id} employee={employee} />)}
+                  {shouldShowTeamCard && <TeamCard employees={allEmployees} />}
+                  {loadingEmployeesSucceeded && allEmployees.map(employee => <EmployeeCard key={employee.id} employee={employee} />)}
                   {loadingEmployeesFailed && <Text>Failed to load employees</Text>}
                 </Box>
               </Card.Content>
@@ -121,4 +143,4 @@ const DragAndDropComponent = () => {
   );
 };
 
-export default DragAndDropComponent;
+export default GoalsAssignComponent;

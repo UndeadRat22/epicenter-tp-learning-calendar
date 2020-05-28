@@ -1,12 +1,13 @@
 import Axios from 'axios';
 import makeSyncActionCreator from '../syncActionCreator';
 import {
-  ASSIGN_GOAL, ASSIGN_PERSONAL_GOAL, REMOVE_GOAL, REMOVE_PERSONAL_GOAL, SAVE_GOALS_START, SAVE_GOALS_SUCCESS, SAVE_GOALS_FAIL, RESET_GOALS,
+  ASSIGN_GOAL, ASSIGN_TEAM_GOAL, ASSIGN_PERSONAL_GOAL, REMOVE_GOAL, REMOVE_PERSONAL_GOAL, SAVE_GOALS_START, SAVE_GOALS_SUCCESS, SAVE_GOALS_FAIL, RESET_GOALS,
 } from './types/assignGoals';
 import { getPersonalGoals } from './personalGoals';
 import { getMyTeam } from './myTeam';
 
 const assignGoal = makeSyncActionCreator(ASSIGN_GOAL);
+const assignTeamGoal = makeSyncActionCreator(ASSIGN_TEAM_GOAL);
 const assignPersonalGoal = makeSyncActionCreator(ASSIGN_PERSONAL_GOAL);
 
 const removeGoal = makeSyncActionCreator(REMOVE_GOAL);
@@ -43,5 +44,5 @@ const saveGoals = ({ newGoals, newPersonalGoals }) => async dispatch => {
 const resetGoals = makeSyncActionCreator(RESET_GOALS);
 
 export {
-  assignGoal, assignPersonalGoal, removeGoal, removePersonalGoal, saveGoals, resetGoals,
+  assignGoal, assignTeamGoal, assignPersonalGoal, removeGoal, removePersonalGoal, saveGoals, resetGoals,
 };

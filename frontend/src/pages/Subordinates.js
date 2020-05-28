@@ -1,14 +1,35 @@
-
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   Page,
 } from 'wix-style-react';
+import { getSubordinates, getMyTeam, getLimits } from '../state/actions';
+import SubordinatesAssignComponent from '../components/subordinates/SubordinatesAssignComponent';
+import GlobalLimitsCard from '../components/subordinates/GlobalLimitsCard';
 
 const Subordinates = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getSubordinates());
+    dispatch(getMyTeam());
+    dispatch(getLimits());
+  }, [dispatch]);
+
+  const { isTopLevelManager } = useSelector(state => state.auth.user);
+
   return (
-    <Page height="1000px">
-      <Page.Header title="Subordinates" />
-      <Page.Content>HELLO, SUBORDINATES</Page.Content>
+    <Page>
+      <Page.Header
+        title="Subordinates"
+        subtitle="Here you can manage teams of your subordinates"
+      />
+      <Page.Content>
+        <div style={{ marginBottom: 30 }}>
+          <SubordinatesAssignComponent />
+        </div>
+        {isTopLevelManager && <GlobalLimitsCard />}
+      </Page.Content>
     </Page>
   );
 };

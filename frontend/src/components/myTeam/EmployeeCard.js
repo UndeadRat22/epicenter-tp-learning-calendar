@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDrop } from 'react-dnd';
 import {
-  Avatar, Cell, Divider, Layout, Tag, Text,
+  Avatar, Badge, Box, Cell, Divider, Layout, Tag, Text, Tooltip,
 } from 'wix-style-react';
 import { useDispatch } from 'react-redux';
 import {
@@ -9,9 +9,33 @@ import {
 } from '../../state/actions/assignGoals';
 import s from './styles.scss';
 import { TOPIC } from '../../constants/DraggableTypes';
+import EditLimitModal from '../modals/EditLimitModal';
 
-const Employee = ({ employee }) => {
+const renderLimit = (limit, onClick) => {
+  const remainingDays = limit.learningDaysPerQuarter - limit.createdLearningDaysThisQuarter;
+  const badgeText = `${remainingDays}/${limit.learningDaysPerQuarter}`;
+  const tooltipText = `${remainingDays} out of ${limit.learningDaysPerQuarter} learning days remaining this quarter`;
+
+  let badgeSkin = 'general';
+  if (remainingDays === 1)
+    badgeSkin = 'warning';
+  else if (remainingDays <= 0)
+    badgeSkin = 'danger';
+
+  return (
+    <Tooltip content={tooltipText} textAlign="center">
+      <div>
+        <Badge onClick={onClick} skin={badgeSkin}>
+          {badgeText}
+        </Badge>
+      </div>
+    </Tooltip>
+  );
+};
+
+const EmployeeCard = ({ employee }) => {
   const dispatch = useDispatch();
+  const [isOpenedEditLimitModal, setIsOpenedEditLimitModal] = useState(false);
 
   const { isSelf } = employee;
   const handleAssignGoal = topic => {
@@ -50,24 +74,32 @@ const Employee = ({ employee }) => {
 
   const hasGoals = Array.isArray(employee.goalTopics) && employee.goalTopics.length > 0;
 
+  const onLimitClicked = () => {
+    if (!isSelf)
+      setIsOpenedEditLimitModal(true);
+  };
+
   return (
     <div className={employeeClass} ref={drop}>
       <Layout gap={8}>
         <Cell span={12}>
-          <Layout>
-            <Cell span={1}>
-              <Avatar
-                name={employee.name}
-                color={isSelf ? 'A1' : 'A2'}
-                size="size36"
-              />
-            </Cell>
-            <Cell span={11}>
-              <Text weight={isSelf ? 'bold' : 'normal'}>
-                {employee.name}
-              </Text>
-            </Cell>
-          </Layout>
+          <Box align="space-between" verticalAlign="middle">
+            <Box verticalAlign="middle">
+              <Box marginRight="20px">
+                <Avatar
+                  name={employee.name}
+                  color={isSelf ? 'A1' : 'A2'}
+                  size="size36"
+                />
+              </Box>
+              <Box>
+                <Text weight={isSelf ? 'bold' : 'normal'}>
+                  {employee.name}
+                </Text>
+              </Box>
+            </Box>
+            {renderLimit(employee.limit, onLimitClicked)}
+          </Box>
         </Cell>
         {hasGoals && (
           <Cell span={12}>
@@ -92,9 +124,17 @@ const Employee = ({ employee }) => {
             </div>
           </Cell>
         )}
+        {isOpenedEditLimitModal
+        && (
+          <EditLimitModal
+            isModalOpened={isOpenedEditLimitModal}
+            onCloseModal={() => setIsOpenedEditLimitModal(false)}
+            employee={employee}
+          />
+        )}
       </Layout>
     </div>
   );
 };
 
-export default Employee;
+export default EmployeeCard;
