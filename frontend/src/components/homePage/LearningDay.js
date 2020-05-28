@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import moment from 'moment';
 import * as dates from 'date-arithmetic';
 import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from 'wix-style-react';

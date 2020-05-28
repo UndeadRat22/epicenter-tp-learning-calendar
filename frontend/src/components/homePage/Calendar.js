@@ -45,7 +45,7 @@ const Calendar = ({
   const isLoading = status === LOADING_CANCEL_LEARNING_DAY;
 
   const onCancelLearningDay = () => {
-    dispatch(cancelLearningDay(getSelfLearningDayFromDate(cancellableDate, selfLearningDays).id));
+    dispatch(cancelLearningDay(getSelfLearningDayFromDate(cancellableDate, selfLearningDays).id, cancellableDate));
   };
 
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);

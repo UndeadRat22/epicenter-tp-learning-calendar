@@ -39,7 +39,7 @@ const LimitsCard = ({ assignedLimit, remainingLimit, isLoading }) => {
                 {remainingLimit.daysPerQuarter}
               </span>
               <span className={s.rightText}>
-                days per quarter:
+                days per this quarter:
               </span>
             </>
           )}
