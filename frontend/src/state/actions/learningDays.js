@@ -108,7 +108,7 @@ const updateLearningDay = ({
     dispatch(updateLearningDayStart());
 
     await Axios.put('learning-days/learning-day', {
-      learningDayId, comments, learningDayTopics, date: getLocalIsoString(date),
+      learningDayId, comments, learningDayTopics,
     });
 
     // redux format (same as GET from backend)
