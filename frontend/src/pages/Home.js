@@ -12,7 +12,7 @@ import { getLimits } from '../state/actions/limits';
 import LimitsCard from '../components/homePage/LimitsCard';
 import { FETCH_LIMITS_SUCCEEDED } from '../constants/LimitsStatus';
 import { getLearningDays } from '../state/actions/learningDays';
-import { getAllTopics } from '../state/actions';
+import { getAllTopics, getLearnedTopics } from '../state/actions';
 
 const Home = () => {
   const [isMonthlyView, setIsMonthlyView] = useState(true);
@@ -29,9 +29,11 @@ const Home = () => {
     dispatch(getLimits());
     dispatch(getLearningDays());
     dispatch(getAllTopics());
+    dispatch(getLearnedTopics());
   }, [dispatch]);
 
-  const filteredGoals = goals.filter(goal => !goal.isCompleted);
+  const notLearnedGoals = goals.filter(goal => !goal.isCompleted);
+  const learnedGoals = goals.filter(goal => goal.isCompleted);
 
   const onBreadcrumbClick = ({ id }) => {
     if (id === 0) {
@@ -72,7 +74,7 @@ const Home = () => {
         {isMonthlyView
           && (
           <div style={{ marginBottom: 20 }}>
-            <GoalsCard goals={filteredGoals} isLoading={goalsStatus !== FETCH_PERSONAL_GOALS_SUCCEEDED} />
+            <GoalsCard notLearnedGoals={notLearnedGoals} learnedGoals={learnedGoals} isLoading={goalsStatus !== FETCH_PERSONAL_GOALS_SUCCEEDED} />
           </div>
           )}
         <Calendar onLearningDayClick={onLearningDayClick} isMonthlyView={isMonthlyView} selfLearningDays={selfLearningDays} teamLearningDays={teamLearningDays} />
