@@ -10,6 +10,7 @@ import {
   FormField,
 } from 'wix-style-react';
 import { useSelector, useDispatch } from 'react-redux';
+import useWindowSize from '../../useWindowSize';
 import TreeContainer from './tree/TreeContainer';
 import SelectTreeForm from './SelectTreeForm';
 import {
@@ -28,6 +29,7 @@ import { LOADING_SINGLE_SUBORDINATE_TREE, FETCH_SINGLE_SUBORDINATE_TREE_SUCCEEDE
 import { LOADING_SINGLE_TEAM_TREE, FETCH_SINGLE_TEAM_TREE_SUCCEEDED } from '../../constants/SingleTeamTreeStatus';
 
 const TreeTab = () => {
+  const [windowWidth, windowHeight] = useWindowSize();
   const initialTree = {
     name: 'Topics',
     children: [],
@@ -119,7 +121,7 @@ const TreeTab = () => {
       </Box>
       <Box align="center">
         {isLoading ? <Loader size="small" />
-          : <TreeContainer data={tree} width={TOPICS_TREE_WIDTH} height={TOPICS_TREE_HEIGHT} type={treeName} />}
+          : <TreeContainer data={tree} width={windowWidth - 200} height={TOPICS_TREE_HEIGHT} type={treeName} />}
       </Box>
       <FormField label="Learned - Planned - Not planned">
         <Box height="24px" width="220px">
