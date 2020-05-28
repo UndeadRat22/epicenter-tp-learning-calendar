@@ -3,9 +3,10 @@ import {
   Layout, Text, Divider, Box, Avatar,
 } from 'wix-style-react';
 import { LEARNED } from '../../../constants/ProgressStatus';
+import s from './styles.scss';
 
 const EmployeesTab = ({ topic }) => {
-  const { employees } = topic;
+  const employees = topic.employees || [];
   const getEmployees = () => {
     return employees.filter(item => item.progressStatus === LEARNED);
   };
@@ -16,8 +17,10 @@ const EmployeesTab = ({ topic }) => {
       </Text>
       <Divider />
       {getEmployees().map(item => (
-        <Box align="left" verticalAlign="middle">
-          <Avatar name={item.fullName} />
+        <Box key={item.id} align="left" verticalAlign="middle">
+          <span className={s.avatar}>
+            <Avatar name={item.fullName} />
+          </span>
           <Text size="medium">
             {' '}
             {item.fullName}
