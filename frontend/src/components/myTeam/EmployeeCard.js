@@ -14,7 +14,7 @@ import EditLimitModal from '../modals/EditLimitModal';
 const renderLimit = (limit, onClick) => {
   const remainingDays = limit.learningDaysPerQuarter - limit.createdLearningDaysThisQuarter;
   const badgeText = `${remainingDays}/${limit.learningDaysPerQuarter}`;
-  const tooltipText = `${remainingDays} out of ${limit.learningDaysPerQuarter} days left`;
+  const tooltipText = `${remainingDays} out of ${limit.learningDaysPerQuarter} learning days remaining this quarter`;
 
   let badgeSkin = 'general';
   if (remainingDays === 1)
@@ -23,7 +23,7 @@ const renderLimit = (limit, onClick) => {
     badgeSkin = 'danger';
 
   return (
-    <Tooltip content={tooltipText}>
+    <Tooltip content={tooltipText} textAlign="center">
       <div>
         <Badge onClick={onClick} skin={badgeSkin}>
           {badgeText}
@@ -33,7 +33,7 @@ const renderLimit = (limit, onClick) => {
   );
 };
 
-const Employee = ({ employee }) => {
+const EmployeeCard = ({ employee }) => {
   const dispatch = useDispatch();
   const [isOpenedEditLimitModal, setIsOpenedEditLimitModal] = useState(false);
 
@@ -137,4 +137,4 @@ const Employee = ({ employee }) => {
   );
 };
 
-export default Employee;
+export default EmployeeCard;

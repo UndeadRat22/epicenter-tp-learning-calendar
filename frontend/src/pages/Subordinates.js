@@ -22,7 +22,7 @@ const Subordinates = () => {
     <Page>
       <Page.Header
         title="Subordinates"
-        subtitle="Here you can make change which will impact all of your subordinates"
+        subtitle="Here you can manage teams of your subordinates"
       />
       <Page.Content>
         <div style={{ marginBottom: 30 }}>

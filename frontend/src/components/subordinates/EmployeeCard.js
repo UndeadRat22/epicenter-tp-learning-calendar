@@ -12,7 +12,7 @@ import { LOADING_DELETE_SUBORDINATE, DELETE_SUBORDINATE_SUCCEEDED } from '../../
 import { deleteSubordinate, deleteSubordinateSuspend } from '../../state/actions/subordinates';
 import { showErrorToast } from '../../state/actions/toast';
 
-const Employee = ({ employee }) => {
+const EmployeeCard = ({ employee }) => {
   const dispatch = useDispatch();
 
   const [{ isDragging }, drag] = useDrag({
@@ -86,4 +86,4 @@ const Employee = ({ employee }) => {
   );
 };
 
-export default Employee;
+export default EmployeeCard;

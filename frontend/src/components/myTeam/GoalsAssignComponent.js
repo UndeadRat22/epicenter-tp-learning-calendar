@@ -18,8 +18,9 @@ import {
 import { FETCH_LIMITS_SUCCEEDED, FETCH_LIMITS_FAILED } from '../../constants/LimitsStatus';
 import { DND_COLUMN_HEIGHT } from '../../constants/Styling';
 import LoadingIndicator from '../LoadingIndicator';
-import Employee from './Employee';
-import Topic from './Topic';
+import TeamCard from './TeamCard';
+import EmployeeCard from './EmployeeCard';
+import TopicCard from './TopicCard';
 import s from './styles.scss';
 import CreateTopicModal from '../modals/CreateTopicModal';
 
@@ -96,6 +97,8 @@ const GoalsAssignComponent = () => {
   const loadingEmployeesFailed = fetchPersonalGoalsFailed || fetchMyTeamFailed || fetchLimitsFailed;
   const loadingEmployees = !loadingEmployeesSucceeded && !loadingEmployeesFailed;
 
+  const shouldShowTeamCard = loadingEmployeesSucceeded && myTeam.employees.length > 0;
+
   return (
     <DndProvider backend={Backend}>
       <Container>
@@ -110,7 +113,7 @@ const GoalsAssignComponent = () => {
               <Card.Content>
                 <Box height={DND_COLUMN_HEIGHT} direction="vertical" overflowY="auto">
                   {loadingTopics && <LoadingIndicator text="Loading topics..." />}
-                  {fetchTopicsSucceeded && filteredTopics.map(topic => <Topic key={topic.id} topic={topic} />)}
+                  {fetchTopicsSucceeded && filteredTopics.map(topic => <TopicCard key={topic.id} topic={topic} />)}
                   {fetchTopicsFailed && <Text>Failed to load topics</Text>}
                   <IconButton className={s.floatingButton} as="button" size="medium" onClick={() => setIsOpenedCreateTopicModal(true)}>
                     <Add />
@@ -122,12 +125,13 @@ const GoalsAssignComponent = () => {
           </Col>
           <Col span={7}>
             <Card stretchVertically>
-              <Card.Header title="Team Members" />
+              <Card.Header title="Team" />
               <Card.Divider />
               <Card.Content>
                 <Box height={DND_COLUMN_HEIGHT} direction="vertical" overflowY="auto">
                   {loadingEmployees && <LoadingIndicator text="Loading employees..." />}
-                  {loadingEmployeesSucceeded && allEmployees.map(employee => <Employee key={employee.id} employee={employee} />)}
+                  {shouldShowTeamCard && <TeamCard employees={allEmployees} />}
+                  {loadingEmployeesSucceeded && allEmployees.map(employee => <EmployeeCard key={employee.id} employee={employee} />)}
                   {loadingEmployeesFailed && <Text>Failed to load employees</Text>}
                 </Box>
               </Card.Content>

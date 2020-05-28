@@ -10,7 +10,7 @@ import s from './styles.scss';
 import { LOADING_UPDATE_SUBORDINATE, UPDATE_SUBORDINATE_SUCCEEDED } from '../../constants/SubordinatesStatus';
 import { updateSubordinate, updateSubordinateSuspend } from '../../state/actions/subordinates';
 
-const Team = ({ teamManager }) => {
+const TeamCard = ({ teamManager }) => {
   const dispatch = useDispatch();
 
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -103,4 +103,4 @@ const Team = ({ teamManager }) => {
   );
 };
 
-export default Team;
+export default TeamCard;

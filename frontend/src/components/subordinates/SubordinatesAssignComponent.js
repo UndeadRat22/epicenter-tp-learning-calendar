@@ -13,8 +13,8 @@ import {
 } from '../../constants/MyTeamStatus';
 import { DND_COLUMN_HEIGHT } from '../../constants/Styling';
 import LoadingIndicator from '../LoadingIndicator';
-import Employee from './Employee';
-import Team from './Team';
+import EmployeeCard from './EmployeeCard';
+import TeamCard from './TeamCard';
 
 const SubordinatesAssignComponent = () => {
   const [employeesFilter, setEmployeesFilter] = useState('');
@@ -65,7 +65,7 @@ const SubordinatesAssignComponent = () => {
               <Card.Content>
                 <Box height={DND_COLUMN_HEIGHT} direction="vertical" overflowY="auto">
                   {loadingSubordinates && <LoadingIndicator text="Loading employees..." />}
-                  {fetchSubordinatesSucceeded && filteredEmployees.map(employee => <Employee key={employee.id} employee={employee} />)}
+                  {fetchSubordinatesSucceeded && filteredEmployees.map(employee => <EmployeeCard key={employee.id} employee={employee} />)}
                   {fetchSubordinatesFailed && <Text>Failed to load employees</Text>}
                 </Box>
               </Card.Content>
@@ -81,7 +81,7 @@ const SubordinatesAssignComponent = () => {
               <Card.Content>
                 <Box height={DND_COLUMN_HEIGHT} direction="vertical" overflowY="auto">
                   {loadingTeams && <LoadingIndicator text="Loading teams..." />}
-                  {fetchTeamsSucceeded && filteredTeamManagers.map(manager => <Team key={manager.id} teamManager={manager} />)}
+                  {fetchTeamsSucceeded && filteredTeamManagers.map(manager => <TeamCard key={manager.id} teamManager={manager} />)}
                   {fetchTeamsFailed && <Text>Failed to load teams</Text>}
                 </Box>
               </Card.Content>
