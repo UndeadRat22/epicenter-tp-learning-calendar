@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Page, Tabs, Row, Col, Box,
 } from 'wix-style-react';
-import { PAGE_HEIGHT } from '../constants/Styling';
 import TreeTab from '../components/topicsPage/TreeTab';
 import AllTopicsTab from '../components/topicsPage/AllTopicsTab';
 
@@ -23,7 +22,7 @@ const Topics = () => {
   };
 
   return (
-    <Page height={PAGE_HEIGHT}>
+    <Page>
       <Page.Header title="Topics" />
       <Page.Tail>
         <Row>

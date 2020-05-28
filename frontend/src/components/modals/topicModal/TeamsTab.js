@@ -3,9 +3,10 @@ import {
   Layout, Text, Divider, Avatar, Box, Badge,
 } from 'wix-style-react';
 import { LEARNED } from '../../../constants/ProgressStatus';
+import s from './styles.scss';
 
 const TeamsTab = ({ topic }) => {
-  const { teams } = topic;
+  const teams = topic.teams || [];
   const getTeams = () => {
     return teams.filter(item => item.progressStatus === LEARNED);
   };
@@ -16,10 +17,12 @@ const TeamsTab = ({ topic }) => {
         Teams have already learned this topic:
       </Text>
       <Divider />
-      { getTeams().map(item => (
+      {getTeams().map(item => (
         <Box align="space-between">
           <Box align="left" verticalAlign="middle">
-            <Avatar name={item.managerFullName} />
+            <span className={s.avatar}>
+              <Avatar name={item.managerFullName} />
+            </span>
             <Text size="medium">
               {' '}
               {item.managerFullName}

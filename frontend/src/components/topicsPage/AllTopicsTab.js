@@ -107,7 +107,13 @@ const AllTopicsTab = () => {
           </Table>
         </Col>
       </Row>
-      <CreateTopicModal isModalOpened={isOpenedCreateTopicModal} onCloseModal={() => setIsOpenedCreateTopicModal(false)} />
+      {isOpenedCreateTopicModal
+      && (
+        <CreateTopicModal
+          isModalOpened={isOpenedCreateTopicModal}
+          onCloseModal={() => setIsOpenedCreateTopicModal(false)}
+        />
+      )}
       {isOpenedEditTopicModal
       && (
       <EditTopicModal
@@ -117,7 +123,13 @@ const AllTopicsTab = () => {
       />
       )}
       {isOpenedTopicModal
-      && <TopicModal isModalOpened={isOpenedTopicModal} onCloseModal={() => setIsOpenedTopicModal(false)} topic={selectedRow} />}
+      && (
+      <TopicModal
+        isModalOpened={isOpenedTopicModal}
+        onCloseModal={() => setIsOpenedTopicModal(false)}
+        topic={selectedRow}
+      />
+      )}
     </Container>
   );
 };

@@ -1,24 +1,12 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable no-unused-vars */
-import React, { Fragment } from 'react';
-import { Group } from '@vx/group';
-import { NodeGroup } from 'react-move';
-
+import React from 'react';
 import Link from './Link';
+import { TREE_STROKE_COLOR } from '../../../constants/Styling';
 
-function findCollapsedParent(node) {
-  if (!node.data.isExpanded)
-    return node;
-  if (node.parent)
-    return findCollapsedParent(node.parent);
-
-  return null;
-}
-
-function Links({
+const Links = ({
   links, linkType, layout, orientation, stepPercent,
-}) {
+}) => {
   return (
     <>
       {links.map((link, i) => {
@@ -29,7 +17,7 @@ function Links({
             layout={layout}
             orientation={orientation}
             stepPercent={stepPercent}
-            stroke="#374469"
+            stroke={TREE_STROKE_COLOR}
             strokeWidth="1"
             fill="none"
             key={i}
@@ -38,6 +26,6 @@ function Links({
       })}
     </>
   );
-}
+};
 
 export default Links;

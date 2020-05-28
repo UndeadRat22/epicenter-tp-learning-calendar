@@ -15,15 +15,18 @@ namespace Epicenter.Api.Controllers
         private readonly IGetLimitsOperation _getLimitsOperation;
         private readonly ICreateLimitOperation _createLimitOperation;
         private readonly ICreateGlobalLimitOperation _createGlobalLimitOperation;
+        private readonly IGetGlobalLimitOperation _getGlobalLimitOperation;
 
         public LimitsController(
             IGetLimitsOperation getLimitsOperation, 
             ICreateLimitOperation createLimitOperation, 
-            ICreateGlobalLimitOperation createGlobalLimitOperation)
+            ICreateGlobalLimitOperation createGlobalLimitOperation, 
+            IGetGlobalLimitOperation getGlobalLimitOperation)
         {
             _getLimitsOperation = getLimitsOperation;
             _createLimitOperation = createLimitOperation;
             _createGlobalLimitOperation = createGlobalLimitOperation;
+            _getGlobalLimitOperation = getGlobalLimitOperation;
         }
 
         [HttpGet]
@@ -31,6 +34,15 @@ namespace Epicenter.Api.Controllers
         {
             var response = await _getLimitsOperation.Execute();
             return Ok(new LimitsModel(response));
+        }
+
+        [HttpGet]
+        [Route("global")]
+        [ProducesResponseType(typeof(GlobalLimitModel),(int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetGlobalLimit()
+        {
+            var response = await _getGlobalLimitOperation.Execute();
+            return Ok(new GlobalLimitModel(response));
         }
 
         [HttpPost]

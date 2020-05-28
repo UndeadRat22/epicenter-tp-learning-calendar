@@ -62,6 +62,7 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
         public async Task<Employee> GetDetailsAsync(string email)
         {
             return await DbContext.Employees
+                .Include(employee => employee.Limit)
                 .Include(employee => employee.Identity)
                 .Include(employee => employee.Image)
                 .Include(employee => employee.PersonalGoals)
