@@ -27,7 +27,7 @@ const Node = ({
   const width = TREE_NODE_WIDTH;
   const height = TREE_NODE_HEIGHT;
 
-  const status = node.data.totalStatus;
+  const { status } = node.data;
   const { id } = node.data;
   const topic = { id, subject: node.data.name };
 
@@ -36,7 +36,8 @@ const Node = ({
   const [plannedCount, setPlannedCount] = useState(0);
 
   useEffect(() => {
-    getBadgeData();
+    if (node.data.learnedEmployees !== undefined)
+      getBadgeData();
     if (isExpanded)
       onClick();
   }, []);

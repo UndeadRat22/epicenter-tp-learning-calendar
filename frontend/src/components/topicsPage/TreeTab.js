@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import {
   Container,
@@ -20,7 +21,6 @@ import {
 import {
   getPersonalTree, getMyTeamTree, getMySubordinatesTree, getSingleSubordinateTree, getSingleTeamTree,
 } from '../../state/actions';
-import example from './tree/data';
 import { LOADING_PERSONAL_TREE, FETCH_PERSONAL_TREE_SUCCEEDED } from '../../constants/PersonalTreeStatus';
 import { LOADING_MY_TEAM_TREE, FETCH_MY_TEAM_TREE_SUCCEEDED } from '../../constants/MyTeamTreeStatus';
 import { LOADING_MY_SUBORDINATES_TREE, FETCH_MY_SUBORDINATES_TREE_SUCCEEDED } from '../../constants/MySubordinatesTreeStatus';
@@ -33,7 +33,7 @@ const TreeTab = () => {
     children: [],
   };
 
-  const [tree, setTree] = useState(example);
+  const [tree, setTree] = useState(initialTree);
   const [treeName, setTreeName] = useState('');
 
   const dispatch = useDispatch();
@@ -54,7 +54,6 @@ const TreeTab = () => {
 
   const isLoading = personalTreeStatus === LOADING_PERSONAL_TREE || myTeamTreeStatus === LOADING_MY_TEAM_TREE || mySubordinatesTreeStatus === LOADING_MY_SUBORDINATES_TREE || singleSubordinateTreeStatus === LOADING_SINGLE_SUBORDINATE_TREE || singleTeamTreeStatus === LOADING_SINGLE_TEAM_TREE;
 
-  console.log('STATUS STATUS: ', personalTreeStatus);
   useEffect(() => {
     switch (treeName) {
       case PERSONAL:
@@ -79,14 +78,13 @@ const TreeTab = () => {
         break;
       default:
     }
-  }, []);
+  }, [personalTreeStatus, myTeamTreeStatus, mySubordinatesTreeStatus, singleTeamTreeStatus, singleSubordinateTreeStatus]);
 
   const onShowTree = ({ value, additionalParametersId }) => {
     setTreeName(value);
     switch (value) {
       case PERSONAL:
         dispatch(getPersonalTree());
-        console.log('DISPATCH');
         break;
       case MY_TEAM:
         dispatch(getMyTeamTree());
