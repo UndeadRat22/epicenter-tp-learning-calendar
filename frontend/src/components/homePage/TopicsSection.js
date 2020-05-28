@@ -1,13 +1,16 @@
 import React from 'react';
 import { Heading, StatusIndicator } from 'wix-style-react';
 import ArrowUp from 'wix-ui-icons-common/ArrowUp';
-import GoalTag from './GoalTag';
+import { useDispatch } from 'react-redux';
 import CustomTag from '../CustomTag/CustomTag';
 import s from './GoalTag.scss';
+import { addSelfPersonalGoal } from '../../state/actions';
 
 const TopicsSection = ({ isLoading, topics, title }) => {
+  const dispatch = useDispatch();
+
   const onIconClick = id => {
-    alert(id);
+    dispatch(addSelfPersonalGoal(id));
   };
 
   return (

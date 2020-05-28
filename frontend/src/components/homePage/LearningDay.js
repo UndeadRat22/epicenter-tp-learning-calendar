@@ -29,7 +29,7 @@ const LearningDay = ({
     );
   }
 
-  if (!isSelfLearningDay(date, selfLearningDays) && isTodayOrInFuture(date))
+  if (!isSelfLearningDay(date, selfLearningDays) && (isTodayOrInFuture(date) || FeatureToggles.isOn('add-past-learning-day')))
     return <AddLearningDayButton date={date} disabled={remainingLimit.daysPerQuarter === 0} />;
 
   if (!isSelfLearningDay(date, selfLearningDays)) {

@@ -1,12 +1,16 @@
 import React from 'react';
 import { Heading, StatusIndicator } from 'wix-style-react';
 import ArrowDown from 'wix-ui-icons-common/ArrowDown';
+import { useDispatch } from 'react-redux';
 import s from './GoalTag.scss';
 import CustomTag from '../CustomTag/CustomTag';
+import { assignPersonalGoal, addSelfPersonalGoal } from '../../state/actions';
 
 const GoalsSection = ({ isLoading, goals, title }) => {
-  const onIconClick = id => {
+  const dispatch = useDispatch();
 
+  const onIconClick = id => {
+    // dispatch(addSelfPersonalGoal(id));
   };
 
   return (
