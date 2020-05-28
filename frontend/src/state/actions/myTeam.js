@@ -11,7 +11,7 @@ const getMyTeam = () => async dispatch => {
     dispatch(fetchMyTeamStart());
     const response = await Axios.get('teams/team/self');
     const myTeam = response.data;
-    dispatch(fetchMyTeamSuccess(myTeam.employees));
+    dispatch(fetchMyTeamSuccess(myTeam));
   } catch (err) {
     dispatch(fetchMyTeamFail());
   }
