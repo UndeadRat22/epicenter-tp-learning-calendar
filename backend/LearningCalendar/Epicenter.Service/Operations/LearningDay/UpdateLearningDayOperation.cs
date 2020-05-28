@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,6 +33,7 @@ namespace Epicenter.Service.Operations.LearningDay
             var learningDay = await _learningDayRepository.GetByIdAsync(request.LearningDayId)
                 ?? throw new ApplicationException("Learning day not found");
 
+            request.LearningDayTopics ??= new List<UpdateLearningDayOperationRequest.LearningDayTopic>();
             EnsureNoDuplicatedTopics(request);
             EnsureFitsLimits(request, employee);
 
