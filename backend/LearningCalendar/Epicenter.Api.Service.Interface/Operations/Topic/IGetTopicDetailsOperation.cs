@@ -21,8 +21,9 @@ namespace Epicenter.Service.Interface.Operations.Topic
         public string ParentSubject { get; set; }
         public string Subject { get; set; }
         public string Description { get; set; }
-        public List<Employee> Employees  { get; set; }
         public List<Team> Teams { get; set; }
+        public List<Employee> Subordinates  { get; set; }
+        public List<Employee> DirectSubordinates { get; set; }
 
         public class Employee
         {

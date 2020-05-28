@@ -36,5 +36,10 @@ namespace Epicenter.Domain.Entity.LearningCalendar
                 .Concat(new List<Employee> { Manager })
                 .ToList();
         }
+
+        public List<Employee> GetDirectSubordinates()
+        {
+            return Employees.Concat(new[] {Manager}).ToList();
+        }
     }
 }

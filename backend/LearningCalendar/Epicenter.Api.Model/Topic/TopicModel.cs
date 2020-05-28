@@ -15,42 +15,50 @@ namespace Epicenter.Api.Model.Topic
             ParentSubject = response.ParentSubject;
             Subject = response.Subject;
             Description = response.Description;
-            Employees = response.Employees
-                .Select(employee => new TopicEmployee
-                {
-                    FullName = employee.FullName,
-                    Id = employee.Id,
-                    Status = MapStatus(employee.ProgressStatus),
-                }).ToList();
+            Subordinates = response.Subordinates
+                .Select(employee => new Employee(employee))
+                .ToList();
+            DirectSubordinates = response.DirectSubordinates
+                .Select(employee => new Employee(employee))
+                .ToList();
             Teams = response.Teams
-                .Select(team => new TeamTopic
-                {
-                    TeamId = team.TeamId,
-                    ManagerId = team.ManagerId,
-                    ManagerFullName = team.ManagerFullName,
-                    Status = MapStatus(team.ProgressStatus),
-                    LearnedCount = team.LearnedCount,
-                    TotalCount = team.EmployeeCount,
-                    PlannedCount = team.PlannedCount
-                }).ToList();
+                .Select(team => new Team(team))
+                .ToList();
         }
         public Guid Id { get; set; }
         public Guid? ParentId { get; set; }
         public string ParentSubject { get; set; }
         public string Subject { get; set; }
         public string Description { get; set; }
-        public List<TopicEmployee> Employees { get; set; }
-        public List<TeamTopic> Teams { get; set; }
+        public List<Employee> Subordinates { get; set; }
+        public List<Employee> DirectSubordinates { get; set; }
+        public List<Team> Teams { get; set; }
 
-        public class TopicEmployee
+        public class Employee
         {
+            public Employee(GetTopicDetailsOperationResponse.Employee employee)
+            {
+                Id = employee.Id;
+                FullName = employee.FullName;
+                Status = MapStatus(employee.ProgressStatus);
+            }
             public Guid Id { get; set; }
             public string FullName { get; set; }
             public TopicProgressStatus Status { get; set; }
         }
 
-        public class TeamTopic
+        public class Team
         {
+            public Team(GetTopicDetailsOperationResponse.Team team)
+            {
+                TeamId = team.TeamId;
+                ManagerId = team.ManagerId;
+                ManagerFullName = team.ManagerFullName;
+                Status = MapStatus(team.ProgressStatus);
+                LearnedCount = team.LearnedCount;
+                TotalCount = team.EmployeeCount;
+                PlannedCount = team.PlannedCount;
+            }
             public Guid ManagerId { get; set; }
             public Guid TeamId { get; set; }
             public string ManagerFullName { get; set; }
@@ -60,7 +68,7 @@ namespace Epicenter.Api.Model.Topic
             public int TotalCount { get; set; }
         }
 
-        private TopicProgressStatus MapStatus(ProgressStatus status)
+        private static TopicProgressStatus MapStatus(ProgressStatus status)
         {
             return status switch
             {
