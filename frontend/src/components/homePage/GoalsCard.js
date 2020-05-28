@@ -1,10 +1,13 @@
 import React from 'react';
 import {
-  EmptyState, StatusIndicator, Heading, Box,
+  EmptyState,
 } from 'wix-style-react';
-import GoalTag from './GoalTag';
+import GoalsSection from './GoalsSection';
+import TopicsSection from './TopicsSection';
 
-const GoalsCard = ({ notLearnedGoals, learnedGoals, isLoading }) => {
+const GoalsCard = ({
+  notLearnedGoals, learnedTopics, isLoadingGoals, isLoadingTopics,
+}) => {
   return (
     <EmptyState
       align="start"
@@ -12,8 +15,8 @@ const GoalsCard = ({ notLearnedGoals, learnedGoals, isLoading }) => {
       theme="page"
     >
       <div>
-        <Heading appearance="H5">Topics that you should consider learning</Heading>
-        {isLoading ? <StatusIndicator status="loading" message="Loading goals" /> : notLearnedGoals.map(goal => <GoalTag key={goal.id} label={goal.topic.subject} id={goal.id} />)}
+        <GoalsSection isLoading={isLoadingGoals} goals={notLearnedGoals} title="Topics that you should consider learning" />
+        <TopicsSection isLoading={isLoadingTopics} topics={learnedTopics} title="Learned topics" />
       </div>
     </EmptyState>
   );
