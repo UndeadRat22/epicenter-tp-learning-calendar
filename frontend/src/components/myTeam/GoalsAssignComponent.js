@@ -16,6 +16,7 @@ import {
   FETCH_PERSONAL_GOALS_SUCCEEDED, FETCH_PERSONAL_GOALS_FAILED,
 } from '../../constants/PersonalGoalsStatus';
 import { FETCH_LIMITS_SUCCEEDED, FETCH_LIMITS_FAILED } from '../../constants/LimitsStatus';
+import { DND_COLUMN_HEIGHT } from '../../constants/Styling';
 import LoadingIndicator from '../LoadingIndicator';
 import Employee from './Employee';
 import Topic from './Topic';
@@ -95,8 +96,6 @@ const GoalsAssignComponent = () => {
   const loadingEmployeesFailed = fetchPersonalGoalsFailed || fetchMyTeamFailed || fetchLimitsFailed;
   const loadingEmployees = !loadingEmployeesSucceeded && !loadingEmployeesFailed;
 
-  const cardContentHeight = 650;
-
   return (
     <DndProvider backend={Backend}>
       <Container>
@@ -109,7 +108,7 @@ const GoalsAssignComponent = () => {
               />
               <Card.Divider />
               <Card.Content>
-                <Box height={cardContentHeight} direction="vertical" overflowY="auto">
+                <Box height={DND_COLUMN_HEIGHT} direction="vertical" overflowY="auto">
                   {loadingTopics && <LoadingIndicator text="Loading topics..." />}
                   {fetchTopicsSucceeded && filteredTopics.map(topic => <Topic key={topic.id} topic={topic} />)}
                   {fetchTopicsFailed && <Text>Failed to load topics</Text>}
@@ -126,7 +125,7 @@ const GoalsAssignComponent = () => {
               <Card.Header title="Team Members" />
               <Card.Divider />
               <Card.Content>
-                <Box height={cardContentHeight} direction="vertical" overflowY="auto">
+                <Box height={DND_COLUMN_HEIGHT} direction="vertical" overflowY="auto">
                   {loadingEmployees && <LoadingIndicator text="Loading employees..." />}
                   {loadingEmployeesSucceeded && allEmployees.map(employee => <Employee key={employee.id} employee={employee} />)}
                   {loadingEmployeesFailed && <Text>Failed to load employees</Text>}

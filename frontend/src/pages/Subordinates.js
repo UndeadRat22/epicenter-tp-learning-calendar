@@ -3,13 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Page,
 } from 'wix-style-react';
-import { getLimits } from '../state/actions/limits';
+import { getSubordinates, getLimits } from '../state/actions';
+import ResetSaveButtonsBox from '../components/ResetSaveButtonsBox';
+import SubordinatesAssignComponent from '../components/subordinates/SubordinatesAssignComponent';
 import GlobalLimitsCard from '../components/subordinates/GlobalLimitsCard';
 
 const Subordinates = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(getSubordinates());
     dispatch(getLimits());
   }, [dispatch]);
 
@@ -17,8 +20,15 @@ const Subordinates = () => {
 
   return (
     <Page>
-      <Page.Header title="Subordinates" subtitle="Here you can make change which will impact all of your subordinates" />
+      <Page.Header
+        title="Subordinates"
+        subtitle="Here you can make change which will impact all of your subordinates"
+        actionsBar={<ResetSaveButtonsBox />}
+      />
       <Page.Content>
+        <div style={{ marginBottom: 30 }}>
+          <SubordinatesAssignComponent />
+        </div>
         {isTopLevelManager && <GlobalLimitsCard />}
       </Page.Content>
     </Page>
