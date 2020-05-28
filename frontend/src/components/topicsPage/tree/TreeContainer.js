@@ -26,7 +26,6 @@ import { TREE_CONTAINER_FILL } from '../../../constants/Styling';
 const TreeContainer = ({
   data, width, height, type,
 }) => {
-  const [layout, setLayout] = useState(LAYOUT_CARTESIAN);
   const [orientation, setOrientation] = useState(ORIENTATION_HORIZONTAL);
   const [linkType, setLinkType] = useState(LINK_DIAGONAL);
   const [toggleSwitchChecked, setToggleSwitchChecked] = useState(true);
@@ -40,6 +39,7 @@ const TreeContainer = ({
   };
 
   const stepPercent = 0.5;
+  const layout = LAYOUT_CARTESIAN;
 
   const margin = {
     top: 30,
@@ -82,19 +82,6 @@ const TreeContainer = ({
     <Container>
       <Box align="space-between" padding="small" marginBottom={0.5} verticalAlign="bottom">
         <Box align="left">
-          <FormField label="Layout">
-            <Dropdown
-              size="small"
-              placeholder={layout}
-              value={layout}
-              options={[
-                { id: 0, value: LAYOUT_CARTESIAN },
-                { id: 1, value: LAYOUT_POLAR },
-              ]}
-              onSelect={event => setLayout(event.value)}
-            />
-          </FormField>
-
           <FormField label="Orientation">
             <Dropdown
               size="small"

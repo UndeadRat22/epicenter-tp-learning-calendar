@@ -1,9 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
 import {
-  Badge,
-} from 'wix-style-react';
-import {
   TREE_NODE_OUTLINE_COLOR,
   FONT_FAMILY,
   TREE_NODE_LEARNED_COLOR,

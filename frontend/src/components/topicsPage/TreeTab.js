@@ -4,11 +4,16 @@ import {
   Box,
   Heading,
   Loader,
+  InfoIcon,
+  Palette,
+  FormField,
 } from 'wix-style-react';
 import { useSelector, useDispatch } from 'react-redux';
 import TreeContainer from './tree/TreeContainer';
 import SelectTreeForm from './SelectTreeForm';
-import { TOPICS_TREE_HEIGHT, TOPICS_TREE_WIDTH } from '../../constants/Styling';
+import {
+  TOPICS_TREE_HEIGHT, TOPICS_TREE_WIDTH, TREE_NODE_LEARNED_COLOR, TREE_NODE_NOT_PLANNED_COLOR, TREE_NODE_PLANNED_COLOR,
+} from '../../constants/Styling';
 import {
   PERSONAL, MY_TEAM, MY_SUBORDINATES, SINGLE_SUBORDINATE, SINGLE_TEAM,
 } from '../../constants/TreeTypes';
@@ -113,11 +118,25 @@ const TreeTab = () => {
           {' '}
           Tree
         </Heading>
+        <Box marginLeft="tiny">
+          <InfoIcon content="Double click on the node to see more information about the topic." />
+        </Box>
       </Box>
       <Box align="center">
         {isLoading ? <Loader size="small" />
           : <TreeContainer data={tree} width={TOPICS_TREE_WIDTH} height={TOPICS_TREE_HEIGHT} type={treeName} />}
       </Box>
+      <FormField label="Learned - Planned - Not planned">
+        <Box height="24px" width="220px">
+          <Palette
+            fill={[
+              TREE_NODE_LEARNED_COLOR,
+              TREE_NODE_PLANNED_COLOR,
+              TREE_NODE_NOT_PLANNED_COLOR,
+            ]}
+          />
+        </Box>
+      </FormField>
     </Container>
   );
 };
