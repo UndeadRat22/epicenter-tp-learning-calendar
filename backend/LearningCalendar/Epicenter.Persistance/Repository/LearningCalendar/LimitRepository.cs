@@ -46,5 +46,13 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 .Include(limit => limit.Employees)
                 .SingleOrDefaultAsync(limit => limit.Id == id);
         }
+
+        public async Task<List<Limit>> GetNonAssignedLimitsAsync()
+        {
+            return await DbContext.Limits
+                .Include(limit => limit.Employees)
+                .Where(limit => !limit.Employees.Any())
+                .ToListAsync();
+        }
     }
 }
