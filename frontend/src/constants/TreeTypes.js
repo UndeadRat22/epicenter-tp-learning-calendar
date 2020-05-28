@@ -1,9 +1,9 @@
 const PERSONAL = 'Personal';
 const MY_TEAM = 'My team';
 const MY_SUBORDINATES = 'My subordinates';
-const SPECIFIC_SUBORDINATE = 'Specific subordinate';
-const SPECIFIC_TEAM = 'Specific team';
+const SINGLE_SUBORDINATE = 'Single subordinate';
+const SINGLE_TEAM = 'Single team';
 
 export {
-  PERSONAL, MY_TEAM, MY_SUBORDINATES, SPECIFIC_SUBORDINATE, SPECIFIC_TEAM,
+  PERSONAL, MY_TEAM, MY_SUBORDINATES, SINGLE_SUBORDINATE, SINGLE_TEAM,
 };

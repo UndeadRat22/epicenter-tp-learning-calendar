@@ -1,44 +1,48 @@
 /* eslint-disable no-unused-expressions */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FormField,
   AutoComplete,
 } from 'wix-style-react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getSubordinates } from '../../state/actions/subordinates';
 
-const SelectTopicForm = ({
-  onSelectTopic, parentTopic = '', onParentTopicSubjectChange, onSearchAndDropDownMissmatch, title = '',
-  notIncludedTopicIds = [],
-}) => {
-  const [value, setValue] = useState(parentTopic);
+const SelectSubordinateForm = ({ onSelectSubordinate, isDisabled = true, onSearchAndDropDownMissmatch }) => {
+  const [value, setValue] = useState('');
 
-  const topics = useSelector(state => state.allTopics.topics)
-    .filter(topic => !notIncludedTopicIds.some(notIncludedTopic => notIncludedTopic.id === topic.id));
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getSubordinates());
+  }, []);
+
+  const { subordinates } = useSelector(state => state.subordinates);
 
   const getOptions = () => {
     let reformattedArray = [];
-    reformattedArray = topics.map(obj => {
-      return { id: obj.id, value: obj.subject };
-    });
+    if (subordinates.length !== 0) {
+      reformattedArray = subordinates.employees.map(subordinate => {
+        return { id: subordinate.id, value: subordinate.fullName };
+      });
+    }
     return reformattedArray;
   };
 
   const onSelect = option => {
     setValue(option.value);
-    onSelectTopic(option.id);
-    onParentTopicSubjectChange(option.value);
+    onSelectSubordinate(option.id);
     onSearchAndDropDownMissmatch && onSearchAndDropDownMissmatch(false);
   };
 
   const onChange = event => {
     setValue(event.target.value);
-    onParentTopicSubjectChange && onParentTopicSubjectChange(event.target.value);
     onSearchAndDropDownMissmatch && onSearchAndDropDownMissmatch(true);
   };
 
   return (
-    <FormField label={title}>
+    <FormField label="Select subordinate">
       <AutoComplete
+        disabled={isDisabled}
         options={getOptions()}
         value={value}
         onChange={onChange}
@@ -51,4 +55,4 @@ const SelectTopicForm = ({
   );
 };
 
-export default SelectTopicForm;
+export default SelectSubordinateForm;
