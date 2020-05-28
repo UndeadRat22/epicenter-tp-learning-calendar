@@ -123,7 +123,7 @@ const GoalsAssignComponent = () => {
           </Col>
           <Col span={7}>
             <Card stretchVertically>
-              <Card.Header title="Employees" />
+              <Card.Header title="Team Members" />
               <Card.Divider />
               <Card.Content>
                 <Box height={cardContentHeight} direction="vertical" overflowY="auto">
