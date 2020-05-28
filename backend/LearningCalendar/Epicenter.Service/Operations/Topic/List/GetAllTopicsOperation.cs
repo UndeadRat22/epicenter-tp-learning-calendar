@@ -14,12 +14,12 @@ namespace Epicenter.Service.Operations.Topic
             _topicRepository = topicRepository;
         }
 
-        public async Task<GetAllTopicsOperationResponse> Execute()
+        public async Task<GetTopicListOperationResponse> Execute()
         {
             var topics = await _topicRepository.ListAsync();
-            return new GetAllTopicsOperationResponse
+            return new GetTopicListOperationResponse
             {
-                Topics = topics.Select(topic => new GetAllTopicsOperationResponse.Topic
+                Topics = topics.Select(topic => new GetTopicListOperationResponse.Topic
                 {
                     Id = topic.Id,
                     Subject = topic.Subject,

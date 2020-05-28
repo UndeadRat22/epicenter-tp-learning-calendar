@@ -15,8 +15,15 @@ namespace Epicenter.Service.Strategy.Topic
                 .Where(day => day.GetDayTopicByTopicId(topic.Id) != null)
                 .ToList();
 
+            bool hasCompleteGoals = employee.PersonalGoals
+                .Any(goal => goal.TopicId == topic.Id && goal.IsComplete);
+
             if (!relevantDays.Any())
             {
+                if (hasCompleteGoals)
+                {
+                    return Status.Learned;
+                }
                 return Status.NotPlanned;
             }
 

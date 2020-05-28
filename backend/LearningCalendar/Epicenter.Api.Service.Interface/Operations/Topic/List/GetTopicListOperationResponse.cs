@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Epicenter.Service.Interface.Operations.Topic
 {
-    public interface IGetAllTopicsOperation
-    {
-        Task<GetAllTopicsOperationResponse> Execute();
-    }
-
-    public class GetAllTopicsOperationResponse
+    public class GetTopicListOperationResponse
     {
         public List<Topic> Topics { get; set; }
 
