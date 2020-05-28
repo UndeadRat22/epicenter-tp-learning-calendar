@@ -95,6 +95,8 @@ const learningDays = (state = initialState, action) => {
       return {
         ...state,
         updateStatus: UPDATE_LEARNING_DAY_SUCCEEDED,
+        selfLearningDays: action.payload.nextSelfLearningDays,
+        teamLearningDays: action.payload.nextTeamLearningDays,
       };
     case UPDATE_LEARNING_DAY_SUSPEND:
       return {

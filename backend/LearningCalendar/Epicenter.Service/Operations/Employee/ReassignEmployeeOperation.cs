@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Epicenter.Infrastructure.Extensions;
 using Epicenter.Persistence.Interface.Repository.LearningCalendar;
 using Epicenter.Service.Context.Interface.Authorization;
 using Epicenter.Service.Interface.Operations.Employee;
@@ -37,6 +40,21 @@ namespace Epicenter.Service.Operations.Employee
             }
 
             var employeeToAssign = await _employeeRepository.GetByIdAsync(request.EmployeeId);
+
+            var myTeamTree = await _authorizationContext.GetTeamTree();
+            var reassignedEmployeeTeamTree = myTeamTree
+                .FindAnyOrDefault(
+                    team => team.Employees.Select(employee => employee.ManagedTeam),
+                    team => team.Manager.Id == employeeToAssign.Id);
+
+            var subordinates = reassignedEmployeeTeamTree?.GetAllEmployees() ?? new List<Domain.Entity.LearningCalendar.Employee>();
+
+            bool isNewManagerASubordinate = subordinates.Any(subordinate => subordinate.Id == request.ManagerId);
+
+            if (isNewManagerASubordinate)
+            {
+                throw new ApplicationException("Can't reassign an employee to his subordinate");
+            }
 
             var ensureNewManagerHasTeamRequest = new EnsureManagerHasTeamRequest
             {

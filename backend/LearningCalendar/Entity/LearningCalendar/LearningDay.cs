@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Epicenter.Domain.Entity.LearningCalendar
 {
@@ -15,5 +16,10 @@ namespace Epicenter.Domain.Entity.LearningCalendar
         public DateTime Date { get; set; }
         public string Comments { get; set; }
         public List<LearningDayTopic> LearningDayTopics { get; set; }
+
+        public LearningDayTopic GetDayTopicByTopicId(Guid topicId)
+        {
+            return LearningDayTopics.FirstOrDefault(dayTopic => dayTopic.TopicId == topicId);
+        }
     }
 }

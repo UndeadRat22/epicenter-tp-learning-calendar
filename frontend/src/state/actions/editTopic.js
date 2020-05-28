@@ -26,7 +26,7 @@ const editTopic = (oldTopic, newTopic) => async dispatch => {
 
     // }
     dispatch(showErrorToast('Failed to edit topic'));
-    console.log(err.response.data);
+    console.log(err.response);
     dispatch(editTopicFail());
   } finally {
     dispatch(suspendEditTopic());

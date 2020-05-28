@@ -16,7 +16,7 @@ namespace Epicenter.Service.Operations.Goal
             _authorizationContext = authorizationContext;
             _assignGoalToEmployeeOperation = assignGoalToEmployeeOperation;
         }
-        public async Task Execute(AssignGoalsAssignGoalToSelfOperationRequest request)
+        public async Task Execute(AssignGoalToSelfOperationRequest request)
         {
             var employee = await _authorizationContext.CurrentEmployee();
             var assignGoalRequest = new AssignGoalsToEmployeeOperationRequest

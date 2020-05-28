@@ -4,15 +4,10 @@ using System.Net;
 using System.Threading.Tasks;
 using Epicenter.Api.Model;
 using Epicenter.Api.Model.Authentication;
-using Epicenter.Api.Model.Team;
 using Epicenter.Api.Model.Team.Employee;
-using Epicenter.Api.Model.Tree;
 using Epicenter.Service.Interface.Exceptions.Authentication;
 using Epicenter.Service.Interface.Exceptions.Employee;
-using Epicenter.Service.Interface.Exceptions.Team;
 using Epicenter.Service.Interface.Operations.Employee;
-using Epicenter.Service.Interface.Operations.Topic;
-using Epicenter.Service.Interface.Operations.Topic.Team;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

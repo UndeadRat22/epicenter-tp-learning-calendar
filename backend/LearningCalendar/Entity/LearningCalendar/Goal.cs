@@ -11,5 +11,12 @@ namespace Epicenter.Domain.Entity.LearningCalendar
         [Required]
         public Guid TopicId { get; set; }
         public DateTime? CompletionDate { get; set; }
+
+        public bool IsComplete => CompletionDate.HasValue;
+
+        public void MarkAsComplete()
+        {
+            CompletionDate = DateTime.Today;
+        }
     }
 }

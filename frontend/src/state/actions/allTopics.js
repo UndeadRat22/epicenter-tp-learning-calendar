@@ -13,7 +13,7 @@ const getAllTopics = () => async dispatch => {
     const topics = response.data;
     dispatch(fetchAllTopicsSuccess(topics.topics));
   } catch (err) {
-    console.log(err.response.data);
+    console.log(err.response);
     dispatch(fetchAllTopicsFail());
   }
 };

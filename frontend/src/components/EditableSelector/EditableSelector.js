@@ -25,12 +25,14 @@ class EditableSelector extends WixComponent {
     onOptionDelete: PropTypes.func,
     onOptionToggle: PropTypes.func,
     topics: PropTypes.array,
+    editTopicsDisabled: PropTypes.bool,
   };
 
   static defaultProps = {
     toggleType: 'checkbox',
-    newRowLabel: 'New Topic',
+    newRowLabel: 'Add Topic',
     editButtonText: 'Edit',
+    editTopicsDisabled: false,
   };
 
   state = {
@@ -126,6 +128,7 @@ class EditableSelector extends WixComponent {
               />
               <div className={styles.optionMenu}>
                 <IconButton
+                  disabled={this.props.editTopicsDisabled}
                   onClick={() => this.deleteItem(index)}
                   dataHook="delete-item"
                   type="button"
@@ -138,6 +141,7 @@ class EditableSelector extends WixComponent {
                 </IconButton>
                 <div className={styles.editRow}>
                   <Button
+                    disabled={this.props.editTopicsDisabled}
                     onClick={() => this.editItem(index)}
                     dataHook="edit-item"
                     size="small"

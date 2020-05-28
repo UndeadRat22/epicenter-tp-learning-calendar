@@ -6,10 +6,10 @@ namespace Epicenter.Service.Interface.Operations.Goal
 {
     public interface IAssignGoalsToSelfOperation
     {
-        Task Execute(AssignGoalsAssignGoalToSelfOperationRequest request);
+        Task Execute(AssignGoalToSelfOperationRequest request);
     }
 
-    public class AssignGoalsAssignGoalToSelfOperationRequest
+    public class AssignGoalToSelfOperationRequest
     {
         public List<Guid> TopicIds { get; set; }
     }

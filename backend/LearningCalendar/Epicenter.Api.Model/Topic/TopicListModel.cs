@@ -7,7 +7,7 @@ namespace Epicenter.Api.Model.Topic
 {
     public class TopicListModel
     {
-        public TopicListModel(GetAllTopicsOperationResponse response)
+        public TopicListModel(GetTopicListOperationResponse response)
         {
             Topics = response.Topics
                 .Select(topic => new Topic

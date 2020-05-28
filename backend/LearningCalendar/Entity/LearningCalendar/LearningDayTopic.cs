@@ -16,6 +16,8 @@ namespace Epicenter.Domain.Entity.LearningCalendar
         public Guid TopicId { get; set; }
         [Required]
         public ProgressStatus ProgressStatus { get; set; }
+
+        public bool IsComplete => ProgressStatus == ProgressStatus.Done;
     }
     public enum ProgressStatus
     {

@@ -11,6 +11,7 @@ import {
 } from '../../state/actions';
 import TopicsSelectorCard from './TopicsSelectorCard';
 import { LOADING_UPDATE_LEARNING_DAY, LOADING_FETCH_LEARNING_DAYS } from '../../constants/LearningDaysStatus';
+import FeatureToggles from '../../utils/FeatureToggles';
 
 const LearningDay = ({
   date, accessors, allDayAccessors, dayPropGetter, drillDownView, getNow, onView, onSelectSlot, onNavigate, events,
@@ -28,7 +29,7 @@ const LearningDay = ({
     );
   }
 
-  if (!isSelfLearningDay(date, selfLearningDays) && isTodayOrInFuture(date))
+  if (!isSelfLearningDay(date, selfLearningDays) && (isTodayOrInFuture(date) || FeatureToggles.isOn('add-past-learning-day')))
     return <AddLearningDayButton date={date} disabled={remainingLimit.daysPerQuarter === 0} />;
 
   if (!isSelfLearningDay(date, selfLearningDays)) {
@@ -36,17 +37,22 @@ const LearningDay = ({
     return null;
   }
 
-  const onLearningDayUpdate = learningDayId => {
+  const onLearningDayUpdate = (learningDayId, employee) => {
     return ({ comments, newTopics }) => dispatch(updateLearningDay({
-      learningDayId, comments, date: getLocalIsoString(date), learningDayTopics: newTopics,
+      learningDayId, comments, date, learningDayTopics: newTopics, employee,
     }));
   };
 
   const selfLearningDay = getSelfLearningDayFromDate(date, selfLearningDays);
 
+  const commentsDisabled = !isTodayOrInFuture(date) && !FeatureToggles.isOn('edit-past-day-comments');
+  const editTopicsDisabled = !isTodayOrInFuture(date) && !FeatureToggles.isOn('edit-past-day-topics');
+
   return (
     <TopicsSelectorCard
-      onSave={onLearningDayUpdate(selfLearningDay.id)}
+      editTopicsDisabled={editTopicsDisabled}
+      commentsDisabled={commentsDisabled}
+      onSave={onLearningDayUpdate(selfLearningDay.id, selfLearningDay.employee)}
       topics={selfLearningDay.topics}
       employee={selfLearningDay.employee}
       isSelf
