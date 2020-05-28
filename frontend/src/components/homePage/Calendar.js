@@ -7,6 +7,7 @@ import {
 } from 'wix-style-react';
 import Minus from 'wix-ui-icons-common/Minus';
 import { useSelector, useDispatch } from 'react-redux';
+import * as dates from 'date-arithmetic';
 import CalendarToolbar from './CalendarToolbar';
 import LearningDay from './LearningDay';
 import { isSelfLearningDay, isTeamLearningDay, getSelfLearningDayFromDate } from '../../utils/learningDay';
@@ -45,7 +46,7 @@ const Calendar = ({
   const isLoading = status === LOADING_CANCEL_LEARNING_DAY;
 
   const onCancelLearningDay = () => {
-    dispatch(cancelLearningDay(getSelfLearningDayFromDate(cancellableDate, selfLearningDays).id));
+    dispatch(cancelLearningDay(getSelfLearningDayFromDate(cancellableDate, selfLearningDays).id, cancellableDate));
   };
 
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -68,6 +69,18 @@ const Calendar = ({
 
     setCurrentDate(start);
     onLearningDayClick();
+  };
+
+  const onNavigate = newDate => {
+    const newMonth = new Date(newDate).getMonth() + 1; // [1, 12]
+    const currentMonth = new Date(currentDate).getMonth() + 1;
+    if ((newMonth === 1 && currentMonth === 12) || (newMonth === 4 && currentMonth === 3)
+      || (newMonth === 7 && currentMonth === 6) || (newMonth === 10 && currentMonth === 9)
+      || (newMonth === 12 && currentMonth === 1) || (newMonth === 9 && currentMonth === 10)
+      || (newMonth === 6 && currentMonth === 7) || (newMonth === 3 && currentMonth === 4))
+      dispatch(getLimits(newDate));
+
+    setCurrentDate(newDate);
   };
 
   const CustomDateHeader = ({
@@ -154,7 +167,7 @@ const Calendar = ({
         }}
         showMultiDayTimes={false}
         defaultDate={new Date()}
-        onNavigate={newDate => setCurrentDate(newDate)}
+        onNavigate={onNavigate}
         components={{
           month: {
             dateHeader: CustomDateHeader,
