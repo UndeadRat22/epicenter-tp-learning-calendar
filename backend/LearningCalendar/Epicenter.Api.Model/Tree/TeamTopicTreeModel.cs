@@ -26,7 +26,7 @@ namespace Epicenter.Api.Model.Tree
                 LearnedEmployees = topic.LearnedEmployees.Select(employee => new Employee(employee)).ToList();
                 PlannedEmployees = topic.PlannedEmployees.Select(employee => new Employee(employee)).ToList();
                 NotPlannedEmployees = topic.NotPlannedEmployees.Select(employee => new Employee(employee)).ToList();
-                TotalStatus = topic.TotalStatus switch
+                Status = topic.TotalStatus switch
                 {
                     GetSubordinateTopicTreeOperationResponse.Status.NotPlanned => TopicProgressStatus.NotPlanned,
                     GetSubordinateTopicTreeOperationResponse.Status.Planned => TopicProgressStatus.Planned,
@@ -41,7 +41,7 @@ namespace Epicenter.Api.Model.Tree
             public List<Employee> LearnedEmployees { get; set; }
             public List<Employee> PlannedEmployees { get; set; }
             public List<Employee> NotPlannedEmployees { get; set; }
-            public TopicProgressStatus TotalStatus { get; set; }
+            public TopicProgressStatus Status { get; set; }
         }
 
         public class Employee

@@ -65,11 +65,8 @@ namespace Epicenter.Service.Operations.LearningDay
 
             var createdTopics = nonDeletedTopics
                 .Where(group => group.topic == null)
-                .Select(group => new LearningDayTopic
-                {
-                    ProgressStatus = MapProgressStatus(group.requestTopic),
-                    TopicId = group.requestTopic.TopicId
-                }).ToList();
+                .Select(group => CreateDayTopic(employee, group.requestTopic))
+                .ToList();
 
             var topicsToUpdate = nonDeletedTopics
                 .Where(group => group.topic != null)
@@ -134,7 +131,25 @@ namespace Epicenter.Service.Operations.LearningDay
 
             dayTopic.ProgressStatus = newStatus;
             dayTopic.TopicId = requestTopic.TopicId;
-        } 
+        }
+
+        private LearningDayTopic CreateDayTopic(
+            Domain.Entity.LearningCalendar.Employee employee,
+            UpdateLearningDayOperationRequest.LearningDayTopic requestTopic)
+        {
+            if (requestTopic.ProgressStatus == UpdateLearningDayOperationRequest.ProgressStatus.Done)
+            {
+                var targetGoal = employee.PersonalGoals
+                    .FirstOrDefault(goal => goal.TopicId == requestTopic.TopicId && !goal.IsComplete);
+
+                targetGoal?.MarkAsComplete();
+            }
+            return new LearningDayTopic
+            {
+                ProgressStatus = MapProgressStatus(requestTopic),
+                TopicId = requestTopic.TopicId
+            };
+        }
 
         private ProgressStatus MapProgressStatus(UpdateLearningDayOperationRequest.LearningDayTopic learningDayTopic)
         {
