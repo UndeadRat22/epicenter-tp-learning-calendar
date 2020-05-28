@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
 import {
-  Container, Row, Col, Box, Card, Search, Text, IconButton,
+  Container, Row, Col, Box, Card, Heading, InfoIcon, Search, Text, IconButton,
 } from 'wix-style-react';
 import { Add } from 'wix-ui-icons-common';
 import { useSelector } from 'react-redux';
@@ -99,6 +99,30 @@ const GoalsAssignComponent = () => {
 
   const shouldShowTeamCard = loadingEmployeesSucceeded && myTeam.employees.length > 0;
 
+  const TopicsCardHeaderTitle = () => {
+    return (
+      <Box verticalAlign="middle">
+        <Box marginRight="tiny">
+          <Heading appearance="H3">Topics</Heading>
+        </Box>
+        <IconButton as="button" size="tiny" onClick={() => setIsOpenedCreateTopicModal(true)}>
+          <Add />
+        </IconButton>
+      </Box>
+    );
+  };
+
+  const TeamCardHeaderTitle = () => {
+    return (
+      <Box>
+        <Box marginRight="tiny">
+          <Heading appearance="H3">Team</Heading>
+        </Box>
+        <InfoIcon content="Drag a topic and drop it on an employee to assign a goal. Click on employee's limits to change them" />
+      </Box>
+    );
+  };
+
   return (
     <DndProvider backend={Backend}>
       <Container>
@@ -106,7 +130,7 @@ const GoalsAssignComponent = () => {
           <Col span={5}>
             <Card stretchVertically>
               <Card.Header
-                title="Topics"
+                title={<TopicsCardHeaderTitle />}
                 suffix={<Search debounceMs={250} clearButton={false} onChange={e => setTopicsFilter(e.target.value)} />}
               />
               <Card.Divider />
@@ -115,9 +139,6 @@ const GoalsAssignComponent = () => {
                   {loadingTopics && <LoadingIndicator text="Loading topics..." />}
                   {fetchTopicsSucceeded && filteredTopics.map(topic => <TopicCard key={topic.id} topic={topic} />)}
                   {fetchTopicsFailed && <Text>Failed to load topics</Text>}
-                  <IconButton className={s.floatingButton} as="button" size="medium" onClick={() => setIsOpenedCreateTopicModal(true)}>
-                    <Add />
-                  </IconButton>
                 </Box>
                 {isOpenedCreateTopicModal && <CreateTopicModal isModalOpened={isOpenedCreateTopicModal} onCloseModal={() => setIsOpenedCreateTopicModal(false)} />}
               </Card.Content>
@@ -125,7 +146,7 @@ const GoalsAssignComponent = () => {
           </Col>
           <Col span={7}>
             <Card stretchVertically>
-              <Card.Header title="Team" />
+              <Card.Header title={<TeamCardHeaderTitle />} />
               <Card.Divider />
               <Card.Content>
                 <Box height={DND_COLUMN_HEIGHT} direction="vertical" overflowY="auto">
