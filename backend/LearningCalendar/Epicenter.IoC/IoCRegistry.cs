@@ -72,12 +72,8 @@ namespace Epicenter.Infrastructure.IoC
 
         private static void RegisterStrategies(ContainerBuilder builder)
         {
-            builder.RegisterType<EmployeeTopicProgressStatusHasToLearnOnceStrategy>()
+            builder.RegisterType<EmployeeTopicProgressStatusStrategy>()
                 .As<IEmployeeTopicProgressStatusStrategy>()
-                .InstancePerDependency(); 
-            
-            builder.RegisterType<TeamTopicProgressStatusEmployeesHaveToLearnStrategy>()
-                .As<ITeamTopicProgressStatusStrategy>()
                 .InstancePerDependency();
 
             builder.RegisterType<EmployeeCollectionTopicProgressStatusStrategy>()

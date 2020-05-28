@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Epicenter.Infrastructure.Extensions;
 using Epicenter.Persistence.Interface.Repository.LearningCalendar;
@@ -12,23 +10,20 @@ namespace Epicenter.Service.Operations.Topic
 {
     public class GetTopicDetailsOperation : Operation, IGetTopicDetailsOperation
     {
+        private readonly IEmployeeCollectionTopicProgressStatusStrategy _employeeCollectionTopicProgressStatusStrategy;
         private readonly IEmployeeTopicProgressStatusStrategy _employeeTopicProgressStatusStrategy;
-        private readonly ITeamTopicProgressStatusStrategy _teamTopicProgressStatusStrategy;
         private readonly IAuthorizationContext _authorizationContext;
-        private readonly IEmployeeRepository _employeeRepository;
         private readonly ITopicRepository _topicRepository;
 
         public GetTopicDetailsOperation(
+            IEmployeeCollectionTopicProgressStatusStrategy employeeCollectionTopicProgressStatusStrategy, 
             IEmployeeTopicProgressStatusStrategy employeeTopicProgressStatusStrategy, 
-            ITeamTopicProgressStatusStrategy teamTopicProgressStatusStrategy,
-            IEmployeeRepository employeeRepository,
-            ITopicRepository topicRepository,
-            IAuthorizationContext authorizationContext)
+            IAuthorizationContext authorizationContext, 
+            ITopicRepository topicRepository)
         {
+            _employeeCollectionTopicProgressStatusStrategy = employeeCollectionTopicProgressStatusStrategy;
             _employeeTopicProgressStatusStrategy = employeeTopicProgressStatusStrategy;
-            _teamTopicProgressStatusStrategy = teamTopicProgressStatusStrategy;
             _authorizationContext = authorizationContext;
-            _employeeRepository = employeeRepository;
             _topicRepository = topicRepository;
         }
 
@@ -83,17 +78,20 @@ namespace Epicenter.Service.Operations.Topic
 
         private GetTopicDetailsOperationResponse.Team MapTeam(Domain.Entity.LearningCalendar.Team team, Domain.Entity.LearningCalendar.Topic topic)
         {
-            var status = _teamTopicProgressStatusStrategy.GetStatus(team, topic);
+            var employees = team.Employees
+                .Concat(new[] {team.Manager});
+
+            var status = _employeeCollectionTopicProgressStatusStrategy.GetStatus(employees, topic);
 
             return new GetTopicDetailsOperationResponse.Team
             {
                 TeamId = team.Id,
                 ManagerId = team.Manager.Id,
                 ManagerFullName = team.Manager.FullName,
-                EmployeeCount = status.TotalCount,
-                LearnedCount = status.LearnedCount,
-                PlannedCount = status.PlannedCount,
-                ProgressStatus = ProgressStatusMapper.MapStatus(status.Status)
+                EmployeeCount = status.PlannedEmployees.Count + status.LearnedEmployees.Count + status.OtherEmployees.Count,
+                LearnedCount = status.LearnedEmployees.Count,
+                PlannedCount = status.PlannedEmployees.Count,
+                ProgressStatus = ProgressStatusMapper.MapStatus(status.TotalStatus)
             };
         }
     }

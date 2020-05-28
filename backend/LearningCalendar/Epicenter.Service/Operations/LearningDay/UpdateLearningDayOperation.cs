@@ -29,11 +29,6 @@ namespace Epicenter.Service.Operations.LearningDay
             var learningDay = await _learningDayRepository.GetByIdAsync(request.LearningDayId)
                 ?? throw new ApplicationException("Learning day not found");
 
-            if (employee.Id != learningDay.EmployeeId)
-            {
-                throw new ApplicationException("Unauthorized to access this learning day");
-            }
-
             List<(LearningDayTopic topic, UpdateLearningDayOperationRequest.LearningDayTopic requestTopic)> 
                 topicsWithRequestTopic = learningDay.LearningDayTopics
                 .Select(topic => (topic,

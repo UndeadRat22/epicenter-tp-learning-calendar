@@ -5,7 +5,7 @@ namespace Epicenter.Service.Strategy.Interface.Topic
 {
     public interface IEmployeeCollectionTopicProgressStatusStrategy
     {
-        EmployeeCollectionStatus GetEmployeeCollectionStatusForTopic(
+        EmployeeCollectionStatus GetStatus(
             IEnumerable<Employee> employees, 
             Domain.Entity.LearningCalendar.Topic topic);
     }
@@ -15,5 +15,6 @@ namespace Epicenter.Service.Strategy.Interface.Topic
         public List<Employee> LearnedEmployees { get; set; } = new List<Employee>();
         public List<Employee> PlannedEmployees { get; set; } = new List<Employee>();
         public List<Employee> OtherEmployees { get; set; } = new List<Employee>();
+        public Status TotalStatus { get; set; }
     }
 }

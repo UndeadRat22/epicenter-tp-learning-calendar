@@ -11,10 +11,10 @@ namespace Epicenter.Api.Model.Tree
     {
         public TeamTopicTreeModel(GetSubordinateTopicTreeOperationResponse response)
         {
-            Roots = response.Roots.Select(topic => new Topic(topic)).ToList();
+            TopicRoots = response.Roots.Select(topic => new Topic(topic)).ToList();
         }
 
-        public List<Topic> Roots { get; set; }
+        public List<Topic> TopicRoots { get; set; }
         public class Topic
         {
             public Topic(GetSubordinateTopicTreeOperationResponse.Topic topic)
@@ -28,9 +28,9 @@ namespace Epicenter.Api.Model.Tree
                 NotPlannedEmployees = topic.NotPlannedEmployees.Select(employee => new Employee(employee)).ToList();
                 TotalStatus = topic.TotalStatus switch
                 {
-                    GetSubordinateTopicTreeOperationResponse.Status.NotPlanned => Status.NotPlanned,
-                    GetSubordinateTopicTreeOperationResponse.Status.Planned => Status.Planned,
-                    GetSubordinateTopicTreeOperationResponse.Status.Learned => Status.Learned,
+                    GetSubordinateTopicTreeOperationResponse.Status.NotPlanned => TopicProgressStatus.NotPlanned,
+                    GetSubordinateTopicTreeOperationResponse.Status.Planned => TopicProgressStatus.Planned,
+                    GetSubordinateTopicTreeOperationResponse.Status.Learned => TopicProgressStatus.Learned,
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }
@@ -41,7 +41,7 @@ namespace Epicenter.Api.Model.Tree
             public List<Employee> LearnedEmployees { get; set; }
             public List<Employee> PlannedEmployees { get; set; }
             public List<Employee> NotPlannedEmployees { get; set; }
-            public Status TotalStatus { get; set; }
+            public TopicProgressStatus TotalStatus { get; set; }
         }
 
         public class Employee
@@ -53,13 +53,6 @@ namespace Epicenter.Api.Model.Tree
             }
             public Guid Id { get; set; }
             public string FullName { get; set; }
-        }
-
-        public enum Status
-        {
-            NotPlanned,
-            Planned,
-            Learned
         }
     }
 }

@@ -15,6 +15,8 @@ import {
   cancelLearningDay, suspendCancelLearningDay, getLimits, getPersonalGoals, getLearningDays,
 } from '../../state/actions';
 import ModalWrapper from '../modals/ModalWrapper';
+import { isTodayOrInFuture } from '../../utils/dateParser';
+import FeatureToggles from '../../utils/FeatureToggles';
 
 const localizer = momentLocalizer(moment);
 
@@ -71,11 +73,15 @@ const Calendar = ({
   const CustomDateHeader = ({
     label, date, onDrillDown, drillDownView, isOffRange,
   }) => {
+    const shouldDisplayCancelIcon = isTodayOrInFuture(date) || FeatureToggles.isOn('cancel-past-learning-day');
+
     return (
       <span className="cursor">
         {isSelfLearningDay(date, selfLearningDays)
       && (
       <>
+        { shouldDisplayCancelIcon
+      && (
         <IconButton
           as="button"
           onClick={() => onMinusIconClick(date)}
@@ -86,6 +92,7 @@ const Calendar = ({
         >
           <Minus className="minus-icon" />
         </IconButton>
+      ) }
         <span className="team-badge">
           <Badge
             // don't remove empty onClick, cursor will not be shown

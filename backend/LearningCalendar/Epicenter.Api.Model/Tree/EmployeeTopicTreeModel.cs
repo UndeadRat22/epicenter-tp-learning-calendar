@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Epicenter.Service.Interface.Operations.Topic;
 using Epicenter.Service.Interface.Operations.Topic.Employee;
 
-namespace Epicenter.Api.Model.Topic
+namespace Epicenter.Api.Model.Tree
 {
-    public class EmployeeTopicTree
+    public class EmployeeTopicTreeModel
     {
-        public EmployeeTopicTree(GetEmployeeTopicTreeOperationResponse response)
+        public EmployeeTopicTreeModel(GetEmployeeTopicTreeOperationResponse response)
         {
             TopicRoots = response.Roots?.Select(MapTopic).ToList() 
                     ?? new List<EmployeeTopicTreeTopic>();
@@ -18,7 +19,12 @@ namespace Epicenter.Api.Model.Topic
             return new EmployeeTopicTreeTopic
             {
                 Children = topic.Children.Select(MapTopic).ToList(),
-                Status = topic.Status.ToString(),
+                Status = topic.Status switch {
+                    ProgressStatus.NotPlanned => TopicProgressStatus.NotPlanned,
+                    ProgressStatus.Planned => TopicProgressStatus.Planned,
+                    ProgressStatus.Learned => TopicProgressStatus.Learned,
+                    _ => throw new ArgumentOutOfRangeException()
+                },
                 Name = topic.Subject,
                 Id = topic.Id
             };
@@ -30,7 +36,7 @@ namespace Epicenter.Api.Model.Topic
             public List<EmployeeTopicTreeTopic> Children { get; set; }
             public Guid Id { get; set; }
             public string Name { get; set; }
-            public string Status { get; set; }
+            public TopicProgressStatus Status { get; set; }
         }
     }
 }

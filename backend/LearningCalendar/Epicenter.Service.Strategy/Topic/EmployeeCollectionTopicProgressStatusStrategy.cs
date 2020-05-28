@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Service.Strategy.Interface.Topic;
 
@@ -14,7 +15,7 @@ namespace Epicenter.Service.Strategy.Topic
             _employeeTopicProgressStatusStrategy = employeeTopicProgressStatusStrategy;
         }
 
-        public EmployeeCollectionStatus GetEmployeeCollectionStatusForTopic(IEnumerable<Employee> employees, Domain.Entity.LearningCalendar.Topic topic)
+        public EmployeeCollectionStatus GetStatus(IEnumerable<Employee> employees, Domain.Entity.LearningCalendar.Topic topic)
         {
             var collectionStatus = new EmployeeCollectionStatus();
 
@@ -36,7 +37,25 @@ namespace Epicenter.Service.Strategy.Topic
                         throw new ArgumentOutOfRangeException();
                 }
             }
+            AddTotalStatus(collectionStatus);
+
             return collectionStatus;
+        }
+
+        private void AddTotalStatus(EmployeeCollectionStatus collectionStatus)
+        {
+            bool planning = collectionStatus.PlannedEmployees.Any();
+            bool learned = collectionStatus.LearnedEmployees.Any();
+            bool notPlanning = collectionStatus.OtherEmployees.Any();
+
+            collectionStatus.TotalStatus =
+                (learned, planning, notPlanning) switch
+                {
+                    (_, true, _) => Status.Planned,
+                    (false, false, _) => Status.NotPlanned,
+                    (true, false, false) => Status.Learned,
+                    (true, false, true) => Status.NotPlanned
+                };
         }
     }
 }

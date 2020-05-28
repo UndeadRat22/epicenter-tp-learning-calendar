@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Epicenter.Persistence.Interface.Repository.LearningCalendar;
@@ -55,7 +56,7 @@ namespace Epicenter.Service.Operations.Topic.Team
             Domain.Entity.LearningCalendar.Topic topic,
             List<Domain.Entity.LearningCalendar.Employee> employees)
         {
-            var status = _employeeCollectionTopicProgressStatusStrategy.GetEmployeeCollectionStatusForTopic(employees, topic);
+            var status = _employeeCollectionTopicProgressStatusStrategy.GetStatus(employees, topic);
 
             return new GetSubordinateTopicTreeOperationResponse.Topic
             {
@@ -81,19 +82,13 @@ namespace Epicenter.Service.Operations.Topic.Team
 
         private GetSubordinateTopicTreeOperationResponse.Status MapStatus(EmployeeCollectionStatus status)
         {
-            bool planning = status.PlannedEmployees.Any();
-            bool learned = status.LearnedEmployees.Any();
-            bool notPlanning = status.OtherEmployees.Any();
-
-            GetSubordinateTopicTreeOperationResponse.Status mappedStatus = 
-                (learned, planning, notPlanning) switch
-                {
-                    (_, true, _) => GetSubordinateTopicTreeOperationResponse.Status.Planned,
-                    (false, false, _) => GetSubordinateTopicTreeOperationResponse.Status.NotPlanned,
-                    (true, false, false) => GetSubordinateTopicTreeOperationResponse.Status.Learned,
-                    (true, false, true) => GetSubordinateTopicTreeOperationResponse.Status.NotPlanned
-                };
-
+            GetSubordinateTopicTreeOperationResponse.Status mappedStatus = status.TotalStatus switch
+            {
+                Status.NotPlanned => GetSubordinateTopicTreeOperationResponse.Status.NotPlanned,
+                Status.Planned => GetSubordinateTopicTreeOperationResponse.Status.Planned,
+                Status.Learned => GetSubordinateTopicTreeOperationResponse.Status.Learned,
+                _ => throw new ArgumentOutOfRangeException()
+            };
             return mappedStatus;
         }
     }
