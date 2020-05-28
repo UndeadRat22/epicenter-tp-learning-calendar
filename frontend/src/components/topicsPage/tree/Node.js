@@ -11,19 +11,23 @@ import {
   TREE_NODE_FONT_SIZE,
   TREE_NODE_HEIGHT,
   TREE_NODE_WIDTH,
+  TREE_NODE_BADGE_COLOR,
+  TREE_NODE_TEXT_COLOR_LIGHT,
 } from '../../../constants/Styling';
 import {
   PERSONAL, MY_TEAM, MY_SUBORDINATES, SINGLE_SUBORDINATE, SINGLE_TEAM,
 } from '../../../constants/TreeTypes';
-import { LEARNED, PLANNED } from '../../../constants/ProgressStatus';
+import { LEARNED, PLANNED, NOTPLANNED } from '../../../constants/ProgressStatus';
 import TopicModal from '../../modals/TopicModal';
+import './Node.global.scss';
 
 const Node = ({
-  node, onClick, expand, type,
+  node, onClick, isExpanded, type,
 }) => {
   const width = TREE_NODE_WIDTH;
   const height = TREE_NODE_HEIGHT;
-  const { status } = node.data;
+
+  const status = node.data.totalStatus;
   const { id } = node.data;
   const topic = { id, subject: node.data.name };
 
@@ -32,7 +36,8 @@ const Node = ({
   const [plannedCount, setPlannedCount] = useState(0);
 
   useEffect(() => {
-    if (expand)
+    getBadgeData();
+    if (isExpanded)
       onClick();
   }, []);
 
@@ -47,19 +52,31 @@ const Node = ({
     return color;
   };
 
-  const handleDoubleClick = () => {
-    setIsOpenedTopicModal(true);
+  const applyNodeSubject = () => {
+    if (node.data.name.length > 17) {
+      let newName = node.data.name.substring(0, 17);
+      newName = newName.concat('...');
+      return newName;
+    }
+    return node.data.name;
   };
 
   const getBadgeData = () => {
-    // TODO (if PERSONAL, then ...)
-    return '3 | 5';
+    if (type === MY_TEAM || type === MY_SUBORDINATES || type === SINGLE_TEAM) {
+      setLearnedCount(node.data.learnedEmployees.length);
+      setPlannedCount(node.data.plannedEmployees.length);
+    }
   };
 
   const shouldBadgeDisplay = () => {
     if (type === PERSONAL || type === SINGLE_SUBORDINATE)
       return false;
     return true;
+  };
+
+  const handleNodeClick = () => {
+    if (!isExpanded)
+      onClick();
   };
 
   return (
@@ -83,9 +100,41 @@ const Node = ({
         strokeDasharray={!node.data.children ? '2,2' : '0'}
         strokeOpacity={!node.data.children ? 0.6 : 1}
         rx={!node.data.children ? 10 : 0}
-        onClick={onClick}
-        onDoubleClick={() => handleDoubleClick()}
+        onClick={() => handleNodeClick()}
+        onDoubleClick={() => setIsOpenedTopicModal(true)}
       />
+      )}
+      {node.depth !== 0 && shouldBadgeDisplay() && (
+      <>
+        <rect
+          x="45"
+          y="-23"
+          rx="20"
+          ry="10"
+          width="27"
+          height="27"
+          className="cursor"
+          style={{
+            fill: TREE_NODE_BADGE_COLOR, stroke: 'black', strokeWidth: 1,
+          }}
+          onClick={() => setIsOpenedTopicModal(true)}
+        />
+        <text
+          x="47"
+          y="-7"
+          fill={TREE_NODE_TEXT_COLOR}
+          fontSize={TREE_NODE_FONT_SIZE}
+          fontFamily={FONT_FAMILY}
+          onClick={() => setIsOpenedTopicModal(true)}
+          className="cursor"
+        >
+          {learnedCount}
+          {' '}
+          |
+          {' '}
+          {plannedCount}
+        </text>
+      </>
       )}
       <text
         dy=".33em"
@@ -93,9 +142,9 @@ const Node = ({
         fontFamily={FONT_FAMILY}
         textAnchor="middle"
         style={{ pointerEvents: 'none' }}
-        fill={TREE_NODE_TEXT_COLOR}
+        fill={status === NOTPLANNED ? TREE_NODE_TEXT_COLOR_LIGHT : TREE_NODE_TEXT_COLOR}
       >
-        {node.data.name}
+        {applyNodeSubject()}
       </text>
       {isOpenedTopicModal
       && (

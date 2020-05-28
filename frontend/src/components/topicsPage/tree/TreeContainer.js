@@ -43,8 +43,8 @@ const TreeContainer = ({
 
   const margin = {
     top: 30,
-    left: 30,
-    right: 30,
+    left: 50,
+    right: 100,
     bottom: 30,
   };
 
@@ -150,7 +150,7 @@ const TreeContainer = ({
                 type={type}
                 layout={layout}
                 orientation={orientation}
-                expand={toggleSwitchChecked}
+                isExpanded={toggleSwitchChecked}
                 onNodeClick={node => {
                   if (!node.data.isExpanded) {
                     node.data.x0 = node.x;

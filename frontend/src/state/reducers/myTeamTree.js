@@ -1,8 +1,8 @@
 import {
-  LOADING_MY_TEAM_TREE, FETCH_MY_TEAM_TREE_SUCCEEDED, FETCH_MY_TEAM_TREE_FAILED,
+  LOADING_MY_TEAM_TREE, FETCH_MY_TEAM_TREE_SUCCEEDED, FETCH_MY_TEAM_TREE_FAILED, FETCH_MY_TEAM_TREE_INACTIVE,
 } from '../../constants/MyTeamTreeStatus';
 import {
-  FETCH_MY_TEAM_TREE_START, FETCH_MY_TEAM_TREE_SUCCESS, FETCH_MY_TEAM_TREE_FAIL,
+  FETCH_MY_TEAM_TREE_START, FETCH_MY_TEAM_TREE_SUCCESS, FETCH_MY_TEAM_TREE_FAIL, SUSPEND_MY_TEAM_TREE,
 } from '../actions/types/myTeamTree';
 
 const initialState = {
@@ -26,6 +26,11 @@ const myTeamTree = (state = initialState, action) => {
       return {
         ...state,
         status: FETCH_MY_TEAM_TREE_FAILED,
+      };
+    case SUSPEND_MY_TEAM_TREE:
+      return {
+        ...state,
+        status: FETCH_MY_TEAM_TREE_INACTIVE,
       };
     default:
       return state;

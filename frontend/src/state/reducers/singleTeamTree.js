@@ -1,8 +1,8 @@
 import {
-  LOADING_SINGLE_TEAM_TREE, FETCH_SINGLE_TEAM_TREE_SUCCEEDED, FETCH_SINGLE_TEAM_TREE_FAILED,
+  LOADING_SINGLE_TEAM_TREE, FETCH_SINGLE_TEAM_TREE_SUCCEEDED, FETCH_SINGLE_TEAM_TREE_FAILED, FETCH_SINGLE_TEAM_TREE_INACTIVE,
 } from '../../constants/SingleTeamTreeStatus';
 import {
-  FETCH_SINGLE_TEAM_TREE_START, FETCH_SINGLE_TEAM_TREE_SUCCESS, FETCH_SINGLE_TEAM_TREE_FAIL,
+  FETCH_SINGLE_TEAM_TREE_START, FETCH_SINGLE_TEAM_TREE_SUCCESS, FETCH_SINGLE_TEAM_TREE_FAIL, SUSPEND_SINGLE_TEAM_TREE,
 } from '../actions/types/singleTeamTree';
 
 const initialState = {
@@ -26,6 +26,11 @@ const singleTeamTree = (state = initialState, action) => {
       return {
         ...state,
         status: FETCH_SINGLE_TEAM_TREE_FAILED,
+      };
+    case SUSPEND_SINGLE_TEAM_TREE:
+      return {
+        ...state,
+        status: FETCH_SINGLE_TEAM_TREE_INACTIVE,
       };
     default:
       return state;

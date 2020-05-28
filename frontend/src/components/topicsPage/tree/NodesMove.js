@@ -6,7 +6,7 @@ import Node from './Node';
 import { findCollapsedParent, getTopLeft } from './utils';
 
 const NodesMove = ({
-  nodes, layout, orientation, onNodeClick, expand, type,
+  nodes, layout, orientation, onNodeClick, isExpanded, type,
 }) => {
   return (
     <NodeGroup
@@ -61,7 +61,7 @@ const NodesMove = ({
                 opacity={state.opacity}
               >
                 <Node
-                  expand={expand}
+                  isExpanded={isExpanded}
                   node={node}
                   type={type}
                   layout={layout}
