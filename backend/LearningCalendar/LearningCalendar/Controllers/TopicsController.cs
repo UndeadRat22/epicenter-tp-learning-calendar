@@ -184,7 +184,6 @@ namespace Epicenter.Api.Controllers
         {
             var request = new LearnTopicOperationRequest
             {
-                LearningDayId = model.LearningDayId,
                 TopicId = model.TopicId
             };
 

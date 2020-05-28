@@ -87,7 +87,7 @@ namespace Epicenter.Api.Controllers
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CreateEmployeeGoalSelf(CreateEmployeeGoalsSelfModel model)
         {
-            var request = new AssignGoalsAssignGoalToSelfOperationRequest
+            var request = new AssignGoalToSelfOperationRequest
             {
                 TopicIds = model.TopicIds
             };
