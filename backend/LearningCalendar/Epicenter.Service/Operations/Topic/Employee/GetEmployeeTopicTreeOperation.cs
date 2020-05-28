@@ -58,6 +58,7 @@ namespace Epicenter.Service.Operations.Topic.Employee
                 Id = root.Id,
                 ParentId = root.ParentTopicId,
                 Subject = root.Subject,
+                Description = root.Description,
                 Children = children,
                 Status = ProgressStatusMapper.MapStatus(status)
             };

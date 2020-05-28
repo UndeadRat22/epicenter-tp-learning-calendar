@@ -7,12 +7,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import Calendar from '../components/homePage/Calendar';
 import GoalsCard from '../components/homePage/GoalsCard';
 import { getPersonalGoals } from '../state/actions/personalGoals';
-import { FETCH_PERSONAL_GOALS_SUCCEEDED } from '../constants/PersonalGoalsStatus';
+import { FETCH_PERSONAL_GOALS_SUCCEEDED, LOADING_PERSONAL_GOALS } from '../constants/PersonalGoalsStatus';
 import { getLimits } from '../state/actions/limits';
 import LimitsCard from '../components/homePage/LimitsCard';
 import { FETCH_LIMITS_SUCCEEDED } from '../constants/LimitsStatus';
 import { getLearningDays } from '../state/actions/learningDays';
-import { getAllTopics } from '../state/actions';
+import { getAllTopics, getLearnedTopics } from '../state/actions';
+import { LOADING_FETCH_LEARNED_TOPICS } from '../constants/TopicStatus';
 
 const Home = () => {
   const [isMonthlyView, setIsMonthlyView] = useState(true);
@@ -21,6 +22,7 @@ const Home = () => {
   const { goals, status: goalsStatus } = useSelector(state => state.personalGoals);
   const { assignedLimit, remainingLimit, status: limitsStatus } = useSelector(state => state.limits);
   const { selfLearningDays, teamLearningDays, status: learningDaysStatus } = useSelector(state => state.learningDays);
+  const { learnedTopics, learnedTopicsStatus } = useSelector(state => state.topic);
 
   const dispatch = useDispatch();
 
@@ -29,9 +31,10 @@ const Home = () => {
     dispatch(getLimits());
     dispatch(getLearningDays());
     dispatch(getAllTopics());
+    dispatch(getLearnedTopics());
   }, [dispatch]);
 
-  const filteredGoals = goals.filter(goal => !goal.isCompleted);
+  const notLearnedGoals = goals.filter(goal => !goal.isCompleted);
 
   const onBreadcrumbClick = ({ id }) => {
     if (id === 0) {
@@ -72,7 +75,7 @@ const Home = () => {
         {isMonthlyView
           && (
           <div style={{ marginBottom: 20 }}>
-            <GoalsCard goals={filteredGoals} isLoading={goalsStatus !== FETCH_PERSONAL_GOALS_SUCCEEDED} />
+            <GoalsCard notLearnedGoals={notLearnedGoals} learnedTopics={learnedTopics} isLoadingTopics={learnedTopicsStatus === LOADING_FETCH_LEARNED_TOPICS} isLoadingGoals={goalsStatus === LOADING_PERSONAL_GOALS} />
           </div>
           )}
         <Calendar onLearningDayClick={onLearningDayClick} isMonthlyView={isMonthlyView} selfLearningDays={selfLearningDays} teamLearningDays={teamLearningDays} />

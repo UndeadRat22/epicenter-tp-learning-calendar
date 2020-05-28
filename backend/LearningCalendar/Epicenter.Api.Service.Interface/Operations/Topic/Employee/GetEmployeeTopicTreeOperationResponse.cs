@@ -11,6 +11,7 @@ namespace Epicenter.Service.Interface.Operations.Topic.Employee
             public List<Topic> Children { get; set; }
             public Guid Id { get; set; }
             public string Subject { get; set; }
+            public string Description { get; set; }
             public Guid? ParentId { get; set; }
             public ProgressStatus Status { get; set; }
         }

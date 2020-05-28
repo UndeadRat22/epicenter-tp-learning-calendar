@@ -34,10 +34,7 @@ namespace Epicenter.Service.Operations.Topic
             var topic = await _topicRepository.GetByIdAsync(request.TopicId);
 
             var employees = teamTree
-                .Flatten(team => team.Employees.Select(employee => employee.ManagedTeam))
-                .SelectMany(team => team.Employees)
-                .ToList();
-
+                .GetAllEmployees();
 
             var mappedEmployees = employees
                 .Select(employee => MapEmployee(employee, topic))

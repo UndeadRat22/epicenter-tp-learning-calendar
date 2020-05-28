@@ -16,6 +16,7 @@ import { getLocalIsoString } from '../../utils/dateParser';
 import { showSuccessToast, showErrorToast } from './toast';
 import { getLimits } from './limits';
 import { getPersonalGoals } from './personalGoals';
+import { getLearnedTopics } from './topic';
 
 const fetchLearningDaysStart = makeSyncActionCreator(FETCH_LEARNING_DAYS_START);
 const fetchLearningDaysSuccess = makeSyncActionCreator(FETCH_LEARNING_DAYS_SUCCESS);
@@ -108,7 +109,7 @@ const updateLearningDay = ({
     dispatch(updateLearningDayStart());
 
     await Axios.put('learning-days/learning-day', {
-      learningDayId, comments, learningDayTopics, date: getLocalIsoString(date),
+      learningDayId, comments, learningDayTopics,
     });
 
     // redux format (same as GET from backend)
@@ -133,6 +134,8 @@ const updateLearningDay = ({
     }
 
     dispatch(updateLearningDaySuccess({ nextSelfLearningDays, nextTeamLearningDays }));
+    dispatch(getPersonalGoals());
+    dispatch(getLearnedTopics());
   } catch (err) {
     console.log(err.response);
     dispatch(updateLearningDayFail());

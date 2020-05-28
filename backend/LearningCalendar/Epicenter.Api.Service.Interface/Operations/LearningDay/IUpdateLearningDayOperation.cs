@@ -14,13 +14,11 @@ namespace Epicenter.Service.Interface.Operations.LearningDay
     {
         public Guid LearningDayId { get; set; }
         public string Comments { get; set; }
-        public DateTime Date { get; set; }
 
         public List<LearningDayTopic> LearningDayTopics { get; set; }
 
         public class LearningDayTopic
         {
-            public Guid? Id { get; set; }
             public Guid TopicId { get; set; }
             public ProgressStatus ProgressStatus { get; set; }
         }

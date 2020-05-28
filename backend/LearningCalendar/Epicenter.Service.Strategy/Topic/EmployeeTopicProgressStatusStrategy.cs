@@ -10,19 +10,28 @@ namespace Epicenter.Service.Strategy.Topic
     {
         public Status GetStatus(Employee employee, Domain.Entity.LearningCalendar.Topic topic)
         {
-            bool hasRelevantDays = employee
+            var relevantDays = employee
                 .LearningDays
-                .Any(day => day.GetDayTopicByTopicId(topic.Id) != null);
-            if (!hasRelevantDays)
+                .Where(day => day.GetDayTopicByTopicId(topic.Id) != null)
+                .ToList();
+
+            bool hasCompleteGoals = employee.PersonalGoals
+                .Any(goal => goal.TopicId == topic.Id && goal.IsComplete);
+
+            if (!relevantDays.Any())
             {
+                if (hasCompleteGoals)
+                {
+                    return Status.Learned;
+                }
                 return Status.NotPlanned;
             }
 
             bool hasIncompleteGoals = employee.PersonalGoals
-                .Any(goal => goal.TopicId == topic.Id && !goal.CompletionDate.HasValue);
+                .Any(goal => goal.TopicId == topic.Id && !goal.IsComplete);
 
-            bool isPlanned = IsPlanned(employee.LearningDays, topic.Id);
-            bool isComplete = IsComplete(employee.LearningDays, hasIncompleteGoals, topic.Id);
+            bool isPlanned = IsPlanned(relevantDays, topic.Id);
+            bool isComplete = IsComplete(relevantDays, hasIncompleteGoals, topic.Id);
 
             return (isPlanned, isComplete) switch
             {
@@ -43,7 +52,7 @@ namespace Epicenter.Service.Strategy.Topic
         private bool IsComplete(IList<LearningDay> learningDays, bool hasIncompleteGoals, Guid topicId)
         {
             bool learnedAtLeastOnce = learningDays.Any(day =>
-                day.GetDayTopicByTopicId(topicId).ProgressStatus == ProgressStatus.Done);
+                day.GetDayTopicByTopicId(topicId).IsComplete);
 
             return learnedAtLeastOnce && !hasIncompleteGoals;
         }
