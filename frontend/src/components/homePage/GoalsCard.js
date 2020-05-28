@@ -15,7 +15,9 @@ const GoalsCard = ({
       theme="page"
     >
       <div>
-        <GoalsSection isLoading={isLoadingGoals} goals={notLearnedGoals} title="Topics that you should consider learning" />
+        <div style={{ marginBottom: 12 }}>
+          <GoalsSection isLoading={isLoadingGoals} goals={notLearnedGoals} title="Topics that you should consider learning" />
+        </div>
         <TopicsSection isLoading={isLoadingTopics} topics={learnedTopics} title="Learned topics" />
       </div>
     </EmptyState>
