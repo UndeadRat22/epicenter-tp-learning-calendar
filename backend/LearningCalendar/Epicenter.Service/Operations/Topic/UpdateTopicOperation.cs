@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Epicenter.Infrastructure.Extensions;
 using Epicenter.Persistence.Interface.Repository.LearningCalendar;
 using Epicenter.Service.Interface.Exceptions.Topic;
 using Epicenter.Service.Interface.Operations.Topic;
@@ -10,10 +12,13 @@ namespace Epicenter.Service.Operations.Topic
     public class UpdateTopicOperation : Operation, IUpdateTopicOperation
     {
         private readonly ITopicRepository _topicRepository;
+        private readonly IGetTopicTreeOperation _getTopicTreeOperation;
 
-        public UpdateTopicOperation(ITopicRepository topicRepository)
+        public UpdateTopicOperation(ITopicRepository topicRepository, 
+            IGetTopicTreeOperation getTopicTreeOperation)
         {
             _topicRepository = topicRepository;
+            _getTopicTreeOperation = getTopicTreeOperation;
         }
 
         public async Task<UpdateTopicOperationResponse> Execute(UpdateTopicOperationRequest request)
@@ -23,6 +28,11 @@ namespace Epicenter.Service.Operations.Topic
             if (topic == null)
             {
                 throw new ApplicationException("Topic not found");
+            }
+
+            if (request.NewTopic.ParentTopicId.HasValue)
+            {
+                await EnsureNewParentIsNotChild(request.NewTopic.Id, request.NewTopic.ParentTopicId.Value);
             }
 
             bool versionsMatch =
@@ -56,6 +66,31 @@ namespace Epicenter.Service.Operations.Topic
             }
 
             return new UpdateTopicOperationResponse();
+        }
+
+        private async Task EnsureNewParentIsNotChild(Guid topicToUpdateId, Guid newParent)
+        {
+            var tree = await _getTopicTreeOperation.Execute();
+
+            GetTopicTreeOperationResponse.Topic topicToUpdate = null;
+            foreach (var treeRoot in tree.Roots)
+            {
+                topicToUpdate = treeRoot
+                    .FindAnyOrDefault(
+                        root => root.Children, 
+                        topic => topic.Id == topicToUpdateId);
+                if (topicToUpdate != null)
+                {
+                    break;
+                }
+            }
+            bool newParentIsChild = topicToUpdate.FindAnyOrDefault(
+                root => root.Children, 
+                topic => topic.Id == newParent) != null;
+            if (newParentIsChild)
+            {
+                throw new ApplicationException("Cannot assign a child topic as a parent.");
+            }
         }
 
         private UpdateTopicOperationResponse.Topic MapTopic(Domain.Entity.LearningCalendar.Topic topic)
