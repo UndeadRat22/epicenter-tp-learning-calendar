@@ -26,6 +26,7 @@ namespace Epicenter.Api.Model.Tree
                     _ => throw new ArgumentOutOfRangeException()
                 },
                 Name = topic.Subject,
+                Description = topic.Description,
                 Id = topic.Id
             };
         }
@@ -36,6 +37,7 @@ namespace Epicenter.Api.Model.Tree
             public List<EmployeeTopicTreeTopic> Children { get; set; }
             public Guid Id { get; set; }
             public string Name { get; set; }
+            public string Description { get; set; }
             public TopicProgressStatus Status { get; set; }
         }
     }

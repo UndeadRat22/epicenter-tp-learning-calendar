@@ -26,6 +26,7 @@ namespace Epicenter.Api.Controllers
         private readonly IGetTopicDetailsOperation _getTopicDetailsOperation;
         private readonly IGetEmployeeTopicTreeOperation _getEmployeeTopicTreeOperation;
         private readonly IGetPersonalTopicTreeOperation _getPersonalTopicTreeOperation;
+        private readonly IGetSelfLearnedTopicsOperation _getSelfLearnedTopicsOperation;
 
         public TopicsController(IGetAllTopicsOperation allTopicsOperation, 
             ICreateTopicOperation topicOperation, 
@@ -34,7 +35,8 @@ namespace Epicenter.Api.Controllers
             IGetTopicDetailsOperation getTopicDetailsOperation, 
             IGetEmployeeTopicTreeOperation getEmployeeTopicTreeOperation, 
             IGetPersonalTopicTreeOperation getPersonalTopicTreeOperation,
-            IUpdateTopicOperation updateTopicOperation)
+            IUpdateTopicOperation updateTopicOperation, 
+            IGetSelfLearnedTopicsOperation getSelfLearnedTopicsOperation)
         {
             _getAllTopicsOperation = allTopicsOperation;
             _createTopicOperation = topicOperation;
@@ -44,6 +46,7 @@ namespace Epicenter.Api.Controllers
             _getEmployeeTopicTreeOperation = getEmployeeTopicTreeOperation;
             _getPersonalTopicTreeOperation = getPersonalTopicTreeOperation;
             _updateTopicOperation = updateTopicOperation;
+            _getSelfLearnedTopicsOperation = getSelfLearnedTopicsOperation;
         }
 
         [HttpGet]
@@ -199,6 +202,16 @@ namespace Epicenter.Api.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("learned/self")]
+        [ProducesResponseType(typeof(TopicListModel), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int) HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetLearnedTopicsSelf()
+        {
+            var response = await _getSelfLearnedTopicsOperation.Execute();
+            return Ok(new TopicListModel(response));
         }
     }
 }
