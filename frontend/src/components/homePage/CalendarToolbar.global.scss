@@ -1,0 +1,30 @@
+.alignleft {
+  float: left;
+  width:33.33333%;
+  text-align:left;
+}
+
+.alignleft:hover {
+  cursor: pointer;
+}
+
+.aligncenter{
+  float: left;
+  width:33.33333%;
+  text-align:center;
+}
+
+.alignright:hover {
+  cursor: pointer;
+}
+
+.alignright {
+  float: left;
+  width:33.33333%;
+  text-align:right;
+}
+
+#textbox {
+  display: flex;
+  justify-content: space-between;
+}
