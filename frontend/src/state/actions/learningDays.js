@@ -95,6 +95,8 @@ const updateLearningDay = ({
   try {
     dispatch(updateLearningDayStart());
 
+    console.log('PUT learning-days/learning-day', { learningDayId, comments, learningDayTopics });
+
     await Axios.put('learning-days/learning-day', {
       learningDayId, comments, learningDayTopics,
     });
@@ -120,12 +122,12 @@ const updateLearningDay = ({
         .map(day => (day.id === learningDayId ? updatedLearningDay : day));
     }
 
-    dispatch(updateLearningDaySuccess({ nextSelfLearningDays, nextTeamLearningDays }));
+    dispatch(updateLearningDaySuccess({ nextSelfLearningDays, nextTeamLearningDays, updatedLearningDayId: learningDayId }));
     dispatch(getPersonalGoals());
     dispatch(getLearnedTopics());
   } catch (err) {
     console.log(err.response);
-    dispatch(updateLearningDayFail());
+    dispatch(updateLearningDayFail(learningDayId));
   } finally {
     dispatch(suspendUpdateLearningDay());
   }

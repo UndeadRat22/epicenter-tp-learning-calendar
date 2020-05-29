@@ -13,6 +13,7 @@ const initialState = {
   cancelStatus: INACTIVE_CANCEL_LEARNING_DAY,
   selfLearningDays: [],
   teamLearningDays: [],
+  finishedUpdatingLearningDayId: null,
 };
 
 const learningDays = (state = initialState, action) => {
@@ -80,7 +81,6 @@ const learningDays = (state = initialState, action) => {
         ...state,
         cancelStatus: CANCEL_LEARNING_DAY_FAILED,
       };
-
     case UPDATE_LEARNING_DAY_START:
       return {
         ...state,
@@ -90,6 +90,7 @@ const learningDays = (state = initialState, action) => {
       return {
         ...state,
         updateStatus: UPDATE_LEARNING_DAY_FAILED,
+        finishedUpdatingLearningDayId: action.payload,
       };
     case UPDATE_LEARNING_DAY_SUCCESS:
       return {
@@ -97,6 +98,7 @@ const learningDays = (state = initialState, action) => {
         updateStatus: UPDATE_LEARNING_DAY_SUCCEEDED,
         selfLearningDays: action.payload.nextSelfLearningDays,
         teamLearningDays: action.payload.nextTeamLearningDays,
+        finishedUpdatingLearningDayId: action.payload.updatedLearningDayId,
       };
     case UPDATE_LEARNING_DAY_SUSPEND:
       return {

@@ -9,7 +9,9 @@ import {
   suspendStartLearningDay, getLearningDays, getLimits, updateLearningDay,
 } from '../../state/actions';
 import TopicsSelectorCard from './TopicsSelectorCard';
-import { LOADING_UPDATE_LEARNING_DAY, LOADING_FETCH_LEARNING_DAYS, FETCH_LEARNING_DAYS_FAILED } from '../../constants/LearningDaysStatus';
+import {
+  LOADING_UPDATE_LEARNING_DAY, LOADING_FETCH_LEARNING_DAYS, FETCH_LEARNING_DAYS_FAILED, UPDATE_LEARNING_DAY_SUCCEEDED, UPDATE_LEARNING_DAY_FAILED,
+} from '../../constants/LearningDaysStatus';
 import FeatureToggles from '../../utils/FeatureToggles';
 import { LOADING_FETCH_LIMITS, FETCH_LIMITS_FAILED } from '../../constants/LimitsStatus';
 import { LOADING_ALL_TOPICS, FETCH_ALL_TOPICS_FAILED } from '../../constants/AllTopicsStatus';
@@ -37,27 +39,25 @@ const LearningDay = ({
     return <div style={{ textAlign: 'center' }}>Something went wrong. Try refreshing page</div>;
 
   const shouldDisplayLearningDayButton = !isSelfLearningDay(date, selfLearningDays)
-  && (isTodayOrInFuture(date) || FeatureToggles.isOn('add-past-learning-day'));
+    && (isTodayOrInFuture(date) || FeatureToggles.isOn('add-past-learning-day'));
 
   const commentsDisabled = (!isTodayOrInFuture(date) && !FeatureToggles.isOn('edit-past-day-comments'))
-  || updateStatus === LOADING_UPDATE_LEARNING_DAY;
+    || updateStatus === LOADING_UPDATE_LEARNING_DAY;
   const editTopicsDisabled = (!isTodayOrInFuture(date) && !FeatureToggles.isOn('edit-past-day-topics'))
-  || updateStatus === LOADING_UPDATE_LEARNING_DAY;
+    || updateStatus === LOADING_UPDATE_LEARNING_DAY;
   const checkBoxesDisabled = updateStatus === LOADING_UPDATE_LEARNING_DAY;
 
   const selfLearningDay = getSelfLearningDayFromDate(date, selfLearningDays);
 
   const onLearningDayUpdate = (learningDayId, employee) => {
-    return ({ comments, newTopics }) => dispatch(updateLearningDay({
-      learningDayId, comments, date, learningDayTopics: newTopics, employee,
-    }));
+    return ({ comments, newTopics }) => {
+      dispatch(updateLearningDay({
+        learningDayId, comments, date, learningDayTopics: newTopics, employee,
+      }));
+    };
   };
 
-  console.log('legit learning days:', getTeamLearningDaysFromDate(date, teamLearningDays));
-
   const applicableTeamLearningDays = getTeamLearningDaysFromDate(date, teamLearningDays);
-
-  const DOES_NOT_MATTER = 999;
 
   return (
     <>
@@ -76,12 +76,15 @@ const LearningDay = ({
           isSelf
           maxTopics={assignedLimit.topicsPerDay}
           initialComments={selfLearningDay.comments}
+          learningDayId={selfLearningDay.id}
         />
         )}
       {
           applicableTeamLearningDays.map(teamLearningDay => {
             return (
               <TopicsSelectorCard
+                learningDayId={teamLearningDay.id}
+                key={teamLearningDay.id}
                 editTopicsDisabled
                 addTopicDisabled
                 commentsDisabled={commentsDisabled}
