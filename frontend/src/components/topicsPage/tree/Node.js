@@ -37,11 +37,9 @@ const Node = ({
   const [plannedCount, setPlannedCount] = useState(0);
 
   useEffect(() => {
-    if (node.data.learnedEmployees)
+    if ((type === MY_TEAM || type === MY_SUBORDINATES || type === SINGLE_TEAM) && node.data.learnedEmployees)
       getBadgeData();
-    if (!isAnimated)
-      onClick();
-  }, []);
+  }, [type, node]);
 
   const getNodeColor = () => {
     let color;
@@ -64,10 +62,8 @@ const Node = ({
   };
 
   const getBadgeData = () => {
-    if (type === MY_TEAM || type === MY_SUBORDINATES || type === SINGLE_TEAM) {
-      setLearnedCount(node.data.learnedEmployees.length);
-      setPlannedCount(node.data.plannedEmployees.length);
-    }
+    setLearnedCount(node.data.learnedEmployees.length);
+    setPlannedCount(node.data.plannedEmployees.length);
   };
 
   const shouldBadgeTextDisplay = () => {
