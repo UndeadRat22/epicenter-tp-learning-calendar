@@ -3,8 +3,6 @@ import React, { useState, useEffect } from 'react';
 import {
   FormField,
   AutoComplete,
-  InfoIcon,
-  Box,
 } from 'wix-style-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSubordinates } from '../../state/actions/subordinates';
@@ -42,23 +40,18 @@ const SelectSubordinateForm = ({ onSelectSubordinate, isDisabled = true, onSearc
   };
 
   return (
-    <Box>
-      <Box marginLeft="tiny">
-        <InfoIcon content='Disabled until "Single subordinate" tree is selected' />
-      </Box>
-      <FormField label="Select subordinate">
-        <AutoComplete
-          disabled={isDisabled}
-          options={getOptions()}
-          value={value}
-          onChange={onChange}
-          onSelect={onSelect}
-          placeholder="Search"
-          emptyStateMessage={`Couldn't find: ${value}`}
-          predicate={option => option.value.toLowerCase().indexOf(value.toLowerCase()) !== -1}
-        />
-      </FormField>
-    </Box>
+    <FormField label="Select subordinate">
+      <AutoComplete
+        disabled={isDisabled}
+        options={getOptions()}
+        value={value}
+        onChange={onChange}
+        onSelect={onSelect}
+        placeholder="Search"
+        emptyStateMessage={`Couldn't find: ${value}`}
+        predicate={option => option.value.toLowerCase().indexOf(value.toLowerCase()) !== -1}
+      />
+    </FormField>
   );
 };
 

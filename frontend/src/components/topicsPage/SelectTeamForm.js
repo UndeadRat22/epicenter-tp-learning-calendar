@@ -5,8 +5,6 @@ import React, { useState } from 'react';
 import {
   FormField,
   AutoComplete,
-  Box,
-  InfoIcon,
 } from 'wix-style-react';
 import { useSelector } from 'react-redux';
 
@@ -43,23 +41,18 @@ const SelectTeamForm = ({ onSelectTeam, isDisabled = true, onSearchAndDropDownMi
   };
 
   return (
-    <Box>
-      <Box marginLeft="tiny">
-        <InfoIcon content='Disabled until "Single team" tree is selected' />
-      </Box>
-      <FormField label="Select team">
-        <AutoComplete
-          disabled={isDisabled}
-          options={getTeams()}
-          value={value}
-          onChange={onChange}
-          onSelect={onSelect}
-          placeholder="Search"
-          emptyStateMessage={`Couldn't find: ${value}`}
-          predicate={option => option.value.toLowerCase().indexOf(value.toLowerCase()) !== -1}
-        />
-      </FormField>
-    </Box>
+    <FormField label="Select team">
+      <AutoComplete
+        disabled={isDisabled}
+        options={getTeams()}
+        value={value}
+        onChange={onChange}
+        onSelect={onSelect}
+        placeholder="Search"
+        emptyStateMessage={`Couldn't find: ${value}`}
+        predicate={option => option.value.toLowerCase().indexOf(value.toLowerCase()) !== -1}
+      />
+    </FormField>
   );
 };
 
