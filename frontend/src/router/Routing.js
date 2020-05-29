@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router, Route, Switch, Redirect,
 } from 'react-router-dom';
@@ -11,10 +11,12 @@ import MyTeam from '../pages/MyTeam';
 import ProtectedRoute from './ProtectedRoute';
 import TopNavBar from '../components/TopNavBar';
 import { LOGGED_IN, LOADING_FETCH_SELF } from '../constants/AuthStatus';
-import { fetchSelf } from '../state/actions/auth';
+import { fetchSelf, logout } from '../state/actions/auth';
 import LoadingIndicator from '../components/LoadingIndicator';
 import GuestRoute from './GuestRoute';
 import Subordinates from '../pages/Subordinates';
+import NotFound from '../pages/NotFound';
+import CookiesPopup from '../components/modals/CookiesPopup';
 
 const Routing = () => {
   const authStatus = useSelector(state => state.auth.status);
@@ -22,15 +24,35 @@ const Routing = () => {
 
   const isLoggedIn = authStatus === LOGGED_IN;
 
+  const [isOpenedCookiesPopup, setIsOpenedCookiesPopup] = useState(false);
+  const [cookiesAccepted, setCookiesAccepted] = useState(false);
+
   useEffect(() => {
     dispatch(fetchSelf());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (isLoggedIn)
+      setIsOpenedCookiesPopup(true);
+  }, [isLoggedIn]);
+
+  const onAcceptCookiesPopup = () => {
+    setIsOpenedCookiesPopup(false);
+    setCookiesAccepted(true);
+  };
+
+  const onCloseCookiesPopup = () => {
+    setIsOpenedCookiesPopup(false);
+    setCookiesAccepted(false);
+    dispatch(logout());
+  };
 
   const defaultPathComponent = () => {
     if (authStatus === LOADING_FETCH_SELF)
       return <LoadingIndicator text="Loading session..." />;
     return <Redirect to={isLoggedIn ? '/home' : '/login'} />;
   };
+
 
   if (authStatus === LOADING_FETCH_SELF)
     return <LoadingIndicator text="Loading session..." />;
@@ -51,9 +73,14 @@ const Routing = () => {
           <ProtectedRoute path="/topics" component={Topics} />
           <ProtectedRoute path="/myteam" component={MyTeam} />
           <ProtectedRoute path="/subordinates" component={Subordinates} />
-          <Route path="*" component={() => '404 NOT FOUND'} />
+          <Route path="*" component={NotFound} />
         </Switch>
       </div>
+      <CookiesPopup
+        isModalOpened={isOpenedCookiesPopup && !cookiesAccepted}
+        onAccept={() => onAcceptCookiesPopup()}
+        onClose={() => onCloseCookiesPopup()}
+      />
     </Router>
   );
 };
