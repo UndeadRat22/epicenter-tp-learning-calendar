@@ -19,11 +19,9 @@ namespace Epicenter.Api.Model.Team.Employee
                     ManagedEmployeesCount = employee.ManagedEmployeesCount
                 })
                 .ToList();
-            SubordinateIds = response.SubordinateIds;
         }
 
         public List<Employee> Employees { get; set; }
-        public List<Guid> SubordinateIds { get; set; }
         public class Employee
         {
             public Guid Id { get; set; }

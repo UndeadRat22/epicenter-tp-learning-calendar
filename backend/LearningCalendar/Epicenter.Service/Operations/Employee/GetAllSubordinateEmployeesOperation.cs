@@ -36,8 +36,7 @@ namespace Epicenter.Service.Operations.Employee
 
             var response = new GetAllSubordinateEmployeesOperationResponse
             {
-                Employees = mappedEmployees,
-                SubordinateIds = employees.Select(employee => employee.Id).ToList()
+                Employees = mappedEmployees
             };
 
             return response;
