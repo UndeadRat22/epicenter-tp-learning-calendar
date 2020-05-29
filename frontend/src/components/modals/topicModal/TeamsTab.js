@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Layout, Text, Box, Avatar, Badge, Tooltip,
 } from 'wix-style-react';
+import { useSelector } from 'react-redux';
 import { LEARNED, PLANNED } from '../../../constants/ProgressStatus';
 import s from './styles.scss';
 
@@ -10,42 +11,38 @@ const TeamsTab = ({ topic }) => {
   const learned = teams.filter(item => item.status === LEARNED);
   const planned = teams.filter(item => item.status === PLANNED);
   const mergedTeams = learned.concat(planned);
+  const selfUser = useSelector(state => state.auth.user);
 
   return (
     <Layout cols={1}>
       {mergedTeams.length !== 0 ? (
         mergedTeams.map(item => (
-          <Box align="space-between">
-            <Box key={item.id} align="left" verticalAlign="middle">
+          <Box key={item.teamId} align="space-between">
+            <Box align="left" verticalAlign="middle">
               <span className={s.avatar}>
-                <Avatar name={item.managerFullName} />
+                <Avatar color={selfUser.id === item.managerId ? 'A1' : 'A2'} name={item.managerFullName} />
               </span>
-              <Text size="medium">
+              <Text size="medium" weight={selfUser.id === item.managerId ? 'bold' : 'thin'}>
                 {' '}
                 {item.managerFullName}
-                {' '}
-                team
               </Text>
             </Box>
             <Box maxWidth="150px" align="right" verticalAlign="middle">
-              <Box>
-                <Tooltip fixed appendTo="scrollParent" content="Learned / All">
-                  <Badge>
-                    {item.learnedCount}
-                    /
-                    {item.totalCount}
-                  </Badge>
-                </Tooltip>
-              </Box>
-              {item.status === LEARNED ? (
-                <Badge skin="neutralSuccess">
-                  LEARNED
-                </Badge>
-              ) : (
-                <Badge skin="warningLight">
-                  PLANNED
-                </Badge>
-              )}
+              <Badge skin="warningLight">
+                {item.plannedCount}
+                {' '}
+                PLANNED
+              </Badge>
+              <Badge skin="neutralSuccess">
+                {item.learnedCount}
+                {' '}
+                LEARNED
+              </Badge>
+              <Badge>
+                {item.totalCount}
+                {' '}
+                TOTAL
+              </Badge>
             </Box>
           </Box>
         ))
