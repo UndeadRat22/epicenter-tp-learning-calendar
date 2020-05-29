@@ -6,7 +6,7 @@ import Node from './Node';
 import { getTopLeft } from './utils';
 
 const Nodes = ({
-  nodes, layout, orientation, onNodeClick,
+  nodes, layout, orientation, onNodeClick, isAnimated,
 }) => {
   return (
     <>
@@ -16,6 +16,7 @@ const Nodes = ({
             node={node}
             layout={layout}
             orientation={orientation}
+            isAnimated={isAnimated}
             onClick={() => onNodeClick(node)}
           />
         </Group>

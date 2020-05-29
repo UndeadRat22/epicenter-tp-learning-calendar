@@ -23,7 +23,7 @@ import TopicModal from '../../modals/TopicModal';
 import './Node.global.scss';
 
 const Node = ({
-  node, onClick, isExpanded, type,
+  node, onClick, isAnimated, type,
 }) => {
   const width = TREE_NODE_WIDTH;
   const height = TREE_NODE_HEIGHT;
@@ -37,9 +37,9 @@ const Node = ({
   const [plannedCount, setPlannedCount] = useState(0);
 
   useEffect(() => {
-    if (node.data.learnedEmployees !== undefined)
+    if (node.data.learnedEmployees)
       getBadgeData();
-    if (isExpanded)
+    if (!isAnimated)
       onClick();
   }, []);
 
@@ -70,14 +70,14 @@ const Node = ({
     }
   };
 
-  const shouldBadgeDisplay = () => {
+  const shouldBadgeTextDisplay = () => {
     if (type === PERSONAL || type === SINGLE_SUBORDINATE)
       return false;
     return true;
   };
 
   const handleNodeClick = () => {
-    if (!isExpanded)
+    if (isAnimated)
       onClick();
   };
 
@@ -99,14 +99,14 @@ const Node = ({
         fill={getNodeColor()}
         stroke={TREE_NODE_OUTLINE_COLOR}
         strokeWidth={1}
-        strokeDasharray={!node.data.children ? '2,2' : '0'}
-        strokeOpacity={!node.data.children ? 0.6 : 1}
-        rx={!node.data.children ? 10 : 0}
+        strokeDasharray={node.data.children.length === 0 ? '2,2' : '0'}
+        strokeOpacity={node.data.children.length === 0 ? 0.6 : 1}
+        rx={node.data.children.length === 0 ? 10 : 0}
         onClick={() => handleNodeClick()}
         onDoubleClick={() => setIsOpenedTopicModal(true)}
       />
       )}
-      {node.depth !== 0 && shouldBadgeDisplay() && (
+      {node.depth !== 0 && (
       <>
         <rect
           x="45"
@@ -121,39 +121,43 @@ const Node = ({
           }}
           onClick={() => setIsOpenedTopicModal(true)}
         />
-        <text
-          x="47"
-          y="-7"
-          fill="#4EB7F5"
-          fontSize={TREE_NODE_FONT_SIZE}
-          fontFamily={FONT_FAMILY}
-          onClick={() => setIsOpenedTopicModal(true)}
-          className="cursor"
-        >
-          {learnedCount}
-        </text>
-        <text
-          x="23"
-          y="-7"
-          fill={TREE_NODE_TEXT_COLOR}
-          fontSize={TREE_NODE_FONT_SIZE}
-          fontFamily={FONT_FAMILY}
-          onClick={() => setIsOpenedTopicModal(true)}
-          className="cursor"
-        >
+        {shouldBadgeTextDisplay() && (
+        <>
+          <text
+            x="47"
+            y="-7"
+            fill="#4EB7F5"
+            fontSize={TREE_NODE_FONT_SIZE}
+            fontFamily={FONT_FAMILY}
+            onClick={() => setIsOpenedTopicModal(true)}
+            className="cursor"
+          >
+            {learnedCount}
+          </text>
+          <text
+            x="23"
+            y="-7"
+            fill={TREE_NODE_TEXT_COLOR}
+            fontSize={TREE_NODE_FONT_SIZE}
+            fontFamily={FONT_FAMILY}
+            onClick={() => setIsOpenedTopicModal(true)}
+            className="cursor"
+          >
           |
-        </text>
-        <text
-          x="62"
-          y="-7"
-          fill="#FAC249"
-          fontSize={TREE_NODE_FONT_SIZE}
-          fontFamily={FONT_FAMILY}
-          onClick={() => setIsOpenedTopicModal(true)}
-          className="cursor"
-        >
-          {plannedCount}
-        </text>
+          </text>
+          <text
+            x="62"
+            y="-7"
+            fill="#FAC249"
+            fontSize={TREE_NODE_FONT_SIZE}
+            fontFamily={FONT_FAMILY}
+            onClick={() => setIsOpenedTopicModal(true)}
+            className="cursor"
+          >
+            {plannedCount}
+          </text>
+        </>
+        )}
       </>
       )}
       <text

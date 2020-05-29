@@ -29,11 +29,10 @@ const TreeContainer = ({
 }) => {
   const [orientation, setOrientation] = useState(ORIENTATION_HORIZONTAL);
   const [linkType, setLinkType] = useState(LINK_DIAGONAL);
-  const [toggleSwitchChecked, setToggleSwitchChecked] = useState(true);
+  const [toggleSwitchChecked, setToggleSwitchChecked] = useState(false);
 
   const [, updateState] = useState();
   const forceUpdate = useCallback(() => updateState({}), []);
-
 
   const handleToggleSwitch = checked => {
     setToggleSwitchChecked(checked);
@@ -78,9 +77,10 @@ const TreeContainer = ({
   }
 
   const root = hierarchy(data, d => (d.isExpanded ? d.children : null));
-
+  console.log('NODE BEFORE: ', data);
   return (
     <Container>
+      {console.log('NODE IN RENDER: ', data)}
       <Box align="space-between" padding="small" marginBottom={0.5} verticalAlign="bottom">
         <Box align="left">
           <FormField label="Orientation">
@@ -148,13 +148,12 @@ const TreeContainer = ({
                 orientation={orientation}
                 stepPercent={stepPercent}
               />
-
               <NodesMove
                 nodes={data.descendants()}
                 type={type}
                 layout={layout}
                 orientation={orientation}
-                isExpanded={toggleSwitchChecked}
+                isAnimated={toggleSwitchChecked}
                 onNodeClick={node => {
                   if (!node.data.isExpanded) {
                     node.data.x0 = node.x;

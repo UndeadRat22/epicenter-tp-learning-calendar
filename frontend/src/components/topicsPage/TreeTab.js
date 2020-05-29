@@ -31,7 +31,8 @@ const TreeTab = () => {
   };
 
   const [tree, setTree] = useState(initialTree);
-  const [treeName, setTreeName] = useState('');
+  const [treeName, setTreeName] = useState(PERSONAL);
+  const [isInitial, setIsInitial] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -52,6 +53,10 @@ const TreeTab = () => {
   const isLoading = personalTreeStatus === LOADING_PERSONAL_TREE || myTeamTreeStatus === LOADING_MY_TEAM_TREE || mySubordinatesTreeStatus === LOADING_MY_SUBORDINATES_TREE || singleSubordinateTreeStatus === LOADING_SINGLE_SUBORDINATE_TREE || singleTeamTreeStatus === LOADING_SINGLE_TEAM_TREE;
 
   useEffect(() => {
+    if (isInitial) {
+      dispatch(getPersonalTree());
+      setIsInitial(false);
+    }
     switch (treeName) {
       case PERSONAL:
         if (personalTreeStatus === FETCH_PERSONAL_TREE_SUCCEEDED)
