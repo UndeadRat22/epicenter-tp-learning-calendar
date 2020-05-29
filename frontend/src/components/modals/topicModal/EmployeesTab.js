@@ -41,7 +41,7 @@ const EmployeesTab = ({ topic }) => {
       )
         : (
           <Text size="medium" skin="premium">
-            There is no employees learned or planned this topic!
+            No one has planned or learned this topic!
           </Text>
         )}
     </Layout>

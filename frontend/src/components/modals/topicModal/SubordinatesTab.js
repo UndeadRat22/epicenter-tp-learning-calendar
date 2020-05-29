@@ -41,7 +41,7 @@ const SubordinatesTab = ({ topic }) => {
       )
         : (
           <Text size="medium" skin="premium">
-            There is no subordinates learned or planned this topic!
+            No one has planned or learned this topic!
           </Text>
         )}
     </Layout>

@@ -52,7 +52,7 @@ const TeamsTab = ({ topic }) => {
       )
         : (
           <Text size="medium" skin="premium">
-            There is no teams learned or planned this topic!
+            No teams learned or planned this topic!
           </Text>
         )}
     </Layout>
