@@ -33,11 +33,11 @@ const setupAxios = () => {
       },
     };
 
+    if (FeatureToggles.isOn('emulate-slow-internet'))
+      await new Promise(resolve => setTimeout(() => resolve(), 3000));
     if (FeatureToggles.isOn('emulate-backend-off'))
       await new Promise((resolve, reject) => setTimeout(() => reject(mockErrorResponse), 2000));
 
-    if (FeatureToggles.isOn('emulate-slow-internet'))
-      await new Promise(resolve => setTimeout(() => resolve(), 3000));
 
     Axios.get('auth/refresh').then(refreshResponse => {
       const { token, expires } = refreshResponse.data;

@@ -10,7 +10,9 @@ import { getPersonalGoals } from '../state/actions/personalGoals';
 import { FETCH_PERSONAL_GOALS_SUCCEEDED, LOADING_PERSONAL_GOALS } from '../constants/PersonalGoalsStatus';
 import { getLimits } from '../state/actions/limits';
 import LimitsCard from '../components/homePage/LimitsCard';
-import { FETCH_LIMITS_SUCCEEDED } from '../constants/LimitsStatus';
+import {
+  FETCH_LIMITS_SUCCEEDED, LOADING_FETCH_LIMITS, FETCH_LIMITS_FAILED, INACTIVE_FETCH_LIMITS,
+} from '../constants/LimitsStatus';
 import { getLearningDays } from '../state/actions/learningDays';
 import { getAllTopics, getLearnedTopics } from '../state/actions';
 import { LOADING_FETCH_LEARNED_TOPICS } from '../constants/TopicStatus';
@@ -71,7 +73,7 @@ const Home = () => {
       />
       <Page.Content>
         {isMonthlyView
-          && <LimitsCard assignedLimit={assignedLimit} remainingLimit={remainingLimit} isLoading={limitsStatus !== FETCH_LIMITS_SUCCEEDED} />}
+          && <LimitsCard assignedLimit={assignedLimit} remainingLimit={remainingLimit} isLoading={limitsStatus === LOADING_FETCH_LIMITS || limitsStatus === INACTIVE_FETCH_LIMITS} failed={limitsStatus === FETCH_LIMITS_FAILED} />}
         {isMonthlyView
           && (
           <div style={{ marginBottom: 20 }}>
