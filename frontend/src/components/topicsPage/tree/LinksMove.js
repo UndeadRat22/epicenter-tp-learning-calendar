@@ -1,13 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
 import { Group } from '@vx/group';
+import React from 'react';
 import { NodeGroup } from 'react-move';
+import { ROOT_NODE } from '../../../constants/General';
+import { TREE_STROKE_COLOR } from '../../../constants/Styling';
 import Link from './Link';
 import { findCollapsedParent } from './utils';
-import { TREE_STROKE_COLOR } from '../../../constants/Styling';
 
 const LinksMove = ({
-  links, linkType, layout, orientation, stepPercent,
+  links, linkType, layout, orientation, stepPercent, isAnimatable,
 }) => {
   return (
     <NodeGroup
@@ -66,9 +67,10 @@ const LinksMove = ({
       {nodes => (
         <Group>
           {nodes.map(({ key, data, state }) => {
+            const shouldDisplayStaticLink = !isAnimatable || data.source.data.name === ROOT_NODE;
             return (
               <Link
-                data={state}
+                data={shouldDisplayStaticLink ? data : state}
                 linkType={linkType}
                 layout={layout}
                 orientation={orientation}

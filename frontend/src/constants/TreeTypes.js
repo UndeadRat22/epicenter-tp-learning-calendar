@@ -1,5 +1,5 @@
 const PERSONAL = 'Personal';
-const MY_TEAM = 'My team';
+const MY_TEAM = 'My Team';
 const MY_SUBORDINATES = 'My subordinates';
 const SINGLE_SUBORDINATE = 'Single subordinate';
 const SINGLE_TEAM = 'Single team';

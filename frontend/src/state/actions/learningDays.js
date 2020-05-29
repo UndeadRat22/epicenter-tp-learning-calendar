@@ -1,22 +1,13 @@
 import Axios from 'axios';
-import makeSyncActionCreator from '../syncActionCreator';
-import {
-  FETCH_LEARNING_DAYS_START, FETCH_LEARNING_DAYS_SUCCESS, FETCH_LEARNING_DAYS_FAIL, START_LEARNING_DAY_START, START_LEARNING_DAY_SUCCESS, START_LEARNING_DAY_FAIL,
-  START_LEARNING_DAY_SUSPEND,
-  CANCEL_LEARNING_DAY_START,
-  CANCEL_LEARNING_DAY_SUCCESS,
-  CANCEL_LEARNING_DAY_FAIL,
-  CANCEL_LEARNING_DAY_SUSPEND,
-  UPDATE_LEARNING_DAY_START,
-  UPDATE_LEARNING_DAY_SUCCESS,
-  UPDATE_LEARNING_DAY_FAIL,
-  UPDATE_LEARNING_DAY_SUSPEND,
-} from './types/learningDays';
 import { getLocalIsoString } from '../../utils/dateParser';
-import { showSuccessToast, showErrorToast } from './toast';
+import makeSyncActionCreator from '../syncActionCreator';
 import { getLimits } from './limits';
 import { getPersonalGoals } from './personalGoals';
+import { showErrorToast, showSuccessToast } from './toast';
 import { getLearnedTopics } from './topic';
+import {
+  CANCEL_LEARNING_DAY_FAIL, CANCEL_LEARNING_DAY_START, CANCEL_LEARNING_DAY_SUCCESS, CANCEL_LEARNING_DAY_SUSPEND, FETCH_LEARNING_DAYS_FAIL, FETCH_LEARNING_DAYS_START, FETCH_LEARNING_DAYS_SUCCESS, START_LEARNING_DAY_FAIL, START_LEARNING_DAY_START, START_LEARNING_DAY_SUCCESS, START_LEARNING_DAY_SUSPEND, UPDATE_LEARNING_DAY_FAIL, UPDATE_LEARNING_DAY_START, UPDATE_LEARNING_DAY_SUCCESS, UPDATE_LEARNING_DAY_SUSPEND,
+} from './types/learningDays';
 
 const fetchLearningDaysStart = makeSyncActionCreator(FETCH_LEARNING_DAYS_START);
 const fetchLearningDaysSuccess = makeSyncActionCreator(FETCH_LEARNING_DAYS_SUCCESS);
@@ -62,13 +53,9 @@ const getLearningDays = () => async dispatch => {
 
     const responseSelf = await Axios.get('learning-days');
     const selfLearningDays = responseSelf.data.learningDays;
-    console.log('Received self learning days: ');
-    console.log(selfLearningDays);
 
     const responseTeam = await Axios.get('learning-days/subordinates');
     const teamLearningDays = responseTeam.data.learningDays;
-    console.log('Received team learning days: ');
-    console.log(teamLearningDays);
 
     dispatch(fetchLearningDaysSuccess({ selfLearningDays, teamLearningDays }));
   } catch (err) {

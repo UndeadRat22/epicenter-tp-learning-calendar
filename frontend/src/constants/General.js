@@ -1,4 +1,4 @@
 const NOTIFICATION_AUTO_HIDE_TIMEOUT = 1500;
+const ROOT_NODE = 'Topic';
 
-// eslint-disable-next-line import/prefer-default-export
-export { NOTIFICATION_AUTO_HIDE_TIMEOUT };
+export { NOTIFICATION_AUTO_HIDE_TIMEOUT, ROOT_NODE };

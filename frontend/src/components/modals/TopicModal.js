@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  Modal, MessageBoxFunctionalLayout, Layout, Loader, Card, Tabs,
+  Card, Layout, Loader, MessageBoxFunctionalLayout, Modal, Tabs,
 } from 'wix-style-react';
-import { useSelector, useDispatch } from 'react-redux';
-import { getTopic } from '../../state/actions';
 import { MODAL_MAX_HEIGHT } from '../../constants/Styling';
 import { LOADING_FETCH_TOPIC } from '../../constants/TopicStatus';
-import TopicTab from './topicModal/TopicTab';
+import { getTopic } from '../../state/actions';
 import EmployeesTab from './topicModal/EmployeesTab';
+import SubordinatesTab from './topicModal/SubordinatesTab';
 import TeamsTab from './topicModal/TeamsTab';
+import TopicTab from './topicModal/TopicTab';
 
 const TopicModal = ({ isModalOpened, onCloseModal, topic }) => {
   const [activeTabId, setActiveTabId] = useState(1);
 
   const dispatch = useDispatch();
 
-  const topicStatus = useSelector(state => state.topic.status);
-  const topicInfo = useSelector(state => state.topic.topic);
-
+  const { topic: topicInfo, status: topicStatus } = useSelector(state => state.topic);
   const isLoading = topicStatus === LOADING_FETCH_TOPIC;
 
   useEffect(() => {
@@ -36,6 +35,8 @@ const TopicModal = ({ isModalOpened, onCloseModal, topic }) => {
       tab = <EmployeesTab topic={topicInfo} />;
     else if (activeTabId === 3)
       tab = <TeamsTab topic={topicInfo} />;
+    else if (activeTabId === 4)
+      tab = <SubordinatesTab topic={topicInfo} />;
     return tab;
   };
 
@@ -60,11 +61,12 @@ const TopicModal = ({ isModalOpened, onCloseModal, topic }) => {
                   onClick={changeTab}
                   items={[
                     { id: 1, title: 'About' },
-                    { id: 2, title: 'Employees' },
+                    { id: 2, title: 'My Team' },
                     { id: 3, title: 'Teams' },
+                    { id: 4, title: 'Subordinates' },
                   ]}
                 />
-            )}
+              )}
             />
             <Card.Content>
               {tabToRender()}

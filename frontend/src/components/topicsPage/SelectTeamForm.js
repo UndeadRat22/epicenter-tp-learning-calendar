@@ -2,11 +2,8 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-expressions */
 import React, { useState } from 'react';
-import {
-  FormField,
-  AutoComplete,
-} from 'wix-style-react';
 import { useSelector } from 'react-redux';
+import { AutoComplete, Box, FormField } from 'wix-style-react';
 
 const SelectTeamForm = ({ onSelectTeam, isDisabled = true, onSearchAndDropDownMissmatch }) => {
   const [value, setValue] = useState('');
@@ -41,18 +38,20 @@ const SelectTeamForm = ({ onSelectTeam, isDisabled = true, onSearchAndDropDownMi
   };
 
   return (
-    <FormField label="Select team">
-      <AutoComplete
-        disabled={isDisabled}
-        options={getTeams()}
-        value={value}
-        onChange={onChange}
-        onSelect={onSelect}
-        placeholder="Search"
-        emptyStateMessage={`Couldn't find: ${value}`}
-        predicate={option => option.value.toLowerCase().indexOf(value.toLowerCase()) !== -1}
-      />
-    </FormField>
+    <Box>
+      <FormField label="Select team" infoContent="Only available when Single Team tree is selected">
+        <AutoComplete
+          disabled={isDisabled}
+          options={getTeams()}
+          value={value}
+          onChange={onChange}
+          onSelect={onSelect}
+          placeholder="Search"
+          emptyStateMessage={`Couldn't find: ${value}`}
+          predicate={option => option.value.toLowerCase().indexOf(value.toLowerCase()) !== -1}
+        />
+      </FormField>
+    </Box>
   );
 };
 
