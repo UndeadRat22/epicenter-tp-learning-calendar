@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Epicenter.Api.Model.Limit;
 using Epicenter.Service.Interface.Operations.Limit;
 using Microsoft.AspNetCore.Authorization;
@@ -30,9 +32,14 @@ namespace Epicenter.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<LimitsModel>> GetLimits()
+        [Route("{date}")]
+        public async Task<ActionResult<LimitsModel>> GetLimits([Required]DateTime date)
         {
-            var response = await _getLimitsOperation.Execute();
+            var request = new GetLimitsOperationRequest
+            {
+                Date = date
+            };
+            var response = await _getLimitsOperation.Execute(request);
             return Ok(new LimitsModel(response));
         }
 

@@ -37,7 +37,7 @@ const updateLearningDaySuccess = makeSyncActionCreator(UPDATE_LEARNING_DAY_SUCCE
 const updateLearningDayFail = makeSyncActionCreator(UPDATE_LEARNING_DAY_FAIL);
 const suspendUpdateLearningDay = makeSyncActionCreator(UPDATE_LEARNING_DAY_SUSPEND);
 
-const cancelLearningDay = id => async dispatch => {
+const cancelLearningDay = (id, date) => async dispatch => {
   try {
     dispatch(cancelLearningDayStart());
 
@@ -45,7 +45,7 @@ const cancelLearningDay = id => async dispatch => {
 
     dispatch(cancelLearningDaySuccess());
     dispatch(showSuccessToast('Successfully cancelled learning lay'));
-    dispatch(getLimits());
+    dispatch(getLimits(date));
     dispatch(getPersonalGoals());
     dispatch(getLearningDays());
   } catch (err) {
@@ -92,7 +92,7 @@ const startLearningDay = date => async dispatch => {
     dispatch(startLearningDaySuccess(id));
     dispatch(showSuccessToast('Added Learning Day'));
     dispatch(getLearningDays());
-    dispatch(getLimits());
+    dispatch(getLimits(date));
   } catch (err) {
     dispatch(showErrorToast('Failed to add learning day'));
     console.log(err.response);

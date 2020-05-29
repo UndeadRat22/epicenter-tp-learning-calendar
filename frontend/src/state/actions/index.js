@@ -17,3 +17,4 @@ export * from './mySubordinatesTree';
 export * from './singleSubordinateTree';
 export * from './singleTeamTree';
 export * from './editLimit';
+export * from './globalLimits';
