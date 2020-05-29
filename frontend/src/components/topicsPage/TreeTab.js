@@ -30,6 +30,11 @@ import { LOADING_SINGLE_TEAM_TREE, FETCH_SINGLE_TEAM_TREE_SUCCEEDED } from '../.
 
 const TreeTab = () => {
   const [windowWidth, windowHeight] = useWindowSize();
+  const WIX_SIDE_PADDINGS = 96;
+  // don't ask me how I came up with this
+  // I was just empirically checking paddings, margins with devtools
+  const treeWidth = windowWidth < 1365 ? windowWidth - WIX_SIDE_PADDINGS : (windowWidth - (windowWidth - (1365 - 96)));
+
   const initialTree = {
     name: 'Topics',
     children: [],
@@ -121,7 +126,7 @@ const TreeTab = () => {
       </Box>
       <Box align="center">
         {isLoading ? <Loader size="small" />
-          : <TreeContainer data={tree} width={windowWidth - 200} height={TOPICS_TREE_HEIGHT} type={treeName} />}
+          : <TreeContainer data={tree} width={treeWidth} height={TOPICS_TREE_HEIGHT} type={treeName} />}
       </Box>
       <FormField label="Learned - Planned - Not planned">
         <Box height="24px" width="220px">
