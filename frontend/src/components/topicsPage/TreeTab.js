@@ -23,7 +23,10 @@ import TreeContainer from './tree/TreeContainer';
 
 const TreeTab = () => {
   const [windowWidth, windowHeight] = useWindowSize();
-  const treeWidth = windowWidth < 1365 ? windowWidth - 96 : (windowWidth - (windowWidth - (1365 - 96)));
+  const WIX_SIDE_PADDINGS = 96;
+  // don't ask me how I came up with this
+  // I was just empirically checking paddings, margins with devtools
+  const treeWidth = windowWidth < 1365 ? windowWidth - WIX_SIDE_PADDINGS : (windowWidth - (windowWidth - (1365 - 96)));
 
   const initialTree = {
     name: ROOT_NODE,
