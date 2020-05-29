@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/interactive-supports-focus */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import './Calendar.global.scss';
@@ -16,12 +17,16 @@ const navigate = {
 const CalendarToolbar = ({ onNavigate, label }) => {
   return (
     <div id="textbox">
-      <div className="alignleft" role="button" onClick={() => onNavigate(navigate.PREVIOUS)} tabIndex={0}>
-        <ArrowLeft size={32} />
+      <div className="alignleft">
+        <span className="hoverer" role="button" onClick={() => onNavigate(navigate.PREVIOUS)}>
+          <ArrowLeft size={32} />
+        </span>
       </div>
       <Text weight="bold" className="aligncenter">{label}</Text>
-      <div className="alignright" role="button" onClick={() => onNavigate(navigate.NEXT)} tabIndex={0}>
-        <ArrowRight size={32} />
+      <div className="alignright">
+        <span className="hoverer" role="button" onClick={() => onNavigate(navigate.NEXT)}>
+          <ArrowRight size={32} />
+        </span>
       </div>
       {/* <IconButton priority="secondary" style={{ marginBottom: 4 }} className="alignleft" as="button" onClick={() => alert('ha')}><ArrowLeft /></IconButton>
       <Text weight="bold" className="aligncenter">{label}</Text>
