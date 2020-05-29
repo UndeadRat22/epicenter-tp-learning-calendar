@@ -20,7 +20,7 @@ const CookiesContainer = () => {
   return (
     <Notification
       type="local"
-      theme="premium"
+      theme="warning"
       show
       actionText="Accept"
       appearance="premium"
