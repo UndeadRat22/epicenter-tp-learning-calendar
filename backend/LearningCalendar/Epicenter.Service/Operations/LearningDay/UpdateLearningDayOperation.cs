@@ -42,13 +42,9 @@ namespace Epicenter.Service.Operations.LearningDay
             {
                 UpdateAllDetails(learningDay, employee, request);
             }
-            else if (employee.ManagedTeam.Employees.Any(subordinate => subordinate.Id == employee.Id))
-            {
-                UpdateComment(learningDay, request);
-            }
             else
             {
-                throw new ApplicationException($"Not allowed to update learning day for {employee.Id}");
+                UpdateComment(learningDay, request);
             }
 
             await _learningDayRepository.UpdateAsync(learningDay);
