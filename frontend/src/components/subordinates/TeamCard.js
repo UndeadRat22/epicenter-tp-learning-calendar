@@ -16,7 +16,7 @@ const TeamCard = ({ teamManager }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: EMPLOYEE,
     drop: item => onDropEmployee(item.employee),
-    canDrop: item => teamManager.id !== item.employee.id && teamManager.id !== item.employee.managerId,
+    canDrop: item => teamManager.id !== item.employee.id && teamManager.id !== item.employee.managerId && item.employee.subordinateIds.indexOf(teamManager.id) === -1,
     collect: monitor => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
