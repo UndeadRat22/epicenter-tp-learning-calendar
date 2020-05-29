@@ -69,7 +69,7 @@ const TreeContainer = ({
     }
   }
 
-  const root = hierarchy(data);
+  const root = hierarchy(data, d => (!toggleSwitchChecked ? d.children : null));
   console.log('root', root);
   return (
     <Container>
@@ -140,6 +140,7 @@ const TreeContainer = ({
                 layout={layout}
                 orientation={orientation}
                 stepPercent={stepPercent}
+                isAnimatable={toggleSwitchChecked}
               />
               <NodesMove
                 nodes={data.descendants()}
@@ -152,7 +153,7 @@ const TreeContainer = ({
                   // links
                   node.data.x0 = node.x;
                   node.data.y0 = node.y;
-                  node.data.isExpanded = false;
+                  node.data.isExpanded = !node.data.isExpanded;
                   forceUpdate();
                 }}
               />
