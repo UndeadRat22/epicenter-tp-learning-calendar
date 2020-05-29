@@ -15,20 +15,23 @@ namespace Epicenter.Service.Strategy.Topic
                 .Where(day => day.GetDayTopicByTopicId(topic.Id) != null)
                 .ToList();
 
-            bool hasCompleteGoals = employee.PersonalGoals
-                .Any(goal => goal.TopicId == topic.Id && goal.IsComplete);
+            var relevantGoals = employee.PersonalGoals
+                .Where(goal => goal.TopicId == topic.Id)
+                .ToList();
+
+            bool hasRelevantGoals = relevantGoals.Any();
+
+            bool hasIncompleteGoals = relevantGoals
+                .Any(goal => goal.TopicId == topic.Id && !goal.IsComplete);
 
             if (!relevantDays.Any())
             {
-                if (hasCompleteGoals)
+                if (!hasRelevantGoals || hasIncompleteGoals)
                 {
-                    return Status.Learned;
+                    return Status.NotPlanned;
                 }
-                return Status.NotPlanned;
+                return Status.Learned;
             }
-
-            bool hasIncompleteGoals = employee.PersonalGoals
-                .Any(goal => goal.TopicId == topic.Id && !goal.IsComplete);
 
             bool isPlanned = IsPlanned(relevantDays, topic.Id);
             bool isComplete = IsComplete(relevantDays, hasIncompleteGoals, topic.Id);
