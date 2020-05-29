@@ -34,7 +34,7 @@ namespace Epicenter.Service.Operations.Topic
 
             var topic = await _topicRepository.GetByIdAsync(request.TopicId);
 
-            if (teamTree == null)
+            if (teamTree != null)
             {
 
                 var employees = teamTree
