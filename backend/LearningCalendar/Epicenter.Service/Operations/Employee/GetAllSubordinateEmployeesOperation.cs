@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Epicenter.Infrastructure.Extensions;
 using Epicenter.Service.Context.Interface.Authorization;
@@ -31,9 +33,9 @@ namespace Epicenter.Service.Operations.Employee
                     ManagedEmployeesCount = employee.ManagedTeam?.Employees.Count ?? 0,
                     ManagerId = employee.Team.Manager.Id,
                     ManagerFullName = employee.Team.Manager.FullName,
-                    SubordinateIds = employee.Team.GetAllEmployees()
+                    SubordinateIds = employee.ManagedTeam?.GetAllEmployees()
                         .Select(subordinate => subordinate.Id)
-                        .ToList()
+                        .ToList() ?? new List<Guid>()
                 })
                 .ToList();
 
