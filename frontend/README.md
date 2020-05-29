@@ -2,32 +2,11 @@
 
 ## Install
 
-> If you're having npm-related issues, try using node v12
-
-`npm install`
-
-## Usage
-`npm start` 
-
-localhost:8080 should open automatically. You can change the port in package.json 
-
 ## wix-style-react storybook
 [here](https://wix-style-react.now.sh/?path=/story/introduction-getting-started--getting-started)
 
 [color modifiers](https://wix-style-react.now.sh/?path=/story/design-guidelines-foundation--1-1-colors)
 Don't use RGB, use these color modifiers!
-
-## Using css 
-```
-// react-component.js
-import s from 'react-component.scss';
-<div className={s.center}></div>
-
-// react-component.scss
-.center {
-    ...
-}
-```
 
 ## Using feature toggles
 FeatureToggles.isOn(string) returns true if feature is enabled, false otherwise

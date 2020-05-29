@@ -9,6 +9,7 @@ import React, { useCallback, useState } from 'react';
 import {
   Box, Container, Dropdown, FormField, ToggleSwitch,
 } from 'wix-style-react';
+import { ROOT_NODE } from '../../../constants/General';
 import { TREE_CONTAINER_FILL } from '../../../constants/Styling';
 import {
   LAYOUT_CARTESIAN, LAYOUT_POLAR, LINK_CURVE, LINK_DIAGONAL, LINK_LINE, LINK_STEP, ORIENTATION_HORIZONTAL, ORIENTATION_VERTICAL,
@@ -69,11 +70,17 @@ const TreeContainer = ({
     }
   }
 
-  const root = hierarchy(data, d => (!toggleSwitchChecked ? d.children : null));
+  const getChildren = d => {
+    if (!toggleSwitchChecked)
+      return d.children;
+
+    return d.name === ROOT_NODE || d.isExpanded ? d.children : null;
+  };
+
+  const root = hierarchy(data, getChildren);
   console.log('root', root);
   return (
     <Container>
-      {console.log('NODE IN RENDER: ', data)}
       <Box align="space-between" padding="small" marginBottom={0.5} verticalAlign="bottom">
         <Box align="left">
           <FormField label="Orientation">
@@ -149,10 +156,12 @@ const TreeContainer = ({
                 orientation={orientation}
                 isAnimated={toggleSwitchChecked}
                 onNodeClick={node => {
-                  console.log('clicked on:', node);
-                  // links
-                  node.data.x0 = node.x;
-                  node.data.y0 = node.y;
+                  if (!toggleSwitchChecked)
+                    return;
+                  if (!node.data.isExpanded) {
+                    node.data.x0 = node.x;
+                    node.data.y0 = node.y;
+                  }
                   node.data.isExpanded = !node.data.isExpanded;
                   forceUpdate();
                 }}

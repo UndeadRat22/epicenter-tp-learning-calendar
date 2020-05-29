@@ -2,15 +2,14 @@
 import { Group } from '@vx/group';
 import React from 'react';
 import { NodeGroup } from 'react-move';
+import { ROOT_NODE } from '../../../constants/General';
 import { TREE_STROKE_COLOR } from '../../../constants/Styling';
 import Link from './Link';
 import { findCollapsedParent } from './utils';
 
 const LinksMove = ({
-  links, linkType, layout, orientation, stepPercent,
+  links, linkType, layout, orientation, stepPercent, isAnimatable,
 }) => {
-  console.log('links:');
-  console.log(links);
   return (
     <NodeGroup
       data={links}
@@ -68,10 +67,10 @@ const LinksMove = ({
       {nodes => (
         <Group>
           {nodes.map(({ key, data, state }) => {
-            console.log('state', state);
+            const shouldDisplayStaticLink = !isAnimatable || data.source.data.name === ROOT_NODE;
             return (
               <Link
-                data={data}
+                data={shouldDisplayStaticLink ? data : state}
                 linkType={linkType}
                 layout={layout}
                 orientation={orientation}
