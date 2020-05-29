@@ -77,10 +77,8 @@ const TreeContainer = ({
   }
 
   const root = hierarchy(data, d => (d.isExpanded ? d.children : null));
-  console.log('NODE BEFORE: ', data);
   return (
     <Container>
-      {console.log('NODE IN RENDER: ', data)}
       <Box align="space-between" padding="small" marginBottom={0.5} verticalAlign="bottom">
         <Box align="left">
           <FormField label="Orientation">
