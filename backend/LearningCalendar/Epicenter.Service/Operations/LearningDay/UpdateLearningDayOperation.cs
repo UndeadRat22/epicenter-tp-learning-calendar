@@ -34,24 +34,23 @@ namespace Epicenter.Service.Operations.LearningDay
         {
             var employee = await _authorizationContext.CurrentEmployee();
             var learningDay = employee.LearningDays
-                .FirstOrDefault(day => day.Id == request.LearningDayId)
-                    ?? throw new ApplicationException("Learning day not found");
+                .FirstOrDefault(day => day.Id == request.LearningDayId);
 
             request.LearningDayTopics ??= new List<UpdateLearningDayOperationRequest.LearningDayTopic>();
             EnsureNoDuplicatedTopics(request);
             EnsureFitsLimits(request, employee);
 
-            if (employee.Id == learningDay.EmployeeId)
-            {
-                UpdateAllDetails(learningDay, employee, request);
-            }
-            else
+            if (learningDay == null)
             {
                 employee = await _employeeRepository.GetByLearningDayId(request.LearningDayId);
                 learningDay = employee.LearningDays
-                    .FirstOrDefault(day => day.Id == request.LearningDayId)
-                        ?? throw new ApplicationException("Learning day not found");
+                                  .FirstOrDefault(day => day.Id == request.LearningDayId)
+                              ?? throw new ApplicationException("Learning day not found");
                 UpdateComment(learningDay, request);
+            }
+            else
+            {
+                UpdateAllDetails(learningDay, employee, request);
             }
 
             await _learningDayRepository.UpdateAsync(learningDay);

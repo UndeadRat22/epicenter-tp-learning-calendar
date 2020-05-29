@@ -109,6 +109,8 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 .Include(employee => employee.LearningDays)
                     .ThenInclude(day => day.LearningDayTopics)
                         .ThenInclude(dayTopic => dayTopic.Topic)
+                .Include(employee => employee.PersonalGoals)
+                    .ThenInclude(goal => goal.Topic)
                 .SingleAsync(employee => employee.LearningDays.Any(day => day.Id == learningDayId));
         }
     }
