@@ -2,13 +2,8 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-expressions */
 import React, { useState } from 'react';
-import {
-  FormField,
-  AutoComplete,
-  Box,
-  InfoIcon,
-} from 'wix-style-react';
 import { useSelector } from 'react-redux';
+import { AutoComplete, Box, FormField } from 'wix-style-react';
 
 const SelectTeamForm = ({ onSelectTeam, isDisabled = true, onSearchAndDropDownMissmatch }) => {
   const [value, setValue] = useState('');
@@ -44,10 +39,7 @@ const SelectTeamForm = ({ onSelectTeam, isDisabled = true, onSearchAndDropDownMi
 
   return (
     <Box>
-      <Box marginLeft="tiny">
-        <InfoIcon content='Disabled until "Single team" tree is selected' />
-      </Box>
-      <FormField label="Select team">
+      <FormField label="Select team" infoContent="Only available when Single Team tree is selected">
         <AutoComplete
           disabled={isDisabled}
           options={getTeams()}

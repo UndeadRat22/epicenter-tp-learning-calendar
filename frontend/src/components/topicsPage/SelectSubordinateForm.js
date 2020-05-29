@@ -1,12 +1,7 @@
 /* eslint-disable no-unused-expressions */
-import React, { useState, useEffect } from 'react';
-import {
-  FormField,
-  AutoComplete,
-  InfoIcon,
-  Box,
-} from 'wix-style-react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AutoComplete, Box, FormField } from 'wix-style-react';
 import { getSubordinates } from '../../state/actions/subordinates';
 
 const SelectSubordinateForm = ({ onSelectSubordinate, isDisabled = true, onSearchAndDropDownMissmatch }) => {
@@ -43,10 +38,7 @@ const SelectSubordinateForm = ({ onSelectSubordinate, isDisabled = true, onSearc
 
   return (
     <Box>
-      <Box marginLeft="tiny">
-        <InfoIcon content='Disabled until "Single subordinate" tree is selected' />
-      </Box>
-      <FormField label="Select subordinate">
+      <FormField label="Select subordinate" infoContent="Disabled until Single subordinate tree is selected">
         <AutoComplete
           disabled={isDisabled}
           options={getOptions()}
