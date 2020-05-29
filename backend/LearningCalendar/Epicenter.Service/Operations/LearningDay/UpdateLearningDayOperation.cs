@@ -30,8 +30,9 @@ namespace Epicenter.Service.Operations.LearningDay
         public async Task Execute(UpdateLearningDayOperationRequest request)
         {
             var employee = await _authorizationContext.CurrentEmployee();
-            var learningDay = await _learningDayRepository.GetByIdAsync(request.LearningDayId)
-                ?? throw new ApplicationException("Learning day not found");
+            var learningDay = employee.LearningDays
+                .FirstOrDefault(day => day.Id == request.LearningDayId)
+                    ?? throw new ApplicationException("Learning day not found");
 
             request.LearningDayTopics ??= new List<UpdateLearningDayOperationRequest.LearningDayTopic>();
             EnsureNoDuplicatedTopics(request);
