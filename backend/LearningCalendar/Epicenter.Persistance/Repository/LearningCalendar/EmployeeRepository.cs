@@ -102,5 +102,14 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 .ToListAsync();
             return result;
         }
+
+        public async Task<Employee> GetByLearningDayId(Guid learningDayId)
+        {
+            return await DbContext.Employees
+                .Include(employee => employee.LearningDays)
+                    .ThenInclude(day => day.LearningDayTopics)
+                        .ThenInclude(dayTopic => dayTopic.Topic)
+                .SingleAsync(employee => employee.LearningDays.Any(day => day.Id == learningDayId));
+        }
     }
 }

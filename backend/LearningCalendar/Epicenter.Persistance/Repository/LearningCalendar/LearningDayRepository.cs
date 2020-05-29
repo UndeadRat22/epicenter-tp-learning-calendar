@@ -57,5 +57,7 @@ namespace Epicenter.Persistence.Repository.LearningCalendar
                 .ThenInclude(dayTopic => dayTopic.Topic)
                 .SingleOrDefaultAsync(day => day.Id == id);
         }
+
+
     }
 }

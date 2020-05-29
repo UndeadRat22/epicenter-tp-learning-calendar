@@ -15,16 +15,19 @@ namespace Epicenter.Service.Operations.LearningDay
     {
         private readonly ILearningDayRepository _learningDayRepository;
         private readonly IAuthorizationContext _authorizationContext;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IPersonalGoalRepository _goalRepository;
 
         public UpdateLearningDayOperation(
             ILearningDayRepository learningDayRepository, 
             IAuthorizationContext authorizationContext, 
-            IPersonalGoalRepository goalRepository)
+            IPersonalGoalRepository goalRepository, 
+            IEmployeeRepository employeeRepository)
         {
             _learningDayRepository = learningDayRepository;
             _authorizationContext = authorizationContext;
             _goalRepository = goalRepository;
+            _employeeRepository = employeeRepository;
         }
 
         public async Task Execute(UpdateLearningDayOperationRequest request)
@@ -44,6 +47,10 @@ namespace Epicenter.Service.Operations.LearningDay
             }
             else
             {
+                employee = await _employeeRepository.GetByLearningDayId(request.LearningDayId);
+                learningDay = employee.LearningDays
+                    .FirstOrDefault(day => day.Id == request.LearningDayId)
+                        ?? throw new ApplicationException("Learning day not found");
                 UpdateComment(learningDay, request);
             }
 
