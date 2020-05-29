@@ -16,7 +16,8 @@ namespace Epicenter.Api.Model.Team.Employee
                     FullName = employee.FullName,
                     ManagerId = employee.ManagerId,
                     ManagerFullName = employee.ManagerFullName,
-                    ManagedEmployeesCount = employee.ManagedEmployeesCount
+                    ManagedEmployeesCount = employee.ManagedEmployeesCount,
+                    SubordinateIds = employee.SubordinateIds
                 })
                 .ToList();
         }
@@ -30,6 +31,8 @@ namespace Epicenter.Api.Model.Team.Employee
 
             public Guid ManagerId { get; set; }
             public string ManagerFullName { get; set; }
+
+            public List<Guid> SubordinateIds { get; set; }
         }
     }
 }

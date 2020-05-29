@@ -30,7 +30,10 @@ namespace Epicenter.Service.Operations.Employee
                     FullName = employee.FullName,
                     ManagedEmployeesCount = employee.ManagedTeam?.Employees.Count ?? 0,
                     ManagerId = employee.Team.Manager.Id,
-                    ManagerFullName = employee.Team.Manager.FullName
+                    ManagerFullName = employee.Team.Manager.FullName,
+                    SubordinateIds = employee.Team.GetAllEmployees()
+                        .Select(subordinate => subordinate.Id)
+                        .ToList()
                 })
                 .ToList();
 

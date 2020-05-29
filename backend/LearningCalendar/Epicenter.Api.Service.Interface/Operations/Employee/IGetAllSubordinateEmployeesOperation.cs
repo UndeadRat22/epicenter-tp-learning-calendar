@@ -20,6 +20,7 @@ namespace Epicenter.Service.Interface.Operations.Employee
 
             public Guid ManagerId { get; set; }
             public string ManagerFullName { get; set; }
+            public List<Guid> SubordinateIds { get; set; }
         }
     }
 }
