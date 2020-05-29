@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Epicenter.Infrastructure.Extensions;
 using Epicenter.Persistence.Interface.Repository.LearningCalendar;
@@ -33,26 +34,43 @@ namespace Epicenter.Service.Operations.Topic
 
             var topic = await _topicRepository.GetByIdAsync(request.TopicId);
 
-            var employees = teamTree
-                .GetAllEmployees();
+            if (teamTree == null)
+            {
 
-            var subordinates = employees
-                .Select(employee => MapEmployee(employee, topic))
-                .Where(employee => employee.ProgressStatus != ProgressStatus.NotPlanned)
-                .ToList();
+                var employees = teamTree
+                    .GetAllEmployees();
 
-            var directSubordinates = teamTree.GetDirectSubordinates()
-                .Select(employee => MapEmployee(employee, topic))
-                .Where(employee => employee.ProgressStatus != ProgressStatus.NotPlanned)
-                .ToList();
+                var subordinates = employees
+                    .Select(employee => MapEmployee(employee, topic))
+                    .Where(employee => employee.ProgressStatus != ProgressStatus.NotPlanned)
+                    .ToList();
 
-            var mappedTeams = employees
-                .Select(employee => employee.ManagedTeam)
-                .Where(team => team != null)
-                .DistinctBy(team => team.Id)
-                .Select(team => MapTeam(team, topic))
-                .Where(team => team.ProgressStatus != ProgressStatus.NotPlanned)
-                .ToList();
+                var directSubordinates = teamTree.GetDirectSubordinates()
+                    .Select(employee => MapEmployee(employee, topic))
+                    .Where(employee => employee.ProgressStatus != ProgressStatus.NotPlanned)
+                    .ToList();
+
+                var mappedTeams = employees
+                    .Select(employee => employee.ManagedTeam)
+                    .Where(team => team != null)
+                    .DistinctBy(team => team.Id)
+                    .Select(team => MapTeam(team, topic))
+                    .Where(team => team.ProgressStatus != ProgressStatus.NotPlanned)
+                    .ToList();
+                return new GetTopicDetailsOperationResponse
+                {
+                    Id = topic.Id,
+                    Subject = topic.Subject,
+                    Description = topic.Description,
+                    ParentId = topic.ParentTopic?.Id,
+                    ParentSubject = topic.ParentTopic?.Subject,
+                    Subordinates = subordinates,
+                    DirectSubordinates = directSubordinates,
+                    Teams = mappedTeams
+                };
+            }
+
+            var employee = await _authorizationContext.CurrentEmployee();
 
             return new GetTopicDetailsOperationResponse
             {
@@ -61,9 +79,9 @@ namespace Epicenter.Service.Operations.Topic
                 Description = topic.Description,
                 ParentId = topic.ParentTopic?.Id,
                 ParentSubject = topic.ParentTopic?.Subject,
-                Subordinates = subordinates,
-                DirectSubordinates = directSubordinates,
-                Teams = mappedTeams
+                Subordinates = new List<GetTopicDetailsOperationResponse.Employee> { MapEmployee(employee, topic) },
+                DirectSubordinates = new List<GetTopicDetailsOperationResponse.Employee> { MapEmployee(employee, topic) },
+                Teams = new List<GetTopicDetailsOperationResponse.Team>()
             };
         }
 
