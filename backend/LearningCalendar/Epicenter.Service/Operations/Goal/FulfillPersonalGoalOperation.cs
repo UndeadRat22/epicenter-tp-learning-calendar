@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Epicenter.Domain.Entity.LearningCalendar;
 using Epicenter.Persistence.Interface.Exceptions;
@@ -13,33 +14,32 @@ namespace Epicenter.Service.Operations.Goal
     {
         private readonly IAuthorizationContext _authorizationContext;
         private readonly IPersonalGoalRepository _personalGoalRepository;
+        private readonly IEmployeeRepository _employeeRepository;
 
-        public FulfillPersonalGoalOperation(IAuthorizationContext authorizationContext,
-            IPersonalGoalRepository personalGoalRepository)
+        public FulfillPersonalGoalOperation(
+            IAuthorizationContext authorizationContext,
+            IPersonalGoalRepository personalGoalRepository, 
+            IEmployeeRepository employeeRepository)
         {
             _authorizationContext = authorizationContext;
             _personalGoalRepository = personalGoalRepository;
+            _employeeRepository = employeeRepository;
         }
 
-        public async Task<FulfillPersonalGoalOperationResponse> Execute(FulfillPersonalGoalOperationRequest request)
+        public async Task Execute(FulfillPersonalGoalOperationRequest request)
         {
             var employee = await _authorizationContext.CurrentEmployee();
 
-            PersonalGoal personalGoal;
-            try
+            var personalGoal = employee.PersonalGoals
+                .FirstOrDefault(goal => goal.TopicId == request.TopicId && goal.CompletionDate == null);
+            if (personalGoal == null)
             {
-                personalGoal = await _personalGoalRepository.QuerySingleAsync(goal =>
-                    goal.EmployeeId == employee.Id && goal.TopicId == request.TopicId);
-            }
-            catch (EntityNotFoundException)
-            {
-                throw new GoalNotAssignedException(request.TopicId);
+                throw new ApplicationException($"Goal for topic {request.TopicId} not found");
             }
 
             personalGoal.CompletionDate = DateTime.Today;
-            await _personalGoalRepository.UpdateAsync(personalGoal);
 
-            return new FulfillPersonalGoalOperationResponse();
+            await _employeeRepository.UpdateAsync(employee);
         }
     }
 }
