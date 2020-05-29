@@ -9,8 +9,10 @@ import {
   suspendStartLearningDay, getLearningDays, getLimits, updateLearningDay,
 } from '../../state/actions';
 import TopicsSelectorCard from './TopicsSelectorCard';
-import { LOADING_UPDATE_LEARNING_DAY, LOADING_FETCH_LEARNING_DAYS } from '../../constants/LearningDaysStatus';
+import { LOADING_UPDATE_LEARNING_DAY, LOADING_FETCH_LEARNING_DAYS, FETCH_LEARNING_DAYS_FAILED } from '../../constants/LearningDaysStatus';
 import FeatureToggles from '../../utils/FeatureToggles';
+import { LOADING_FETCH_LIMITS, FETCH_LIMITS_FAILED } from '../../constants/LimitsStatus';
+import { LOADING_ALL_TOPICS, FETCH_ALL_TOPICS_FAILED } from '../../constants/AllTopicsStatus';
 
 const LearningDay = ({
   date, accessors, allDayAccessors, dayPropGetter, drillDownView, getNow, onView, onSelectSlot, onNavigate, events,
@@ -18,15 +20,21 @@ const LearningDay = ({
   const {
     selfLearningDays, teamLearningDays, updateStatus, status: getLearningDaysStatus,
   } = useSelector(state => state.learningDays);
-  const { assignedLimit, remainingLimit } = useSelector(state => state.limits);
+  const { status: topicsStatus } = useSelector(state => state.allTopics);
+  const { assignedLimit, remainingLimit, status: limitsStatus } = useSelector(state => state.limits);
 
   const dispatch = useDispatch();
 
-  if (getLearningDaysStatus === LOADING_FETCH_LEARNING_DAYS) {
+  if (getLearningDaysStatus === LOADING_FETCH_LEARNING_DAYS || limitsStatus === LOADING_FETCH_LIMITS
+    || topicsStatus === LOADING_ALL_TOPICS) {
     return (
       <div style={{ textAlign: 'center' }}><Loader size="medium" /></div>
     );
   }
+
+  if (limitsStatus === FETCH_LIMITS_FAILED || getLearningDaysStatus === FETCH_LEARNING_DAYS_FAILED
+      || topicsStatus === FETCH_ALL_TOPICS_FAILED)
+    return <div style={{ textAlign: 'center' }}>Something went wrong. Try refreshing page</div>;
 
   if (!isSelfLearningDay(date, selfLearningDays) && (isTodayOrInFuture(date) || FeatureToggles.isOn('add-past-learning-day')))
     return <AddLearningDayButton date={date} disabled={remainingLimit.daysPerQuarter <= 0} />;
