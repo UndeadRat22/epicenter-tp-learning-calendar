@@ -26,8 +26,18 @@ const setupAxios = () => {
       || url === 'auth/password' || url === 'auth/register')
       return response;
 
+    const mockErrorResponse = {
+      response: {
+        data: 'emulate-backend-off toggle is on',
+        status: 400,
+      },
+    };
+
+    if (FeatureToggles.isOn('emulate-backend-off'))
+      await new Promise((resolve, reject) => setTimeout(() => reject(mockErrorResponse), 2000));
+
     if (FeatureToggles.isOn('emulate-slow-internet'))
-      await new Promise((resolve, reject) => setTimeout(() => resolve(), 3000));
+      await new Promise(resolve => setTimeout(() => resolve(), 3000));
 
     Axios.get('auth/refresh').then(refreshResponse => {
       const { token, expires } = refreshResponse.data;
