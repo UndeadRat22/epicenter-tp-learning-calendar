@@ -58,7 +58,7 @@ const SubordinatesAssignComponent = () => {
           <Col span={6}>
             <Card stretchVertically>
               <Card.Header
-                title="Employees"
+                title="Subordinates"
                 suffix={<Search debounceMs={250} clearButton={false} onChange={e => setEmployeesFilter(e.target.value)} />}
               />
               <Card.Divider />
