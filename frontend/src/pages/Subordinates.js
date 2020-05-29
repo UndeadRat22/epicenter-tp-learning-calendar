@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Page,
 } from 'wix-style-react';
-import { getSubordinates, getMyTeam, getLimits } from '../state/actions';
+import { getSubordinates, getMyTeam, getGlobalLimits } from '../state/actions';
 import SubordinatesAssignComponent from '../components/subordinates/SubordinatesAssignComponent';
 import GlobalLimitsCard from '../components/subordinates/GlobalLimitsCard';
 
@@ -13,7 +13,7 @@ const Subordinates = () => {
   useEffect(() => {
     dispatch(getSubordinates());
     dispatch(getMyTeam());
-    dispatch(getLimits());
+    dispatch(getGlobalLimits());
   }, [dispatch]);
 
   const { isTopLevelManager } = useSelector(state => state.auth.user);
@@ -26,7 +26,7 @@ const Subordinates = () => {
       />
       <Page.Content>
         <div style={{ marginBottom: 30 }}>
-          {isTopLevelManager && <GlobalLimitsCard />}
+          <GlobalLimitsCard isReadOnly={!isTopLevelManager} />
         </div>
         <SubordinatesAssignComponent />
       </Page.Content>

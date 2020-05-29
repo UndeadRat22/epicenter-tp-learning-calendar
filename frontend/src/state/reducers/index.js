@@ -19,6 +19,7 @@ import mySubordinatesTree from './mySubordinatesTree';
 import singleSubordinateTree from './singleSubordinateTree';
 import singleTeamTree from './singleTeamTree';
 import editLimit from './editLimit';
+import globalLimits from './globalLimits';
 
 export default combineReducers({
   auth,
@@ -41,4 +42,5 @@ export default combineReducers({
   singleSubordinateTree,
   singleTeamTree,
   editLimit,
+  globalLimits,
 });
