@@ -12,6 +12,8 @@ namespace Epicenter.Service.Interface.Operations.Employee
     public class GetAllSubordinateEmployeesOperationResponse
     {
         public List<Employee> Employees { get; set; }
+        public List<Guid> SubordinateIds { get; set; }
+
         public class Employee
         {
             public Guid Id { get; set; }
