@@ -2,23 +2,26 @@ import React from 'react';
 import {
   Layout, Text, Box, Avatar, Badge,
 } from 'wix-style-react';
+import { useSelector } from 'react-redux';
 import { LEARNED, PLANNED } from '../../../constants/ProgressStatus';
 import s from './styles.scss';
 
 const SubordinatesTab = ({ topic }) => {
+  const selfUser = useSelector(state => state.auth.user);
   const subordinates = topic.subordinates || [];
   const learned = subordinates.filter(item => item.status === LEARNED);
   const planned = subordinates.filter(item => item.status === PLANNED);
   const mergedSubordinates = learned.concat(planned);
+  const subordinatesWithoutSelf = mergedSubordinates.filter(subordinate => subordinate.id !== selfUser.id);
 
   return (
     <Layout cols={1}>
-      {mergedSubordinates.length !== 0 ? (
-        mergedSubordinates.map(item => (
-          <Box align="space-between">
-            <Box key={item.id} align="left" verticalAlign="middle">
+      {subordinatesWithoutSelf.length !== 0 ? (
+        subordinatesWithoutSelf.map(item => (
+          <Box key={item.id} align="space-between">
+            <Box align="left" verticalAlign="middle">
               <span className={s.avatar}>
-                <Avatar name={item.fullName} />
+                <Avatar color="A2" name={item.fullName} />
               </span>
               <Text size="medium">
                 {' '}
