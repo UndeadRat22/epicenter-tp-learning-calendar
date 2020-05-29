@@ -1,28 +1,21 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-shadow */
 /* eslint-disable eqeqeq */
-import React, { useState, useCallback } from 'react';
-import {
-  Container, Dropdown, Box, FormField, ToggleSwitch,
-} from 'wix-style-react';
+import { LinearGradient } from '@vx/gradient';
 import { Group } from '@vx/group';
 import { Tree } from '@vx/hierarchy';
-import { LinearGradient } from '@vx/gradient';
 import { hierarchy } from 'd3-hierarchy';
+import React, { useCallback, useState } from 'react';
+import {
+  Box, Container, Dropdown, FormField, ToggleSwitch,
+} from 'wix-style-react';
+import { TREE_CONTAINER_FILL } from '../../../constants/Styling';
+import {
+  LAYOUT_CARTESIAN, LAYOUT_POLAR, LINK_CURVE, LINK_DIAGONAL, LINK_LINE, LINK_STEP, ORIENTATION_HORIZONTAL, ORIENTATION_VERTICAL,
+} from '../../../constants/TreeContainerTypes';
+import ColorsContainer from '../ColorsContainer';
 import LinksMove from './LinksMove';
 import NodesMove from './NodesMove';
-import {
-  LAYOUT_CARTESIAN,
-  LAYOUT_POLAR,
-  ORIENTATION_HORIZONTAL,
-  ORIENTATION_VERTICAL,
-  LINK_DIAGONAL,
-  LINK_CURVE,
-  LINK_STEP,
-  LINK_LINE,
-} from '../../../constants/TreeContainerTypes';
-import { TREE_CONTAINER_FILL } from '../../../constants/Styling';
-import ColorsContainer from '../ColorsContainer';
 
 const TreeContainer = ({
   data, width, height, type,
@@ -76,8 +69,8 @@ const TreeContainer = ({
     }
   }
 
-  const root = hierarchy(data, d => (d.isExpanded ? d.children : null));
-  console.log('NODE BEFORE: ', data);
+  const root = hierarchy(data);
+  console.log('root', root);
   return (
     <Container>
       {console.log('NODE IN RENDER: ', data)}
@@ -155,11 +148,11 @@ const TreeContainer = ({
                 orientation={orientation}
                 isAnimated={toggleSwitchChecked}
                 onNodeClick={node => {
-                  if (!node.data.isExpanded) {
-                    node.data.x0 = node.x;
-                    node.data.y0 = node.y;
-                  }
-                  node.data.isExpanded = !node.data.isExpanded;
+                  console.log('clicked on:', node);
+                  // links
+                  node.data.x0 = node.x;
+                  node.data.y0 = node.y;
+                  node.data.isExpanded = false;
                   forceUpdate();
                 }}
               />

@@ -1,32 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  Container,
-  Box,
-  Heading,
-  Loader,
-  InfoIcon,
+  Box, Container, Heading, InfoIcon, Loader,
 } from 'wix-style-react';
-import { useSelector, useDispatch } from 'react-redux';
-import useWindowSize from '../../useWindowSize';
-import TreeContainer from './tree/TreeContainer';
-import SelectTreeForm from './SelectTreeForm';
-import { TOPICS_TREE_HEIGHT, TOPICS_TREE_WIDTH } from '../../constants/Styling';
-import {
-  PERSONAL, MY_TEAM, MY_SUBORDINATES, SINGLE_SUBORDINATE, SINGLE_TEAM,
-} from '../../constants/TreeTypes';
 import { ROOT_NODE } from '../../constants/General';
+import { FETCH_MY_SUBORDINATES_TREE_SUCCEEDED, LOADING_MY_SUBORDINATES_TREE } from '../../constants/MySubordinatesTreeStatus';
+import { FETCH_MY_TEAM_TREE_SUCCEEDED, LOADING_MY_TEAM_TREE } from '../../constants/MyTeamTreeStatus';
+import { FETCH_PERSONAL_TREE_SUCCEEDED, LOADING_PERSONAL_TREE } from '../../constants/PersonalTreeStatus';
+import { FETCH_SINGLE_SUBORDINATE_TREE_SUCCEEDED, LOADING_SINGLE_SUBORDINATE_TREE } from '../../constants/SingleSubordinateTreeStatus';
+import { FETCH_SINGLE_TEAM_TREE_SUCCEEDED, LOADING_SINGLE_TEAM_TREE } from '../../constants/SingleTeamTreeStatus';
+import { TOPICS_TREE_HEIGHT } from '../../constants/Styling';
 import {
-  getPersonalTree, getMyTeamTree, getMySubordinatesTree, getSingleSubordinateTree, getSingleTeamTree,
+  MY_SUBORDINATES, MY_TEAM, PERSONAL, SINGLE_SUBORDINATE, SINGLE_TEAM,
+} from '../../constants/TreeTypes';
+import {
+  getMySubordinatesTree, getMyTeamTree, getPersonalTree, getSingleSubordinateTree, getSingleTeamTree,
 } from '../../state/actions';
-import { LOADING_PERSONAL_TREE, FETCH_PERSONAL_TREE_SUCCEEDED } from '../../constants/PersonalTreeStatus';
-import { LOADING_MY_TEAM_TREE, FETCH_MY_TEAM_TREE_SUCCEEDED } from '../../constants/MyTeamTreeStatus';
-import { LOADING_MY_SUBORDINATES_TREE, FETCH_MY_SUBORDINATES_TREE_SUCCEEDED } from '../../constants/MySubordinatesTreeStatus';
-import { LOADING_SINGLE_SUBORDINATE_TREE, FETCH_SINGLE_SUBORDINATE_TREE_SUCCEEDED } from '../../constants/SingleSubordinateTreeStatus';
-import { LOADING_SINGLE_TEAM_TREE, FETCH_SINGLE_TEAM_TREE_SUCCEEDED } from '../../constants/SingleTeamTreeStatus';
+import useWindowSize from '../../useWindowSize';
+import SelectTreeForm from './SelectTreeForm';
+import TreeContainer from './tree/TreeContainer';
 
 const TreeTab = () => {
   const [windowWidth, windowHeight] = useWindowSize();
+  const treeWidth = windowWidth < 1365 ? windowWidth - 96 : (windowWidth - (windowWidth - (1365 - 96)));
+
   const initialTree = {
     name: ROOT_NODE,
     children: [],
@@ -123,7 +121,7 @@ const TreeTab = () => {
       </Box>
       <Box align="center">
         {isLoading ? <Loader size="small" />
-          : <TreeContainer data={tree} width={windowWidth - 200} height={TOPICS_TREE_HEIGHT} type={treeName} />}
+          : <TreeContainer data={tree} width={treeWidth} height={TOPICS_TREE_HEIGHT} type={treeName} />}
       </Box>
     </Container>
   );

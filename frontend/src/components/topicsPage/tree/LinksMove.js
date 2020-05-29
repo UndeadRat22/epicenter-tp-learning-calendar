@@ -1,14 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
 import { Group } from '@vx/group';
+import React from 'react';
 import { NodeGroup } from 'react-move';
+import { TREE_STROKE_COLOR } from '../../../constants/Styling';
 import Link from './Link';
 import { findCollapsedParent } from './utils';
-import { TREE_STROKE_COLOR } from '../../../constants/Styling';
 
 const LinksMove = ({
   links, linkType, layout, orientation, stepPercent,
 }) => {
+  console.log('links:');
+  console.log(links);
   return (
     <NodeGroup
       data={links}
@@ -66,9 +68,10 @@ const LinksMove = ({
       {nodes => (
         <Group>
           {nodes.map(({ key, data, state }) => {
+            console.log('state', state);
             return (
               <Link
-                data={state}
+                data={data}
                 linkType={linkType}
                 layout={layout}
                 orientation={orientation}
