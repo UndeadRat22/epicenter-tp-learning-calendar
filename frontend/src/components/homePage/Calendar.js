@@ -119,7 +119,7 @@ const Calendar = ({
       )}
         {isTeamLearningDay(date, teamLearningDays) && (
         <span className="team-badge">
-          <Tooltip content="Someone from your team added this as a learning day!">
+          <Tooltip content="Someone from your team has this learning day!">
             <div>
               <Badge
             // don't remove empty onClick, cursor will not be shown

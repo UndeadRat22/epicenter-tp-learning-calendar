@@ -10,14 +10,13 @@ import { IN_PROGRESS, DONE } from '../../constants/LearningDayTopicProgressStatu
 import ResetSaveButtonsBox from '../ResetSaveButtonsBox';
 import { UPDATE_LEARNING_DAY_SUCCEEDED, UPDATE_LEARNING_DAY_FAILED } from '../../constants/LearningDaysStatus';
 import { suspendUpdateLearningDay } from '../../state/actions';
-import FeatureToggles from '../../utils/FeatureToggles';
 
 const getInitialSelectedTopics = topics => topics.map(topic => ({ id: topic.id, subject: topic.subject, isChecked: topic.progressStatus === DONE }));
 
 const removeWhiteSpaces = str => str.replace(/\s/g, '');
 
 const TopicsSelectorCard = ({
-  employee, topics, isSelf, isLoading, maxTopics, initialComments, onSave, commentsDisabled, editTopicsDisabled, checkBoxesDisabled,
+  employee, topics, isSelf, isLoading, maxTopics, initialComments, onSave, commentsDisabled, editTopicsDisabled, checkBoxesDisabled, addTopicDisabled,
 }) => {
   const [initialTopicsUpdated, setInitialTopicsUpdated] = useState(getInitialSelectedTopics(topics));
   const [initialCommentsUpdated, setInitialCommentsUpdated] = useState(initialComments);
@@ -93,7 +92,7 @@ const TopicsSelectorCard = ({
             <span className={s.avatar}>
               <Avatar
                 name={employee.name}
-                color="A1"
+                color={isSelf ? 'A1' : 'A2'}
                 size="size36"
               />
             </span>
@@ -114,6 +113,7 @@ const TopicsSelectorCard = ({
       <Card.Content>
         {isLoading ? <div style={{ textAlign: 'center' }}><Loader size="medium" /></div> : (
           <EditableSelector
+            addTopicDisabled={addTopicDisabled}
             checkBoxesDisabled={checkBoxesDisabled}
             editTopicsDisabled={editTopicsDisabled}
             maxTopics={maxTopics}

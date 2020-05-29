@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from 'wix-style-react';
 import { getOnlyLocalDate, getLocalIsoString, isTodayOrInFuture } from '../../utils/dateParser';
 import AddLearningDayButton from './AddLearningDayButton';
-import { isSelfLearningDay, getSelfLearningDayFromDate } from '../../utils/learningDay';
+import { isSelfLearningDay, getSelfLearningDayFromDate, getTeamLearningDaysFromDate } from '../../utils/learningDay';
 import {
   suspendStartLearningDay, getLearningDays, getLimits, updateLearningDay,
 } from '../../state/actions';
@@ -36,13 +36,16 @@ const LearningDay = ({
       || topicsStatus === FETCH_ALL_TOPICS_FAILED)
     return <div style={{ textAlign: 'center' }}>Something went wrong. Try refreshing page</div>;
 
-  if (!isSelfLearningDay(date, selfLearningDays) && (isTodayOrInFuture(date) || FeatureToggles.isOn('add-past-learning-day')))
-    return <AddLearningDayButton date={date} disabled={remainingLimit.daysPerQuarter <= 0} />;
+  const shouldDisplayLearningDayButton = !isSelfLearningDay(date, selfLearningDays)
+  && (isTodayOrInFuture(date) || FeatureToggles.isOn('add-past-learning-day'));
 
-  if (!isSelfLearningDay(date, selfLearningDays)) {
-    // should display team members learning days
-    return null;
-  }
+  const commentsDisabled = (!isTodayOrInFuture(date) && !FeatureToggles.isOn('edit-past-day-comments'))
+  || updateStatus === LOADING_UPDATE_LEARNING_DAY;
+  const editTopicsDisabled = (!isTodayOrInFuture(date) && !FeatureToggles.isOn('edit-past-day-topics'))
+  || updateStatus === LOADING_UPDATE_LEARNING_DAY;
+  const checkBoxesDisabled = updateStatus === LOADING_UPDATE_LEARNING_DAY;
+
+  const selfLearningDay = getSelfLearningDayFromDate(date, selfLearningDays);
 
   const onLearningDayUpdate = (learningDayId, employee) => {
     return ({ comments, newTopics }) => dispatch(updateLearningDay({
@@ -50,26 +53,49 @@ const LearningDay = ({
     }));
   };
 
-  const selfLearningDay = getSelfLearningDayFromDate(date, selfLearningDays);
+  console.log('legit learning days:', getTeamLearningDaysFromDate(date, teamLearningDays));
 
-  const commentsDisabled = (!isTodayOrInFuture(date) && !FeatureToggles.isOn('edit-past-day-comments'))
-   || updateStatus === LOADING_UPDATE_LEARNING_DAY;
-  const editTopicsDisabled = (!isTodayOrInFuture(date) && !FeatureToggles.isOn('edit-past-day-topics'))
-   || updateStatus === LOADING_UPDATE_LEARNING_DAY;
-  const checkBoxesDisabled = updateStatus === LOADING_UPDATE_LEARNING_DAY;
+  const applicableTeamLearningDays = getTeamLearningDaysFromDate(date, teamLearningDays);
+
+  const DOES_NOT_MATTER = 999;
 
   return (
-    <TopicsSelectorCard
-      editTopicsDisabled={editTopicsDisabled}
-      commentsDisabled={commentsDisabled}
-      checkBoxesDisabled={checkBoxesDisabled}
-      onSave={onLearningDayUpdate(selfLearningDay.id, selfLearningDay.employee)}
-      topics={selfLearningDay.topics}
-      employee={selfLearningDay.employee}
-      isSelf
-      maxTopics={assignedLimit.topicsPerDay}
-      initialComments={selfLearningDay.comments}
-    />
+    <>
+      {shouldDisplayLearningDayButton
+    && <AddLearningDayButton date={date} disabled={remainingLimit.daysPerQuarter <= 0} />}
+      {isSelfLearningDay(date, selfLearningDays)
+        && (
+        <TopicsSelectorCard
+          editTopicsDisabled={editTopicsDisabled}
+          commentsDisabled={commentsDisabled}
+          checkBoxesDisabled={checkBoxesDisabled}
+          addTopicsDisabled={editTopicsDisabled}
+          onSave={onLearningDayUpdate(selfLearningDay.id, selfLearningDay.employee)}
+          topics={selfLearningDay.topics}
+          employee={selfLearningDay.employee}
+          isSelf
+          maxTopics={assignedLimit.topicsPerDay}
+          initialComments={selfLearningDay.comments}
+        />
+        )}
+      {
+          applicableTeamLearningDays.map(teamLearningDay => {
+            return (
+              <TopicsSelectorCard
+                editTopicsDisabled
+                addTopicDisabled
+                commentsDisabled={commentsDisabled}
+                checkBoxesDisabled
+                onSave={onLearningDayUpdate(teamLearningDay.id, teamLearningDay.employee)}
+                topics={teamLearningDay.topics}
+                employee={teamLearningDay.employee}
+                maxTopics={assignedLimit.topicsPerDay}
+                initialComments={teamLearningDay.comments}
+              />
+            );
+          })
+        }
+    </>
   );
 };
 

@@ -90,7 +90,7 @@ class EditableSelector extends WixComponent {
 
   render() {
     const {
-      title, newRowLabel, editButtonText, toggleType, maxTopics, checkBoxesDisabled,
+      title, newRowLabel, editButtonText, toggleType, maxTopics, checkBoxesDisabled, addTopicDisabled,
     } = this.props;
     let { topics } = this.props;
     topics = topics || [];
@@ -164,6 +164,7 @@ class EditableSelector extends WixComponent {
             onClick={this.addNewRow}
             prefixIcon={<Add className={styles.icon} />}
             dataHook="new-row-button-text"
+            disabled={addTopicDisabled}
           >
             {newRowLabel}
           </TextButton>
