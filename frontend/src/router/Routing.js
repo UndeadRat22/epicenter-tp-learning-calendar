@@ -16,7 +16,6 @@ import LoadingIndicator from '../components/LoadingIndicator';
 import GuestRoute from './GuestRoute';
 import Subordinates from '../pages/Subordinates';
 import NotFound from '../pages/NotFound';
-import cookies from '../utils/cookies';
 import CookiesContainer from '../components/CookiesContainer';
 
 const Routing = () => {
@@ -28,11 +27,6 @@ const Routing = () => {
   useEffect(() => {
     dispatch(fetchSelf());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (!isLoggedIn)
-      cookies.set('cookies', false, { path: '/', sameSite: true });
-  }, [isLoggedIn]);
 
   const defaultPathComponent = () => {
     if (authStatus === LOADING_FETCH_SELF)

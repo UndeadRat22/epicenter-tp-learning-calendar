@@ -4,17 +4,17 @@ import { Notification } from 'wix-style-react';
 import cookies from '../utils/cookies';
 
 const CookiesContainer = () => {
-  const isAccepted = cookies.get('cookies');
+  const isAccepted = cookies.get('acceptCookiesPolicy');
 
   const [, updateState] = useState();
   const forceUpdate = useCallback(() => updateState({}), []);
 
   const onAccept = () => {
-    cookies.set('cookies', true, { path: '/', sameSite: true });
+    cookies.set('acceptCookiesPolicy', 'accepted', { path: '/', sameSite: true });
     forceUpdate();
   };
 
-  if (isAccepted === 'true')
+  if (isAccepted)
     return null;
 
   return (
