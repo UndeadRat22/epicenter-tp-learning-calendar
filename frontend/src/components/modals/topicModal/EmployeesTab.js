@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Layout, Text, Box, Avatar, Badge,
 } from 'wix-style-react';
+import { useSelector } from 'react-redux';
 import { LEARNED, PLANNED } from '../../../constants/ProgressStatus';
 import s from './styles.scss';
 
@@ -11,16 +12,18 @@ const EmployeesTab = ({ topic }) => {
   const planned = employees.filter(item => item.status === PLANNED);
   const mergedEmployees = learned.concat(planned);
 
+  const selfUser = useSelector(state => state.auth.user);
+
   return (
     <Layout cols={1}>
       {mergedEmployees.length !== 0 ? (
         mergedEmployees.map(item => (
-          <Box align="space-between">
-            <Box key={item.id} align="left" verticalAlign="middle">
+          <Box key={item.id} align="space-between">
+            <Box align="left" verticalAlign="middle">
               <span className={s.avatar}>
-                <Avatar name={item.fullName} />
+                <Avatar color={selfUser.id === item.id ? 'A1' : 'A2'} name={item.fullName} />
               </span>
-              <Text size="medium">
+              <Text size="medium" weight={selfUser.id === item.id ? 'bold' : 'thin'}>
                 {' '}
                 {item.fullName}
               </Text>
