@@ -43,6 +43,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Service.Strategy"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicenter.Infrastructure.AOP", "Epicenter.Infrastructure.AoP\Epicenter.Infrastructure.AOP.csproj", "{2D942256-CEA4-44B3-AC91-0CE5899C98D4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8795A807-8DDE-4EFD-A1B8-CE08F9FC0CDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epicenter.UnitTests", "Epicenter.UnitTests\Epicenter.UnitTests.csproj", "{9FBD21BC-3187-4E45-8876-392DC22E5033}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +109,10 @@ Global
 		{2D942256-CEA4-44B3-AC91-0CE5899C98D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D942256-CEA4-44B3-AC91-0CE5899C98D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D942256-CEA4-44B3-AC91-0CE5899C98D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FBD21BC-3187-4E45-8876-392DC22E5033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FBD21BC-3187-4E45-8876-392DC22E5033}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FBD21BC-3187-4E45-8876-392DC22E5033}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FBD21BC-3187-4E45-8876-392DC22E5033}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,6 +137,8 @@ Global
 		{B7E3B9C7-3810-48F1-B430-D4850269015C} = {7D021FB4-600C-435F-B7C2-69A0D5BE580E}
 		{FF15F895-D22B-4B62-A856-0169B7899D1A} = {7D021FB4-600C-435F-B7C2-69A0D5BE580E}
 		{2D942256-CEA4-44B3-AC91-0CE5899C98D4} = {A5E889C1-76B8-45AA-BBFD-D9D398E000B9}
+		{8795A807-8DDE-4EFD-A1B8-CE08F9FC0CDE} = {19CF6E11-5267-499F-9562-60CDAE66DFB7}
+		{9FBD21BC-3187-4E45-8876-392DC22E5033} = {8795A807-8DDE-4EFD-A1B8-CE08F9FC0CDE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {41704A08-82E5-41C9-89FF-555119862B4E}
