@@ -30,7 +30,7 @@ class EditableSelector extends WixComponent {
 
   static defaultProps = {
     toggleType: 'checkbox',
-    newRowLabel: 'AddeTopic',
+    newRowLabel: 'Add Topic',
     editButtonText: 'Edit',
     editTopicsDisabled: false,
   };
