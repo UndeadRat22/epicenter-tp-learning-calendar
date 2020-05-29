@@ -22,7 +22,7 @@ const Topics = () => {
   };
 
   return (
-    <Page>
+    <Page height={1300}>
       <Page.Header title="Topics" />
       <Page.Tail>
         <Row>
