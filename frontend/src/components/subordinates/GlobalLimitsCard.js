@@ -54,6 +54,7 @@ const GlobalLimitsCard = ({ isReadOnly }) => {
     <Card>
       <Card.Header
         title="Global limits"
+        subtitle="Only available to CEO"
         suffix={!isReadOnly && (
           <ResetSaveButtonsBox
             anyChangesMade={changesMade}
