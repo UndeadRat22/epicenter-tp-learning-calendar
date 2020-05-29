@@ -22,14 +22,14 @@ namespace Epicenter.Service.Operations.Limit
             _getRemainingLimitsForQuarterOperation = getRemainingLimitsForQuarterOperation;
         }
 
-        public async Task<GetLimitsOperationResponse> Execute()
+        public async Task<GetLimitsOperationResponse> Execute(GetLimitsOperationRequest request)
         {
             var employee = await _authorizationContext.CurrentEmployee();
             var limit = await _limitRepository.GetByEmployeeIdAsync(employee.Id);
 
             var getRemainingLimitsRequest = new GetRemainingLimitsForQuarterOperationRequest
             {
-                Quarter = DateTime.Today.GetQuarter()
+                Quarter = request.Date.GetQuarter()
             };
 
             var remainingLimit = await _getRemainingLimitsForQuarterOperation.Execute(getRemainingLimitsRequest);

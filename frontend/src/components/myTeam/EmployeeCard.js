@@ -14,7 +14,7 @@ import EditLimitModal from '../modals/EditLimitModal';
 const renderLimit = (limit, onClick) => {
   const remainingDays = limit.learningDaysPerQuarter - limit.createdLearningDaysThisQuarter;
   const badgeText = `${remainingDays}/${limit.learningDaysPerQuarter}`;
-  const tooltipText = `${remainingDays} out of ${limit.learningDaysPerQuarter} learning days remaining this quarter`;
+  const tooltipText = 'Remaining days this quarter';
 
   let badgeSkin = 'general';
   if (remainingDays === 1)

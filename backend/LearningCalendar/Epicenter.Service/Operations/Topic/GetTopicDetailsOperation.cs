@@ -36,7 +36,12 @@ namespace Epicenter.Service.Operations.Topic
             var employees = teamTree
                 .GetAllEmployees();
 
-            var mappedEmployees = employees
+            var subordinates = employees
+                .Select(employee => MapEmployee(employee, topic))
+                .Where(employee => employee.ProgressStatus != ProgressStatus.NotPlanned)
+                .ToList();
+
+            var directSubordinates = teamTree.GetDirectSubordinates()
                 .Select(employee => MapEmployee(employee, topic))
                 .Where(employee => employee.ProgressStatus != ProgressStatus.NotPlanned)
                 .ToList();
@@ -56,7 +61,8 @@ namespace Epicenter.Service.Operations.Topic
                 Description = topic.Description,
                 ParentId = topic.ParentTopic?.Id,
                 ParentSubject = topic.ParentTopic?.Subject,
-                Employees = mappedEmployees,
+                Subordinates = subordinates,
+                DirectSubordinates = directSubordinates,
                 Teams = mappedTeams
             };
         }

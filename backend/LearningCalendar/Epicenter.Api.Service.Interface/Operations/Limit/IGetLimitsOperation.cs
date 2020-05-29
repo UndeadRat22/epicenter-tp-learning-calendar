@@ -5,7 +5,12 @@ namespace Epicenter.Service.Interface.Operations.Limit
 {
     public interface IGetLimitsOperation
     {
-        Task<GetLimitsOperationResponse> Execute();
+        Task<GetLimitsOperationResponse> Execute(GetLimitsOperationRequest request);
+    }
+
+    public class GetLimitsOperationRequest
+    {
+        public DateTime Date { get; set; }
     }
 
     public class GetLimitsOperationResponse

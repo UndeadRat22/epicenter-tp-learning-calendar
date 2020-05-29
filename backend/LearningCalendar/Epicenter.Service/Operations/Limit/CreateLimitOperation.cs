@@ -26,8 +26,8 @@ namespace Epicenter.Service.Operations.Limit
 
         public async Task Execute(CreateLimitOperationRequest request)
         {
-            var currentEmployee = await _authorizationContext.CurrentEmployee();
-            var targetEmployee = currentEmployee.ManagedTeam.Employees
+            var targetEmployee = (await _authorizationContext.CurrentEmployee())
+                .ManagedTeam.Employees
                 .FirstOrDefault(employee => employee.Id == request.EmployeeId);
 
             if (targetEmployee == null)
@@ -35,19 +35,16 @@ namespace Epicenter.Service.Operations.Limit
                 throw new ApplicationException("You can only create limits for your direct subordinates");
             }
 
-            if (targetEmployee.Limit.Employees.Count > 1)
+            targetEmployee = await _employeeRepository.QuerySingleAsync(employee => employee.Id == request.EmployeeId);
+
+            targetEmployee.Limit = new Domain.Entity.LearningCalendar.Limit
             {
-                targetEmployee.Limit = new Domain.Entity.LearningCalendar.Limit
-                {
-                    DaysPerQuarter = request.DaysPerQuarter
-                };
-            }
-            else
-            {
-                targetEmployee.Limit.DaysPerQuarter = request.DaysPerQuarter;
-            }
+                DaysPerQuarter = request.DaysPerQuarter
+            };
 
             await _employeeRepository.UpdateAsync(targetEmployee);
+            var nonAssignedLimits = await _limitRepository.GetNonAssignedLimitsAsync();
+            await _limitRepository.DeleteAsync(nonAssignedLimits);
         }
     }
 }
