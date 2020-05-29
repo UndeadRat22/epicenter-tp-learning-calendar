@@ -7,7 +7,7 @@ import { editTopic, getTopic, suspendEditTopic } from '../../state/actions';
 import EditTopicForm from '../topicsPage/EditTopicForm';
 import { MODAL_MAX_HEIGHT } from '../../constants/Styling';
 import {
-  LOADING_EDIT_TOPIC, EDIT_TOPIC_SUCCEEDED,
+  LOADING_EDIT_TOPIC, EDIT_TOPIC_SUCCEEDED, OPTIMISTIC_LOCKED,
 } from '../../constants/EditTopicStatus';
 import { FETCH_TOPIC_SUCCEEDED } from '../../constants/TopicStatus';
 import { showErrorToast } from '../../state/actions/toast';
@@ -43,6 +43,9 @@ const EditTopicModal = ({ isModalOpened, onCloseModal, topic }) => {
 
   if (editTopicStatus === EDIT_TOPIC_SUCCEEDED)
     onCloseModal();
+
+  // if (editTopicStatus === OPTIMISTIC_LOCKED)
+  // confirm('Someone has already updated this topic. Do you want to overwrite changes?');
 
   return (
     <Layout cols={1}>
