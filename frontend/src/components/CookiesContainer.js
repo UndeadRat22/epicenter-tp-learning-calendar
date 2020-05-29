@@ -25,7 +25,7 @@ const CookiesContainer = () => {
       actionText="Accept"
       appearance="premium"
     >
-      <Notification.TextLabel>This website use Cookies!</Notification.TextLabel>
+      <Notification.TextLabel>This website use cookies!</Notification.TextLabel>
       <Notification.ActionButton onClick={() => onAccept()}>
         Accept
       </Notification.ActionButton>
