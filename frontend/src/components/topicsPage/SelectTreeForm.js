@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import {
-  Container,
-  Dropdown,
-  Box,
-  FormField,
-  Button,
-} from 'wix-style-react';
 import { useDispatch } from 'react-redux';
 import {
-  PERSONAL, MY_TEAM, MY_SUBORDINATES, SINGLE_SUBORDINATE, SINGLE_TEAM,
+  Box, Button, Container, Dropdown, FormField,
+} from 'wix-style-react';
+import {
+  MY_SUBORDINATES, MY_TEAM, PERSONAL, SINGLE_SUBORDINATE, SINGLE_TEAM,
 } from '../../constants/TreeTypes';
 import { showWarningToast } from '../../state/actions/toast';
 import SelectSubordinateForm from './SelectSubordinateForm';
@@ -72,6 +68,7 @@ const SelectTreeForm = ({ onSelect }) => {
       <Box align="space-between" verticalAlign="bottom">
         <FormField label="Select tree">
           <Dropdown
+            initialSelectedId={0}
             placeholder="Select"
             options={[
               { id: 0, value: PERSONAL },

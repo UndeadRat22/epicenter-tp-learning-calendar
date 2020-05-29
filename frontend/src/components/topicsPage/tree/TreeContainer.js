@@ -106,7 +106,7 @@ const TreeContainer = ({
           </FormField>
         </Box>
         <Box align="right">
-          <FormField label="Animated tree" labelPlacement="left">
+          <FormField label="Animatable" labelPlacement="left">
             <ToggleSwitch
               size="large"
               checked={toggleSwitchChecked}
