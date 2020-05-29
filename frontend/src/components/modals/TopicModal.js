@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  Modal, MessageBoxFunctionalLayout, Layout, Loader, Card, Tabs,
+  Card, Layout, Loader, MessageBoxFunctionalLayout, Modal, Tabs,
 } from 'wix-style-react';
-import { useSelector, useDispatch } from 'react-redux';
-import { getTopic } from '../../state/actions';
 import { MODAL_MAX_HEIGHT } from '../../constants/Styling';
 import { LOADING_FETCH_TOPIC } from '../../constants/TopicStatus';
-import TopicTab from './topicModal/TopicTab';
+import { getTopic } from '../../state/actions';
 import EmployeesTab from './topicModal/EmployeesTab';
-import TeamsTab from './topicModal/TeamsTab';
 import SubordinatesTab from './topicModal/SubordinatesTab';
+import TeamsTab from './topicModal/TeamsTab';
+import TopicTab from './topicModal/TopicTab';
 
 const TopicModal = ({ isModalOpened, onCloseModal, topic }) => {
   const [activeTabId, setActiveTabId] = useState(1);
@@ -61,12 +61,12 @@ const TopicModal = ({ isModalOpened, onCloseModal, topic }) => {
                   onClick={changeTab}
                   items={[
                     { id: 1, title: 'About' },
-                    { id: 2, title: 'Employees' },
+                    { id: 2, title: 'My Team' },
                     { id: 3, title: 'Teams' },
                     { id: 4, title: 'Subordinates' },
                   ]}
                 />
-            )}
+              )}
             />
             <Card.Content>
               {tabToRender()}

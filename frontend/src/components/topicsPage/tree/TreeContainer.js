@@ -78,7 +78,6 @@ const TreeContainer = ({
   };
 
   const root = hierarchy(data, getChildren);
-  console.log('root', root);
   return (
     <Container>
       <Box align="space-between" padding="small" marginBottom={0.5} verticalAlign="bottom">
