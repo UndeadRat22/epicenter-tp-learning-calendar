@@ -17,7 +17,7 @@ const getInitialSelectedTopics = topics => topics.map(topic => ({ id: topic.id, 
 const removeWhiteSpaces = str => str.replace(/\s/g, '');
 
 const TopicsSelectorCard = ({
-  employee, topics, isSelf, isLoading, maxTopics, initialComments, onSave, commentsDisabled, editTopicsDisabled,
+  employee, topics, isSelf, isLoading, maxTopics, initialComments, onSave, commentsDisabled, editTopicsDisabled, checkBoxesDisabled,
 }) => {
   const [initialTopicsUpdated, setInitialTopicsUpdated] = useState(getInitialSelectedTopics(topics));
   const [initialCommentsUpdated, setInitialCommentsUpdated] = useState(initialComments);
@@ -114,6 +114,7 @@ const TopicsSelectorCard = ({
       <Card.Content>
         {isLoading ? <div style={{ textAlign: 'center' }}><Loader size="medium" /></div> : (
           <EditableSelector
+            checkBoxesDisabled={checkBoxesDisabled}
             editTopicsDisabled={editTopicsDisabled}
             maxTopics={maxTopics}
             toggleType="checkbox"

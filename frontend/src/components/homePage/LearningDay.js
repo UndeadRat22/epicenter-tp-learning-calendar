@@ -44,13 +44,17 @@ const LearningDay = ({
 
   const selfLearningDay = getSelfLearningDayFromDate(date, selfLearningDays);
 
-  const commentsDisabled = !isTodayOrInFuture(date) && !FeatureToggles.isOn('edit-past-day-comments');
-  const editTopicsDisabled = !isTodayOrInFuture(date) && !FeatureToggles.isOn('edit-past-day-topics');
+  const commentsDisabled = (!isTodayOrInFuture(date) && !FeatureToggles.isOn('edit-past-day-comments'))
+   || updateStatus === LOADING_UPDATE_LEARNING_DAY;
+  const editTopicsDisabled = (!isTodayOrInFuture(date) && !FeatureToggles.isOn('edit-past-day-topics'))
+   || updateStatus === LOADING_UPDATE_LEARNING_DAY;
+  const checkBoxesDisabled = updateStatus === LOADING_UPDATE_LEARNING_DAY;
 
   return (
     <TopicsSelectorCard
       editTopicsDisabled={editTopicsDisabled}
       commentsDisabled={commentsDisabled}
+      checkBoxesDisabled={checkBoxesDisabled}
       onSave={onLearningDayUpdate(selfLearningDay.id, selfLearningDay.employee)}
       topics={selfLearningDay.topics}
       employee={selfLearningDay.employee}

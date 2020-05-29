@@ -30,7 +30,7 @@ class EditableSelector extends WixComponent {
 
   static defaultProps = {
     toggleType: 'checkbox',
-    newRowLabel: 'Add Topic',
+    newRowLabel: 'AddeTopic',
     editButtonText: 'Edit',
     editTopicsDisabled: false,
   };
@@ -90,7 +90,7 @@ class EditableSelector extends WixComponent {
 
   render() {
     const {
-      title, newRowLabel, editButtonText, toggleType, maxTopics,
+      title, newRowLabel, editButtonText, toggleType, maxTopics, checkBoxesDisabled,
     } = this.props;
     let { topics } = this.props;
     topics = topics || [];
@@ -123,6 +123,7 @@ class EditableSelector extends WixComponent {
                 id={index}
                 title={topic.subject}
                 isSelected={!!topic.isChecked}
+                isDisabled={checkBoxesDisabled}
                 toggleType={toggleType}
                 onToggle={id => this.onOptionToggle(id)}
               />
