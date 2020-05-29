@@ -46,7 +46,7 @@ namespace Epicenter.Service.Strategy.Topic
             var futureDays = learningDays
                 .Where(day => day.Date >= DateTime.Today);
 
-            return futureDays.Any();
+            return futureDays.Any(day => !day.GetDayTopicByTopicId(topicId).IsComplete);
         }
 
         private bool IsComplete(IList<LearningDay> learningDays, bool hasIncompleteGoals, Guid topicId)
