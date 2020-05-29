@@ -98,7 +98,8 @@ namespace Epicenter.Service.Operations.Topic
             return new UpdateTopicOperationResponse.Topic
             {
                 Id = topic.Id,
-                ParentTopicId = topic.ParentTopicId,
+                ParentTopicId = topic.ParentTopic?.Id,
+                ParentTopicSubject = topic.ParentTopic?.Subject,
                 Subject = topic.Subject,
                 Description = topic.Description
             };

@@ -11,10 +11,12 @@ namespace Epicenter.Api.Model.Topic
             Subject = topic.Subject;
             Description = topic.Description;
             ParentTopicId = topic.ParentTopicId;
+            ParentTopicSubject = topic.ParentTopicSubject;
         }
         public Guid Id { get; set; }
         public string Subject { get; set; }
         public string Description { get; set; }
         public Guid? ParentTopicId { get; set; }
+        public string ParentTopicSubject { get; set; }
     }
 }

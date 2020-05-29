@@ -17,6 +17,7 @@ namespace Epicenter.Service.Interface.Operations.Topic
             public string Subject { get; set; }
             public string Description { get; set; }
             public Guid? ParentTopicId { get; set; }
+            public string ParentTopicSubject { get; set; }
         }
     }
 
