@@ -19,8 +19,6 @@ const TopicModal = ({ isModalOpened, onCloseModal, topic }) => {
   const { topic: topicInfo, status: topicStatus } = useSelector(state => state.topic);
   const isLoading = topicStatus === LOADING_FETCH_TOPIC;
 
-  console.log(topicInfo);
-
   useEffect(() => {
     dispatch(getTopic(topic.id));
   }, []);
