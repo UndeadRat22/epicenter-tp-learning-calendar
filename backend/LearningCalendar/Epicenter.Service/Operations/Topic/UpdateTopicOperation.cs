@@ -23,7 +23,7 @@ namespace Epicenter.Service.Operations.Topic
 
         public async Task<UpdateTopicOperationResponse> Execute(UpdateTopicOperationRequest request)
         {
-            var topic = await _topicRepository.QuerySingleAsync(t => t.Id == request.NewTopic.Id);
+            var topic = await _topicRepository.GetByIdAsync(request.NewTopic.Id);
 
             if (topic == null)
             {

@@ -64,6 +64,7 @@ namespace Epicenter.Service.Operations.Team
         private List<GetTeamDetailsOperationResponse.Goal> MapGoals(Domain.Entity.LearningCalendar.Employee employee)
         {
             var goals = employee.PersonalGoals
+                .Where(goal => !goal.IsComplete)
                 .Select(goal => new GetTeamDetailsOperationResponse.Goal
                 {
                     Topic = goal.Topic.Subject,
