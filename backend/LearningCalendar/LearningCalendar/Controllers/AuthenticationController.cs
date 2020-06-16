@@ -128,11 +128,11 @@ namespace Epicenter.Api.Controllers
         {
             var request = new CreateEmployeeOperationRequest
             {
-                Email = "test@test.com",
-                Password = "password",
+                Email = "ceo@epicenter.com",
+                Password = "123",
                 ManagerEmail = null,
-                FirstName = "Donald",
-                LastName = "Trump",
+                FirstName = "Alan",
+                LastName = "Turing",
                 ImageData = ""
             };
             try

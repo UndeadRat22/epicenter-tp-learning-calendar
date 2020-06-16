@@ -6,7 +6,7 @@ namespace Epicenter.Infrastructure.Extensions
     {
         public static int GetQuarter(this DateTime dateTime)
         {
-            return (dateTime.Month - 1) / 3;
+            return dateTime.Year * 4 + (dateTime.Month - 1) / 3;
         }
     }
 }

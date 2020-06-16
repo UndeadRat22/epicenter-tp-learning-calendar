@@ -40,32 +40,35 @@ namespace Epicenter.Api.Controllers
 
 
         //THIS IS FOR TESTING PURPOSES ONLY
-        [AllowAnonymous]
-        [HttpPost, Route("employee")]
-        public async Task<IActionResult> CreateTestEmployee([FromBody] CreateTestEmployeeModel model)
-        {
-            try
-            {
-                var randomName = RandomName();
-                var request = new CreateEmployeeOperationRequest
-                {
-                    Email = model.Email, 
-                    Password = model.Password, 
-                    ManagerEmail = model.ManagerEmail,
-                    FirstName = model.FirstName ?? randomName.FirstName,
-                    LastName = model.LastName ?? randomName.LastName,
-                    ImageData = model.ImageData ?? "",
-                    Role = RandomRole()
-                };
-                await _createEmployeeOperation.Execute(request);
-            }
-            catch (EmailAlreadyUseException exception)
-            {
-                return BadRequest(exception.Message);
-            }
+        //[AllowAnonymous]
+        //[HttpPost, Route("employee")]
+        //public async Task<IActionResult> CreateTestEmployee([FromBody] CreateTestEmployeeModel model)
+        //{
+        //    try
+        //    {
+        //        var randomName = RandomName();
+        //        var firstName = model.FirstName ?? randomName.FirstName;
+        //        var lastName = model.LastName ?? randomName.LastName;
 
-            return Ok();
-        }
+        //        var request = new CreateEmployeeOperationRequest
+        //        {
+        //            Email = $"{firstName.ToLowerInvariant()}.{lastName.ToLowerInvariant()}@epicenter.com", 
+        //            Password = model.Password, 
+        //            ManagerEmail = model.ManagerEmail,
+        //            FirstName = firstName,
+        //            LastName = lastName,
+        //            ImageData = model.ImageData ?? "",
+        //            Role = RandomRole()
+        //        };
+        //        await _createEmployeeOperation.Execute(request);
+        //    }
+        //    catch (EmailAlreadyUseException exception)
+        //    {
+        //        return BadRequest(exception.Message);
+        //    }
+
+        //    return Ok();
+        //}
 
         [HttpGet, Route("self")]
         public async Task<ActionResult<EmployeeModel>> GetSelf()
@@ -136,8 +139,8 @@ namespace Epicenter.Api.Controllers
 
         private (string FirstName, string LastName) RandomName()
         {
-            var firstNames = new [] { "john", "aaron", "abdul", "abe", "abel", "abraham", "adam", "adan", "adolfo", "adolph", "adrian", "abby", "abigail", "adele", "adrian" };
-            var lastNames = new [] { "smith", "abbott", "acosta", "adams", "adkins", "aguilar" };
+            var firstNames = new [] { "Alex", "Chad", "Brad", "Owen", "Matthew", "Peter", "Bob", "Richard", "Leo", "Charlotte", "Amelia", "Ada",  };
+            var lastNames = new [] { "Smith", "Johnson", "Williams", "Jones", "Watson", "Davis", "Brown", "White", "Green", "Miller", "Wilson", "Morris", "Jenkins" };
 
             var rand = new Random((int)DateTime.Now.Ticks);
 

@@ -52,7 +52,7 @@ namespace Epicenter.Service.Operations.Authentication.Invite
             string message = BuildInviteEmailMessage(invite.Id);
 
             var sendEmailTask =
-                _emailService.SendEmailAsync("Invitation to Epicenter Calender", message, invite.InvitationTo);
+                _emailService.SendEmailAsync("Invitation to Epicenter Calendar", message, invite.InvitationTo);
 
             await createInviteTask;
             await sendEmailTask;
@@ -65,7 +65,7 @@ namespace Epicenter.Service.Operations.Authentication.Invite
 
         private string BuildInviteEmailMessage(Guid inviteId)
         {
-            var link = $"{Protocol}{InviteUrlBase}/{inviteId}";
+            var link = $"Hey, you have been invited to join Epicenter - The Learning Center. You can join using this link: {Protocol}{InviteUrlBase}/{inviteId}";
 
             string message = link;
 
